@@ -14,6 +14,7 @@ import {
   feedItemHTML, feedFallbackHTML, bannerHTML,
   drawerHTML, milestonesHTML,
 } from './components.js';
+import { mount as mountBubbleMap } from './bubblemap.js';
 
 const REFRESH_PRICES_MS = 60_000;
 const REFRESH_FEED_MS   = 5 * 60_000;
@@ -29,6 +30,7 @@ const state = {
   selectedId: null,
   selectedDetail: null,
   sidebarCollapsed: window.innerWidth < 1024,
+  bubbleMapCleanup: null,
   lastPriceFetchOk: null,   // timestamp of last successful (fresh) price fetch
   pricesStale: false,       // true if last response was served stale by the API
   pricesError: false,       // true if last fetch threw
@@ -48,8 +50,9 @@ async function boot() {
   // Load milestones first (local file, fast) then fetch APIs in parallel.
   loadMilestones();
   await Promise.allSettled([refreshPrices(), refreshFeed()]);
+  renderBubbleMap();
 
-  setInterval(refreshPrices, REFRESH_PRICES_MS);
+  setInterval(() => { refreshPrices().then(renderBubbleMap); }, REFRESH_PRICES_MS);
   setInterval(refreshFeed, REFRESH_FEED_MS);
   setInterval(updateLiveIndicator, 5_000);
   setInterval(() => {
@@ -261,6 +264,16 @@ function renderBanner() {
     banners.push(bannerHTML('amber', 'Showing cached prices — CoinGecko rate-limited our last request.'));
   }
   m.innerHTML = banners.join('');
+}
+
+// ─── Render: bubble map ───────────────────────────────────────────────────────
+function renderBubbleMap() {
+  const el = document.getElementById('bubblemap-mount');
+  if (!el) return;
+  if (state.tokens.length === 0) return;
+  // Cleanup previous instance
+  if (state.bubbleMapCleanup) { state.bubbleMapCleanup(); state.bubbleMapCleanup = null; }
+  state.bubbleMapCleanup = mountBubbleMap(el, state.tokens, (id) => openDrawer(id));
 }
 
 // ─── Render: milestones ───────────────────────────────────────────────────────
