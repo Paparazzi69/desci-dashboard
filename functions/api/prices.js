@@ -10,7 +10,7 @@
 import { TOKEN_IDS, MOCK_MICROCAPS, jsonResponse, kvGet, kvPut } from '../_shared.js';
 
 const CACHE_KEY = 'prices:v1';
-const FRESH_TTL_S = 60;
+const FRESH_TTL_S = 300;
 const STALE_KEY = 'prices:stale-v1'; // longer-lived backup for 429 fallback
 const STALE_TTL_S = 60 * 30; // keep a half-hour stale safety net
 
