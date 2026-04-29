@@ -14,7 +14,6 @@ const CACHE_KEY = 'feed:v1';
 const TTL_S = 5 * 60;
 
 const NITTER_INSTANCES = [
-  'xcancel.com',
   'nitter.poast.org',
   'nitter.privacyredirect.com',
   'nitter.tiekoetter.com',
