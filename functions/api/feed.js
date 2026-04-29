@@ -14,10 +14,13 @@ const CACHE_KEY = 'feed:v1';
 const TTL_S = 5 * 60;
 
 const NITTER_INSTANCES = [
-  'nitter.net',
-  'nitter.privacydev.net',
+  'xcancel.com',
   'nitter.poast.org',
+  'nitter.privacyredirect.com',
   'nitter.tiekoetter.com',
+  'lightbrd.com',
+  'nuku.trabun.org',
+  'nitter.kareem.one',
 ];
 
 const TWITTER_HANDLES = [
