@@ -1,0 +1,82 @@
+[
+  {
+    "date": "Jan 8, 2026",
+    "token": "BIO",
+    "type": "Launch",
+    "typeColor": "green",
+    "title": "BIO Protocol V2 mainnet deployed",
+    "desc": "Upgraded governance framework with dynamic treasury allocation and cross-DAO composability. Marks maturation of DeSci infrastructure layer."
+  },
+  {
+    "date": "Jan 22, 2026",
+    "token": "RIF",
+    "type": "Trial",
+    "typeColor": "blue",
+    "title": "Phase 1 safety trial completed — no adverse events",
+    "desc": "RIF's lead oncology compound clears Phase 1 with clean safety profile across all 24 participants. Phase 2 enrollment begins."
+  },
+  {
+    "date": "Feb 3, 2026",
+    "token": "VITA",
+    "type": "Publication",
+    "typeColor": "amber",
+    "title": "VitaDAO-funded study in Nature Aging",
+    "desc": "First VitaDAO-funded research to appear in a top-tier journal. Study on senolytics shows 22% lifespan extension in C. elegans model."
+  },
+  {
+    "date": "Feb 14, 2026",
+    "token": "CRYO",
+    "type": "IP-NFT",
+    "typeColor": "purple",
+    "title": "Cryoprotectant IP-NFT minted on-chain",
+    "desc": "Novel vitrification agent IP fully tokenized via Molecule Protocol. Represents first cryobiology IP on-chain."
+  },
+  {
+    "date": "Feb 28, 2026",
+    "token": "SYNP",
+    "type": "Launch",
+    "typeColor": "green",
+    "title": "SynapseProtocol agent network goes live",
+    "desc": "12 AI nodes begin autonomously routing research funding proposals across DeSci DAOs. AI × DeSci thesis moves from whitepaper to production."
+  },
+  {
+    "date": "Mar 11, 2026",
+    "token": "VRNA",
+    "type": "IP-NFT",
+    "typeColor": "purple",
+    "title": "VitaRNA IP-NFT #3 minted — siRNA delivery patent",
+    "desc": "Third IP-NFT in VitaRNA's portfolio covers novel siRNA delivery mechanism with demonstrated CNS penetration in murine models."
+  },
+  {
+    "date": "Mar 24, 2026",
+    "token": "RSC",
+    "type": "Milestone",
+    "typeColor": "amber",
+    "title": "ResearchHub reaches 35,000 papers",
+    "desc": "Continued growth in open-access uploads validates RSC incentive model. Platform now covers 140+ scientific disciplines."
+  },
+  {
+    "date": "Apr 7, 2026",
+    "token": "NEUQ",
+    "type": "Launch",
+    "typeColor": "green",
+    "title": "NeuralDAO launches on pump.science",
+    "desc": "Neurodegenerative disease-focused DAO debuts with strong community response. $89K initial liquidity raised in first 72 hours."
+  },
+  {
+    "date": "Apr 14, 2026",
+    "token": "TRAC",
+    "type": "Upgrade",
+    "typeColor": "blue",
+    "title": "DKG v7.0 mainnet — AI-native knowledge graph",
+    "desc": "Major protocol upgrade positions OriginTrail as critical infrastructure for AI drug discovery. Query speed improved 40%."
+  },
+  {
+    "date": "Apr 28, 2026",
+    "token": "RIF",
+    "type": "Trial",
+    "typeColor": "blue",
+    "title": "Phase 2 topline data: 67% response rate",
+    "desc": "Landmark Phase 2 readout in oncology program significantly exceeds benchmark. Licensing discussions with major pharma partner reported to be advanced."
+  }
+]

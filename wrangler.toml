@@ -1,0 +1,13 @@
+name = "desci-dashboard"
+compatibility_date = "2025-05-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "."
+
+# KV binding for the response cache. The id below is a placeholder — replace
+# it with your real namespace id from `wrangler kv namespace list`, OR bind it
+# in the Cloudflare dashboard under Pages → Settings → Functions → KV bindings
+# and you can leave this section commented out.
+#
+# [[kv_namespaces]]
+# binding = "CACHE"
+# id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
