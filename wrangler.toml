@@ -8,6 +8,6 @@ pages_build_output_dir = "."
 # in the Cloudflare dashboard under Pages → Settings → Functions → KV bindings
 # and you can leave this section commented out.
 #
-# [[kv_namespaces]]
-# binding = "CACHE"
-# id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+[[kv_namespaces]]
+binding = "CACHE"
+id = "11ddecae178d487d89aef9671d86a1de"
