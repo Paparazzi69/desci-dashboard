@@ -1,0 +1,268 @@
+/* DeSci Feed page — Twitter + news reader.
+   Reuses design tokens from style.css. */
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── Page shell ───────────────────────────────────────────────── */
+.feed-page {
+  display: flex;
+  height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* ── Left rail (back nav + brand) ─────────────────────────────── */
+.feed-rail {
+  width: 220px;
+  flex-shrink: 0;
+  padding: 22px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-right: 1px solid var(--border2);
+}
+.feed-rail-back {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--text2); font-size: 13px; font-weight: 500;
+  padding: 8px 10px; border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+}
+.feed-rail-back:hover { color: var(--green); background: var(--surface2); }
+.feed-rail-brand {
+  display: flex; align-items: center; gap: 10px;
+  padding: 4px 10px;
+}
+.feed-rail-brand-name {
+  font-weight: 700; font-size: 16px; color: var(--text);
+  letter-spacing: -0.01em;
+}
+.feed-rail-brand-sub {
+  font-size: 10px; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.feed-rail-divider {
+  height: 1px; background: var(--border2); margin: 4px 6px;
+}
+.feed-rail-section-label {
+  font-size: 10px; font-weight: 600; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 0 14px; margin-bottom: 4px;
+}
+.feed-rail-account {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px;
+  transition: background 0.12s;
+}
+.feed-rail-account:hover { background: var(--surface2); }
+.feed-rail-account-name {
+  font-size: 12px; font-weight: 600; color: var(--text);
+  line-height: 1.2;
+}
+.feed-rail-account-handle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--text3);
+}
+
+/* ── Main feed column ─────────────────────────────────────────── */
+.feed-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border2);
+  border-left: 1px solid var(--border2);
+  overflow: hidden;
+}
+.feed-header {
+  position: sticky; top: 0; z-index: 10;
+  background: oklch(0.09 0.022 215 / 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border2);
+}
+.feed-header-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px;
+}
+.feed-title { font-size: 17px; font-weight: 700; color: var(--text); }
+.feed-refresh {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text2); font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s;
+  font-family: inherit;
+}
+.feed-refresh:hover {
+  color: var(--green); border-color: var(--green-bg);
+  background: var(--green-bg);
+}
+.feed-refresh svg { transition: transform 0.4s; }
+.feed-refresh.spinning svg { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.feed-filter-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  border-top: 1px solid var(--border2);
+}
+.filter-pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text2); font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s;
+  font-family: inherit;
+}
+.filter-pill:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+.filter-pill.active {
+  border-color: var(--green);
+  background: var(--green-bg);
+  color: var(--green);
+}
+.filter-pill-count {
+  font-size: 11px;
+  opacity: 0.7;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Posts list (scrollable region) ───────────────────────────── */
+.feed-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.feed-empty,
+.feed-loading {
+  padding: 80px 20px;
+  text-align: center;
+  color: var(--text3);
+  font-size: 13px;
+}
+
+/* ── Post card ────────────────────────────────────────────────── */
+.post-card {
+  display: flex; gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border2);
+  transition: background 0.1s ease;
+  animation: fadeUp 0.25s ease both;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+.post-card:hover {
+  background: oklch(0.13 0.018 215 / 0.5);
+}
+.post-card:visited { color: inherit; }
+
+.post-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+.post-card.news .post-avatar {
+  border-radius: 10px;
+}
+
+.post-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-header {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.post-name {
+  font-size: 14px; font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.post-card.news .post-name {
+  color: var(--text);
+}
+.post-handle {
+  font-size: 13px;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+}
+.post-time {
+  font-size: 13px;
+  color: var(--text3);
+}
+.post-time::before {
+  content: '·';
+  margin-right: 6px;
+}
+.post-news-badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 7px; border-radius: 4px;
+  background: var(--amber-bg);
+  color: var(--amber);
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.post-verified {
+  width: 14px; height: 14px;
+  flex-shrink: 0;
+  color: var(--blue);
+}
+.post-source {
+  font-size: 12px;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.post-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-wrap: pretty;
+}
+.post-card.news .post-text {
+  color: var(--text2);
+}
+.post-text-tag {
+  color: var(--blue);
+  font-weight: 500;
+}
+
+.post-link-hint {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 8px;
+  font-size: 11px; color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+}
+.post-link-hint svg { width: 11px; height: 11px; }
+
+/* ── Banner (e.g., RSS down → fallback) ───────────────────────── */
+.feed-banner {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 20px;
+  background: var(--amber-bg);
+  border-bottom: 1px solid var(--border2);
+  color: var(--amber);
+  font-size: 13px; font-weight: 500;
+}
+.feed-banner svg {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+}
+
+/* ── Responsive: drop the rail on narrow screens ──────────────── */
+@media (max-width: 720px) {
+  .feed-rail { display: none; }
+  .feed-main { border-left: none; border-right: none; }
+}

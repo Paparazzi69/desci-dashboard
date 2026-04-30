@@ -1,9 +1,9 @@
-// Main orchestration. Fetches /api/prices and /api/feed in parallel, renders
-// the dashboard, and wires up sort / filter / drawer / sidebar interactions.
+// Main orchestration. Fetches /api/prices, renders the dashboard, and wires
+// up sort / filter / drawer interactions. The feed lives on the separate
+// /feed page now (see feed.js + feed.html).
 //
 // UX principle (see README): every external dependency degrades gracefully.
 // - Stale cache on 429 → amber LIVE indicator + tooltip explanation.
-// - Feed in fallback mode → amber banner + Twitter embed sidebar.
 // - Both APIs fail → a friendly empty state, never a blank page.
 
 import { fmt, fmtPct, escapeHtml } from './format.js';
@@ -11,49 +11,42 @@ import { metaFor, FILTER_CHIPS, TOKEN_META } from './data.js';
 import {
   sectorCardHTML, sectorCardSkeleton,
   filterChipsHTML, tokenHeaderHTML, tokenRowHTML,
-  feedItemHTML, feedFallbackHTML, bannerHTML,
+  bannerHTML,
   drawerHTML, milestonesHTML,
 } from './components.js';
 import { mount as mountBubbleMap } from './bubblemap.js';
 
 const REFRESH_PRICES_MS = 60_000;
-const REFRESH_FEED_MS   = 5 * 60_000;
 const STALE_THRESHOLD_MS = 90_000;
 
 const state = {
   tokens: [],
-  feed: null,           // { items: [...] } | { fallback: true, accounts: [...] }
   milestones: [],
   sortKey: 'mcap',
   sortDir: 'desc',
   activeFilter: 'All',
   selectedId: null,
   selectedDetail: null,
-  sidebarCollapsed: window.innerWidth < 1024,
   bubbleMapCleanup: null,
   lastPriceFetchOk: null,   // timestamp of last successful (fresh) price fetch
   pricesStale: false,       // true if last response was served stale by the API
   pricesError: false,       // true if last fetch threw
-  feedError: false,
 };
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
 async function boot() {
   document.addEventListener('keydown', onKey);
-  document.getElementById('sidebar-toggle').addEventListener('click', toggleSidebar);
   document.getElementById('main').addEventListener('click', onMainClick);
   document.getElementById('main').addEventListener('keydown', onMainKey);
   document.getElementById('drawer-mount').addEventListener('click', onDrawerClick);
-  applySidebarState();
   renderShell();
 
-  // Load milestones first (local file, fast) then fetch APIs in parallel.
+  // Load milestones first (local file, fast) then fetch prices.
   loadMilestones();
-  await Promise.allSettled([refreshPrices(), refreshFeed()]);
+  await refreshPrices();
   renderBubbleMap();
 
   setInterval(() => { refreshPrices().then(renderBubbleMap); }, REFRESH_PRICES_MS);
-  setInterval(refreshFeed, REFRESH_FEED_MS);
   setInterval(updateLiveIndicator, 5_000);
   setInterval(() => {
     document.getElementById('status-time').textContent =
@@ -78,21 +71,8 @@ async function refreshPrices() {
   renderTable();
   renderSectorSummary();
   renderFilterChips();
-  updateLiveIndicator();
-}
-
-async function refreshFeed() {
-  try {
-    const r = await fetch('/api/feed', { cache: 'no-store' });
-    if (!r.ok) throw new Error(`feed ${r.status}`);
-    state.feed = await r.json();
-    state.feedError = false;
-  } catch (e) {
-    console.warn('Feed fetch failed:', e);
-    state.feedError = !state.feed;
-  }
-  renderFeed();
   renderBanner();
+  updateLiveIndicator();
 }
 
 async function loadMilestones() {
@@ -226,40 +206,13 @@ function renderTable() {
   body.innerHTML = filtered.map((t, i) => tokenRowHTML(t, i)).join('');
 }
 
-// ─── Render: feed sidebar ─────────────────────────────────────────────────────
-function renderFeed() {
-  const list = document.getElementById('feed-list');
-  if (!state.feed && state.feedError) {
-    list.innerHTML = `
-      <div class="feed-empty">
-        <strong style="color:var(--text2)">Feed offline.</strong><br>
-        Unable to reach RSS sources. Retrying in 5 minutes.
-      </div>
-    `;
-    return;
-  }
-  if (!state.feed) {
-    list.innerHTML = `<div class="feed-skeleton">Loading feed…</div>`;
-    return;
-  }
-  if (state.feed.fallback) {
-    list.innerHTML = feedFallbackHTML(state.feed.accounts || []);
-    return;
-  }
-  const items = (state.feed.items || []).slice(0, 30);
-  if (items.length === 0) {
-    list.innerHTML = `<div class="feed-empty">No recent items.</div>`;
-    return;
-  }
-  list.innerHTML = items.map(feedItemHTML).join('');
-}
-
 // ─── Render: top banner ───────────────────────────────────────────────────────
 function renderBanner() {
   const m = document.getElementById('banner-mount');
+  if (!m) return;
   const banners = [];
-  if (state.pricesError && state.feedError) {
-    banners.push(bannerHTML('red', 'Both data sources are unavailable. The dashboard will keep retrying.'));
+  if (state.pricesError) {
+    banners.push(bannerHTML('red', 'Price feed unavailable. The dashboard will keep retrying.'));
   } else if (state.pricesStale) {
     banners.push(bannerHTML('amber', 'Showing cached prices — CoinGecko rate-limited our last request.'));
   }
@@ -325,17 +278,6 @@ function updateLiveIndicator() {
   dot.dataset.state = stateStr;
   label.textContent = labelText;
   dot.title = title;
-}
-
-// ─── Sidebar ──────────────────────────────────────────────────────────────────
-function applySidebarState() {
-  document.getElementById('sidebar').dataset.collapsed = state.sidebarCollapsed ? 'true' : 'false';
-  document.getElementById('sidebar-toggle').setAttribute('aria-expanded', !state.sidebarCollapsed);
-}
-
-function toggleSidebar() {
-  state.sidebarCollapsed = !state.sidebarCollapsed;
-  applySidebarState();
 }
 
 // ─── Event delegation ─────────────────────────────────────────────────────────
