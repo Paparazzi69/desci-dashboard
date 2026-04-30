@@ -44,7 +44,7 @@ export const TOKEN_META = {
   'rifampicin': {
     focus: 'Drug Discovery', focusColor: 'blue',
     tags: ['Drug Discovery', 'Longevity'], chain: 'SOL',
-    twitter: 'Pump_Science', website: 'pump.science',
+    twitter: 'pumpdotscience', website: 'pump.science',
   },
   'vitarna': {
     focus: 'RNA Research', focusColor: 'green',
@@ -54,12 +54,12 @@ export const TOKEN_META = {
   'urolithin-a': {
     focus: 'Longevity', focusColor: 'amber',
     tags: ['Longevity', 'Drug Discovery'], chain: 'SOL',
-    twitter: 'Pump_Science', website: 'pump.science',
+    twitter: 'pumpdotscience', website: 'pump.science',
   },
   'cryodao': {
     focus: 'Cryonics', focusColor: 'blue',
     tags: ['Longevity'], chain: 'ETH',
-    twitter: 'CryoDAO', website: 'cryodao.org',
+    twitter: null, website: 'cryodao.org',
   },
   'hairdao': {
     focus: 'Dermatology', focusColor: 'red',

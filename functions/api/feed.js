@@ -23,8 +23,8 @@ const NITTER_INSTANCES = [
 ];
 
 const TWITTER_HANDLES = [
-  'BioProtocol', 'VitaDAO', 'peptai_', 'Pump_Science', 'Molecule_dao',
-  'HairDAO_', 'CryoDAO_', 'ResearchHub', 'paulkhls', 'AthenaDAO_',
+  'BioProtocol', 'VitaDAO', 'peptai_', 'pumpdotscience', 'molecule_sci',
+  'HairDAO_', 'ResearchHub', 'paulkhls', 'AthenaDAO_',
 ];
 
 // News RSS sources. Decrypt + The Defiant are general-purpose feeds that we
