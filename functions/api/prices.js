@@ -15,6 +15,10 @@ import {
 
 const CACHE_KEY = 'prices:v1';
 const FRESH_TTL_S = 300;
+// When a GT token had to fall back (or is missing entirely), shorten the
+// fresh-cache TTL so we retry sooner instead of locking in an incomplete
+// payload for the full 5 minutes.
+const FRESH_TTL_DEGRADED_S = 60;
 const STALE_KEY = 'prices:stale-v1'; // longer-lived backup for 429 fallback
 const STALE_TTL_S = 60 * 30; // keep a half-hour stale safety net
 
@@ -27,12 +31,12 @@ export async function onRequest({ env }) {
   // Fetch CoinGecko + GeckoTerminal tokens in parallel. GT failures are
   // non-fatal — we still want the CoinGecko results to render even if GT is
   // rate-limiting us.
-  const [cgResult, gtTokens] = await Promise.all([
+  const [cgResult, gtResult] = await Promise.all([
     fetchCoinGeckoMarkets(env).then(
       tokens => ({ ok: true, tokens }),
       err => ({ ok: false, err }),
     ),
-    fetchAllGtTokens(),
+    fetchAllGtTokens(env),
   ]);
 
   if (!cgResult.ok) {
@@ -45,36 +49,61 @@ export async function onRequest({ env }) {
     // No cache at all — return mocks + GT (whatever we got) so the UI can
     // render something on first-load failures.
     return jsonResponse({
-      tokens: [...gtTokens, ...MOCK_MICROCAPS],
+      tokens: [...gtResult.tokens, ...MOCK_MICROCAPS],
       stale: true,
       error: String(err.message || err),
       fetchedAt: new Date().toISOString(),
     }, 200);
   }
 
-  const merged = [...cgResult.tokens, ...gtTokens, ...MOCK_MICROCAPS];
+  const merged = [...cgResult.tokens, ...gtResult.tokens, ...MOCK_MICROCAPS];
   const payload = {
     tokens: merged,
-    stale: false,
+    stale: gtResult.anyStale,
     fetchedAt: new Date().toISOString(),
   };
+  // If any GT token is missing entirely (no live fetch + no cache fallback),
+  // cache for a short TTL so we retry quickly. Otherwise full 5 min.
+  const ttl = gtResult.anyMissing ? FRESH_TTL_DEGRADED_S : FRESH_TTL_S;
   await Promise.all([
-    kvPut(env, CACHE_KEY, payload, FRESH_TTL_S),
+    kvPut(env, CACHE_KEY, payload, ttl),
     kvPut(env, STALE_KEY, payload, STALE_TTL_S),
   ]);
   return jsonResponse(payload);
 }
 
-// Fetch all GeckoTerminal tokens in parallel. Per-token errors are swallowed
-// so one missing token doesn't blank out the others.
-async function fetchAllGtTokens() {
+// Fetch all GeckoTerminal tokens in parallel. Each token is independently
+// cached in KV (gt-token:<id>:v1, 30 min TTL) so a single transient GT
+// failure doesn't drop the token from the prices payload — we fall back to
+// the last good cached value. This was the cause of "SYNA disappears for
+// 5 minutes at a time" before the fix.
+async function fetchAllGtTokens(env) {
   const entries = Object.entries(GT_TOKENS);
-  const settled = await Promise.allSettled(
-    entries.map(([id, addr]) => fetchGeckoTerminalToken(id, addr))
+  const results = await Promise.all(
+    entries.map(async ([id, addr]) => {
+      const cacheKey = `gt-token:${id}:v1`;
+      try {
+        const token = await fetchGeckoTerminalToken(id, addr);
+        // Refresh per-token cache on every successful fetch.
+        await kvPut(env, cacheKey, token, 60 * 30);
+        return { token, stale: false, missing: false };
+      } catch (e) {
+        // Live fetch failed — use last good cached value if any.
+        const cached = await kvGet(env, cacheKey);
+        if (cached) {
+          console.warn(`GT live fetch failed for ${id}, serving cache:`, e.message || e);
+          return { token: cached, stale: true, missing: false };
+        }
+        console.warn(`GT live fetch failed for ${id}, no cache:`, e.message || e);
+        return { token: null, stale: true, missing: true };
+      }
+    })
   );
-  return settled
-    .filter(r => r.status === 'fulfilled')
-    .map(r => r.value);
+  return {
+    tokens: results.map(r => r.token).filter(Boolean),
+    anyStale: results.some(r => r.stale),
+    anyMissing: results.some(r => r.missing),
+  };
 }
 
 async function fetchCoinGeckoMarkets(env) {
