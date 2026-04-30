@@ -269,15 +269,17 @@ export function mount(container, tokens, onTokenClick, tokenImages = {}) {
     if (idx >= 0) {
       const b   = bubbles[idx];
       const pos = (b.d1 || 0) >= 0;
+      const pctStr = (b.d1 >= 0 ? '+' : '') + ((b.d1 || 0).toFixed(2)) + '% 24h';
       tooltip.innerHTML = `
-        <div style="font-weight:700;font-size:14px;color:#e0f0ea;margin-bottom:4px">${esc(b.symbol || b.id || '')}</div>
-        <div style="color:#6aaa99;font-size:11px;margin-bottom:6px">${esc(b.name || b.id || '')}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#e0f0ea">${fmtP(b.price)}</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:${pos ? '#3de8a0' : '#e05040'};margin-top:2px">${(b.d1 >= 0 ? '+' : '') + ((b.d1 || 0).toFixed(2))}% 24h</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4a7a6a;margin-top:3px">Mcap ${fmtM(b.mcap)}</div>
+        <div style="font-weight:700;font-size:14px;color:#e0f0ea;margin-bottom:6px">${esc(b.symbol || b.id || '')}</div>
+        <div style="display:flex;gap:10px;align-items:baseline;font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:3px">
+          <span style="color:#e0f0ea">${fmtP(b.price)}</span>
+          <span style="color:${pos ? '#3de8a0' : '#e05040'}">${pctStr}</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4a7a6a">Mcap ${fmtM(b.mcap)}</div>
       `;
       let tx = cx + 14, ty = cy - 10;
-      const tw = 150, th = 95;
+      const tw = 170, th = 70;
       if (tx + tw > W) tx = cx - tw - 14;
       if (ty + th > H) ty = H - th - 8;
       tooltip.style.left    = tx + 'px';
