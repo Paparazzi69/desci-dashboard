@@ -7,7 +7,7 @@
 // - Both APIs fail → a friendly empty state, never a blank page.
 
 import { fmt, fmtPct, escapeHtml } from './format.js';
-import { metaFor, FILTER_CHIPS } from './data.js';
+import { metaFor, FILTER_CHIPS, TOKEN_META } from './data.js';
 import {
   sectorCardHTML, sectorCardSkeleton,
   filterChipsHTML, tokenHeaderHTML, tokenRowHTML,
@@ -271,9 +271,14 @@ function renderBubbleMap() {
   const el = document.getElementById('bubblemap-mount');
   if (!el) return;
   if (state.tokens.length === 0) return;
+  // Build tokenImages map from metadata customImage fields
+  const tokenImages = {};
+  for (const [id, meta] of Object.entries(TOKEN_META)) {
+    if (meta.customImage) tokenImages[id] = meta.customImage;
+  }
   // Cleanup previous instance
   if (state.bubbleMapCleanup) { state.bubbleMapCleanup(); state.bubbleMapCleanup = null; }
-  state.bubbleMapCleanup = mountBubbleMap(el, state.tokens, (id) => openDrawer(id));
+  state.bubbleMapCleanup = mountBubbleMap(el, state.tokens, (id) => openDrawer(id), tokenImages);
 }
 
 // ─── Render: milestones ───────────────────────────────────────────────────────

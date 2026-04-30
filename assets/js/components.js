@@ -281,6 +281,11 @@ export function drawerHTML(token, detail) {
       </div>
 
       <div class="drawer-section">
+        <div class="drawer-section-label">Links</div>
+        <div class="drawer-links">${linksHTML}</div>
+      </div>
+
+      <div class="drawer-section">
         <div class="drawer-section-label">Key Stats</div>
         <div class="stats-grid">
           ${stats.map(([l, v]) => `
@@ -292,19 +297,9 @@ export function drawerHTML(token, detail) {
         </div>
       </div>
 
-      <div class="drawer-section">
+      <div class="drawer-section" style="padding-bottom:28px">
         <div class="drawer-section-label">About</div>
         ${descBlock}
-      </div>
-
-      <div class="drawer-section" style="padding-bottom:28px">
-        <div class="drawer-section-label">Links</div>
-        <div class="drawer-links">${linksHTML}</div>
-        ${isMicro ? `
-          <div class="microcap-warning">
-            ⚠ Micro-cap token. Extremely thin liquidity, high price impact. Not financial advice.
-          </div>
-        ` : ''}
       </div>
     </div>
   `;

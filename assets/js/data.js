@@ -17,6 +17,7 @@ export const TOKEN_IDS = [
   'urolithin-a',
   'cryodao',
   'hairdao',
+  'syna',
 ];
 
 export const TOKEN_META = {
@@ -67,6 +68,12 @@ export const TOKEN_META = {
   },
   // Mocked Solana micro-caps — the server emits these with the same shape as
   // real CoinGecko entries, but flagged isMicroCap=true.
+  'syna': {
+    focus: 'AI-DeSci', focusColor: 'green',
+    tags: ['AI-DeSci', 'Biotech Infra'], chain: 'SOL',
+    twitter: 'SynaProtocol', website: 'syna.xyz',
+    customImage: '/assets/images/syna.jpg',
+  },
   'mock-neuq': {
     focus: 'Neuro', focusColor: 'purple',
     tags: ['Neuro', 'Micro-caps'], chain: 'SOL',
@@ -77,13 +84,6 @@ export const TOKEN_META = {
     focus: 'AI-DeSci', focusColor: 'purple',
     tags: ['AI-DeSci', 'Neuro', 'Micro-caps'], chain: 'SOL',
     twitter: 'SynapseProto', website: 'synapseprotocol.ai',
-    isMicroCap: true,
-  },
-  'synapse-neuro': {
-    focus: 'Health Data', focusColor: 'green',
-    tags: ['Health Data', 'AI-DeSci', 'Micro-caps'], chain: 'SOL',
-    twitter: 'synapseneuro_ai', website: 'synapseneuro.org',
-    trade: 'https://kickstart.easya.io/token/HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
     isMicroCap: true,
   },
 };
@@ -102,6 +102,6 @@ export function metaFor(id) {
 }
 
 export const FILTER_CHIPS = [
-  'All', 'Longevity', 'RNA Research', 'Neuro', 'Health Data',
+  'All', 'Longevity', 'RNA Research', 'Neuro',
   'Drug Discovery', 'IP-NFT', 'AI-DeSci', 'Micro-caps',
 ];
