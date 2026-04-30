@@ -35,6 +35,19 @@ export const MOCK_MICROCAPS = [
     spark: [0.00142, 0.00149, 0.00158, 0.00154, 0.00161, 0.00169, 0.00163, 0.00171, 0.00178, 0.00175, 0.00181, 0.00186, 0.00191, 0.00187],
     isMicroCap: true,
   },
+  {
+    id: 'synapse-neuro',
+    symbol: 'syna',
+    name: 'Synapse',
+    image: null,
+    price: 0.00094,
+    d1: 5.7,
+    d7: 18.3,
+    mcap: 76_500,
+    vol: 22_800,
+    spark: [0.00071, 0.00074, 0.00078, 0.00076, 0.00081, 0.00079, 0.00083, 0.00086, 0.00084, 0.00088, 0.00090, 0.00091, 0.00093, 0.00094],
+    isMicroCap: true,
+  },
 ];
 
 export const MOCK_DETAIL = {
@@ -51,6 +64,15 @@ export const MOCK_DETAIL = {
     ath: 0.00441,
     atl: 0.000071,
     description: 'SynapseProtocol is a Solana-based AI × DeSci coordination layer. Mocked here as a placeholder pending live data integration.',
+  },
+  'synapse-neuro': {
+    sparkline_7d: [0.00071, 0.00074, 0.00078, 0.00076, 0.00081, 0.00079, 0.00083, 0.00086, 0.00084, 0.00088, 0.00090, 0.00091, 0.00093, 0.00094],
+    fdv: 128_000,
+    ath: 0.00211,
+    atl: 0.000044,
+    contract: 'HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
+    contractUrl: 'https://solscan.io/token/HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
+    description: 'Synapse is a user-owned physiological data layer aggregating wearable and clinical data — sleep, recovery, training, body composition, and lifestyle signals — into a single scientist-reviewed dashboard. Users retain ownership of their data and choose what to share with researchers.\n\nPowered by SYNA token, the network coordinates incentives between data contributors and researchers requesting access. Token holders govern protocol direction through Synapse DAO, with emissions tied to contribution quality and research demand.\n\nCurrently in MVP phase with active integrations for Apple Health and Garmin, expanding to multimodal data (EEG, clinical records) and pilot research collaborations through 2026.',
   },
 };
 

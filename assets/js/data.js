@@ -79,6 +79,13 @@ export const TOKEN_META = {
     twitter: 'SynapseProto', website: 'synapseprotocol.ai',
     isMicroCap: true,
   },
+  'synapse-neuro': {
+    focus: 'Health Data', focusColor: 'green',
+    tags: ['Health Data', 'AI-DeSci', 'Micro-caps'], chain: 'SOL',
+    twitter: 'synapseneuro_ai', website: 'synapseneuro.org',
+    trade: 'https://kickstart.easya.io/token/HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
+    isMicroCap: true,
+  },
 };
 
 // Default classification when the API surfaces a token we don't have metadata
@@ -95,6 +102,6 @@ export function metaFor(id) {
 }
 
 export const FILTER_CHIPS = [
-  'All', 'Longevity', 'RNA Research', 'Neuro',
+  'All', 'Longevity', 'RNA Research', 'Neuro', 'Health Data',
   'Drug Discovery', 'IP-NFT', 'AI-DeSci', 'Micro-caps',
 ];

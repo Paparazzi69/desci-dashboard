@@ -222,12 +222,22 @@ export function drawerHTML(token, detail) {
   const links = [];
   if (meta.twitter) links.push({ label: 'Twitter', href: `https://twitter.com/${meta.twitter}` });
   if (meta.website) links.push({ label: 'Website', href: `https://${meta.website}` });
-  links.push({ label: 'CoinGecko', href: `https://coingecko.com/en/coins/${token.id}` });
+  // Trade link (e.g. EasyA Kickstart) replaces the CoinGecko link when present.
+  // Otherwise show CoinGecko for tokens with a real listing.
+  if (meta.trade) {
+    links.push({ label: 'Trade ↗', href: meta.trade });
+  } else if (!token.isMicroCap) {
+    links.push({ label: 'CoinGecko', href: `https://coingecko.com/en/coins/${token.id}` });
+  }
   if (detail?.contract) links.push({ label: 'Contract ↗', href: detail.contractUrl || '#' });
 
+  // Micro-caps without a token-specific trade URL fall back to pump.science.
+  const microFallback = isMicro && !meta.trade
+    ? `<a class="drawer-link drawer-link-pump" href="https://pump.science" target="_blank" rel="noopener noreferrer">pump.science ↗</a>`
+    : '';
   const linksHTML = links.map(l =>
     `<a class="drawer-link" href="${escapeHtml(l.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.label)}</a>`
-  ).join('') + (isMicro ? `<a class="drawer-link drawer-link-pump" href="https://pump.science" target="_blank" rel="noopener noreferrer">pump.science ↗</a>` : '');
+  ).join('') + microFallback;
 
   const descBlock = description
     ? `<div class="drawer-desc">${description.split(/\n\n+/).slice(0, 4).map(p => `<p>${sanitizeDesc(p)}</p>`).join('')}</div>`
