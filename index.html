@@ -99,47 +99,41 @@
     0%,100%{opacity:1;transform:scale(1)}
     50%{opacity:.5;transform:scale(.85)}
   }
-  /* ── Header Feed CTA ── */
-  .header-feed-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    padding: 10px 18px;
-    border-radius: 24px;
-    background: var(--green-bg, #0d2a1f);
-    border: 1px solid rgba(61,232,160,0.35);
-    color: var(--green, #3de8a0);
-    font-size: 13px;
-    font-weight: 600;
+  /* ── Live status as feed link ──
+     The .live-dot is rendered as <a href="/feed"> so the pulsing live
+     indicator doubles as the primary nav target. State color
+     (green/amber/red) still reflects price-feed health. */
+  .live-dot {
+    padding: 6px 11px;
+    border-radius: 20px;
+    border: 1px solid transparent;
     text-decoration: none;
-    letter-spacing: 0.01em;
-    transition: background 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.2s;
-    box-shadow: 0 0 0 0 rgba(61,232,160,0);
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
   }
-  .header-feed-link:hover {
-    background: var(--green, #3de8a0);
-    color: oklch(0.1 0.02 155);
-    border-color: var(--green, #3de8a0);
+  a.live-dot:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(61,232,160,0.25);
     transform: translateY(-1px);
-    box-shadow: 0 4px 18px rgba(61,232,160,0.25);
   }
-  .header-feed-link:hover .header-feed-dot { background: oklch(0.1 0.02 155); box-shadow: none; }
-  .header-feed-link:hover .header-feed-arrow { transform: translateX(2px); }
-  .header-feed-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--green, #3de8a0);
-    box-shadow: 0 0 8px var(--green, #3de8a0);
-    flex-shrink: 0;
-    animation: pulse 1.8s ease-in-out infinite;
-    transition: background 0.15s, box-shadow 0.15s;
+  a.live-dot:hover .live-dot-arrow { transform: translateX(2px); }
+  .live-dot-divider {
+    opacity: 0.35;
+    margin: 0 1px;
+    font-weight: 400;
   }
-  .header-feed-arrow {
+  .live-dot-feed {
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .live-dot-arrow {
+    color: var(--text2);
+    font-weight: 500;
     transition: transform 0.15s;
-    line-height: 1;
+    margin-left: 1px;
   }
-  @media (max-width: 720px) {
-    .header-feed-link { padding: 8px 14px; font-size: 12px; }
-  }
+  a.live-dot:hover .live-dot-feed,
+  a.live-dot:hover .live-dot-arrow { color: var(--green); }
 </style>
 </head>
 <body>
@@ -166,16 +160,15 @@
           <div class="brand-tagline" id="brand-tagline">Decentralized Science</div>
         </div>
       </div>
-      <a class="header-feed-link" href="/feed">
-        <span class="header-feed-dot"></span>
-        <span>Live Feed</span>
-        <span class="header-feed-arrow">↗</span>
-      </a>
       <div class="status">
-        <div class="live-dot" id="live-dot" data-state="loading">
+        <a class="live-dot" id="live-dot" data-state="loading" href="/feed"
+           aria-label="Open live feed">
           <span class="live-dot-orb"></span>
           <span class="live-dot-label">LOADING</span>
-        </div>
+          <span class="live-dot-divider" aria-hidden="true">·</span>
+          <span class="live-dot-feed">Feed</span>
+          <span class="live-dot-arrow" aria-hidden="true">→</span>
+        </a>
         <div class="mono status-time" id="status-time">—</div>
       </div>
     </header>
