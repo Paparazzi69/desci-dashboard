@@ -7,7 +7,11 @@
 // Token shape (matches frontend expectations):
 //   { id, symbol, name, image, price, d1, d7, mcap, vol, spark, isMicroCap }
 
-import { TOKEN_IDS, MOCK_MICROCAPS, jsonResponse, kvGet, kvPut } from '../_shared.js';
+import {
+  TOKEN_IDS, MOCK_MICROCAPS, GT_TOKENS,
+  fetchGeckoTerminalToken,
+  jsonResponse, kvGet, kvPut,
+} from '../_shared.js';
 
 const CACHE_KEY = 'prices:v1';
 const FRESH_TTL_S = 300;
@@ -20,34 +24,57 @@ export async function onRequest({ env }) {
     return jsonResponse(fresh);
   }
 
-  try {
-    const tokens = await fetchCoinGeckoMarkets(env);
-    const merged = [...tokens, ...MOCK_MICROCAPS];
-    const payload = {
-      tokens: merged,
-      stale: false,
-      fetchedAt: new Date().toISOString(),
-    };
-    await Promise.all([
-      kvPut(env, CACHE_KEY, payload, FRESH_TTL_S),
-      kvPut(env, STALE_KEY, payload, STALE_TTL_S),
-    ]);
-    return jsonResponse(payload);
-  } catch (err) {
-    // Any failure (rate limit, network) → try the long-lived stale cache.
+  // Fetch CoinGecko + GeckoTerminal tokens in parallel. GT failures are
+  // non-fatal — we still want the CoinGecko results to render even if GT is
+  // rate-limiting us.
+  const [cgResult, gtTokens] = await Promise.all([
+    fetchCoinGeckoMarkets(env).then(
+      tokens => ({ ok: true, tokens }),
+      err => ({ ok: false, err }),
+    ),
+    fetchAllGtTokens(),
+  ]);
+
+  if (!cgResult.ok) {
+    const err = cgResult.err;
+    // CoinGecko failed → try the long-lived stale cache.
     const stale = await kvGet(env, STALE_KEY);
     if (stale) {
       return jsonResponse({ ...stale, stale: true, error: String(err.message || err) });
     }
-    // No cache at all — return the mocks alone with an explicit error so the UI
-    // can render *something* on first-load failures.
+    // No cache at all — return mocks + GT (whatever we got) so the UI can
+    // render something on first-load failures.
     return jsonResponse({
-      tokens: MOCK_MICROCAPS,
+      tokens: [...gtTokens, ...MOCK_MICROCAPS],
       stale: true,
       error: String(err.message || err),
       fetchedAt: new Date().toISOString(),
     }, 200);
   }
+
+  const merged = [...cgResult.tokens, ...gtTokens, ...MOCK_MICROCAPS];
+  const payload = {
+    tokens: merged,
+    stale: false,
+    fetchedAt: new Date().toISOString(),
+  };
+  await Promise.all([
+    kvPut(env, CACHE_KEY, payload, FRESH_TTL_S),
+    kvPut(env, STALE_KEY, payload, STALE_TTL_S),
+  ]);
+  return jsonResponse(payload);
+}
+
+// Fetch all GeckoTerminal tokens in parallel. Per-token errors are swallowed
+// so one missing token doesn't blank out the others.
+async function fetchAllGtTokens() {
+  const entries = Object.entries(GT_TOKENS);
+  const settled = await Promise.allSettled(
+    entries.map(([id, addr]) => fetchGeckoTerminalToken(id, addr))
+  );
+  return settled
+    .filter(r => r.status === 'fulfilled')
+    .map(r => r.value);
 }
 
 async function fetchCoinGeckoMarkets(env) {

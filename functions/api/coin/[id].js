@@ -5,13 +5,42 @@
 // Mocked Solana micro-caps short-circuit to MOCK_DETAIL — they have no real
 // CoinGecko entries yet.
 
-import { MOCK_DETAIL, jsonResponse, kvGet, kvPut } from '../../_shared.js';
+import {
+  MOCK_DETAIL, GT_TOKENS,
+  fetchGeckoTerminalDetail,
+  jsonResponse, kvGet, kvPut,
+} from '../../_shared.js';
 
 const TTL_S = 5 * 60;
 
 export async function onRequest({ env, params }) {
   const id = params.id;
   if (!id) return jsonResponse({ error: 'missing id' }, 400);
+
+  // GeckoTerminal-sourced tokens: merge live on-chain data with editorial
+  // description from MOCK_DETAIL. Cached separately from CoinGecko entries.
+  if (GT_TOKENS[id]) {
+    const gtCacheKey = `coin-gt:${id}:v1`;
+    const gtCached = await kvGet(env, gtCacheKey);
+    if (gtCached) return jsonResponse(gtCached);
+
+    try {
+      const live = await fetchGeckoTerminalDetail(GT_TOKENS[id]);
+      const editorial = MOCK_DETAIL[id] || {};
+      const payload = { id, ...live, ...editorial, source: 'geckoterminal' };
+      await kvPut(env, gtCacheKey, payload, TTL_S);
+      await kvPut(env, gtCacheKey + ':stale', payload, 60 * 60);
+      return jsonResponse(payload);
+    } catch (err) {
+      const stale = await kvGet(env, gtCacheKey + ':stale');
+      if (stale) return jsonResponse({ ...stale, stale: true });
+      // Last resort — return at least the editorial description so the
+      // drawer isn't completely empty.
+      const editorial = MOCK_DETAIL[id];
+      if (editorial) return jsonResponse({ ...editorial, source: 'geckoterminal', error: String(err.message || err) });
+      return jsonResponse({ error: String(err.message || err) }, 502);
+    }
+  }
 
   if (MOCK_DETAIL[id]) {
     return jsonResponse(MOCK_DETAIL[id]);
