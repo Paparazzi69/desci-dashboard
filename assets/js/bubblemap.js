@@ -15,16 +15,23 @@ const MAX_R = 84;
 
 // ─── Image preloader ──────────────────────────────────────────────────────────
 // Returns a Promise that resolves to a Map<tokenId, HTMLImageElement>.
-// Images that fail to load are silently omitted.
+// Images that fail to load are skipped (the bubble falls back to text).
+//
+// We don't set crossOrigin on cross-origin images — CoinGecko's CDN doesn't
+// always return ACAO headers, and an ACAO-less response with crossOrigin set
+// fails CORS and triggers onerror. Since we only draw images (never call
+// getImageData), a "tainted" canvas is fine for us.
 function preloadImages(tokenImages = {}) {
   const entries = Object.entries(tokenImages);
   if (entries.length === 0) return Promise.resolve(new Map());
   const promises = entries.map(([id, src]) =>
     new Promise(resolve => {
       const img = new Image();
-      img.crossOrigin = 'anonymous';
       img.onload  = () => resolve([id, img]);
-      img.onerror = () => resolve(null); // silently skip on error
+      img.onerror = () => {
+        console.warn(`bubblemap: failed to load image for ${id}: ${src}`);
+        resolve(null);
+      };
       img.src = src;
     })
   );
@@ -251,7 +258,7 @@ export function mount(container, tokens, onTokenClick, tokenImages = {}) {
   let tick = 0;
   function animate() {
     tick++;
-    const cx = W / 2, cy = H / 2;
+    const cy = H / 2;
     bubbles.forEach((b, i) => {
       // Idle wobble — gives the cluster a subtle "alive" feel
       const angle = (tick * 0.008) + i * 1.3;
@@ -261,11 +268,10 @@ export function mount(container, tokens, onTokenClick, tokenImages = {}) {
       b.y += b.vy;
       b.vx *= 0.992;
       b.vy *= 0.992;
-      // Soft centripetal pull so small low-mcap bubbles stay near the
-      // cluster instead of drifting into empty corners. Y stronger than X
-      // so the layout tends to compact vertically more than horizontally.
-      b.x += (cx - b.x) * 0.0008;
-      b.y += (cy - b.y) * 0.0018;
+      // Vertical-only centripetal pull — keeps small bubbles from drifting
+      // to top/bottom edges, but lets the cluster spread horizontally to
+      // fill the (typically wide) canvas. No X pull = no over-clumping.
+      b.y += (cy - b.y) * 0.0012;
     });
     resolveCollisions(bubbles);
     clampToBounds(bubbles, W, H);
