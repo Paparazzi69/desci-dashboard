@@ -17,8 +17,8 @@ const GREEN_STROKE = 'rgba(61,232,160,0.8)';
 const RED_STROKE   = 'rgba(210,80,60,0.75)';
 const TEXT_COLOR   = 'rgba(220,240,235,0.92)';
 
-const MIN_R = 18;
-const MAX_R = 44;
+const MIN_R = 24;
+const MAX_R = 58;
 const ROW_PAD_X  = 24;   // left/right gutter inside the canvas
 const BUBBLE_GAP = 18;   // fixed space between bubbles (compact cluster, no fill-to-fit)
 
@@ -26,10 +26,12 @@ const BUBBLE_GAP = 18;   // fixed space between bubbles (compact cluster, no fil
 function preloadImages(tokenImages = {}) {
   const entries = Object.entries(tokenImages);
   if (entries.length === 0) return Promise.resolve(new Map());
+  // No crossOrigin — CoinGecko's CDN doesn't return ACAO headers, so anonymous
+  // requests fail. Tainted canvas is fine since we only drawImage (never read
+  // pixels via getImageData), so SOP doesn't bite us.
   const promises = entries.map(([id, src]) =>
     new Promise(resolve => {
       const img = new Image();
-      img.crossOrigin = 'anonymous';
       img.onload  = () => resolve([id, img]);
       img.onerror = () => resolve(null);
       img.src = src;
@@ -223,8 +225,8 @@ function createGelBackground(getDims) {
 
 // ─── Draw helpers ─────────────────────────────────────────────────────────────
 function drawImageBubble(ctx, img, x, y, r, strokeColor, glowBlur, isHovered) {
+  // Clip to the bubble circle and draw the image
   ctx.save();
-  // No backdrop — bubble interior is transparent so the gel bg shows through
   ctx.beginPath();
   ctx.arc(x, y, r, 0, Math.PI * 2);
   ctx.clip();
@@ -233,8 +235,20 @@ function drawImageBubble(ctx, img, x, y, r, strokeColor, glowBlur, isHovered) {
   const dw = img.naturalWidth  * scale;
   const dh = img.naturalHeight * scale;
   ctx.drawImage(img, x - dw / 2, y - dh / 2, dw, dh);
+
+  // Subtle dark scrim — keeps light-background logos legible against the gel bands
+  ctx.fillStyle = 'rgba(0,0,0,0.18)';
+  ctx.fillRect(x - r, y - r, r * 2, r * 2);
+
+  // Edge vignette — fades to dark at the rim, sharper logos in the centre
+  const vignette = ctx.createRadialGradient(x, y, r * 0.55, x, y, r);
+  vignette.addColorStop(0, 'rgba(0,0,0,0)');
+  vignette.addColorStop(1, 'rgba(0,0,0,0.45)');
+  ctx.fillStyle = vignette;
+  ctx.fillRect(x - r, y - r, r * 2, r * 2);
   ctx.restore();
 
+  // Coloured ring on top (with glow when hovered)
   ctx.save();
   if (isHovered) {
     ctx.shadowColor = strokeColor;
