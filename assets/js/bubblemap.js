@@ -68,12 +68,15 @@ function packBubbles(tokens, W, H) {
 }
 
 function resolveCollisions(bubbles) {
+  // Tighter inter-bubble gap (was 6) so small low-mcap bubbles cluster
+  // closer to the big ones instead of drifting out into empty space.
+  const GAP = 3;
   for (let i = 0; i < bubbles.length; i++) {
     for (let j = i + 1; j < bubbles.length; j++) {
       const a = bubbles[i], b = bubbles[j];
       const dx = b.x - a.x, dy = b.y - a.y;
       const dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-      const minDist = a.r + b.r + 6;
+      const minDist = a.r + b.r + GAP;
       if (dist < minDist) {
         const overlap = (minDist - dist) / 2;
         const nx = dx / dist, ny = dy / dist;
@@ -96,6 +99,9 @@ function clampToBounds(bubbles, W, H, pad = 8) {
 // ─── Draw helpers ─────────────────────────────────────────────────────────────
 
 // Draws an image clipped to a circle, centered and cover-scaled.
+// Applies a dark vignette + slight overall dim so light/cream logo
+// backgrounds (e.g. Synapse Network) integrate with the dark theme
+// instead of looking like white stickers.
 function drawImageBubble(ctx, img, x, y, r, strokeColor, glowBlur, isHovered) {
   ctx.save();
   // Clip path
@@ -108,6 +114,17 @@ function drawImageBubble(ctx, img, x, y, r, strokeColor, glowBlur, isHovered) {
   const dw = img.naturalWidth  * scale;
   const dh = img.naturalHeight * scale;
   ctx.drawImage(img, x - dw / 2, y - dh / 2, dw, dh);
+
+  // Theme integration overlay — slight overall dim + darker vignette at edges
+  // so bright logos don't pop out against the dark dashboard background.
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.16)';
+  ctx.fillRect(x - r, y - r, r * 2, r * 2);
+
+  const vignette = ctx.createRadialGradient(x, y, r * 0.45, x, y, r);
+  vignette.addColorStop(0, 'rgba(0, 0, 0, 0)');
+  vignette.addColorStop(1, 'rgba(0, 0, 0, 0.45)');
+  ctx.fillStyle = vignette;
+  ctx.fillRect(x - r, y - r, r * 2, r * 2);
 
   ctx.restore();
 
@@ -234,7 +251,9 @@ export function mount(container, tokens, onTokenClick, tokenImages = {}) {
   let tick = 0;
   function animate() {
     tick++;
+    const cx = W / 2, cy = H / 2;
     bubbles.forEach((b, i) => {
+      // Idle wobble — gives the cluster a subtle "alive" feel
       const angle = (tick * 0.008) + i * 1.3;
       b.x += Math.sin(angle) * 0.12;
       b.y += Math.cos(angle * 0.8 + i) * 0.10;
@@ -242,6 +261,11 @@ export function mount(container, tokens, onTokenClick, tokenImages = {}) {
       b.y += b.vy;
       b.vx *= 0.992;
       b.vy *= 0.992;
+      // Soft centripetal pull so small low-mcap bubbles stay near the
+      // cluster instead of drifting into empty corners. Y stronger than X
+      // so the layout tends to compact vertically more than horizontally.
+      b.x += (cx - b.x) * 0.0008;
+      b.y += (cy - b.y) * 0.0018;
     });
     resolveCollisions(bubbles);
     clampToBounds(bubbles, W, H);

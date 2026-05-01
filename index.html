@@ -50,50 +50,58 @@
     0%,100%{opacity:1;transform:scale(1)}
     50%{opacity:.5;transform:scale(.85)}
   }
-  /* ── Header nav (3 unified pills: Feed / X / EasyA) ──
-     One visual style across all three so nothing competes for attention.
-     Light border for visibility against the page glow, brightens on hover. */
+  /* ── Header nav (single stadium container, 3 sections) ──
+     One unified pill with subtle green outer halo. Three buttons inside
+     separated by thin dividers. Each button gets its own hover state but
+     the container stays cohesive — they read as ONE thing, not three. */
   .header-nav {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: inline-flex;
+    align-items: stretch;
+    border: 1px solid rgba(61,232,160,0.28);
+    border-radius: 28px;
+    overflow: hidden;
+    background: rgba(13, 22, 26, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow:
+      0 0 0 4px rgba(61,232,160,0.04),
+      0 8px 28px rgba(61,232,160,0.06),
+      inset 0 0 24px rgba(61,232,160,0.025);
   }
   .header-nav-link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border-radius: 22px;
-    border: 1px solid var(--border, #1e2d38);
-    background: rgba(255,255,255,0.015);
+    gap: 9px;
+    padding: 10px 22px;
     color: var(--text, #d8eae5);
     font-size: 13px;
     font-weight: 500;
     text-decoration: none;
     letter-spacing: 0.01em;
-    transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.15s;
+    border-right: 1px solid rgba(61,232,160,0.16);
+    transition: background 0.15s, color 0.15s;
     white-space: nowrap;
   }
+  .header-nav-link:last-child { border-right: none; }
   .header-nav-link:hover {
-    border-color: rgba(61,232,160,0.45);
-    background: rgba(61,232,160,0.06);
+    background: rgba(61,232,160,0.09);
     color: var(--green, #3de8a0);
-    transform: translateY(-1px);
   }
-  .header-nav-link .header-nav-arrow {
+  .header-nav-link svg { flex-shrink: 0; }
+  .header-nav-arrow {
     color: var(--text3, #4a6470);
-    transition: transform 0.15s, color 0.15s;
+    transition: color 0.15s, transform 0.15s;
     line-height: 1;
-    margin-left: 1px;
+    margin-left: 2px;
+    font-size: 12px;
   }
   .header-nav-link:hover .header-nav-arrow {
     color: var(--green, #3de8a0);
     transform: translate(1px, -1px);
   }
   @media (max-width: 720px) {
-    .header-nav-link { padding: 6px 12px; font-size: 12px; }
+    .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; }
+    .header-nav-link span:not(.header-nav-arrow) { font-size: 12px; }
   }
 </style>
 </head>
@@ -123,18 +131,31 @@
       </div>
       <nav class="header-nav" aria-label="Primary">
         <a class="header-nav-link" href="/feed">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 11a9 9 0 0 1 9 9"/>
+            <path d="M4 4a16 16 0 0 1 16 16"/>
+            <circle cx="5" cy="19" r="1.5" fill="currentColor"/>
+          </svg>
           <span>Feed</span>
           <span class="header-nav-arrow" aria-hidden="true">↗</span>
         </a>
         <a class="header-nav-link"
            href="https://x.com/DeSciDashboard"
            target="_blank" rel="noopener noreferrer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.74-8.842L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
           <span>X / Twitter</span>
           <span class="header-nav-arrow" aria-hidden="true">↗</span>
         </a>
         <a class="header-nav-link"
            href="https://kickstart.easya.io/token/3AxTzPD5H6JTjrXgkBqtp9wYpB3fhp2zX2v1zpjKHhu3"
            target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
           <span>EasyA Kickstart</span>
           <span class="header-nav-arrow" aria-hidden="true">↗</span>
         </a>

@@ -224,10 +224,15 @@ function renderBubbleMap() {
   const el = document.getElementById('bubblemap-mount');
   if (!el) return;
   if (state.tokens.length === 0) return;
-  // Build tokenImages map from metadata customImage fields
+  // Build tokenImages map: API-supplied logos for every token, with custom
+  // overrides from TOKEN_META.customImage. This way every bubble shows a
+  // logo (uniform visual rhythm) instead of one image-bubble outlier.
   const tokenImages = {};
+  for (const t of state.tokens) {
+    if (t.image) tokenImages[t.id] = t.image;
+  }
   for (const [id, meta] of Object.entries(TOKEN_META)) {
-    if (meta.customImage) tokenImages[id] = meta.customImage;
+    if (meta.customImage) tokenImages[id] = meta.customImage; // override
   }
   // Cleanup previous instance
   if (state.bubbleMapCleanup) { state.bubbleMapCleanup(); state.bubbleMapCleanup = null; }
