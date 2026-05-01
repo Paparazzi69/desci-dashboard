@@ -16,6 +16,7 @@ export const TOKEN_IDS = [
   'vitarna',
   'cryodao',
   'hairdao',
+  'aubrai-by-bio',
   'syna',
 ];
 
@@ -59,6 +60,11 @@ export const TOKEN_META = {
     focus: 'Dermatology', focusColor: 'red',
     tags: ['Drug Discovery'], chain: 'ETH',
     twitter: 'HairDAO_', website: 'hairdao.xyz',
+  },
+  'aubrai-by-bio': {
+    focus: 'Longevity', focusColor: 'amber',
+    tags: ['Longevity', 'AI-DeSci'], chain: 'BASE',
+    twitter: 'Aubrai_', website: 'aubr.ai',
   },
   'syna': {
     focus: 'AI-DeSci', focusColor: 'green',

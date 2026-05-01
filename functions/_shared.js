@@ -4,7 +4,7 @@
 // /coins/markets for these ids in a single call.
 export const TOKEN_IDS = [
   'bio-protocol', 'vitadao', 'origintrail', 'researchcoin',
-  'rifampicin', 'vitarna', 'cryodao', 'hairdao',
+  'rifampicin', 'vitarna', 'cryodao', 'hairdao', 'aubrai-by-bio',
 ];
 
 // Tokens not on CoinGecko but live on Solana DEX pools — fetched from
