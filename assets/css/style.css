@@ -240,19 +240,27 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ── Token table ─────────────────────────────────────────────── */
-/* position:relative anchors the particle-network canvas (absolute-inset:0)
-   that's prepended into the wrap. .token-table needs z-index:1 so it sits
-   above the canvas (canvas uses z-index:0 to form a stacking context). */
-.token-table-wrap { overflow-x: auto; position: relative; }
-.token-table {
-  background: var(--surface);
+/* The wrap hosts the particle-network canvas (absolute, inset:0, z-index:0).
+   The table itself uses a heavily-transparent surface tint so the network
+   reads through subtly — the rounded border keeps the card framing intact.
+   token-thead and token-row sit above the canvas via z-index:1. */
+.token-table-wrap {
+  overflow-x: auto;
+  position: relative;
   border: 1px solid var(--border2);
+  border-radius: 10px;
+  background: oklch(0.13 0.018 215 / 0.35); /* surface @ ~35% opacity */
+}
+.token-table {
   border-radius: 10px;
   overflow: hidden;
   min-width: 760px;
   position: relative;
   z-index: 1;
 }
+.token-thead, .token-row { position: relative; z-index: 1; }
+.token-row { background: oklch(0.13 0.018 215 / 0.55); }
+.token-row:hover { background: oklch(0.16 0.016 215 / 0.75); }
 .token-thead, .token-row {
   display: grid;
   grid-template-columns: 36px 1fr 110px 88px 88px 100px 100px 90px;
