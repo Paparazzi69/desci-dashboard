@@ -15,6 +15,7 @@ import {
   drawerHTML, milestonesHTML,
 } from './components.js';
 import { mount as mountBubbleMap } from './bubblemap.js';
+import { mount as mountParticleNetwork } from './particle-network.js';
 
 const REFRESH_PRICES_MS = 60_000;
 const STALE_THRESHOLD_MS = 90_000;
@@ -28,6 +29,8 @@ const state = {
   selectedId: null,
   selectedDetail: null,
   bubbleMapCleanup: null,
+  tableNetCleanup: null,    // particle network on the token table
+  stripNetCleanup: null,    // particle network on the BioAgent teaser
   lastPriceFetchOk: null,   // timestamp of last successful (fresh) price fetch
   pricesStale: false,       // true if last response was served stale by the API
   pricesError: false,       // true if last fetch threw
@@ -40,6 +43,7 @@ async function boot() {
   document.getElementById('main').addEventListener('keydown', onMainKey);
   document.getElementById('drawer-mount').addEventListener('click', onDrawerClick);
   renderShell();
+  mountParticleNetworks();
 
   // Load milestones first (local file, fast) then fetch prices.
   loadMilestones();
@@ -97,6 +101,22 @@ async function loadTokenDetail(id) {
     state.selectedDetail = { error: true };
   }
   if (state.selectedId === id) renderDrawer();
+}
+
+// ─── Particle network backgrounds ─────────────────────────────────────────────
+// Mounted once after renderShell — both surfaces are static HTML (always
+// present), so we don't need to remount on data refresh. Cleanup fns are
+// stored on state for symmetry with bubbleMapCleanup; only invoked if we
+// ever tear these surfaces down.
+function mountParticleNetworks() {
+  const tableWrap = document.querySelector('.token-table-wrap');
+  if (tableWrap && !state.tableNetCleanup) {
+    state.tableNetCleanup = mountParticleNetwork(tableWrap, { boost: false });
+  }
+  const teaser = document.querySelector('.bioagent-teaser');
+  if (teaser && !state.stripNetCleanup) {
+    state.stripNetCleanup = mountParticleNetwork(teaser, { boost: true });
+  }
 }
 
 // ─── Render: shell ────────────────────────────────────────────────────────────
