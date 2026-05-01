@@ -20,6 +20,7 @@ const AGENTS = [
     token: '$AUBRAI', tokenNote: '150x from $269K pre-sale',
     parent: 'VitaDAO',
     launchDate: 'Aug 25, 2025',
+    link: 'https://app.bio.xyz/agents/aubrai',
     desc: "Longevity AI agent built with VitaDAO & Dr. Aubrey de Grey. Trained on de Grey's unpublished lab data. Runs on ElizaOS v2 in Phala Cloud TEE.",
     stats: [
       { label: 'Token',       value: '$AUBRAI' },
@@ -47,6 +48,7 @@ const AGENTS = [
     token: 'listed on bio.xyz', tokenNote: "Catalyst for BIO's 120% April rally",
     parent: 'Bio Protocol core',
     launchDate: '2025',
+    link: 'https://app.bio.xyz/agents/peptai',
     desc: 'Autonomous peptide drug discovery agent. Designed OX2R-004 (novel ADHD peptide) in 24 hours for ~$1,500 wet lab cost. 8-gate validation pipeline, receptor agnostic.',
     stats: [
       { label: 'Active GPCRs',     value: 'GLP1R · KISS1R · OX2R' },
@@ -74,6 +76,7 @@ const AGENTS = [
     token: 'infrastructure', tokenNote: 'Not token-based',
     parent: 'Molecule / Bio Protocol',
     launchDate: '2026',
+    link: 'https://github.com/bio-xyz/ClawdLab',
     desc: 'Autonomous scientific research platform derived from OpenClaw framework (179K GitHub stars). Companion: beach.science public research commons.',
     stats: [
       { label: 'GitHub',           value: 'bio-xyz/ClawdLab' },
@@ -100,6 +103,7 @@ const AGENTS = [
     focus: 'Microbiome',
     token: 'upcoming',
     parent: 'MicrobiomeDAO',
+    link: 'https://app.bio.xyz/agents/biomeai',
     desc: 'Collaborative gut health discovery through N=10 model. Logs food, supplements, habits — AI spots patterns specific to your microbiome group.',
     stats: [
       { label: 'Token',      value: 'upcoming' },
@@ -125,6 +129,7 @@ const AGENTS = [
     focus: 'Skincare',
     token: '$SKIN',
     parent: 'Bio Protocol',
+    link: 'https://app.bio.xyz/agents/dermalabs',
     desc: 'Dermatologist-led science meets community-powered skincare research. Decentralized trials + AI imaging, bridged to consumer via Biofy commerce layer.',
     stats: [
       { label: 'Token',    value: '$SKIN' },
@@ -150,6 +155,7 @@ const AGENTS = [
     focus: 'Oncology',
     token: '—',
     parent: 'Bio Protocol',
+    link: 'https://app.bio.xyz/agents/gocart',
     desc: 'Next-gen safer cell therapies for cancer. Biological AND-gate — a two-key safety system activating only on cancer cells. Addresses CAR-T off-target toxicity.',
     stats: [
       { label: 'Modality', value: 'CAR-T' },
@@ -174,6 +180,7 @@ const AGENTS = [
     focus: "Men's Health",
     token: '—',
     parent: 'Bio Protocol',
+    link: 'https://app.bio.xyz/agents/d1ckgpt',
     desc: "Men's health BioAgent assessing biological age and guiding reversal. Trained on 600+ clinician-curated studies with its own Decentralized Knowledge Graph.",
     stats: [
       { label: 'Studies ingested', value: '600+' },
@@ -401,7 +408,7 @@ function renderAgents(list) {
         </div>
       </div>
 
-      ${a.status !== 'announced' ? `<a class="agent-cta" href="#${a.id}">View details →</a>` : ''}
+      ${a.status !== 'announced' ? `<a class="agent-cta" href="${a.link || 'https://bio.xyz/'}" target="_blank" rel="noopener noreferrer">View details ↗</a>` : ''}
     `;
     grid.appendChild(card);
   });
