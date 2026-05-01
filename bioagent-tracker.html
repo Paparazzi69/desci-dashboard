@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioAgent Tracker — DeSci Dashboard</title>
+<meta name="description" content="Tracking autonomous AI co-scientists launched by Bio Protocol. Real research output, not just tokens.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/bioagent-tracker.css">
+</head>
+<body>
+
+<div class="layout">
+  <main class="main" id="main">
+    <div class="max">
+
+      <!-- ── Header ─────────────────────────────────────────────── -->
+      <header class="page-header">
+        <div class="brand">
+          <svg width="34" height="34" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <rect width="36" height="36" rx="8" fill="var(--green-bg)"/>
+            <path d="M 10 6 Q 18 12 26 6" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M 10 11 Q 18 17 26 11" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 10 16 Q 18 22 26 16" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M 10 21 Q 18 27 26 21" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 10 26 Q 18 32 26 26" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <line x1="14" y1="6" x2="14" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+            <line x1="22" y1="6" x2="22" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+          </svg>
+          <div>
+            <div class="brand-title">
+              <span class="brand-name">DeSci</span>
+              <span class="brand-sub">BioAgent Tracker</span>
+            </div>
+            <div class="brand-tagline">Decentralized Science · Autonomous Co-Scientists</div>
+          </div>
+        </div>
+        <nav class="header-nav" aria-label="Primary">
+          <a class="header-nav-link" href="/">
+            <span>Dashboard</span>
+          </a>
+          <a class="header-nav-link" href="/bioagent-tracker" aria-current="page">
+            <span>BioAgent Tracker</span>
+          </a>
+          <a class="header-nav-link" href="/feed">
+            <span>Feed</span>
+            <span class="header-nav-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="header-nav-link" href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">
+            <span>Socials</span>
+            <span class="header-nav-arrow" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+        <div class="status">
+          <div class="live-dot" data-state="live">
+            <span class="live-dot-orb"></span>
+            <span>WEEKLY · LIVE</span>
+          </div>
+          <div class="mono status-time" id="status-time">—</div>
+        </div>
+      </header>
+
+      <!-- ── Title + lede ───────────────────────────────────────── -->
+      <div class="page-title">
+        <h1>BioAgent Tracker</h1>
+        <span class="updated"><span class="dot"></span>Updated weekly</span>
+      </div>
+      <div class="page-subhead">Tracking autonomous AI co-scientists launched by Bio Protocol. Real research output, not just tokens.</div>
+      <p class="page-lede">
+        BioAgents are the first crypto category where the token funds a <em>measurable scientific output</em> — onchain hypotheses, peptide candidates, IP-NFTs, peer-reviewed papers. This page tracks that output, weekly, across every agent that has launched or been announced.
+      </p>
+
+      <!-- ── Overview metrics ───────────────────────────────────── -->
+      <section class="overview" aria-label="Overview metrics">
+        <div class="metric">
+          <div class="metric-accent"></div>
+          <div class="metric-label">
+            Total BioAgents
+            <span class="info-tip" data-tip="Count of distinct autonomous AI agents launched or announced via Bio Protocol launchpad. Source: bio.xyz, BioDAO announcements.">i</span>
+          </div>
+          <div class="metric-value">7+</div>
+          <div class="metric-sub">3 live · 4 launching · ghost cards = announced</div>
+        </div>
+        <div class="metric">
+          <div class="metric-accent"></div>
+          <div class="metric-label">
+            Live on mainnet
+            <span class="info-tip" data-tip="Agents currently producing verifiable output (hypotheses, candidates, papers, or IP-NFTs) onchain or in public repos.">i</span>
+          </div>
+          <div class="metric-value">3</div>
+          <div class="metric-sub">AUBRAI · PeptAI · ClawdLab</div>
+        </div>
+        <div class="metric">
+          <div class="metric-accent"></div>
+          <div class="metric-label">
+            Hypotheses minted onchain
+            <span class="info-tip" data-tip="Cumulative hypotheses minted as onchain records via bio.xyz. AUBRAI accounts for the bulk; rate has accelerated since Oct 2025 launch.">i</span>
+          </div>
+          <div class="metric-value">1,000+</div>
+          <div class="metric-sub">934+ verified · cumulative ↗</div>
+          <svg class="metric-spark" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,28 L10,27 L20,26 L30,24 L40,21 L50,18 L60,14 L70,10 L80,6 L90,4 L100,2"
+                  fill="none" stroke="var(--green)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M0,28 L10,27 L20,26 L30,24 L40,21 L50,18 L60,14 L70,10 L80,6 L90,4 L100,2 L100,30 L0,30 Z"
+                  fill="oklch(from var(--green) l c h / 0.10)"/>
+          </svg>
+        </div>
+        <div class="metric">
+          <div class="metric-accent"></div>
+          <div class="metric-label">
+            Capital efficiency
+            <span class="info-tip" data-tip="$900K+ research funding ÷ 1,000+ hypotheses. Compare with traditional pharma where preclinical hypothesis-to-validation typically costs $50K–$500K each.">i</span>
+          </div>
+          <div class="metric-value">~$900</div>
+          <div class="metric-sub">per onchain hypothesis · vs. $50K+ trad pharma</div>
+        </div>
+      </section>
+
+      <!-- ── Pipeline Lane (hero viz) ───────────────────────────── -->
+      <section class="lane-section" aria-label="Pipeline lane">
+        <div class="lane-header">
+          <span class="lane-title">Research Pipeline · Live Census</span>
+          <span class="lane-line"></span>
+          <span class="lane-hint">Hover a puck for details · click to scroll to card</span>
+        </div>
+        <div class="lane-wrap">
+          <div class="lane-cols" id="lane-cols">
+            <div class="lane-col">
+              <div class="lane-col-arrow"></div>
+              <div class="lane-col-head">
+                <span class="lane-col-num">01 · Hypothesis</span>
+                <div class="lane-col-title-row">
+                  <span class="lane-col-name">Generate &amp; mint</span>
+                  <span class="lane-col-count" data-stage-count="0">0</span>
+                </div>
+                <span class="lane-col-desc">AI generates hypotheses, mints them onchain via bio.xyz</span>
+              </div>
+              <div class="lane-col-pucks" data-stage-pucks="0"></div>
+            </div>
+            <div class="lane-col">
+              <div class="lane-col-arrow"></div>
+              <div class="lane-col-head">
+                <span class="lane-col-num">02 · Computational</span>
+                <div class="lane-col-title-row">
+                  <span class="lane-col-name">In-silico validation</span>
+                  <span class="lane-col-count" data-stage-count="1">0</span>
+                </div>
+                <span class="lane-col-desc">Peptide design, binding prediction, structural docking</span>
+              </div>
+              <div class="lane-col-pucks" data-stage-pucks="1"></div>
+            </div>
+            <div class="lane-col">
+              <div class="lane-col-arrow"></div>
+              <div class="lane-col-head">
+                <span class="lane-col-num">03 · Wet Lab</span>
+                <div class="lane-col-title-row">
+                  <span class="lane-col-name">Synthesis &amp; assays</span>
+                  <span class="lane-col-count" data-stage-count="2">0</span>
+                </div>
+                <span class="lane-col-desc">Synthesis, binding assays, cell-level testing</span>
+              </div>
+              <div class="lane-col-pucks" data-stage-pucks="2"></div>
+            </div>
+            <div class="lane-col">
+              <div class="lane-col-arrow"></div>
+              <div class="lane-col-head">
+                <span class="lane-col-num">04 · Clinical</span>
+                <div class="lane-col-title-row">
+                  <span class="lane-col-name">Trials &amp; pathway</span>
+                  <span class="lane-col-count" data-stage-count="3">0</span>
+                </div>
+                <span class="lane-col-desc">Animal models, Phase 1/2, FDA / EMA pathway</span>
+              </div>
+              <div class="lane-col-pucks" data-stage-pucks="3"></div>
+            </div>
+          </div>
+
+          <div class="lane-legend">
+            <span class="lane-legend-item"><span class="lane-legend-dot" style="background:var(--green);box-shadow:0 0 6px var(--green)"></span>Live</span>
+            <span class="lane-legend-item"><span class="lane-legend-dot" style="background:var(--blue);box-shadow:0 0 6px var(--blue)"></span>Launching</span>
+            <span class="lane-legend-item"><span class="lane-legend-dot" style="background:var(--text3);border:1px dashed var(--text2)"></span>Announced</span>
+            <span class="lane-legend-item" style="margin-left:auto">Avatar tint = pipeline stage</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Agent grid ────────────────────────────────────────── -->
+      <div class="grid-controls">
+        <div class="grid-controls-left">
+          <span class="control-label">Agents</span>
+        </div>
+        <div class="grid-controls-right">
+          <span class="control-label">Sort</span>
+          <select class="sort-select" id="sort-select">
+            <option value="status">Status (live first)</option>
+            <option value="stage">Pipeline stage</option>
+            <option value="output">Output volume</option>
+            <option value="name">Name (A–Z)</option>
+          </select>
+          <span class="control-label">View</span>
+          <div class="view-toggle" role="tablist">
+            <button id="view-card" aria-pressed="true">Card</button>
+            <button id="view-compact" aria-pressed="false">Compact</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="agent-grid" id="agent-grid" data-view="card">
+        <!-- compact header (only visible in compact view) -->
+        <div class="compact-header" aria-hidden="true">
+          <span></span><span>Agent</span><span>Status</span><span>Focus</span><span>Token</span><span>Stage</span><span>Output</span>
+        </div>
+        <!-- cards injected by bioagent-tracker.js -->
+      </div>
+
+      <!-- ── Methodology ────────────────────────────────────────── -->
+      <section class="method">
+        <div class="method-title">Where this data comes from</div>
+        <div class="method-body">
+          <strong>Token prices:</strong> CoinGecko API (when available).
+          <strong>Pipeline stages:</strong> manually verified weekly from Bio Protocol announcements, <code>bio.xyz</code> launchpad, Twitter <code>@BioProtocol</code>, arXiv papers, and GitHub repositories.
+          <strong>Hypothesis counts:</strong> onchain data from <code>bio.xyz</code>.
+          <strong>Funding:</strong> announced figures from official sources.
+          This tracker is independent and not affiliated with Bio Protocol or any BioDAO. Numbers are indicative; pipeline stage is the single weekly judgement call. Disagree with a placement? Open an issue on the repo.
+        </div>
+      </section>
+
+      <!-- ── Footer ─────────────────────────────────────────────── -->
+      <footer class="tracker-footer">
+        <div>
+          desci-dashboard.pages.dev — BioAgent Tracker · Last updated: <span class="mono" id="footer-date">—</span> · Built with data, not hype.
+        </div>
+        <div class="footer-links">
+          <a href="/">Dashboard</a>
+          <a href="/feed">Feed</a>
+          <a href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">Twitter</a>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<script src="/assets/js/bioagent-tracker.js"></script>
+</body>
+</html>
