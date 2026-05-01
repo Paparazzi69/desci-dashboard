@@ -266,22 +266,11 @@ function renderRailAccounts() {
 }
 
 function renderBanner() {
+  // Banner intentionally suppressed — when Nitter RSS is down we still render
+  // the news items + featured projects + sidebar accounts, which is enough
+  // for users to navigate. No need to surface infra hiccups.
   const mount = document.getElementById('feed-banner-mount');
-  if (!mount) return;
-  if (state.fallback) {
-    mount.innerHTML = `
-      <div class="feed-banner">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-        <span>Twitter feeds are temporarily unavailable — showing news only. Click an account in the sidebar to view on X.</span>
-      </div>
-    `;
-  } else {
-    mount.innerHTML = '';
-  }
+  if (mount) mount.innerHTML = '';
 }
 
 function setText(id, txt) {

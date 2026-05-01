@@ -227,16 +227,13 @@ function renderTable() {
 }
 
 // ─── Render: top banner ───────────────────────────────────────────────────────
+// Banners intentionally suppressed — users get 5-10 minute old data on stale
+// cache, which is fine for a sector dashboard. The LIVE/STALE/OFFLINE dot in
+// the header is the only signal we surface; the empty-state in renderTable
+// covers the case where there's literally nothing to show.
 function renderBanner() {
   const m = document.getElementById('banner-mount');
-  if (!m) return;
-  const banners = [];
-  if (state.pricesError) {
-    banners.push(bannerHTML('red', 'Price feed unavailable. The dashboard will keep retrying.'));
-  } else if (state.pricesStale) {
-    banners.push(bannerHTML('amber', 'Showing cached prices — CoinGecko rate-limited our last request.'));
-  }
-  m.innerHTML = banners.join('');
+  if (m) m.innerHTML = '';
 }
 
 // ─── Render: bubble map ───────────────────────────────────────────────────────
