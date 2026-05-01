@@ -63,37 +63,6 @@
         and signal feeds — so you can decide what to trust.
       </p>
 
-      <!-- ── How we collect data ────────────────────────────────── -->
-      <section class="doc-section">
-        <h2 class="doc-h2">How we collect data</h2>
-        <dl class="doc-deflist">
-          <div class="doc-defrow">
-            <dt>Token prices</dt>
-            <dd>CoinGecko API (free tier, 30 calls/min). Cached for 5 minutes in Cloudflare KV with a 30-minute stale fallback on rate-limit. Indicator turns amber when we're serving cached data.</dd>
-          </div>
-          <div class="doc-defrow">
-            <dt>Pipeline stages</dt>
-            <dd>Manually verified weekly from Bio Protocol announcements, the <code>bio.xyz</code> launchpad, <code>@BioProtocol</code> on X, arXiv preprints, and GitHub repositories. Every Sunday a single reviewer makes the call.</dd>
-          </div>
-          <div class="doc-defrow">
-            <dt>Hypotheses count</dt>
-            <dd>Onchain attestation data published by <code>bio.xyz</code> (Proof-of-Idea records). Cumulative figures.</dd>
-          </div>
-          <div class="doc-defrow">
-            <dt>Funding figures</dt>
-            <dd>Announced figures from official sources only — Bio Protocol blog, BioDAO press releases, public funding rounds. No estimates.</dd>
-          </div>
-          <div class="doc-defrow">
-            <dt>Last-signal dates</dt>
-            <dd>Tracked from Twitter/X posts, Bio Monthly newsletter, launchpad updates, and arXiv submissions. We log the most recent verifiable signal per agent.</dd>
-          </div>
-          <div class="doc-defrow">
-            <dt>Feed (Twitter + news)</dt>
-            <dd>Twitter via Nitter RSS (multiple instances, automatic failover). News via Decrypt and The Defiant RSS, keyword-filtered for DeSci relevance. No API keys, no scraping.</dd>
-          </div>
-        </dl>
-      </section>
-
       <!-- ── Pipeline stage definitions ─────────────────────────── -->
       <section class="doc-section">
         <h2 class="doc-h2">Pipeline stage definitions</h2>

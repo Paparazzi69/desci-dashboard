@@ -116,37 +116,6 @@
   color: var(--text);
 }
 
-/* ── Definition list (How we collect data) ────────────────────────────────── */
-.doc-deflist {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--surface);
-}
-.doc-defrow {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 18px;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border2);
-}
-.doc-defrow:last-child { border-bottom: none; }
-.doc-defrow dt {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; font-weight: 600;
-  color: var(--text);
-  letter-spacing: 0.02em;
-}
-.doc-defrow dd {
-  color: var(--text2);
-  font-size: 13.5px;
-  line-height: 1.65;
-  margin: 0;
-}
-
 /* ── Pipeline definitions table ───────────────────────────────────────────── */
 .doc-table-wrap {
   border: 1px solid var(--border2);
@@ -303,7 +272,6 @@
 @media (max-width: 720px) {
   .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; }
   .header-nav-link span:not(.header-nav-arrow) { font-size: 12px; }
-  .doc-defrow { grid-template-columns: 1fr; gap: 4px; }
   .doc-schedule-row { grid-template-columns: 1fr; gap: 4px; }
   .doc-status-grid { grid-template-columns: 1fr; }
   .doc-table { font-size: 12.5px; }
