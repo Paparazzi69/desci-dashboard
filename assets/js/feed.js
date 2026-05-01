@@ -22,7 +22,7 @@ const KNOWN = {
   'pumpdotscience': 4, 'HairDAO_': 5, 'synapseneuro_ai': 0,
   'molecule_sci': 3, 'AthenaDAO_': 3, 'paulkhls': 2, 'peptai_': 4,
   // News sources
-  'Decrypt': 2, 'The Defiant': 3, 'Endpoints News': 1,
+  'Decrypt': 2, 'The Defiant': 3,
 };
 
 function colorFor(key) {
@@ -118,13 +118,74 @@ function newsCardHTML(item) {
   `;
 }
 
+// ─── Featured projects ─────────────────────────────────────────────────────
+// Pinned editorial cards at the top of the feed. Click to expand project
+// details with links — works like the token drawer on the main dashboard.
+
+const FEATURED_PROJECTS = [
+  {
+    id: 'peptai',
+    name: 'PeptAI',
+    handle: 'peptai_',
+    text: 'PeptAI agent is now live on BIO Protocol — AI-powered peptide drug discovery meets decentralized science.',
+    description: 'PeptAI is an AI-driven peptide therapeutics discovery platform built within the BIO Protocol ecosystem. Uses machine learning models to accelerate peptide drug candidate identification, reducing the traditional discovery timeline from years to months. Currently operating as a BIO Agent with on-chain governance and funding.',
+    focus: 'AI-DeSci',
+    focusColor: 'teal',
+    links: [
+      { label: 'BIO Agent', href: 'https://app.bio.xyz/agents/peptai' },
+      { label: 'Website', href: 'https://peptai.xyz/' },
+      { label: 'Twitter', href: 'https://x.com/peptai_' },
+    ],
+  },
+];
+
+function featuredCardHTML(project) {
+  const c = colorFor(project.handle);
+  const ini = initials(project.name);
+  const expanded = state.expandedFeatured === project.id;
+  const chevron = expanded
+    ? '<svg class="featured-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>'
+    : '<svg class="featured-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+  return `
+    <div class="post-card featured${expanded ? ' expanded' : ''}" data-featured-id="${escapeHtml(project.id)}">
+      <div class="post-avatar" style="background:${c.bg};color:${c.fg}">${escapeHtml(ini)}</div>
+      <div class="post-content">
+        <div class="post-header">
+          <span class="post-name">${escapeHtml(project.name)}</span>
+          <span class="post-handle">@${escapeHtml(project.handle)}</span>
+          <span class="post-featured-badge">Featured</span>
+          ${chevron}
+        </div>
+        <div class="post-text">${renderText(project.text)}</div>
+        ${expanded ? featuredDetailHTML(project) : ''}
+      </div>
+    </div>
+  `;
+}
+
+function featuredDetailHTML(project) {
+  const linksHTML = project.links.map(l =>
+    `<a class="featured-link" href="${escapeHtml(l.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.label)}<span class="featured-link-arrow">↗</span></a>`
+  ).join('');
+  return `
+    <div class="featured-detail">
+      <div class="featured-desc">${escapeHtml(project.description)}</div>
+      <div class="featured-meta">
+        <span class="featured-focus" data-color="${escapeHtml(project.focusColor)}">${escapeHtml(project.focus)}</span>
+      </div>
+      <div class="featured-links">${linksHTML}</div>
+    </div>
+  `;
+}
+
 // ─── State + rendering ──────────────────────────────────────────────────────
 
 const state = {
   items: [],
   filter: 'all',
   loading: true,
-  fallback: null, // populated when /api/feed returns the Nitter-down fallback
+  fallback: null,
+  expandedFeatured: null,
 };
 
 function applyFilter() {
@@ -148,15 +209,20 @@ function render() {
   setText('count-tweet', tweets ? `· ${tweets}` : '');
   setText('count-news',  news ? `· ${news}` : '');
 
+  // Featured projects — always pinned at top regardless of filter
+  const featuredHTML = FEATURED_PROJECTS.map(p => featuredCardHTML(p)).join('');
+
   const filtered = applyFilter();
-  if (filtered.length === 0) {
+  if (filtered.length === 0 && FEATURED_PROJECTS.length === 0) {
     list.innerHTML = `<div class="feed-empty">No ${state.filter === 'all' ? '' : state.filter + ' '}posts right now.</div>`;
     return;
   }
 
-  list.innerHTML = filtered.map(item =>
+  const itemsHTML = filtered.map(item =>
     item.type === 'tweet' ? tweetCardHTML(item) : newsCardHTML(item)
   ).join('');
+
+  list.innerHTML = featuredHTML + itemsHTML;
 
   // Stagger the fadeUp animation
   list.querySelectorAll('.post-card').forEach((el, i) => {
@@ -266,6 +332,18 @@ document.querySelectorAll('.filter-pill').forEach(pill => {
     state.filter = pill.dataset.filter;
     render();
   });
+});
+
+// Featured card expand/collapse
+document.getElementById('feed-list').addEventListener('click', (e) => {
+  const card = e.target.closest('.post-card.featured');
+  if (!card) return;
+  // Let links inside the expanded detail navigate normally
+  if (e.target.closest('a.featured-link')) return;
+  e.preventDefault();
+  const id = card.dataset.featuredId;
+  state.expandedFeatured = state.expandedFeatured === id ? null : id;
+  render();
 });
 
 const refreshBtn = document.getElementById('feed-refresh');

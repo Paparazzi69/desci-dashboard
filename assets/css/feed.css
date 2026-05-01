@@ -261,6 +261,88 @@
   flex-shrink: 0;
 }
 
+/* ── Featured project card ────────────────────────────────────── */
+.post-card.featured {
+  border-left: 2px solid var(--green);
+  cursor: pointer;
+  text-decoration: none;
+}
+.post-card.featured.expanded {
+  background: oklch(0.11 0.014 215 / 0.6);
+}
+.post-featured-badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 7px; border-radius: 4px;
+  background: var(--green-bg);
+  color: var(--green);
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.featured-chevron {
+  color: var(--text3);
+  flex-shrink: 0;
+  transition: color 0.15s;
+  margin-left: auto;
+}
+.post-card.featured:hover .featured-chevron { color: var(--green); }
+
+/* Expanded detail */
+.featured-detail {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border2);
+  animation: fadeUp 0.2s ease both;
+}
+.featured-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text2);
+  margin-bottom: 14px;
+}
+.featured-meta { margin-bottom: 12px; }
+.featured-focus {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px; font-weight: 600;
+}
+.featured-focus[data-color="teal"]   { background: var(--teal-bg);   color: var(--teal); }
+.featured-focus[data-color="green"]  { background: var(--green-bg);  color: var(--green); }
+.featured-focus[data-color="amber"]  { background: var(--amber-bg);  color: var(--amber); }
+.featured-focus[data-color="blue"]   { background: var(--blue-bg);   color: var(--blue); }
+.featured-focus[data-color="purple"] { background: var(--purple-bg); color: var(--purple); }
+.featured-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.featured-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 12px; font-weight: 500;
+  color: var(--text2);
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.featured-link:hover {
+  color: var(--green);
+  border-color: rgba(61,232,160,0.25);
+  background: var(--green-bg);
+}
+.featured-link-arrow {
+  font-size: 11px;
+  opacity: 0.6;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.featured-link:hover .featured-link-arrow {
+  opacity: 1;
+  transform: translate(1px, -1px);
+}
+
 /* ── Responsive: drop the rail on narrow screens ──────────────── */
 @media (max-width: 720px) {
   .feed-rail { display: none; }

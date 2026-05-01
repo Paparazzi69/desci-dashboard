@@ -41,11 +41,6 @@ const NEWS_SOURCES = [
     url: 'https://thedefiant.io/api/feed',
     keywordFilter: true,
   },
-  {
-    name: 'Endpoints News',
-    url: 'https://endpts.com/feed/',
-    keywordFilter: false,
-  },
 ];
 
 const KEYWORDS = [
