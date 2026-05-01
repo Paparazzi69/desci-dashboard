@@ -586,12 +586,12 @@
   font-weight: 500;
 }
 
-/* Bottom action links */
+/* Bottom action row — primary CTA button + secondary text link */
 .howitworks-actions {
-  display: flex; align-items: center; gap: 18px;
-  flex-wrap: wrap;
-  margin-top: 14px;
-  padding-left: 4px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+  margin-top: 16px;
+  padding: 0 4px;
 }
 .howitworks-link {
   display: inline-flex; align-items: center; gap: 6px;
@@ -604,8 +604,30 @@
 .howitworks-link:hover { opacity: 0.78; }
 .howitworks-link:hover span { transform: translate(2px, -1px); }
 .howitworks-link span { transition: transform 0.15s; display: inline-block; }
-.howitworks-link-muted { color: var(--text3); }
-.howitworks-link-muted:hover { color: var(--text2); opacity: 1; }
+
+/* Primary methodology CTA — same shape as the BioAgent teaser "Explore" pill */
+.howitworks-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 6px;
+  background: var(--green-bg);
+  border: 1px solid oklch(from var(--green) l c h / 0.45);
+  color: var(--green);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.howitworks-cta:hover {
+  background: oklch(from var(--green) l c h / 0.18);
+  border-color: var(--green);
+  transform: translateX(2px);
+}
+.howitworks-cta-arrow {
+  transition: transform 0.15s;
+  display: inline-block;
+}
+.howitworks-cta:hover .howitworks-cta-arrow { transform: translateX(2px); }
 
 /* Methodology footer link */
 .method-link {
