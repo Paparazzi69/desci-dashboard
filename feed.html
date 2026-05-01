@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DeSci — Feed</title>
-<meta name="description" content="Live Twitter and news feed from the Decentralized Science (DeSci) ecosystem.">
+<title>DeSci — News</title>
+<meta name="description" content="DeSci-relevant news + featured BioAgent projects from the Decentralized Science ecosystem.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -41,14 +41,8 @@
       </svg>
       <div>
         <div class="feed-rail-brand-name">DeSci</div>
-        <div class="feed-rail-brand-sub">Feed</div>
+        <div class="feed-rail-brand-sub">News</div>
       </div>
-    </div>
-
-    <div class="feed-rail-divider"></div>
-    <div class="feed-rail-section-label">Tracked Accounts</div>
-    <div id="feed-rail-accounts">
-      <!-- injected by feed.js once we know which accounts the API returned -->
     </div>
   </aside>
 
@@ -56,8 +50,8 @@
   <main class="feed-main">
     <header class="feed-header">
       <div class="feed-header-row">
-        <span class="feed-title">Feed</span>
-        <button class="feed-refresh" id="feed-refresh" type="button" aria-label="Refresh feed">
+        <span class="feed-title">News</span>
+        <button class="feed-refresh" id="feed-refresh" type="button" aria-label="Refresh news">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="23 4 23 10 17 10"/>
@@ -67,31 +61,10 @@
           <span>Refresh</span>
         </button>
       </div>
-      <div class="feed-filter-row" role="tablist" aria-label="Filter posts by source">
-        <button class="filter-pill active" data-filter="all" type="button" role="tab" aria-selected="true">
-          All <span class="filter-pill-count" id="count-all"></span>
-        </button>
-        <button class="filter-pill" data-filter="tweet" type="button" role="tab" aria-selected="false">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.74-8.842L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          Twitter <span class="filter-pill-count" id="count-tweet"></span>
-        </button>
-        <button class="filter-pill" data-filter="news" type="button" role="tab" aria-selected="false">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
-            <path d="M18 14h-8"/><path d="M15 18h-5"/>
-            <path d="M10 6h8v4h-8V6z"/>
-          </svg>
-          News <span class="filter-pill-count" id="count-news"></span>
-        </button>
-      </div>
     </header>
 
-    <div id="feed-banner-mount"></div>
     <div class="feed-list" id="feed-list">
-      <div class="feed-loading">Loading feed…</div>
+      <div class="feed-loading">Loading news…</div>
     </div>
   </main>
 </div>
