@@ -14,7 +14,6 @@ export const TOKEN_IDS = [
   'researchcoin',
   'rifampicin',
   'vitarna',
-  'urolithin-a',
   'cryodao',
   'hairdao',
   'syna',
@@ -44,17 +43,12 @@ export const TOKEN_META = {
   'rifampicin': {
     focus: 'Drug Discovery', focusColor: 'blue',
     tags: ['Drug Discovery', 'Longevity'], chain: 'SOL',
-    twitter: 'pumpdotscience', website: 'pump.science',
+    twitter: null, website: 'pump.science',
   },
   'vitarna': {
     focus: 'RNA Research', focusColor: 'green',
     tags: ['RNA Research', 'Longevity'], chain: 'ETH',
-    twitter: 'VitaRNA_DAO', website: 'vitarna.xyz',
-  },
-  'urolithin-a': {
-    focus: 'Longevity', focusColor: 'amber',
-    tags: ['Longevity', 'Drug Discovery'], chain: 'SOL',
-    twitter: 'pumpdotscience', website: 'pump.science',
+    twitter: null, website: 'vitarna.xyz',
   },
   'cryodao': {
     focus: 'Cryonics', focusColor: 'blue',
@@ -66,25 +60,12 @@ export const TOKEN_META = {
     tags: ['Drug Discovery'], chain: 'ETH',
     twitter: 'HairDAO_', website: 'hairdao.xyz',
   },
-  // Mocked Solana micro-caps — the server emits these with the same shape as
-  // real CoinGecko entries, but flagged isMicroCap=true.
   'syna': {
     focus: 'AI-DeSci', focusColor: 'green',
     tags: ['AI-DeSci', 'Biotech Infra'], chain: 'SOL',
-    twitter: 'SynaProtocol', website: 'syna.xyz',
+    twitter: 'synapseneuro_ai', website: 'synapseneuro.org',
     customImage: '/assets/images/syna.jpg',
-  },
-  'mock-neuq': {
-    focus: 'Neuro', focusColor: 'purple',
-    tags: ['Neuro', 'Micro-caps'], chain: 'SOL',
-    twitter: 'NeuralDAO_', website: 'neuraldao.xyz',
-    isMicroCap: true,
-  },
-  'mock-synp': {
-    focus: 'AI-DeSci', focusColor: 'purple',
-    tags: ['AI-DeSci', 'Neuro', 'Micro-caps'], chain: 'SOL',
-    twitter: 'SynapseProto', website: 'synapseprotocol.ai',
-    isMicroCap: true,
+    trade: 'https://kickstart.easya.io/token/HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
   },
 };
 
@@ -102,6 +83,6 @@ export function metaFor(id) {
 }
 
 export const FILTER_CHIPS = [
-  'All', 'Longevity', 'RNA Research', 'Neuro',
-  'Drug Discovery', 'IP-NFT', 'AI-DeSci', 'Micro-caps',
+  'All', 'Longevity', 'RNA Research',
+  'Drug Discovery', 'IP-NFT', 'AI-DeSci',
 ];

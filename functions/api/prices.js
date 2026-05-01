@@ -8,7 +8,7 @@
 //   { id, symbol, name, image, price, d1, d7, mcap, vol, spark, isMicroCap }
 
 import {
-  TOKEN_IDS, MOCK_MICROCAPS, GT_TOKENS,
+  TOKEN_IDS, GT_TOKENS,
   fetchGeckoTerminalToken,
   jsonResponse, kvGet, kvPut,
 } from '../_shared.js';
@@ -49,14 +49,14 @@ export async function onRequest({ env }) {
     // No cache at all — return mocks + GT (whatever we got) so the UI can
     // render something on first-load failures.
     return jsonResponse({
-      tokens: [...gtResult.tokens, ...MOCK_MICROCAPS],
+      tokens: [...gtResult.tokens],
       stale: true,
       error: String(err.message || err),
       fetchedAt: new Date().toISOString(),
     }, 200);
   }
 
-  const merged = [...cgResult.tokens, ...gtResult.tokens, ...MOCK_MICROCAPS];
+  const merged = [...cgResult.tokens, ...gtResult.tokens];
   const payload = {
     tokens: merged,
     stale: gtResult.anyStale,

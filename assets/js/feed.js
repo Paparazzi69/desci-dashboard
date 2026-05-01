@@ -19,7 +19,7 @@ const PALETTE = [
 const KNOWN = {
   // Twitter handles → palette index
   'BioProtocol': 0, 'VitaDAO': 1, 'origin_trail': 2, 'ResearchHub': 1,
-  'pumpdotscience': 4, 'VitaRNA_DAO': 0, 'HairDAO_': 5,
+  'pumpdotscience': 4, 'HairDAO_': 5, 'synapseneuro_ai': 0,
   'molecule_sci': 3, 'AthenaDAO_': 3, 'paulkhls': 2, 'peptai_': 4,
   // News sources
   'Decrypt': 2, 'The Defiant': 3, 'Endpoints News': 1,
