@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Methodology &amp; Data Sources — DeSci Dashboard</title>
+<meta name="description" content="How the DeSci Dashboard collects, verifies, and updates token, agent, and pipeline data. Independent, transparent, manually reviewed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/methodology.css">
+</head>
+<body>
+
+<div class="layout">
+  <main class="main">
+    <div class="max">
+
+      <!-- ── Header ─────────────────────────────────────────────── -->
+      <header class="page-header">
+        <div class="brand">
+          <svg width="34" height="34" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <rect width="36" height="36" rx="8" fill="var(--green-bg)"/>
+            <path d="M 10 6 Q 18 12 26 6" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M 10 11 Q 18 17 26 11" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 10 16 Q 18 22 26 16" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M 10 21 Q 18 27 26 21" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 10 26 Q 18 32 26 26" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <line x1="14" y1="6" x2="14" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+            <line x1="22" y1="6" x2="22" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+          </svg>
+          <div>
+            <div class="brand-title">
+              <span class="brand-name">DeSci</span>
+              <span class="brand-sub">Methodology</span>
+            </div>
+            <div class="brand-tagline">Independent · Transparent · Manually reviewed</div>
+          </div>
+        </div>
+        <nav class="header-nav" aria-label="Primary">
+          <a class="header-nav-link" href="/"><span>Dashboard</span></a>
+          <a class="header-nav-link" href="/bioagent-tracker"><span>BioAgent Tracker</span></a>
+          <a class="header-nav-link" href="/feed">
+            <span>Feed</span>
+            <span class="header-nav-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="header-nav-link" href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">
+            <span>Socials</span>
+            <span class="header-nav-arrow" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+      </header>
+
+      <!-- ── Title + lede ───────────────────────────────────────── -->
+      <div class="page-title">
+        <h1>Methodology &amp; Data Sources</h1>
+        <span class="updated"><span class="dot"></span>Updated weekly</span>
+      </div>
+      <p class="page-lede">
+        Every number on this site can be traced back to a source. This page documents
+        <em>how</em> we collect, verify, and update token prices, BioAgent pipeline stages,
+        and signal feeds — so you can decide what to trust.
+      </p>
+
+      <!-- ── How we collect data ────────────────────────────────── -->
+      <section class="doc-section">
+        <h2 class="doc-h2">How we collect data</h2>
+        <dl class="doc-deflist">
+          <div class="doc-defrow">
+            <dt>Token prices</dt>
+            <dd>CoinGecko API (free tier, 30 calls/min). Cached for 5 minutes in Cloudflare KV with a 30-minute stale fallback on rate-limit. Indicator turns amber when we're serving cached data.</dd>
+          </div>
+          <div class="doc-defrow">
+            <dt>Pipeline stages</dt>
+            <dd>Manually verified weekly from Bio Protocol announcements, the <code>bio.xyz</code> launchpad, <code>@BioProtocol</code> on X, arXiv preprints, and GitHub repositories. Every Sunday a single reviewer makes the call.</dd>
+          </div>
+          <div class="doc-defrow">
+            <dt>Hypotheses count</dt>
+            <dd>Onchain attestation data published by <code>bio.xyz</code> (Proof-of-Idea records). Cumulative figures.</dd>
+          </div>
+          <div class="doc-defrow">
+            <dt>Funding figures</dt>
+            <dd>Announced figures from official sources only — Bio Protocol blog, BioDAO press releases, public funding rounds. No estimates.</dd>
+          </div>
+          <div class="doc-defrow">
+            <dt>Last-signal dates</dt>
+            <dd>Tracked from Twitter/X posts, Bio Monthly newsletter, launchpad updates, and arXiv submissions. We log the most recent verifiable signal per agent.</dd>
+          </div>
+          <div class="doc-defrow">
+            <dt>Feed (Twitter + news)</dt>
+            <dd>Twitter via Nitter RSS (multiple instances, automatic failover). News via Decrypt and The Defiant RSS, keyword-filtered for DeSci relevance. No API keys, no scraping.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- ── Pipeline stage definitions ─────────────────────────── -->
+      <section class="doc-section">
+        <h2 class="doc-h2">Pipeline stage definitions</h2>
+        <p class="doc-lead">
+          A BioAgent's pipeline stage answers one question: <strong>where is its most-advanced programme?</strong> Not its average — its frontier.
+        </p>
+        <div class="doc-table-wrap">
+          <table class="doc-table">
+            <thead>
+              <tr><th>Stage</th><th>What qualifies</th><th>Example</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="stage-tag" data-stage="0">01 · Hypothesis</span></td>
+                <td>AI generates scientific hypotheses, mints them onchain via <code>bio.xyz</code>.</td>
+                <td>AUBRAI minting 1,000+ hypotheses</td>
+              </tr>
+              <tr>
+                <td><span class="stage-tag" data-stage="1">02 · Computational</span></td>
+                <td>In-silico validation, peptide design, binding prediction, structural docking.</td>
+                <td>PeptAI's 8-gate validation pipeline</td>
+              </tr>
+              <tr>
+                <td><span class="stage-tag" data-stage="2">03 · Wet Lab</span></td>
+                <td>Synthesis, binding assays, cell-level testing, compound validation.</td>
+                <td>OX2R-004 advancing to wet-lab validation</td>
+              </tr>
+              <tr>
+                <td><span class="stage-tag" data-stage="3">04 · Clinical</span></td>
+                <td>Animal models, Phase 1/2 trials, FDA / EMA pathway.</td>
+                <td>VITA-FAST progressing toward Phase 2</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ── Agent status definitions ───────────────────────────── -->
+      <section class="doc-section">
+        <h2 class="doc-h2">Agent status definitions</h2>
+        <div class="doc-status-grid">
+          <div class="doc-status-card">
+            <div class="doc-status-head">
+              <span class="status-pill" data-status="live">Live</span>
+            </div>
+            <p>Agent is deployed on mainnet, actively producing verifiable output — hypotheses, compound candidates, papers, or IP-NFTs.</p>
+          </div>
+          <div class="doc-status-card">
+            <div class="doc-status-head">
+              <span class="status-pill" data-status="launching">Launching</span>
+            </div>
+            <p>Agent is on the <code>bio.xyz</code> launchpad. Token sale completed or in progress, pre-mainnet, programmes in design.</p>
+          </div>
+          <div class="doc-status-card">
+            <div class="doc-status-head">
+              <span class="status-pill" data-status="announced">Announced</span>
+            </div>
+            <p>Confirmed in the Bio Protocol roadmap or by a BioDAO, but no launchpad listing yet. Ghost cards on the tracker.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Independence statement ─────────────────────────────── -->
+      <section class="doc-section">
+        <h2 class="doc-h2">Independence statement</h2>
+        <p class="doc-callout">
+          This tracker is independent and not affiliated with Bio Protocol or any BioDAO.
+          Numbers are indicative; pipeline stage is a weekly judgement call based on publicly
+          available information. Disagree with a placement?
+          <a href="https://github.com/Paparazzi69/desci-dashboard/issues" target="_blank" rel="noopener noreferrer">Open an issue</a>.
+        </p>
+      </section>
+
+      <!-- ── Primary sources ────────────────────────────────────── -->
+      <section class="doc-section">
+        <h2 class="doc-h2">Primary sources</h2>
+        <p class="doc-lead">Every fact on the site comes from one of these sources. We monitor them weekly.</p>
+        <ul class="doc-source-list">
+          <li><a href="https://bio.xyz" target="_blank" rel="noopener noreferrer">bio.xyz</a> — launchpad, blog, Bio Monthly newsletter</li>
+          <li><a href="https://app.bio.xyz/launchpad" target="_blank" rel="noopener noreferrer">app.bio.xyz/launchpad</a> — agent landing pages, token sale status</li>
+          <li><code>app.bio.xyz/agents/&lt;name&gt;</code> — individual agent pages with programme detail</li>
+          <li><a href="https://x.com/BioProtocol" target="_blank" rel="noopener noreferrer">@BioProtocol</a> on X — official announcements</li>
+          <li><a href="https://x.com/paulkhls" target="_blank" rel="noopener noreferrer">@paulkhls</a> on X — Paul Kohlhaas (Bio Protocol founder)</li>
+          <li><a href="https://github.com/bio-xyz" target="_blank" rel="noopener noreferrer">github.com/bio-xyz</a> — ClawdLab, BioAgents framework, OpenClaw</li>
+          <li><a href="https://arxiv.org/abs/2602.19810" target="_blank" rel="noopener noreferrer">arXiv 2602.19810</a> — ClawdLab paper (Weidener et al.)</li>
+          <li><a href="https://arxiv.org/abs/2601.12542" target="_blank" rel="noopener noreferrer">arXiv 2601.12542</a> — BIOS AI Scientist paper (#1 on BixBench)</li>
+          <li>Messari reports — PHDegens, Smarter Science, Bio V1</li>
+          <li><a href="https://www.coingecko.com/en/categories/decentralized-science-desci" target="_blank" rel="noopener noreferrer">CoinGecko · DeSci category</a></li>
+          <li>Individual agent X accounts — <code>@Aubrai_</code>, <code>@peptai_</code>, <code>@BiomeAI</code>, others</li>
+        </ul>
+      </section>
+
+      <!-- ── Update schedule ────────────────────────────────────── -->
+      <section class="doc-section">
+        <h2 class="doc-h2">Update schedule</h2>
+        <div class="doc-schedule">
+          <div class="doc-schedule-row">
+            <span class="doc-schedule-label">Weekly · every Sunday</span>
+            <span>Pipeline stages, last-signal text, output figures, agent status changes, new agent additions.</span>
+          </div>
+          <div class="doc-schedule-row">
+            <span class="doc-schedule-label">Real-time</span>
+            <span>Token prices via CoinGecko API (5-minute cache).</span>
+          </div>
+          <div class="doc-schedule-row">
+            <span class="doc-schedule-label">Hourly</span>
+            <span>Twitter feed (Nitter RSS) and news feed (Decrypt, The Defiant).</span>
+          </div>
+          <div class="doc-schedule-row">
+            <span class="doc-schedule-label">On announcement</span>
+            <span>New BioAgent launches, IP-NFT mints, Phase trial readouts — applied as soon as a primary source is published.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Footer ─────────────────────────────────────────────── -->
+      <footer class="tracker-footer">
+        <div>
+          desci-dashboard.pages.dev — Methodology · Built with data, not hype.
+        </div>
+        <div class="footer-links">
+          <a href="/">Dashboard</a>
+          <a href="/bioagent-tracker">BioAgent Tracker</a>
+          <a href="/feed">Feed</a>
+          <a href="https://github.com/Paparazzi69/desci-dashboard" target="_blank" rel="noopener noreferrer">Source</a>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
