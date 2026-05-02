@@ -137,20 +137,55 @@ export function jsonResponse(body, status = 200, extraHeaders = {}) {
   });
 }
 
-// Read a JSON value from KV; tolerate corrupt entries by returning null.
-export async function kvGet(env, key) {
+// Two-tier cache layer:
+//   • caches.default — fresh cache for /api/prices, /api/coin, /api/feed.
+//     No per-day write limit; per-PoP, which is fine for short TTLs.
+//   • env.CACHE (KV) — stale fallback for upstream failures, where cross-PoP
+//     consistency matters. To stay under KV's 1k writes/day free tier we
+//     only rewrite a stale entry when it's past half its TTL.
+
+const CACHE_NS = 'https://cache.desci-dashboard.local/';
+
+export async function cacheGet(key) {
+  try {
+    const r = await caches.default.match(CACHE_NS + key);
+    return r ? await r.json() : null;
+  } catch { return null; }
+}
+
+export async function cachePut(key, value, ttlSeconds) {
+  const ttl = Math.max(60, ttlSeconds);
+  try {
+    await caches.default.put(
+      CACHE_NS + key,
+      new Response(JSON.stringify(value), {
+        headers: {
+          'content-type': 'application/json',
+          'cache-control': `public, max-age=${ttl}`,
+        },
+      }),
+    );
+  } catch (e) { console.warn('Cache put failed', e); }
+}
+
+export async function kvGetStale(env, key) {
   if (!env.CACHE) return null;
   try { return await env.CACHE.get(key, 'json'); } catch { return null; }
 }
 
-// Write a JSON value to KV with a TTL. Pages KV requires a min ttl of 60s.
-export async function kvPut(env, key, value, ttlSeconds) {
+export async function kvRefreshStale(env, key, value, ttlSeconds) {
   if (!env.CACHE) return;
+  let age = Infinity;
+  try {
+    const r = await env.CACHE.getWithMetadata(key, { type: 'json' });
+    const writtenAt = r.value && r.metadata && r.metadata.writtenAt;
+    if (typeof writtenAt === 'number') age = (Date.now() - writtenAt) / 1000;
+  } catch { /* treat as missing — fall through to write */ }
+  if (age < ttlSeconds / 2) return;
   try {
     await env.CACHE.put(key, JSON.stringify(value), {
       expirationTtl: Math.max(60, ttlSeconds),
+      metadata: { writtenAt: Date.now() },
     });
-  } catch (e) {
-    console.warn('KV put failed', e);
-  }
+  } catch (e) { console.warn('KV stale put failed', e); }
 }

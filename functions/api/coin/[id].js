@@ -8,7 +8,7 @@
 import {
   MOCK_DETAIL, GT_TOKENS,
   fetchGeckoTerminalDetail,
-  jsonResponse, kvGet, kvPut,
+  jsonResponse, cacheGet, cachePut, kvGetStale, kvRefreshStale,
 } from '../../_shared.js';
 
 const TTL_S = 5 * 60;
@@ -21,18 +21,18 @@ export async function onRequest({ env, params }) {
   // description from MOCK_DETAIL. Cached separately from CoinGecko entries.
   if (GT_TOKENS[id]) {
     const gtCacheKey = `coin-gt:${id}:v1`;
-    const gtCached = await kvGet(env, gtCacheKey);
+    const gtCached = await cacheGet(gtCacheKey);
     if (gtCached) return jsonResponse(gtCached);
 
     try {
       const live = await fetchGeckoTerminalDetail(GT_TOKENS[id]);
       const editorial = MOCK_DETAIL[id] || {};
       const payload = { id, ...live, ...editorial, source: 'geckoterminal' };
-      await kvPut(env, gtCacheKey, payload, TTL_S);
-      await kvPut(env, gtCacheKey + ':stale', payload, 60 * 60);
+      await cachePut(gtCacheKey, payload, TTL_S);
+      await kvRefreshStale(env, gtCacheKey + ':stale', payload, 60 * 60);
       return jsonResponse(payload);
     } catch (err) {
-      const stale = await kvGet(env, gtCacheKey + ':stale');
+      const stale = await kvGetStale(env, gtCacheKey + ':stale');
       if (stale) return jsonResponse({ ...stale, stale: true });
       // Last resort — return at least the editorial description so the
       // drawer isn't completely empty.
@@ -47,7 +47,7 @@ export async function onRequest({ env, params }) {
   }
 
   const cacheKey = `coin:${id}:v1`;
-  const cached = await kvGet(env, cacheKey);
+  const cached = await cacheGet(cacheKey);
   if (cached) return jsonResponse(cached);
 
   try {
@@ -64,7 +64,7 @@ export async function onRequest({ env, params }) {
     const r = await fetch(url, { headers });
     if (!r.ok) {
       // Stale cache check — if we have anything stored, serve it.
-      const stale = await kvGet(env, cacheKey + ':stale');
+      const stale = await kvGetStale(env, cacheKey + ':stale');
       if (stale) return jsonResponse({ ...stale, stale: true });
       return jsonResponse({ error: `CoinGecko ${r.status}` }, 502);
     }
@@ -91,11 +91,11 @@ export async function onRequest({ env, params }) {
       contract,
       contractUrl,
     };
-    await kvPut(env, cacheKey, payload, TTL_S);
-    await kvPut(env, cacheKey + ':stale', payload, 60 * 60); // 1h stale safety net
+    await cachePut(cacheKey, payload, TTL_S);
+    await kvRefreshStale(env, cacheKey + ':stale', payload, 60 * 60); // 1h stale safety net
     return jsonResponse(payload);
   } catch (err) {
-    const stale = await kvGet(env, cacheKey + ':stale');
+    const stale = await kvGetStale(env, cacheKey + ':stale');
     if (stale) return jsonResponse({ ...stale, stale: true });
     return jsonResponse({ error: String(err.message || err) }, 502);
   }

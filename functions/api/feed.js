@@ -7,7 +7,7 @@
 // flaky to ship as a primary signal. The PeptAI featured card on the
 // frontend is editorial, hardcoded in feed.js — no infra dependency.
 
-import { jsonResponse, kvGet, kvPut } from '../_shared.js';
+import { jsonResponse, cacheGet, cachePut } from '../_shared.js';
 
 const CACHE_KEY = 'feed:v2';
 const TTL_S = 5 * 60;
@@ -30,7 +30,7 @@ const KEYWORDS = [
 ];
 
 export async function onRequest({ env }) {
-  const cached = await kvGet(env, CACHE_KEY);
+  const cached = await cacheGet(CACHE_KEY);
   if (cached) return jsonResponse(cached);
 
   const newsItems = await aggregateNews();
@@ -39,7 +39,7 @@ export async function onRequest({ env }) {
     .slice(0, 30);
 
   const payload = { items: sorted, fetchedAt: new Date().toISOString() };
-  await kvPut(env, CACHE_KEY, payload, TTL_S);
+  await cachePut(CACHE_KEY, payload, TTL_S);
   return jsonResponse(payload);
 }
 

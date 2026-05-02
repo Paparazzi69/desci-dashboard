@@ -10,7 +10,7 @@
 import {
   TOKEN_IDS, GT_TOKENS,
   fetchGeckoTerminalToken,
-  jsonResponse, kvGet, kvPut,
+  jsonResponse, cacheGet, cachePut, kvGetStale, kvRefreshStale,
 } from '../_shared.js';
 
 const CACHE_KEY = 'prices:v1';
@@ -23,7 +23,7 @@ const STALE_KEY = 'prices:stale-v1'; // longer-lived backup for 429 fallback
 const STALE_TTL_S = 60 * 30; // keep a half-hour stale safety net
 
 export async function onRequest({ env }) {
-  const fresh = await kvGet(env, CACHE_KEY);
+  const fresh = await cacheGet(CACHE_KEY);
   if (fresh) {
     return jsonResponse(fresh);
   }
@@ -42,7 +42,7 @@ export async function onRequest({ env }) {
   if (!cgResult.ok) {
     const err = cgResult.err;
     // CoinGecko failed → try the long-lived stale cache.
-    const stale = await kvGet(env, STALE_KEY);
+    const stale = await kvGetStale(env, STALE_KEY);
     if (stale) {
       return jsonResponse({ ...stale, stale: true, error: String(err.message || err) });
     }
@@ -66,8 +66,8 @@ export async function onRequest({ env }) {
   // cache for a short TTL so we retry quickly. Otherwise full 5 min.
   const ttl = gtResult.anyMissing ? FRESH_TTL_DEGRADED_S : FRESH_TTL_S;
   await Promise.all([
-    kvPut(env, CACHE_KEY, payload, ttl),
-    kvPut(env, STALE_KEY, payload, STALE_TTL_S),
+    cachePut(CACHE_KEY, payload, ttl),
+    kvRefreshStale(env, STALE_KEY, payload, STALE_TTL_S),
   ]);
   return jsonResponse(payload);
 }
@@ -84,12 +84,13 @@ async function fetchAllGtTokens(env) {
       const cacheKey = `gt-token:${id}:v1`;
       try {
         const token = await fetchGeckoTerminalToken(id, addr);
-        // Refresh per-token cache on every successful fetch.
-        await kvPut(env, cacheKey, token, 60 * 30);
+        // Per-token cache is a stale fallback — refresh only when past
+        // half its TTL so we don't burn a KV write on every cache miss.
+        await kvRefreshStale(env, cacheKey, token, 60 * 30);
         return { token, stale: false, missing: false };
       } catch (e) {
         // Live fetch failed — use last good cached value if any.
-        const cached = await kvGet(env, cacheKey);
+        const cached = await kvGetStale(env, cacheKey);
         if (cached) {
           console.warn(`GT live fetch failed for ${id}, serving cache:`, e.message || e);
           return { token: cached, stale: true, missing: false };
