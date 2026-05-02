@@ -11,3 +11,13 @@ pages_build_output_dir = "."
 [[kv_namespaces]]
 binding = "CACHE"
 id = "11ddecae178d487d89aef9671d86a1de"
+
+# D1 database for the news aggregator. Create with:
+#   wrangler d1 create desci-news
+# then paste the database_id below (or bind in the dashboard under Pages →
+# Settings → Functions → D1 database bindings, in which case this section
+# can be left commented out).
+[[d1_databases]]
+binding = "DB"
+database_name = "desci-news"
+database_id = "REPLACE_WITH_REAL_DATABASE_ID"

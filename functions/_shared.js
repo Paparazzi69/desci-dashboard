@@ -189,3 +189,19 @@ export async function kvRefreshStale(env, key, value, ttlSeconds) {
     });
   } catch (e) { console.warn('KV stale put failed', e); }
 }
+
+// Bearer-token auth for /cron and /api/admin endpoints. Returns a 401
+// Response if rejected, null if accepted. Constant-time-ish compare so a
+// timing oracle can't probe the token a byte at a time.
+export function requireAdminAuth(request, env) {
+  if (!env.ADMIN_TOKEN) {
+    return jsonResponse({ error: 'ADMIN_TOKEN env var not set' }, 500);
+  }
+  const got = request.headers.get('authorization') || '';
+  const want = `Bearer ${env.ADMIN_TOKEN}`;
+  if (got.length !== want.length) return jsonResponse({ error: 'unauthorized' }, 401);
+  let r = 0;
+  for (let i = 0; i < got.length; i++) r |= got.charCodeAt(i) ^ want.charCodeAt(i);
+  if (r !== 0) return jsonResponse({ error: 'unauthorized' }, 401);
+  return null;
+}

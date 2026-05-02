@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>DeSci News — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+  .admin-shell { max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; }
+  .admin-h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .admin-sub { color: var(--text2); font-size: 13px; margin-bottom: 22px; }
+  .token-row { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+  .token-row input {
+    flex: 1; min-width: 220px;
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 9px 11px; font: inherit; font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  }
+  .token-row input:focus { outline: none; border-color: var(--green-dim); }
+  .btn {
+    background: var(--surface2); color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 9px 14px; cursor: pointer; font: inherit; font-size: 13px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn:hover:not(:disabled) { background: var(--surface3); border-color: var(--border); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-approve { color: var(--green); border-color: oklch(0.32 0.08 155); }
+  .btn-approve:hover:not(:disabled) { background: var(--green-bg); }
+  .btn-feature { color: var(--amber); border-color: oklch(0.32 0.08 70); }
+  .btn-feature:hover:not(:disabled) { background: var(--amber-bg); }
+  .btn-reject  { color: var(--red); border-color: oklch(0.32 0.08 22); }
+  .btn-reject:hover:not(:disabled) { background: var(--red-bg); }
+
+  .status { color: var(--text2); font-size: 13px; min-height: 22px; margin-bottom: 16px; }
+  .status.error { color: var(--red); }
+
+  .item {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 8px; padding: 16px 18px; margin-bottom: 12px;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  .item.fading { opacity: 0; transform: translateX(8px); }
+  .item-meta {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    font-size: 11px; color: var(--text2); margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .item-source { color: var(--green); font-weight: 600; }
+  .item-category { padding: 1px 7px; background: var(--surface3); border-radius: 3px; }
+  .item-source-type { padding: 1px 7px; background: var(--surface3); border-radius: 3px; }
+  .item-title { font-size: 16px; font-weight: 600; line-height: 1.35; margin-bottom: 8px; }
+  .item-title a { color: var(--text); border-bottom: 1px dashed transparent; }
+  .item-title a:hover { color: var(--green); border-bottom-color: var(--green-dim); }
+  .item-summary {
+    font-size: 13px; color: var(--text2); line-height: 1.55;
+    margin-bottom: 12px; white-space: pre-wrap;
+  }
+  .item-summary:empty { display: none; }
+
+  .item-take { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .item-take textarea {
+    width: 100%; min-height: 56px; max-height: 220px; resize: vertical;
+    background: var(--bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 9px 11px; font: inherit; font-size: 13px; line-height: 1.55;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .item-take textarea::placeholder { color: var(--text3); }
+  .item-take textarea:focus { outline: none; border-color: var(--green-dim); }
+  .item-take-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px; color: var(--text3);
+  }
+  .item-take-counter { font-family: 'JetBrains Mono', monospace; }
+  .item-take-counter.over { color: var(--amber); }
+
+  .item-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .empty { color: var(--text2); padding: 40px 0; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="admin-shell">
+  <h1 class="admin-h1">News — Pending Review</h1>
+  <p class="admin-sub">Approve, feature, or reject items collected by the hourly aggregator.</p>
+
+  <div class="token-row">
+    <input id="token-input" type="password" autocomplete="off"
+           placeholder="Admin token (Authorization: Bearer …)">
+    <button class="btn" id="save-token">Save token</button>
+    <button class="btn" id="refresh">Refresh</button>
+  </div>
+
+  <div id="status" class="status">Enter your admin token and refresh.</div>
+  <div id="items"></div>
+</div>
+
+<script type="module" src="/assets/js/admin.js"></script>
+</body>
+</html>
