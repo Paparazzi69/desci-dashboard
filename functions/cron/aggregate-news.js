@@ -63,7 +63,9 @@ const KEYWORDS_PLAIN = [
   'desci', 'decentralized science', 'decentralised science',
 
   // Bio Protocol / Molecule
-  'bio protocol', 'biodao', 'molecule protocol', 'ip-nft', 'ipt',
+  // ('ipt' moved to TICKER_REGEXES — substring match was hitting "script",
+  // "receipt", "encrypted", etc. 'ip-nft' is fine because of the hyphen.)
+  'bio protocol', 'biodao', 'molecule protocol', 'ip-nft',
 
   // ResearchHub
   'researchhub', 'research hub', 'researchcoin',
@@ -93,11 +95,14 @@ const KEYWORDS_PLAIN = [
   'peptide', 'autophagy', 'urolithin', 'longevity research',
 ];
 
-// Ticker keywords use word-boundary regex so `$BIO` matches in any context
-// but `$BIOTECH` does not. Lowercased; tested against a lowercased haystack.
+// Word-boundary regex matches: $-prefixed tickers ($BIO not $BIOTECH) and
+// short keywords that would otherwise hit inside longer words (`ipt`
+// inside "script", "receipt", "encrypted"). Tested against a lowercased
+// haystack — every pattern below is lowercase by construction.
 const TICKER_REGEXES = [
   /\$bio\b/, /\$vita\b/, /\$rsc\b/, /\$hair\b/, /\$ath\b/,
   /\$cryo\b/, /\$grow\b/, /\$claw\b/, /\$neuron\b/, /\$skin\b/, /\$aubrai\b/,
+  /\bipt\b/,
 ];
 
 const CATEGORIES = [
