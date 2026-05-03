@@ -16,7 +16,7 @@ const AGENTS = [
   {
     id: 'aubrai', name: 'AUBRAI', initials: 'Au',
     status: 'live', stage: 2, stageDecimal: 2.35,
-    chain: 'base', displayOrder: 2,
+    chain: 'base', displayOrder: 2, segment: 'bioagent',
     focus: 'Longevity',
     token: '$AUBRAI', tokenNote: '150x from $269K pre-sale',
     parent: 'VitaDAO',
@@ -47,7 +47,7 @@ const AGENTS = [
   {
     id: 'peptai', name: 'PeptAI', initials: 'Pe',
     status: 'live', stage: 2, stageDecimal: 2.55,
-    chain: 'base', displayOrder: 1,
+    chain: 'base', displayOrder: 1, segment: 'bioagent',
     focus: 'Drug Discovery',
     token: 'listed on bio.xyz', tokenNote: "Catalyst for BIO's 120% April rally",
     parent: 'Bio Protocol core',
@@ -98,7 +98,7 @@ const AGENTS = [
   {
     id: 'clawdlab', name: 'ClawdLab', initials: 'Cl',
     status: 'live', stage: 3, stageDecimal: 3.5,
-    chain: 'multi', displayOrder: 8,
+    chain: 'multi', displayOrder: 8, segment: 'bioagent',
     focus: 'Research Platform',
     token: 'infrastructure', tokenNote: 'Not token-based',
     parent: 'Molecule / Bio Protocol',
@@ -127,7 +127,7 @@ const AGENTS = [
   {
     id: 'biomeai', name: 'BiomeAI', initials: 'Bi',
     status: 'live', stage: 1, stageDecimal: 1.55,
-    chain: 'base', displayOrder: 7,
+    chain: 'base', displayOrder: 7, segment: 'bioagent',
     focus: 'Microbiome',
     token: 'upcoming',
     parent: 'MicrobiomeDAO',
@@ -154,7 +154,7 @@ const AGENTS = [
   {
     id: 'dermalabs', name: 'DermaLabs', initials: 'De',
     status: 'launching', stage: 1, stageDecimal: 1.4,
-    chain: 'ethereum', displayOrder: 11,
+    chain: 'ethereum', displayOrder: 11, segment: 'ipt',
     focus: 'Skincare',
     token: '$SKIN',
     parent: 'Bio Protocol',
@@ -181,7 +181,7 @@ const AGENTS = [
   {
     id: 'gocart', name: 'GoCART Therapeutics', initials: 'Go',
     status: 'launching', stage: 1, stageDecimal: 1.55,
-    chain: 'tbd', displayOrder: 12,
+    chain: 'tbd', displayOrder: 12, segment: 'bioagent',
     focus: 'Oncology',
     token: '—',
     parent: 'Bio Protocol',
@@ -207,7 +207,7 @@ const AGENTS = [
   {
     id: 'd1ckgpt', name: 'D1ckGPT', initials: 'D1',
     status: 'launching', stage: 0, stageDecimal: 0.6,
-    chain: 'base', displayOrder: 13,
+    chain: 'base', displayOrder: 13, segment: 'bioagent',
     focus: "Men's Health",
     token: '—',
     parent: 'Bio Protocol',
@@ -234,7 +234,7 @@ const AGENTS = [
   {
     id: 'neuropath', name: 'NeuroPath Navigator', initials: 'Ne',
     status: 'announced', stage: 0, stageDecimal: 0.2,
-    chain: 'tbd', displayOrder: 14,
+    chain: 'tbd', displayOrder: 14, segment: 'bioagent',
     focus: 'PTSD Diagnostics',
     token: 'announced',
     parent: 'Spectruth DAO',
@@ -250,7 +250,7 @@ const AGENTS = [
   {
     id: 'brainhealth', name: 'Brain Health Agent', initials: 'Br',
     status: 'announced', stage: 0, stageDecimal: 0.15,
-    chain: 'tbd', displayOrder: 15,
+    chain: 'tbd', displayOrder: 15, segment: 'bioagent',
     focus: 'Neuroscience',
     token: '—',
     parent: 'Bio Protocol',
@@ -266,7 +266,7 @@ const AGENTS = [
   {
     id: 'bios', name: 'BIOS Data Agent', initials: 'BI',
     status: 'live', stage: 3, stageDecimal: 3.4,
-    chain: 'multi', displayOrder: 10,
+    chain: 'multi', displayOrder: 10, segment: 'bioagent',
     excludeFromLane: true,
     focus: 'Infrastructure / Bioinformatics',
     token: 'pay-per-query',
@@ -285,7 +285,7 @@ const AGENTS = [
   {
     id: 'vitastem', name: 'VitaSTEM', initials: 'VS',
     status: 'live', stage: 2, stageDecimal: 2.1,
-    chain: 'base', displayOrder: 5,
+    chain: 'base', displayOrder: 5, segment: 'ipt',
     focus: 'Longevity / Stem Cells',
     token: '$VITASTEM',
     parent: 'VitaDAO via AUBRAI',
@@ -305,7 +305,7 @@ const AGENTS = [
   {
     id: 'holilabs', name: 'Holi Labs', initials: 'Ho',
     status: 'live', stage: 2, stageDecimal: 2.2,
-    chain: 'base', displayOrder: 6,
+    chain: 'base', displayOrder: 6, segment: 'ipt',
     focus: 'Brain Health / BDNF',
     token: '$HOLI',
     parent: 'Holi Collective',
@@ -327,7 +327,7 @@ const AGENTS = [
   {
     id: 'vitarna', name: 'VitaRNA', initials: 'VR',
     status: 'live', stage: 3, stageDecimal: 3.2,
-    chain: 'base', displayOrder: 3,
+    chain: 'base', displayOrder: 3, segment: 'ipt',
     focus: 'Gene Therapy',
     token: '$VITARNA',
     parent: 'VitaDAO',
@@ -347,7 +347,7 @@ const AGENTS = [
   {
     id: 'percepta', name: 'Percepta / CLAW', initials: 'Pc',
     status: 'live', stage: 3, stageDecimal: 3.1,
-    chain: 'base', displayOrder: 4,
+    chain: 'base', displayOrder: 4, segment: 'ipt',
     focus: "Brain Health / Alzheimer's",
     token: '$CLAW',
     parent: 'CerebrumDAO',
@@ -367,7 +367,7 @@ const AGENTS = [
   {
     id: 'curetopia', name: 'Curetopia', initials: 'Cu',
     status: 'live', stage: 1, stageDecimal: 1.3,
-    chain: 'solana', displayOrder: 9,
+    chain: 'solana', displayOrder: 9, segment: 'ipt',
     focus: 'Rare Disease',
     token: '$CURES',
     parent: 'Curetopia / VibeBio',
@@ -388,7 +388,7 @@ const AGENTS = [
   {
     id: 'beeard', name: 'BeeARD (PsyDAO)', initials: 'Be',
     status: 'announced', stage: 0, stageDecimal: 0.18,
-    chain: 'tbd', displayOrder: 16,
+    chain: 'tbd', displayOrder: 16, segment: 'bioagent',
     focus: 'Psychedelics',
     token: 'TBD',
     parent: 'PsyDAO',
@@ -404,7 +404,7 @@ const AGENTS = [
   {
     id: 'pumpscience', name: 'Pump.science (RIF/URO)', initials: 'Pu',
     status: 'stalled', stage: 2, stageDecimal: 2.0,
-    chain: 'solana', displayOrder: 17,
+    chain: 'solana', displayOrder: 17, segment: 'ipt',
     focus: 'Longevity / Anti-aging',
     token: '$RIF · $URO',
     parent: 'Molecule / Solana Foundation',
@@ -419,6 +419,25 @@ const AGENTS = [
     lastSignal: { when: '2026', text: 'Platform frozen. Focus on RIF/URO mouse experiments only. No new compounds until audit.' },
     output: 'Frozen · RIF/URO mouse trials only',
     outputN: 50,
+  },
+  {
+    id: 'cross-placeholder', name: 'More agents incoming', initials: '+',
+    status: 'announced', stage: 0, stageDecimal: 0.1,
+    chain: 'multi', displayOrder: 100, segment: 'cross-ecosystem',
+    excludeFromLane: true,
+    focus: 'Cross-ecosystem coverage',
+    token: 'TBD',
+    parent: 'Multi-ecosystem',
+    desc: "We're expanding tracker coverage to include Solana-native agents (Spore.fun TEE breeding, MycoDAO), Virtuals Protocol DeSci agents (aixCB), and women's health DAOs (AthenaDAO GIRLE/BABY). Suggest agents at @DeSciDashboard.",
+    stats: [
+      { label: 'Solana-native', value: 'Spore.fun · MycoDAO' },
+      { label: 'Virtuals',      value: 'aixCB' },
+      { label: "Women's health", value: 'AthenaDAO (GIRLE / BABY)' },
+      { label: 'Status',        value: 'Roadmap' },
+    ],
+    lastSignal: { when: 'May 2026', text: 'Roadmap announced, coverage expanding.' },
+    output: 'Roadmap · cross-ecosystem coverage incoming',
+    outputN: 1,
   },
 ];
 
@@ -452,8 +471,12 @@ const STATUS_RANK_LANE = { live: 0, launching: 1, announced: 2, stalled: 3 };
 
 function buildLane() {
   const buckets = { 0: [], 1: [], 2: [], 3: [] };
+  // Lane is exclusive to the BioAgents segment — IPTs and cross-ecosystem
+  // entries are intentionally filtered out so the visualization stays
+  // focused on the AI-co-scientist pipeline it was designed for.
   AGENTS.forEach(a => {
     if (a.excludeFromLane) return;
+    if (a.segment !== 'bioagent') return;
     buckets[Math.floor(a.stageDecimal)].push(a);
   });
   Object.values(buckets).forEach(b =>
@@ -766,8 +789,8 @@ function wireAgentModal() {
 const STATUS_RANK = { live: 0, launching: 1, announced: 2, stalled: 3 };
 const STATUS_LABEL = { live: 'LIVE', launching: 'LAUNCHING', announced: 'ANNOUNCED', stalled: 'STALLED' };
 
-function sortAgents(key) {
-  const sorted = [...AGENTS];
+function sortAgents(key, source = AGENTS) {
+  const sorted = [...source];
   switch (key) {
     case 'status':
       sorted.sort((a, b) =>
@@ -789,16 +812,81 @@ function sortAgents(key) {
   return sorted;
 }
 
+// ─── Segment tabs (Stage 2) ─────────────────────────────────────────────────
+// Maps the URL/click param ↔ the per-agent `segment` field. Tabs are the
+// outer slice of the dataset; sort/grouping then applies inside each slice.
+const TAB_TO_SEGMENT = {
+  bioagents: 'bioagent',
+  ipts: 'ipt',
+  cross: 'cross-ecosystem',
+};
+const SEGMENT_TO_TAB = {
+  bioagent: 'bioagents',
+  ipt: 'ipts',
+  'cross-ecosystem': 'cross',
+};
+let currentTab = 'bioagents';
+
+function getCurrentSegmentList() {
+  const segment = TAB_TO_SEGMENT[currentTab] || 'bioagent';
+  return AGENTS.filter(a => a.segment === segment);
+}
+
+function renderForCurrentTab() {
+  const sortKey = (document.getElementById('sort-select') || {}).value || 'status';
+  const list = sortAgents(sortKey, getCurrentSegmentList());
+  renderAgents(list, { groupByStatus: sortKey === 'status' });
+  // Pipeline lane is only meaningful for BioAgents — hide on other tabs.
+  const lane = document.querySelector('.lane-section');
+  if (lane) lane.hidden = currentTab !== 'bioagents';
+}
+
+function updateTabCounts() {
+  const counts = AGENTS.reduce((acc, a) => {
+    acc[a.segment] = (acc[a.segment] || 0) + 1;
+    return acc;
+  }, {});
+  document.querySelectorAll('[data-tab]').forEach(btn => {
+    const seg = TAB_TO_SEGMENT[btn.dataset.tab];
+    const slot = btn.querySelector('.tracker-tab-count');
+    if (slot && seg) slot.textContent = counts[seg] || 0;
+  });
+}
+
+function setTab(tab, opts = {}) {
+  if (!TAB_TO_SEGMENT[tab]) tab = 'bioagents';
+  currentTab = tab;
+  document.querySelectorAll('[data-tab]').forEach(btn => {
+    const active = btn.dataset.tab === tab;
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    btn.classList.toggle('is-active', active);
+  });
+  renderForCurrentTab();
+  if (opts.updateUrl !== false) {
+    const url = new URL(window.location.href);
+    if (tab === 'bioagents') url.searchParams.delete('tab');
+    else url.searchParams.set('tab', tab);
+    history.replaceState(null, '', url.toString());
+  }
+}
+
+function wireTabs() {
+  updateTabCounts();
+  document.querySelectorAll('[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => setTab(btn.dataset.tab));
+  });
+  // honor ?tab=… on initial load
+  const urlTab = new URLSearchParams(window.location.search).get('tab');
+  setTab(urlTab || 'bioagents', { updateUrl: false });
+}
+
 function init() {
   buildLane();
-  renderAgents(sortAgents('status'), { groupByStatus: true });
   wireAgentModal();
+  wireTabs(); // sets initial tab + renders the right segment
 
   const sel = document.getElementById('sort-select');
-  sel.addEventListener('change', () => renderAgents(
-    sortAgents(sel.value),
-    { groupByStatus: sel.value === 'status' }
-  ));
+  sel.addEventListener('change', renderForCurrentTab);
 
   const grid = document.getElementById('agent-grid');
   const bCard = document.getElementById('view-card');

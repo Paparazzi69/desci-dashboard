@@ -823,6 +823,67 @@
 }
 .footer-links a:hover { color: var(--text2); }
 
+/* ── Segment tabs (Stage 2) ──────────────────────────────────────────────── */
+/* Outer slice of the dataset: BioAgents / IPTs / Cross-ecosystem. Visually a
+   horizontal underline tab bar with a thin divider beneath. The active tab
+   gets the green underline + brighter text; inactive tabs are muted. */
+.tracker-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border2);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.tracker-tab {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  color: var(--text3);
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: color 0.12s;
+}
+.tracker-tab::after {
+  content: ""; position: absolute;
+  left: 12px; right: 12px; bottom: -1px;
+  height: 2px; background: transparent;
+  transition: background 0.15s;
+  border-radius: 2px 2px 0 0;
+}
+.tracker-tab:hover { color: var(--text); }
+.tracker-tab.is-active { color: var(--green); }
+.tracker-tab.is-active::after { background: var(--green); box-shadow: 0 0 8px oklch(from var(--green) l c h / 0.4); }
+.tracker-tab-name { letter-spacing: 0.01em; }
+.tracker-tab-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  min-width: 22px; text-align: center;
+}
+.tracker-tab.is-active .tracker-tab-count {
+  background: var(--green-bg);
+  border-color: oklch(from var(--green) l c h / 0.35);
+  color: var(--green);
+}
+
+/* Mobile: equal-width tabs that fit the viewport */
+@media (max-width: 640px) {
+  .tracker-tabs { gap: 0; }
+  .tracker-tab { flex: 1; padding: 10px 8px; font-size: 12px; gap: 6px; justify-content: center; }
+  .tracker-tab-name { font-size: 12px; }
+  .tracker-tab-count { font-size: 10px; padding: 1px 6px; }
+}
+
 /* ── Card height enforcement (Stage 1.5) ─────────────────────────────────── */
 /* Soft floor so sparse cards (announced/stalled with little data) don't look
    broken next to fuller LIVE cards. The agent-cta button is pushed to the
