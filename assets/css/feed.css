@@ -348,3 +348,50 @@
   .feed-rail { display: none; }
   .feed-main { border-left: none; border-right: none; }
 }
+
+/* ── /api/feed-v2 cutover: source-type badges, title/summary/take ─ */
+
+.post-source-type {
+  display: inline-flex; align-items: center;
+  padding: 2px 7px; border-radius: 4px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.post-source-type-project { background: var(--green-bg);  color: var(--green); }
+.post-source-type-media   { background: var(--blue-bg);   color: var(--blue);  }
+.post-source-type-paper   { background: var(--purple-bg); color: var(--purple); }
+.post-source-type-release { background: var(--surface3);  color: var(--text2); }
+
+.post-title {
+  font-size: 15px; font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.post-summary {
+  font-size: 13px; line-height: 1.55;
+  color: var(--text2);
+}
+
+/* Editorial "Take" — italic, dimmed, with a prominent label so a reader
+   can tell at a glance which lines are commentary vs source summary. */
+.post-take {
+  display: flex; gap: 8px;
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px dashed var(--border2);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text2);
+  line-height: 1.55;
+}
+.post-take-label {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--green);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.post-take-text { flex: 1; }

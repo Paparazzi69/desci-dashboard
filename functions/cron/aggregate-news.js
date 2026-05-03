@@ -47,6 +47,7 @@ const API_SOURCES = [
     url: 'http://export.arxiv.org/api/query?search_query=all:%22decentralized+science%22+OR+%22BioAgent%22+OR+%22DeSci%22+OR+%22IP-NFT%22&sortBy=submittedDate&sortOrder=descending&max_results=20',
     type: 'paper',
     filter: 'pass',
+    timeoutMs: 20_000, // ArXiv's API is sluggish under load; 10s isn't enough.
   },
   {
     name: 'GitHub bio-xyz',
@@ -317,7 +318,7 @@ export async function onRequest({ request, env }) {
 // ── Source fetching ─────────────────────────────────────────────────────
 async function fetchAndParseSource(src) {
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), SOURCE_TIMEOUT_MS);
+  const timer = setTimeout(() => ctrl.abort(), src.timeoutMs ?? SOURCE_TIMEOUT_MS);
   try {
     const r = await fetch(src.url, {
       headers: {
