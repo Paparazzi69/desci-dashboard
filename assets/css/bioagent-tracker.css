@@ -150,8 +150,8 @@
     radial-gradient(ellipse 70% 60% at 100% 100%, oklch(0.18 0.08 155 / 0.08), transparent 60%);
   pointer-events: none;
 }
-.lane-cols { display: grid; grid-template-columns: repeat(4, 1fr); position: relative; z-index: 2; min-height: 300px; }
-.lane-col { display: flex; flex-direction: column; padding: 16px 14px; border-right: 1px solid var(--border2); position: relative; }
+.lane-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative; z-index: 2; min-height: 300px; }
+.lane-col { display: flex; flex-direction: column; padding: 16px 14px; border-right: 1px solid var(--border2); position: relative; min-width: 0; }
 .lane-col:last-child { border-right: none; }
 .lane-col-arrow {
   position: absolute; right: -7px; top: 24px;
@@ -184,7 +184,7 @@
   border-color: oklch(from var(--green) l c h / 0.35);
   background: var(--green-bg);
 }
-.lane-col-desc { font-size: 10.5px; color: var(--text2); line-height: 1.5; }
+.lane-col-desc { font-size: 10.5px; color: var(--text2); line-height: 1.45; word-break: break-word; }
 
 .lane-col-pucks { display: flex; flex-direction: column; gap: 6px; flex: 1; }
 .lane-puck {
@@ -822,6 +822,105 @@
   text-decoration: none;
 }
 .footer-links a:hover { color: var(--text2); }
+
+/* ── Card height enforcement (Stage 1.5) ─────────────────────────────────── */
+/* Soft floor so sparse cards (announced/stalled with little data) don't look
+   broken next to fuller LIVE cards. The agent-cta button is pushed to the
+   bottom via margin-top:auto so CTAs line up across the row. */
+.agent-grid[data-view="card"] .agent-card { min-height: 380px; }
+.agent-card .agent-cta { cursor: pointer; font-family: inherit; }
+
+/* ── Modal (Stage 1.5) ───────────────────────────────────────────────────── */
+@keyframes modalFade  { from { opacity: 0 } to { opacity: 1 } }
+@keyframes modalLift  { from { opacity: 0; transform: translateY(12px) scale(0.985) } to { opacity: 1; transform: translateY(0) scale(1) } }
+
+.agent-modal {
+  position: fixed; inset: 0;
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.agent-modal[hidden] { display: none; }
+.agent-modal-backdrop {
+  position: absolute; inset: 0;
+  background: oklch(0 0 0 / 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.16s ease-out;
+}
+.agent-modal[data-open="true"] .agent-modal-backdrop { opacity: 1; }
+.agent-modal-card {
+  position: relative;
+  width: 100%; max-width: 720px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 22px 24px 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  box-shadow:
+    0 0 0 1px oklch(from var(--green) l c h / 0.08),
+    0 24px 60px oklch(0 0 0 / 0.55);
+  opacity: 0;
+  transform: translateY(12px) scale(0.985);
+  transition: opacity 0.16s ease-out, transform 0.16s ease-out;
+}
+.agent-modal[data-open="true"] .agent-modal-card { opacity: 1; transform: translateY(0) scale(1); }
+.agent-modal-close {
+  position: absolute; top: 10px; right: 10px;
+  width: 32px; height: 32px;
+  background: transparent; border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text2);
+  font-size: 20px; line-height: 1;
+  cursor: pointer;
+  transition: all 0.12s;
+  font-family: inherit;
+}
+.agent-modal-close:hover { color: var(--text); border-color: var(--text3); background: var(--surface2); }
+.agent-modal-content { display: flex; flex-direction: column; gap: 14px; }
+
+/* Modal head reuses .agent-head/.agent-name-wrap/.agent-status structure */
+.agent-modal-head {
+  display: flex; align-items: center; gap: 12px;
+  padding-right: 36px; /* clear the close button */
+}
+.agent-modal-head .agent-avatar { width: 44px; height: 44px; font-size: 14px; }
+.agent-modal-head .agent-avatar::after { display: none; }
+.agent-modal-head .agent-name { font-size: 19px; }
+
+/* Full stat grid in modal — 2 cols, no truncation */
+.agent-stats--full { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Modal-scoped tweaks to existing blocks (programmes/sale/fleet) so they
+   breathe more inside the wider modal layout */
+.agent-modal-content .programmes,
+.agent-modal-content .sale-data,
+.agent-modal-content .fleet { padding: 12px 14px; }
+
+/* External CTA in the modal (View on bio.xyz) — visually distinct from the
+   regular grid View Details button */
+.agent-cta--external {
+  display: inline-flex;
+  align-self: flex-start;
+  background: var(--green-bg);
+  border-color: oklch(from var(--green) l c h / 0.45);
+  color: var(--green);
+}
+.agent-cta--external:hover {
+  background: oklch(from var(--green) l c h / 0.16);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+@media (max-width: 640px) {
+  .agent-modal { padding: 12px; }
+  .agent-modal-card { padding: 18px 16px 20px; max-height: calc(100vh - 24px); }
+  .agent-modal-head .agent-name { font-size: 16px; }
+  .agent-stats--full { grid-template-columns: 1fr; }
+}
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {

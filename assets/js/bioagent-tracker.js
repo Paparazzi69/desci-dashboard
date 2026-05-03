@@ -608,7 +608,10 @@ function renderAgents(list, opts = {}) {
     card.dataset.agentId = a.id;
     card.dataset.flash = 'false';
 
-    const stats = (a.stats || []).map(s =>
+    // Card view: only the top 4 stats so every card stays the same height.
+    // Heavier blocks (saleData, programmes, fleet, architectureNote, full
+    // stat list) live in the modal opened by the View Details button.
+    const topStats = (a.stats || []).slice(0, 4).map(s =>
       `<div class="agent-stat"><div class="agent-stat-label">${s.label}</div><div class="agent-stat-value">${s.value}</div></div>`
     ).join('');
 
@@ -642,15 +645,7 @@ function renderAgents(list, opts = {}) {
 
       <div class="agent-desc">${a.desc}</div>
 
-      ${a.stats ? `<div class="agent-stats">${stats}</div>` : ''}
-
-      ${a.saleData ? saleDataBlock(a.saleData) : ''}
-
-      ${a.programmes ? programmeBlock(a.programmes) : ''}
-
-      ${a.fleet ? fleetBlock(a.fleet) : ''}
-
-      ${a.architectureNote ? architectureNoteBlock(a.architectureNote) : ''}
+      ${topStats ? `<div class="agent-stats">${topStats}</div>` : ''}
 
       <div class="pip-row">
         ${pipPips(stageInt, a.status)}
@@ -664,10 +659,107 @@ function renderAgents(list, opts = {}) {
         </div>
       </div>
 
-      ${(a.status !== 'announced' && a.link) ? `<a class="agent-cta" href="${a.link}" target="_blank" rel="noopener noreferrer">View details ↗</a>` : ''}
+      <button class="agent-cta" type="button" data-open-agent="${a.id}">View details →</button>
     `;
     grid.appendChild(card);
   });
+}
+
+// ─── Agent detail modal ─────────────────────────────────────────────────────
+function renderAgentDetail(a) {
+  const stageInt = Math.floor(a.stageDecimal);
+  const allStats = (a.stats || []).map(s =>
+    `<div class="agent-stat"><div class="agent-stat-label">${s.label}</div><div class="agent-stat-value">${s.value}</div></div>`
+  ).join('');
+
+  return `
+    <div class="agent-modal-head">
+      <div class="agent-avatar" style="background:${STAGE_BG[stageInt]};color:${STAGE_COLOR[stageInt]}">${a.initials}</div>
+      <div class="agent-name-wrap">
+        <div class="agent-name-row">
+          <span class="agent-name" id="agent-modal-title">${a.name}</span>
+          <span class="agent-status" data-status="${a.status}">${a.status}</span>
+          ${chainBadge(a.chain)}
+        </div>
+        <div class="agent-sub">
+          <span>${a.focus}</span>
+          <span class="agent-sub-sep">·</span>
+          <span>${a.parent}</span>
+          ${a.token && a.token !== '—' ? `<span class="agent-sub-sep">·</span><span>${a.token}</span>` : ''}
+        </div>
+      </div>
+    </div>
+
+    <div class="agent-desc">${a.desc}</div>
+
+    ${allStats ? `<div class="agent-stats agent-stats--full">${allStats}</div>` : ''}
+
+    ${a.saleData ? saleDataBlock(a.saleData) : ''}
+
+    ${a.programmes ? programmeBlock(a.programmes) : ''}
+
+    ${a.fleet ? fleetBlock(a.fleet) : ''}
+
+    ${a.architectureNote ? architectureNoteBlock(a.architectureNote) : ''}
+
+    <div class="pip-row">
+      ${pipPips(stageInt, a.status)}
+      <span class="pip-stage-name">${STAGE_LABEL[stageInt]}</span>
+    </div>
+
+    <div class="last-signal">
+      <span class="last-signal-label">Last signal</span>
+      <div>
+        <span class="last-signal-time">${a.lastSignal.when}</span> — ${a.lastSignal.text}
+      </div>
+    </div>
+
+    ${a.link ? `<a class="agent-cta agent-cta--external" href="${a.link}" target="_blank" rel="noopener noreferrer">View on bio.xyz ↗</a>` : ''}
+  `;
+}
+
+function openAgentModal(agentId) {
+  const a = AGENTS.find(x => x.id === agentId);
+  if (!a) return;
+  const modal = document.getElementById('agent-modal');
+  if (!modal) return;
+  modal.querySelector('.agent-modal-content').innerHTML = renderAgentDetail(a);
+  modal.hidden = false;
+  // small delay so the [hidden] removal commits before we trigger the
+  // transition — otherwise the modal pops in without fading.
+  requestAnimationFrame(() => modal.dataset.open = 'true');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAgentModal() {
+  const modal = document.getElementById('agent-modal');
+  if (!modal) return;
+  modal.dataset.open = 'false';
+  // wait for the fade-out before flipping [hidden] back on so the
+  // transition isn't cut short
+  setTimeout(() => { modal.hidden = true; }, 160);
+  document.body.style.overflow = '';
+}
+
+function wireAgentModal() {
+  const modal = document.getElementById('agent-modal');
+  if (!modal) return;
+  // close on backdrop / × button
+  modal.addEventListener('click', e => {
+    if (e.target.closest('[data-close]')) closeAgentModal();
+  });
+  // ESC key closes
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !modal.hidden) closeAgentModal();
+  });
+  // delegate "View details" clicks from the grid
+  const grid = document.getElementById('agent-grid');
+  if (grid) {
+    grid.addEventListener('click', e => {
+      const btn = e.target.closest('[data-open-agent]');
+      if (btn) openAgentModal(btn.dataset.openAgent);
+    });
+  }
 }
 
 // ─── Sort + view ─────────────────────────────────────────────────────────────
@@ -700,6 +792,7 @@ function sortAgents(key) {
 function init() {
   buildLane();
   renderAgents(sortAgents('status'), { groupByStatus: true });
+  wireAgentModal();
 
   const sel = document.getElementById('sort-select');
   sel.addEventListener('change', () => renderAgents(
