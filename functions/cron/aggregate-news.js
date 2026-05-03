@@ -77,7 +77,7 @@ const CATEGORIES = [
 
 // ── Constants ───────────────────────────────────────────────────────────
 const SOURCE_TIMEOUT_MS              = 10_000;
-const COLD_START_LOOKBACK_S          = 7 * 24 * 60 * 60;
+const COLD_START_LOOKBACK_S          = 30 * 24 * 60 * 60;
 const FUZZY_DEDUP_LOOKBACK_S         = 24 * 60 * 60;
 const VOLUME_WARN_THRESHOLD          = 50;
 const FAILED_BACKOFF_S               = 24 * 60 * 60;
@@ -94,8 +94,11 @@ export async function onRequest({ request, env }) {
   const startMs = Date.now();
   const fetchedAt = Math.floor(startMs / 1000);
 
-  // Cold start — if news_items is empty, only accept items from the past 7d
-  // so we don't dump months of historical posts into the pending queue.
+  // Cold start — if news_items is empty, only accept items from the past
+  // 30d so we don't dump months of historical posts into the pending queue.
+  // 30d (rather than 7d) because DeSci coverage in mainstream crypto media
+  // is naturally sparse — a perfect-match article a few weeks old is still
+  // worth surfacing. Project-native sources bypass this filter entirely.
   const countRow = await env.DB.prepare('SELECT COUNT(*) AS n FROM news_items').first();
   const coldStart = (countRow?.n ?? 0) === 0;
   const minPublishedAt = coldStart ? fetchedAt - COLD_START_LOOKBACK_S : 0;
