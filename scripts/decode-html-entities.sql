@@ -64,3 +64,68 @@ UPDATE news_items SET title   = REPLACE(title,   '&ldquo;', char(8220));
 UPDATE news_items SET summary = REPLACE(summary, '&ldquo;', char(8220));
 UPDATE news_items SET title   = REPLACE(title,   '&rdquo;', char(8221));
 UPDATE news_items SET summary = REPLACE(summary, '&rdquo;', char(8221));
+
+-- ── Hex entities — added after second spot-check found 9 rows still dirty.
+-- SQL REPLACE is case-sensitive, so each x/X prefix and hex-digit a/A case
+-- gets its own pair. Going forward the JS regex /&#x[0-9a-f]+;/gi catches
+-- all of these on ingest; this block is for the historical backlog only.
+
+-- &#x2013; / 0x2013 = en dash (–)
+UPDATE news_items SET title   = REPLACE(title,   '&#x2013;', char(8211));
+UPDATE news_items SET summary = REPLACE(summary, '&#x2013;', char(8211));
+UPDATE news_items SET title   = REPLACE(title,   '&#X2013;', char(8211));
+UPDATE news_items SET summary = REPLACE(summary, '&#X2013;', char(8211));
+
+-- &#x2014; / 0x2014 = em dash (—)
+UPDATE news_items SET title   = REPLACE(title,   '&#x2014;', char(8212));
+UPDATE news_items SET summary = REPLACE(summary, '&#x2014;', char(8212));
+UPDATE news_items SET title   = REPLACE(title,   '&#X2014;', char(8212));
+UPDATE news_items SET summary = REPLACE(summary, '&#X2014;', char(8212));
+
+-- &#x2018; / 0x2018 = left single quote (')
+UPDATE news_items SET title   = REPLACE(title,   '&#x2018;', char(8216));
+UPDATE news_items SET summary = REPLACE(summary, '&#x2018;', char(8216));
+UPDATE news_items SET title   = REPLACE(title,   '&#X2018;', char(8216));
+UPDATE news_items SET summary = REPLACE(summary, '&#X2018;', char(8216));
+
+-- &#x2019; / 0x2019 = right single quote (')
+UPDATE news_items SET title   = REPLACE(title,   '&#x2019;', char(8217));
+UPDATE news_items SET summary = REPLACE(summary, '&#x2019;', char(8217));
+UPDATE news_items SET title   = REPLACE(title,   '&#X2019;', char(8217));
+UPDATE news_items SET summary = REPLACE(summary, '&#X2019;', char(8217));
+
+-- &#x201C; / 0x201C = left double quote (")
+UPDATE news_items SET title   = REPLACE(title,   '&#x201C;', char(8220));
+UPDATE news_items SET summary = REPLACE(summary, '&#x201C;', char(8220));
+UPDATE news_items SET title   = REPLACE(title,   '&#x201c;', char(8220));
+UPDATE news_items SET summary = REPLACE(summary, '&#x201c;', char(8220));
+UPDATE news_items SET title   = REPLACE(title,   '&#X201C;', char(8220));
+UPDATE news_items SET summary = REPLACE(summary, '&#X201C;', char(8220));
+UPDATE news_items SET title   = REPLACE(title,   '&#X201c;', char(8220));
+UPDATE news_items SET summary = REPLACE(summary, '&#X201c;', char(8220));
+
+-- &#x201D; / 0x201D = right double quote (")
+UPDATE news_items SET title   = REPLACE(title,   '&#x201D;', char(8221));
+UPDATE news_items SET summary = REPLACE(summary, '&#x201D;', char(8221));
+UPDATE news_items SET title   = REPLACE(title,   '&#x201d;', char(8221));
+UPDATE news_items SET summary = REPLACE(summary, '&#x201d;', char(8221));
+UPDATE news_items SET title   = REPLACE(title,   '&#X201D;', char(8221));
+UPDATE news_items SET summary = REPLACE(summary, '&#X201D;', char(8221));
+UPDATE news_items SET title   = REPLACE(title,   '&#X201d;', char(8221));
+UPDATE news_items SET summary = REPLACE(summary, '&#X201d;', char(8221));
+
+-- &#xA0; / 0xA0 = non-breaking space
+UPDATE news_items SET title   = REPLACE(title,   '&#xA0;', ' ');
+UPDATE news_items SET summary = REPLACE(summary, '&#xA0;', ' ');
+UPDATE news_items SET title   = REPLACE(title,   '&#xa0;', ' ');
+UPDATE news_items SET summary = REPLACE(summary, '&#xa0;', ' ');
+UPDATE news_items SET title   = REPLACE(title,   '&#XA0;', ' ');
+UPDATE news_items SET summary = REPLACE(summary, '&#XA0;', ' ');
+UPDATE news_items SET title   = REPLACE(title,   '&#Xa0;', ' ');
+UPDATE news_items SET summary = REPLACE(summary, '&#Xa0;', ' ');
+
+-- ── High-codepoint decimal entities (emoji used in ValleyDAO posts) ──
+UPDATE news_items SET title   = REPLACE(title,   '&#128071;', char(128071));   -- 👇
+UPDATE news_items SET summary = REPLACE(summary, '&#128071;', char(128071));
+UPDATE news_items SET title   = REPLACE(title,   '&#128300;', char(128300));   -- 🔬
+UPDATE news_items SET summary = REPLACE(summary, '&#128300;', char(128300));

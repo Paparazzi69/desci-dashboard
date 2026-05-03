@@ -12,24 +12,34 @@ import { jsonResponse, requireAdminAuth } from '../_shared.js';
 
 // ── Sources ──────────────────────────────────────────────────────────────
 const RSS_SOURCES = [
-  // Tier A — guaranteed RSS
+  // Substack-class — reliable RSS via standard CMS.
   { name: 'ValleyDAO',                  url: 'https://valleydao.substack.com/feed',                            type: 'project', filter: 'pass' },
   { name: 'Partners in Digital Health', url: 'https://partnersindigitalhealth.substack.com/feed',              type: 'media',   filter: 'keyword' },
   { name: 'ResearchHub Foundation',     url: 'https://blog.researchhub.foundation/rss/',                       type: 'project', filter: 'pass' },
+
+  // Mainstream crypto media — RSS is genuinely there, DeSci hits are sparse.
   { name: 'The Defiant',                url: 'https://thedefiant.io/api/feed',                                 type: 'media',   filter: 'keyword' },
   { name: 'Cointelegraph',              url: 'https://cointelegraph.com/rss',                                  type: 'media',   filter: 'keyword' },
   { name: 'CoinDesk',                   url: 'https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=xml', type: 'media',   filter: 'keyword' },
   { name: 'The Block',                  url: 'https://www.theblock.co/rss.xml',                                type: 'media',   filter: 'keyword' },
-  { name: 'Bankless',                   url: 'https://newsletter.banklesshq.com/feed',                         type: 'media',   filter: 'keyword' },
   { name: 'Blockworks',                 url: 'https://blockworks.co/feed',                                     type: 'media',   filter: 'keyword' },
-  // Tier B — probable; treat 404 as expected for some
-  { name: 'Bio Protocol',               url: 'https://www.bio.xyz/blog-posts/rss.xml',                         type: 'project', filter: 'pass' },
-  { name: 'Molecule',                   url: 'https://molecule.xyz/blog/rss',                                  type: 'project', filter: 'pass' },
-  { name: 'VitaDAO',                    url: 'https://www.vitadao.com/blog/rss',                               type: 'project', filter: 'pass' },
   { name: 'CryptoBriefing',             url: 'https://cryptobriefing.com/feed/',                               type: 'media',   filter: 'keyword' },
-  { name: 'PANews',                     url: 'https://www.panewslab.com/en/feed',                              type: 'media',   filter: 'keyword' },
-  { name: 'ChainCatcher',               url: 'https://www.chaincatcher.com/en/rss',                            type: 'media',   filter: 'keyword' },
 ];
+
+// Sources investigated and removed — listed here as a TODO ledger so we
+// don't keep re-adding URLs we already know don't work.
+//
+//   Bio Protocol  — Webflow.            bio.xyz has no <link rel="alternate">; /blog/rss, /feed, /rss all 404.
+//   VitaDAO       — Next.js + Strapi.   vitadao.com has no feed; Strapi RSS plugin not enabled.
+//   Molecule      — Next.js + Sanity.   molecule.xyz/blog/rss serves an HTML 404 with HTTP 200 (silent failure).
+//   Bankless      — newsletter.banklesshq.com has a chronic TLS SAN mismatch (was the 526 we kept seeing).
+//   PANews        — no /feed at panewslab.com.
+//   ChainCatcher  — no /rss at chaincatcher.com.
+//
+// Re-investigation candidates if we want them back:
+//   • Mirror.xyz/<eth>.eth/feed/atom — VitaDAO and Molecule have historically published there.
+//     Mirror's bot-protection blocked our probe tool (403/429); a real Worker may fare better.
+//   • A small HTML-scraper Worker for the three project-native blogs that lack feeds.
 
 const API_SOURCES = [
   {
@@ -323,6 +333,14 @@ async function fetchAndParseSource(src) {
     });
     clearTimeout(timer);
     if (!r.ok) return { error: `HTTP ${r.status}`, items: [] };
+    // Some CMSes (Next.js soft-404 — Molecule was the canonical case) serve
+    // HTTP 200 with an HTML body where we expected XML. Our regex parser
+    // silently finds zero <item> tags and the run looks "successful empty".
+    // Reject up-front so the source lands in failed_sources instead.
+    const ct = (r.headers.get('content-type') || '').toLowerCase();
+    if (ct.startsWith('text/html')) {
+      return { error: `expected feed XML, got ${ct}`, items: [] };
+    }
     const xml = await r.text();
     const raws = parseFeedItems(xml).slice(0, PER_SOURCE_ITEM_CAP);
     const items = (await Promise.all(raws.map(buildItem))).filter(Boolean);
