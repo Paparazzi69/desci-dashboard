@@ -24,6 +24,9 @@ const RSS_SOURCES = [
   { name: 'The Block',                  url: 'https://www.theblock.co/rss.xml',                                type: 'media',   filter: 'keyword' },
   { name: 'Blockworks',                 url: 'https://blockworks.co/feed',                                     type: 'media',   filter: 'keyword' },
   { name: 'CryptoBriefing',             url: 'https://cryptobriefing.com/feed/',                               type: 'media',   filter: 'keyword' },
+
+  // Research-focused publications — narrower DeSci surface area than daily news.
+  { name: 'Yellow Research',            url: 'https://yellow.com/research/rss.xml',                            type: 'media',   filter: 'keyword' },
 ];
 
 // Sources investigated and removed — listed here as a TODO ledger so we
