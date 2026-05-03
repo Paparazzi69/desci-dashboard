@@ -477,7 +477,15 @@ function decodeCData(s) {
 function formatSummary(s) {
   const stripped = decodeEntities(String(s).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
   if (stripped.length <= SUMMARY_MAX_CHARS) return stripped;
-  return stripped.slice(0, SUMMARY_MAX_CHARS - 1).trimEnd() + '…';
+  // Truncate at the last word boundary before the cap so we don't split
+  // anything indivisible mid-stream — most importantly any entity our
+  // decoder didn't recognise. Falls back to char boundary if the last
+  // word starts more than halfway back (one giant URL, etc.).
+  const cap = SUMMARY_MAX_CHARS - 1;
+  const head = stripped.slice(0, cap);
+  const lastSpace = head.lastIndexOf(' ');
+  const cut = lastSpace > cap / 2 ? lastSpace : cap;
+  return head.slice(0, cut).trimEnd() + '…';
 }
 
 const NAMED_ENTITIES = {

@@ -136,3 +136,27 @@ UPDATE news_items SET title   = REPLACE(title,   '&#128071;', char(128071));   -
 UPDATE news_items SET summary = REPLACE(summary, '&#128071;', char(128071));
 UPDATE news_items SET title   = REPLACE(title,   '&#128300;', char(128300));   -- 🔬
 UPDATE news_items SET summary = REPLACE(summary, '&#128300;', char(128300));
+
+-- ── Mid-entity truncation cleanup ────────────────────────────────────
+-- The legacy decodeEntities only knew 7 entities, so &#8230; etc. got
+-- truncated mid-stream by formatSummary. The rtrim chain peels off the
+-- damage in order: trailing … (formatSummary's truncation suffix, if
+-- present), trailing hex/dec digits, trailing x/X, trailing # and &.
+-- Going forward the comprehensive decoder runs before truncation, so
+-- this is for the historical backlog only.
+UPDATE news_items
+SET summary = rtrim(rtrim(rtrim(rtrim(summary,
+    char(8230)),
+    '0123456789abcdefABCDEF'),
+    'xX'),
+    '#&')
+WHERE
+  summary LIKE '%&#'
+  OR summary LIKE '%&#_'
+  OR summary LIKE '%&#__'
+  OR summary LIKE '%&#___'
+  OR summary LIKE '%&#____'
+  OR summary LIKE '%&#x_'
+  OR summary LIKE '%&#x__'
+  OR summary LIKE '%&#x___'
+  OR summary LIKE '%&#x____';
