@@ -942,8 +942,16 @@ function renderForCurrentTab() {
   const list = sortAgents(sortKey, getCurrentSegmentList());
   renderAgents(list, { groupByStatus: sortKey === 'status' });
   // Pipeline lane is only meaningful for BioAgents — hide on other tabs.
+  const isBioAgentsTab = currentTab === 'bioagents';
   const lane = document.querySelector('.lane-section');
-  if (lane) lane.hidden = currentTab !== 'bioagents';
+  if (lane) lane.hidden = !isBioAgentsTab;
+  // Same treatment for any explainer/stack section that describes the
+  // BioAgent workflow specifically (How BioAgents Work, Architecture /
+  // Framework / Onchain Actions cards). They'd misframe IPTs and
+  // cross-ecosystem entries as if those follow the BioAgent value chain.
+  document.querySelectorAll('[data-bioagent-only]').forEach(el => {
+    el.hidden = !isBioAgentsTab;
+  });
 }
 
 function updateTabCounts() {
