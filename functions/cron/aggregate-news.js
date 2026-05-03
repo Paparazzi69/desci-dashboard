@@ -87,7 +87,7 @@ const CATEGORIES = [
 
 // ── Constants ───────────────────────────────────────────────────────────
 const SOURCE_TIMEOUT_MS              = 10_000;
-const COLD_START_LOOKBACK_S          = 30 * 24 * 60 * 60;
+const MAX_AGE_S                      = 30 * 24 * 60 * 60;
 const FUZZY_DEDUP_LOOKBACK_S         = 24 * 60 * 60;
 const VOLUME_WARN_THRESHOLD          = 50;
 const FAILED_BACKOFF_S               = 24 * 60 * 60;
@@ -104,14 +104,10 @@ export async function onRequest({ request, env }) {
   const startMs = Date.now();
   const fetchedAt = Math.floor(startMs / 1000);
 
-  // Cold start — if news_items is empty, only accept items from the past
-  // 30d so we don't dump months of historical posts into the pending queue.
-  // 30d (rather than 7d) because DeSci coverage in mainstream crypto media
-  // is naturally sparse — a perfect-match article a few weeks old is still
-  // worth surfacing. Project-native sources bypass this filter entirely.
-  const countRow = await env.DB.prepare('SELECT COUNT(*) AS n FROM news_items').first();
-  const coldStart = (countRow?.n ?? 0) === 0;
-  const minPublishedAt = coldStart ? fetchedAt - COLD_START_LOOKBACK_S : 0;
+  // Hard 30-day cutoff applied uniformly to every source on every run.
+  // Crypto moves fast — anything older is functionally stale by the time
+  // a human reviews it. filter:'pass' and filter:'keyword' treated alike.
+  const minPublishedAt = fetchedAt - MAX_AGE_S;
 
   // Failed-source backoff: skip sources that have failed 3+ times in a row
   // within the last 24h. They get one retry attempt every 24h after that.
@@ -189,7 +185,7 @@ export async function onRequest({ request, env }) {
       kept = next;
     }
 
-    if (src.filter === 'keyword' && minPublishedAt > 0) {
+    {
       const next = [];
       for (const it of kept) {
         if (it.published_at >= minPublishedAt) { next.push(it); continue; }
@@ -305,8 +301,8 @@ export async function onRequest({ request, env }) {
 
   return jsonResponse({
     ok: true,
-    coldStart,
     fetchedAt,
+    cutoffISO: new Date(minPublishedAt * 1000).toISOString(),
     durationMs: Date.now() - startMs,
     perSource,
     totals: {
