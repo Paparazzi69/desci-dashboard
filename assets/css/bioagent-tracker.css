@@ -218,9 +218,13 @@
 .lane-puck-status[data-status="live"]      { background: var(--green); box-shadow: 0 0 5px var(--green); }
 .lane-puck-status[data-status="launching"] { background: var(--blue);  box-shadow: 0 0 5px var(--blue); }
 .lane-puck-status[data-status="announced"] { background: transparent; border: 1px dashed var(--text3); }
+.lane-puck-status[data-status="stalled"]   { background: #6b7280; box-shadow: 0 0 5px #6b7280; }
 .lane-puck[data-status="announced"]       { background: transparent; border-style: dashed; opacity: 0.62; }
 .lane-puck[data-status="announced"]:hover { opacity: 0.95; }
 .lane-puck[data-status="announced"] .lane-puck-name { color: var(--text2); font-weight: 500; }
+.lane-puck[data-status="stalled"]       { background: transparent; border-style: dashed; border-color: oklch(from #6b7280 l c h / 0.45); opacity: 0.7; }
+.lane-puck[data-status="stalled"]:hover { opacity: 1; }
+.lane-puck[data-status="stalled"] .lane-puck-name { color: var(--text2); font-weight: 500; }
 
 .lane-tooltip {
   position: absolute; bottom: calc(100% + 6px); left: 6px;
@@ -350,6 +354,140 @@
 .agent-status[data-status="live"]      { color: var(--green); background: var(--green-bg); }
 .agent-status[data-status="launching"] { color: var(--blue);  background: var(--blue-bg); }
 .agent-status[data-status="announced"] { color: var(--text2); background: var(--surface3); }
+.agent-status[data-status="stalled"]   { color: #fff; background: #6b7280; }
+
+/* Stalled card treatment — desaturated like announced but with gray badge */
+.agent-card[data-status="stalled"] {
+  background: transparent;
+  border-style: dashed;
+  border-color: oklch(from #6b7280 l c h / 0.45);
+  opacity: 0.78;
+}
+.agent-card[data-status="stalled"]:hover { opacity: 1; }
+.agent-card[data-status="stalled"] .agent-avatar::after { display: none; }
+
+/* Chain badge — small pill next to status badge */
+.chain-badge {
+  display: inline-flex; align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7em; font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 7px; border-radius: 999px;
+  line-height: 1.4;
+}
+.chain-base     { background: #0052FF; color: #fff; }
+.chain-solana   { background: #9945FF; color: #fff; }
+.chain-ethereum { background: #627EEA; color: #fff; }
+.chain-multi    { background: #6b7280; color: #fff; }
+.chain-tbd      { background: #e5e7eb; color: #1f2937; }
+
+/* Status section headers (only when grouped by status) */
+.status-section-header {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; gap: 12px;
+  margin: 14px 0 4px;
+  padding: 0 2px;
+}
+.status-section-header:first-child { margin-top: 0; }
+.status-section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 4px;
+}
+.status-section-label[data-status="live"]      { color: var(--green); background: var(--green-bg); border: 1px solid oklch(from var(--green) l c h / 0.35); }
+.status-section-label[data-status="launching"] { color: var(--blue);  background: var(--blue-bg);  border: 1px solid oklch(from var(--blue) l c h / 0.35); }
+.status-section-label[data-status="announced"] { color: var(--text2); background: var(--surface3); border: 1px solid var(--border); }
+.status-section-label[data-status="stalled"]   { color: #fff; background: #6b7280; border: 1px solid #6b7280; }
+.status-section-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  color: var(--text3);
+}
+.status-section-line { flex: 1; height: 1px; background: var(--border2); }
+
+/* Sale Data block (used by PeptAI) */
+.sale-data {
+  background: var(--surface2);
+  border: 1px solid oklch(from var(--green) l c h / 0.30);
+  border-left-width: 3px;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.sale-data-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+.sale-row {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 12px;
+  padding: 4px 0;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  border-top: 1px solid oklch(from var(--border2) l c h / 0.5);
+}
+.sale-row:first-of-type { border-top: none; }
+.sale-key { color: var(--text2); }
+.sale-val { color: var(--text); font-weight: 500; text-align: right; }
+
+/* Fleet structure block (used by PeptAI) */
+.fleet {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.fleet-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 2px;
+}
+.fleet-agent {
+  border-top: 1px solid oklch(from var(--border2) l c h / 0.5);
+  padding-top: 8px;
+}
+.fleet-agent:first-of-type { border-top: none; padding-top: 0; }
+.fleet-agent-head {
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 3px;
+}
+.fleet-agent-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  color: var(--text);
+}
+.fleet-agent-domain {
+  font-size: 10px; color: var(--text3);
+  font-style: italic;
+}
+.fleet-agent-desc {
+  font-size: 11px; color: var(--text2);
+  line-height: 1.55;
+}
+
+/* Architecture note (used by PeptAI) */
+.architecture-note {
+  display: flex; gap: 10px;
+  padding: 10px 12px;
+  background: oklch(from var(--green) l c h / 0.06);
+  border-left: 2px solid var(--green);
+  border-radius: 4px;
+  font-size: 11px; color: var(--text2);
+  line-height: 1.55;
+}
+.architecture-note-label {
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--green);
+  padding-top: 1px;
+}
 .agent-sub {
   font-size: 11px; color: var(--text3);
   font-family: 'JetBrains Mono', monospace;
