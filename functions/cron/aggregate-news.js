@@ -59,14 +59,38 @@ const API_SOURCES = [
 
 // ── Filter / categorize ─────────────────────────────────────────────────
 const KEYWORDS_PLAIN = [
+  // Core sector terms
   'desci', 'decentralized science', 'decentralised science',
+
+  // Bio Protocol / Molecule
   'bio protocol', 'biodao', 'molecule protocol', 'ip-nft', 'ipt',
+
+  // ResearchHub
   'researchhub', 'research hub', 'researchcoin',
+
+  // BioDAOs
   'vitadao', 'cryodao', 'hairdao', 'athenadao', 'psydao',
   'valleydao', 'cerebrumdao', 'spectruth',
+
+  // BioAgents
   'bioagent', 'aubrai', 'peptai', 'clawdlab', 'biomeai',
   'dermalabs', 'd1ckgpt', 'gocart',
-  'pump.science', 'pumpscience', 'longevity dao', 'biotech dao',
+
+  // Pump.science
+  'pump.science', 'pumpscience',
+
+  // Adjacent DAO categories
+  'longevity dao', 'biotech dao',
+
+  // Founders (news often leads with the person, not the project)
+  'paul kohlhaas', 'brian armstrong', 'tyler golato',
+  'vincent weisser', 'aubrey de grey',
+
+  // Live IPTs
+  'vita-fast', 'vitafast', 'vitastem', 'curetopia', 'artan bio',
+
+  // Scientific terms tied to active BioAgent programs
+  'peptide', 'autophagy', 'urolithin', 'longevity research',
 ];
 
 // Ticker keywords use word-boundary regex so `$BIO` matches in any context
