@@ -338,7 +338,7 @@ async function buildItem(raw) {
   if (!raw.title || !raw.link) return null;
   const url = normalizeUrl(raw.link);
   if (!url) return null;
-  const title = raw.title.trim();
+  const title = decodeEntities(raw.title.trim());
   if (!title) return null;
   const summary = formatSummary(raw.description || raw.content || '');
   const titleNorm = normalizeTitle(title);
@@ -462,9 +462,32 @@ function formatSummary(s) {
   return stripped.slice(0, SUMMARY_MAX_CHARS - 1).trimEnd() + '…';
 }
 
+const NAMED_ENTITIES = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  copy: '©', reg: '®', trade: '™',
+  hellip: '…', mdash: '—', ndash: '–',
+  lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”',
+  laquo: '«', raquo: '»',
+  middot: '·', bull: '•', deg: '°',
+};
+
 function decodeEntities(s) {
-  return s
-    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#x27;/g, "'")
-    .replace(/&nbsp;/g, ' ');
+  if (!s) return '';
+  return String(s)
+    // &amp; first so any double-encoded form (e.g. &amp;mdash;) collapses
+    // to &mdash; in time for the named-entity pass below.
+    .replace(/&amp;/g, '&')
+    .replace(/&#(\d+);/g, (_, n) => {
+      const cp = parseInt(n, 10);
+      return cp > 0 ? String.fromCodePoint(cp) : '';
+    })
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => {
+      const cp = parseInt(h, 16);
+      return cp > 0 ? String.fromCodePoint(cp) : '';
+    })
+    // Unknown named entities are left intact so we notice gaps in the table.
+    .replace(/&([a-z][a-z0-9]+);/gi, (m, name) => {
+      const v = NAMED_ENTITIES[name.toLowerCase()];
+      return v !== undefined ? v : m;
+    });
 }
