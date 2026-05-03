@@ -114,6 +114,13 @@ UPDATE news_items SET summary = REPLACE(summary, '&#X201D;', char(8221));
 UPDATE news_items SET title   = REPLACE(title,   '&#X201d;', char(8221));
 UPDATE news_items SET summary = REPLACE(summary, '&#X201d;', char(8221));
 
+-- &#x2026; / 0x2026 = horizontal ellipsis (…). Decimal &#8230; was covered
+-- earlier; this is the hex form spotted in two truncated summaries.
+UPDATE news_items SET title   = REPLACE(title,   '&#x2026;', char(8230));
+UPDATE news_items SET summary = REPLACE(summary, '&#x2026;', char(8230));
+UPDATE news_items SET title   = REPLACE(title,   '&#X2026;', char(8230));
+UPDATE news_items SET summary = REPLACE(summary, '&#X2026;', char(8230));
+
 -- &#xA0; / 0xA0 = non-breaking space
 UPDATE news_items SET title   = REPLACE(title,   '&#xA0;', ' ');
 UPDATE news_items SET summary = REPLACE(summary, '&#xA0;', ' ');
