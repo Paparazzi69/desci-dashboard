@@ -145,14 +145,81 @@ export async function onRequest({ request, env }) {
       continue;
     }
 
-    let kept = result.items;
-    if (src.filter === 'keyword') kept = kept.filter(matchesKeywords);
-    if (minPublishedAt > 0) kept = kept.filter(it => it.published_at >= minPublishedAt);
+    // Per-item drop attribution. Keyword filter only runs on `keyword`
+    // sources; cold-start date cutoff also only runs on keyword sources —
+    // project-native (`pass`) sources are trusted to publish whatever
+    // they choose, whenever they choose.
+    const all = result.items;
+    let kept = all;
+    let droppedKeyword = 0;
+    let droppedDate = 0;
+    const dropSamples = [];
+
+    // Date range across the raw fetch — surfaces date-parsing bugs even
+    // when zero items survive the filter.
+    let newest = null, oldest = null;
+    for (const it of all) {
+      if (typeof it.published_at !== 'number') continue;
+      if (newest === null || it.published_at > newest) newest = it.published_at;
+      if (oldest === null || it.published_at < oldest) oldest = it.published_at;
+    }
+
+    if (src.filter === 'keyword') {
+      const next = [];
+      for (const it of kept) {
+        if (matchesKeywords(it)) { next.push(it); continue; }
+        droppedKeyword++;
+        if (dropSamples.length < 5) {
+          dropSamples.push({ reason: 'no-keyword', title: it.title.slice(0, 120) });
+        }
+      }
+      kept = next;
+    }
+
+    if (src.filter === 'keyword' && minPublishedAt > 0) {
+      const next = [];
+      for (const it of kept) {
+        if (it.published_at >= minPublishedAt) { next.push(it); continue; }
+        droppedDate++;
+        if (dropSamples.length < 8) {
+          dropSamples.push({
+            reason: 'too-old',
+            title: it.title.slice(0, 120),
+            publishedISO: new Date(it.published_at * 1000).toISOString(),
+          });
+        }
+      }
+      kept = next;
+    }
+
     if (kept.length > VOLUME_WARN_THRESHOLD) {
       console.warn(`⚠️  ${src.name}: ${kept.length} items after filter — keyword filter may be broken`);
     }
-    perSource.push({ source: src.name, ok: true, fetched: result.items.length, filtered: kept.length });
-    console.log(`✅ ${src.name}: ${kept.length} items (${result.items.length} fetched)`);
+
+    const dateRange = (newest !== null && oldest !== null) ? {
+      newestISO: new Date(newest * 1000).toISOString(),
+      oldestISO: new Date(oldest * 1000).toISOString(),
+    } : null;
+
+    perSource.push({
+      source: src.name,
+      ok: true,
+      filter: src.filter,
+      rawCount: result.rawCount ?? all.length,
+      parsed: all.length,
+      parseDropped: (result.rawCount ?? all.length) - all.length,
+      droppedKeyword,
+      droppedDate,
+      kept: kept.length,
+      filtered: kept.length, // alias for back-compat with prior response shape
+      dateRange,
+      dropSamples,
+    });
+    console.log(
+      `✅ ${src.name}: kept=${kept.length} parsed=${all.length} ` +
+      `droppedKw=${droppedKeyword} droppedDate=${droppedDate} ` +
+      `range=${dateRange ? dateRange.oldestISO + '..' + dateRange.newestISO : '?'}`,
+    );
 
     // Stamp source metadata onto each item before queuing for insert.
     for (const it of kept) {
@@ -256,7 +323,7 @@ async function fetchAndParseSource(src) {
     const xml = await r.text();
     const raws = parseFeedItems(xml).slice(0, PER_SOURCE_ITEM_CAP);
     const items = (await Promise.all(raws.map(buildItem))).filter(Boolean);
-    return { items };
+    return { items, rawCount: raws.length };
   } catch (e) {
     clearTimeout(timer);
     if (e?.name === 'AbortError') return { error: 'timeout', items: [] };
