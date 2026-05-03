@@ -78,6 +78,15 @@
 }
 .page-lede em { color: var(--green); font-style: normal; font-weight: 600; }
 
+/* ── Last reviewed (Stage 1.6.1) ──────────────────────────────────────────── */
+.last-reviewed {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  color: #9ca3af;
+  margin: -4px 0 16px;
+  letter-spacing: 0.01em;
+}
+
 /* ── Doc sections ─────────────────────────────────────────────────────────── */
 .doc-section {
   margin-bottom: 36px;
@@ -266,6 +275,52 @@
 .doc-callout p { margin: 0 0 10px; }
 .doc-callout p:last-child { margin-bottom: 0; }
 
+/* doc-h3 with extra top spacing — used between callouts in the same section */
+.doc-h3--gap { margin-top: 22px; }
+
+/* ── Editorial criteria grid (Stage 1.6.1) ────────────────────────────────── */
+.doc-criteria {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.doc-criteria-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.doc-criteria-card .doc-h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: var(--green);
+}
+.doc-criteria-card .doc-bullet-list {
+  margin-bottom: 0;
+  font-size: 13px;
+}
+
+/* ── Changelog table (Stage 1.6.1) ────────────────────────────────────────── */
+.doc-changelog td:first-child {
+  min-width: 110px;
+  width: 110px;
+  white-space: nowrap;
+  vertical-align: top;
+}
+.doc-changelog td:nth-child(2) {
+  font-style: normal;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.changelog-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--green);
+  letter-spacing: 0.04em;
+}
+
 /* ── Independence callout ─────────────────────────────────────────────────── */
 .doc-callout {
   background: var(--surface);
@@ -353,8 +408,10 @@
   .doc-status-grid { grid-template-columns: 1fr; }
   .doc-status-grid--four { grid-template-columns: 1fr; }
   .doc-chain-list li { grid-template-columns: 1fr; gap: 6px; }
+  .doc-criteria { grid-template-columns: 1fr; }
   .doc-table { font-size: 12.5px; }
   .doc-table th, .doc-table td { padding: 10px 12px; }
+  .doc-changelog td:first-child { min-width: 90px; width: 90px; }
 }
 @media (max-width: 640px) {
   .page-title h1 { font-size: 24px; }
