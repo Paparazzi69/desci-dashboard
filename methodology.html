@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Methodology &amp; Data Sources — DeSci Dashboard</title>
-<meta name="description" content="How the DeSci Dashboard collects, verifies, and updates token, agent, and pipeline data. Independent, transparent, manually reviewed.">
+<meta name="description" content="How the DeSci Dashboard tracks 18 BioAgents and IPTs across Base, Solana, and multi-chain ecosystems. Independent, transparent, weekly reviewed.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -57,16 +57,18 @@
         <span class="updated"><span class="dot"></span>Updated weekly</span>
       </div>
       <p class="page-lede">
-        Every number on this site can be traced back to a source. This page documents
-        <em>how</em> we collect, verify, and update token prices, BioAgent pipeline stages,
-        and signal feeds — so you can decide what to trust.
+        The BioAgent Tracker covers <em>18 AI-Science Agents and IP-Tokens</em> across the DeSci sector,
+        spanning Bio Protocol, Solana-native, and multi-chain projects. Coverage is curated weekly with
+        editorial commentary and verification timestamps. This page documents how we collect, verify,
+        and update every figure on the site, so you can decide what to trust.
       </p>
 
       <!-- ── Pipeline stage definitions ─────────────────────────── -->
       <section class="doc-section">
         <h2 class="doc-h2">Pipeline stage definitions</h2>
         <p class="doc-lead">
-          A BioAgent's pipeline stage answers one question: <strong>where is its most-advanced programme?</strong> Not its average — its frontier.
+          A BioAgent's pipeline stage answers one question: <strong>where is its most-advanced programme?</strong>
+          Not its average. Its frontier.
         </p>
         <div class="doc-table-wrap">
           <table class="doc-table">
@@ -82,7 +84,7 @@
               <tr>
                 <td><span class="stage-tag" data-stage="1">02 · Computational</span></td>
                 <td>In-silico validation, peptide design, binding prediction, structural docking.</td>
-                <td>PeptAI's 8-gate validation pipeline</td>
+                <td>PeptAI's 9-gate validation pipeline</td>
               </tr>
               <tr>
                 <td><span class="stage-tag" data-stage="2">03 · Wet Lab</span></td>
@@ -92,91 +94,249 @@
               <tr>
                 <td><span class="stage-tag" data-stage="3">04 · Clinical</span></td>
                 <td>Animal models, Phase 1/2 trials, FDA / EMA pathway.</td>
-                <td>VITA-FAST progressing toward Phase 2</td>
+                <td>VitaRNA dosing patients in UAE clinical trial</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <p class="doc-note">
+          <strong>Note on infrastructure agents.</strong> BIOS Data Agent and ClawdLab serve as cross-cutting
+          research infrastructure used by other BioAgents. They are tracked as LIVE but not placed in a single
+          pipeline stage on the lane visualization. Their detail modal shows their applicable stage or stages.
+        </p>
       </section>
 
       <!-- ── Agent status definitions ───────────────────────────── -->
       <section class="doc-section">
         <h2 class="doc-h2">Agent status definitions</h2>
-        <div class="doc-status-grid">
+        <div class="doc-status-grid doc-status-grid--four">
           <div class="doc-status-card">
             <div class="doc-status-head">
               <span class="status-pill" data-status="live">Live</span>
             </div>
-            <p>Agent is deployed on mainnet, actively producing verifiable output — hypotheses, compound candidates, papers, or IP-NFTs.</p>
+            <p>
+              Agent or IPT is operational on mainnet, has produced verifiable output (hypotheses, IP-NFTs,
+              programme progress, clinical milestones, or confirmed market activity), and has communicated
+              within the last 90 days.
+            </p>
           </div>
           <div class="doc-status-card">
             <div class="doc-status-head">
               <span class="status-pill" data-status="launching">Launching</span>
             </div>
-            <p>Agent is on the <code>bio.xyz</code> launchpad. Token sale completed or in progress, pre-mainnet, programmes in design.</p>
+            <p>
+              Agent is in pre-mainnet phase. Token sale, ignition phase, or pre-clinical activity confirmed.
+              Programme structure announced, but main token or product not yet live.
+            </p>
           </div>
           <div class="doc-status-card">
             <div class="doc-status-head">
               <span class="status-pill" data-status="announced">Announced</span>
             </div>
-            <p>Confirmed in the Bio Protocol roadmap or by a BioDAO, but no launchpad listing yet. Ghost cards on the tracker.</p>
+            <p>
+              Confirmed in roadmap or announcement by a credible source (parent DAO, founder, Bio Protocol).
+              No on-chain activity yet. Form factor (token, IPT, infrastructure) may still be undefined.
+            </p>
+          </div>
+          <div class="doc-status-card">
+            <div class="doc-status-head">
+              <span class="status-pill" data-status="stalled">Stalled</span>
+            </div>
+            <p>
+              Was active but has frozen progress. No new launches, no significant on-chain activity for 60+
+              days, or explicit pause statement from operators. Tracked separately so the audience can see
+              honest sector state, not just the highlights.
+            </p>
           </div>
         </div>
       </section>
 
+      <!-- ── Chain coverage ─────────────────────────────────────── -->
+      <section class="doc-section">
+        <h2 class="doc-h2">Chain coverage</h2>
+        <p class="doc-lead">
+          The tracker uses chain badges on every card to show where each agent or IPT is deployed.
+        </p>
+        <ul class="doc-chain-list">
+          <li>
+            <span class="chain-pill chain-base">Base</span>
+            <div>
+              Coinbase L2. Most Bio Protocol BioAgents (PeptAI, AUBRAI, BiomeAI, Holi, others) and IPTs
+              (VITA-FAST, CLAW, VitaSTEM, VitaRNA, HOLI) live here.
+            </div>
+          </li>
+          <li>
+            <span class="chain-pill chain-solana">Solana</span>
+            <div>
+              Primary chain for DeSci memecoin liquidity (<a href="https://pump.science" target="_blank" rel="noopener noreferrer">pump.science</a>,
+              Curetopia / CURES) and AI-agent-native experiments (Spore.fun adjacent ecosystem).
+            </div>
+          </li>
+          <li>
+            <span class="chain-pill chain-multi">Multi</span>
+            <div>
+              Agent operates across multiple chains or is chain-agnostic infrastructure (BIOS Data Agent,
+              ClawdLab).
+            </div>
+          </li>
+          <li>
+            <span class="chain-pill chain-ethereum">Ethereum</span>
+            <div>
+              Older deployments and some legacy IP-NFT structures (DermaLabs).
+            </div>
+          </li>
+          <li>
+            <span class="chain-pill chain-tbd">TBD</span>
+            <div>
+              Chain not yet announced. Typically applies to ANNOUNCED status agents.
+            </div>
+          </li>
+        </ul>
+        <p class="doc-lead">
+          Coverage is independent of chain. The tracker treats each ecosystem on its own merit.
+        </p>
+      </section>
+
+      <!-- ── Last Signal methodology ────────────────────────────── -->
+      <section class="doc-section">
+        <h2 class="doc-h2">Last signal</h2>
+        <p class="doc-lead">
+          Every agent card shows a "Last Signal" field with a date and short description. This is the most
+          recent verified action by the agent or its operators, drawn from one of:
+        </p>
+        <ul class="doc-bullet-list">
+          <li>Official tweets from the parent organization (Bio Protocol, VitaDAO, CerebrumDAO, Molecule, others).</li>
+          <li><a href="https://bio.xyz" target="_blank" rel="noopener noreferrer">bio.xyz</a> launchpad or agent dashboard updates.</li>
+          <li><a href="https://www.molecule.xyz" target="_blank" rel="noopener noreferrer">molecule.xyz</a> IPT page changes.</li>
+          <li>Published research outputs (arXiv, Molecule Labs, GitHub releases).</li>
+          <li>Confirmed on-chain events (IP-NFT mints, sale completions, treasury approvals).</li>
+        </ul>
+        <p class="doc-lead">
+          A signal counts only if it represents progress against the agent's stated programme. Marketing tweets,
+          generic engagement posts, and recycled announcements are excluded.
+        </p>
+        <p class="doc-lead">
+          Last Signal is reviewed weekly. If an agent has had no qualifying signal for 60+ days, we evaluate
+          moving it to STALLED.
+        </p>
+      </section>
+
       <!-- ── Independence statement ─────────────────────────────── -->
       <section class="doc-section">
-        <h2 class="doc-h2">Independence statement</h2>
-        <p class="doc-callout">
-          This tracker is independent and not affiliated with Bio Protocol or any BioDAO.
-          Numbers are indicative; pipeline stage is a weekly judgement call based on publicly
-          available information. Disagree with a placement?
-          <a href="https://github.com/Paparazzi69/desci-dashboard/issues" target="_blank" rel="noopener noreferrer">Open an issue</a>.
-        </p>
+        <h2 class="doc-h2">Independence</h2>
+        <div class="doc-callout">
+          <p>
+            The DeSci Dashboard BioAgent Tracker is independently operated. It is <strong>not affiliated with,
+            paid by, or endorsed by</strong> Bio Protocol, Molecule, VitaDAO, CerebrumDAO, ResearchHub,
+            <a href="https://pump.science" target="_blank" rel="noopener noreferrer">pump.science</a>, or any other
+            DeSci entity covered on the page.
+          </p>
+          <p>
+            Coverage is on merit. Solana-native projects are not preferred or penalized relative to Base-native
+            projects. STALLED status is applied based on observable signal, not relationship. We retain editorial
+            discretion on which agents to include in the tracker, with criteria documented above.
+          </p>
+          <p>
+            We do not accept payment for inclusion, ranking, or commentary. If this changes, it will be disclosed
+            at the top of the page. Disagree with a placement?
+            <a href="https://github.com/Paparazzi69/desci-dashboard/issues" target="_blank" rel="noopener noreferrer">Open an issue</a>.
+          </p>
+        </div>
       </section>
 
       <!-- ── Primary sources ────────────────────────────────────── -->
       <section class="doc-section">
         <h2 class="doc-h2">Primary sources</h2>
         <p class="doc-lead">Every fact on the site comes from one of these sources. We monitor them weekly.</p>
+
+        <h3 class="doc-h3">Agent and IPT data</h3>
         <ul class="doc-source-list">
-          <li><a href="https://bio.xyz" target="_blank" rel="noopener noreferrer">bio.xyz</a> — launchpad, blog, Bio Monthly newsletter</li>
-          <li><a href="https://app.bio.xyz/launchpad" target="_blank" rel="noopener noreferrer">app.bio.xyz/launchpad</a> — agent landing pages, token sale status</li>
-          <li><a href="https://app.bio.xyz/agents/peptai" target="_blank" rel="noopener noreferrer"><code>app.bio.xyz/agents/&lt;name&gt;</code></a> — individual agent pages with programme detail (e.g. PeptAI)</li>
-          <li><a href="https://x.com/BioProtocol" target="_blank" rel="noopener noreferrer">@BioProtocol</a> on X — official announcements</li>
-          <li><a href="https://x.com/paulkhls" target="_blank" rel="noopener noreferrer">@paulkhls</a> on X — Paul Kohlhaas (Bio Protocol founder)</li>
-          <li><a href="https://github.com/bio-xyz" target="_blank" rel="noopener noreferrer">github.com/bio-xyz</a> — ClawdLab, BioAgents framework, OpenClaw</li>
-          <li><a href="https://arxiv.org/abs/2602.19810" target="_blank" rel="noopener noreferrer">arXiv 2602.19810</a> — ClawdLab paper (Weidener et al.)</li>
-          <li><a href="https://arxiv.org/abs/2601.12542" target="_blank" rel="noopener noreferrer">arXiv 2601.12542</a> — BIOS AI Scientist paper (#1 on BixBench)</li>
-          <li><a href="https://messari.io/research" target="_blank" rel="noopener noreferrer">Messari reports</a> —
-            <a href="https://messari.io/report/phdegens-its-time-for-a-desci-update" target="_blank" rel="noopener noreferrer">PHDegens</a>,
-            <a href="https://messari.io/report/smarter-science-part-1-desci-s-role-at-the-frontier-of-ai-driven-science" target="_blank" rel="noopener noreferrer">Smarter Science</a>,
-            <a href="https://messari.io/report/bio-protocol-v1-upgrade" target="_blank" rel="noopener noreferrer">Bio V1</a></li>
-          <li><a href="https://www.coingecko.com/en/categories/decentralized-science-desci" target="_blank" rel="noopener noreferrer">CoinGecko · DeSci category</a></li>
-          <li>Individual agent X accounts — <code>@Aubrai_</code>, <code>@peptai_</code>, <code>@BiomeAI</code>, others</li>
+          <li><a href="https://bio.xyz" target="_blank" rel="noopener noreferrer">bio.xyz</a>: agent pages (e.g. <code>app.bio.xyz/agents/peptai</code>, <code>/aubrai</code>, <code>/biomeai</code>), launchpad, blog (<code>bio.xyz/blog-posts</code>).</li>
+          <li><a href="https://www.molecule.xyz" target="_blank" rel="noopener noreferrer">molecule.xyz</a>: IPT pages (<code>/ipts/vita-fast</code>, <code>/ipts/claw</code>, <code>/ipts/vitastem</code>), Labs view, blog.</li>
+          <li><a href="https://www.vitadao.com" target="_blank" rel="noopener noreferrer">VitaDAO</a>: VITA-FAST, VitaSTEM, VitaRNA, AUBRAI updates.</li>
+          <li><strong>CerebrumDAO</strong>: $CLAW, Percepta, Brain Health Agent.</li>
+          <li><a href="https://valleydao.substack.com" target="_blank" rel="noopener noreferrer">valleydao.substack.com</a>: quarterly research reviews.</li>
+          <li><a href="https://app.bio.xyz/launchpad" target="_blank" rel="noopener noreferrer">app.bio.xyz/launchpad</a>: Ignition Sale data, BioXP commitments, oversubscription rates.</li>
+        </ul>
+
+        <h3 class="doc-h3">Solana-native coverage</h3>
+        <ul class="doc-source-list">
+          <li><a href="https://pump.science" target="_blank" rel="noopener noreferrer">pump.science</a>: RIF/URO experiment status, mouse trial outputs.</li>
+          <li><strong>Curetopia</strong>: TGE data, AARS2 progress.</li>
+          <li>Solana on-chain explorers for $CURES, $RIF, $URO, $EGS verification.</li>
+        </ul>
+
+        <h3 class="doc-h3">Research and academic</h3>
+        <ul class="doc-source-list">
+          <li><a href="https://arxiv.org" target="_blank" rel="noopener noreferrer">arXiv</a> DeSci preprints, including <a href="https://arxiv.org/abs/2602.19810" target="_blank" rel="noopener noreferrer">2602.19810 ClawdLab</a> and <a href="https://arxiv.org/abs/2601.12542" target="_blank" rel="noopener noreferrer">2601.12542 BIOS</a>.</li>
+          <li><a href="https://github.com/bio-xyz" target="_blank" rel="noopener noreferrer">github.com/bio-xyz</a>: ClawdLab, OpenClaw, BioAgents framework.</li>
+          <li><strong>ResearchHub Journal</strong>: peer-reviewed DeSci output.</li>
+        </ul>
+
+        <h3 class="doc-h3">Real-time signal</h3>
+        <ul class="doc-source-list">
+          <li>X accounts: <a href="https://x.com/BioProtocol" target="_blank" rel="noopener noreferrer">@BioProtocol</a>, <a href="https://x.com/paulkhls" target="_blank" rel="noopener noreferrer">@paulkhls</a>, <a href="https://x.com/vita_dao" target="_blank" rel="noopener noreferrer">@vita_dao</a>, <a href="https://x.com/Molecule_dao" target="_blank" rel="noopener noreferrer">@Molecule_dao</a>, <a href="https://x.com/CerebrumDAO" target="_blank" rel="noopener noreferrer">@CerebrumDAO</a>, <a href="https://x.com/Aubrai_" target="_blank" rel="noopener noreferrer">@Aubrai_</a>, <a href="https://x.com/peptai_" target="_blank" rel="noopener noreferrer">@peptai_</a>.</li>
+          <li><strong>bio.xyz Bio Monthly / Bio Weekly</strong> recap posts.</li>
+        </ul>
+
+        <h3 class="doc-h3">Market data (when applicable)</h3>
+        <ul class="doc-source-list">
+          <li><a href="https://www.coingecko.com/en/categories/decentralized-science-desci" target="_blank" rel="noopener noreferrer">CoinGecko DeSci category</a>.</li>
+          <li><a href="https://www.dextools.io" target="_blank" rel="noopener noreferrer">DEXTools</a> and <a href="https://dexscreener.com" target="_blank" rel="noopener noreferrer">DEXScreener</a> for IPT and small-cap token verification.</li>
+          <li><strong>CoinMarketCap CMC AI</strong> for $BIO updates.</li>
         </ul>
       </section>
 
-      <!-- ── Update schedule ────────────────────────────────────── -->
+      <!-- ── Update cadence ─────────────────────────────────────── -->
       <section class="doc-section">
-        <h2 class="doc-h2">Update schedule</h2>
+        <h2 class="doc-h2">Update cadence</h2>
         <div class="doc-schedule">
           <div class="doc-schedule-row">
-            <span class="doc-schedule-label">Weekly · every Sunday</span>
-            <span>Pipeline stages, last-signal text, output figures, agent status changes, new agent additions.</span>
+            <span class="doc-schedule-label">Weekly</span>
+            <span>Last Signal verification across all 18 tracked entities. Status changes (e.g. LIVE to STALLED) reviewed.</span>
+          </div>
+          <div class="doc-schedule-row">
+            <span class="doc-schedule-label">Per launch</span>
+            <span>When a new BioAgent Ignition Sale opens or an IPT goes live, the tracker is updated within 24 hours.</span>
+          </div>
+          <div class="doc-schedule-row">
+            <span class="doc-schedule-label">Monthly</span>
+            <span>Full agent inventory reviewed. New entities added or watchlisted. Methodology page reviewed for accuracy.</span>
+          </div>
+          <div class="doc-schedule-row">
+            <span class="doc-schedule-label">Quarterly</span>
+            <span>Sector-level updates: tracking criteria, new ecosystem coverage, retired projects.</span>
           </div>
           <div class="doc-schedule-row">
             <span class="doc-schedule-label">Real-time</span>
-            <span>Token prices via CoinGecko API (5-minute cache).</span>
+            <span>Token prices via CoinGecko API (5-minute cache). News feed runs hourly. Tracker data is hand-curated.</span>
           </div>
-          <div class="doc-schedule-row">
-            <span class="doc-schedule-label">Hourly</span>
-            <span>Twitter feed (Nitter RSS) and news feed (Decrypt, The Defiant).</span>
-          </div>
-          <div class="doc-schedule-row">
-            <span class="doc-schedule-label">On announcement</span>
-            <span>New BioAgent launches, IP-NFT mints, Phase trial readouts — applied as soon as a primary source is published.</span>
-          </div>
+        </div>
+        <p class="doc-note">
+          The site itself is static (Cloudflare Pages auto-deploys from <code>main</code> branch on push). The
+          cron-aggregated news feed runs hourly. Tracker data is hand-curated.
+        </p>
+      </section>
+
+      <!-- ── Footer source note ─────────────────────────────────── -->
+      <section class="doc-section">
+        <h2 class="doc-h2">Where this data comes from</h2>
+        <div class="doc-callout">
+          <p>
+            <strong>Token prices.</strong> CoinGecko API (when available).
+            <strong>Pipeline stages.</strong> Manually verified weekly from Bio Protocol announcements,
+            <a href="https://bio.xyz" target="_blank" rel="noopener noreferrer">bio.xyz</a> launchpad, Twitter
+            <a href="https://x.com/BioProtocol" target="_blank" rel="noopener noreferrer">@BioProtocol</a>,
+            arXiv papers, and GitHub repositories.
+            <strong>Hypothesis counts.</strong> Onchain data from
+            <a href="https://bio.xyz" target="_blank" rel="noopener noreferrer">bio.xyz</a>.
+            <strong>Sale data.</strong> <code>app.bio.xyz/launchpad</code> and IPT pages.
+            <strong>Funding.</strong> Announced figures from official sources.
+          </p>
+          <p>
+            This tracker is independent and not affiliated with Bio Protocol or any BioDAO. Numbers are indicative.
+            Pipeline stage and STALLED designation are weekly editorial calls.
+          </p>
         </div>
       </section>
 

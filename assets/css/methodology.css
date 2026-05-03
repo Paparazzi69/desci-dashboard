@@ -165,6 +165,9 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
+.doc-status-grid--four {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
 .doc-status-card {
   background: var(--surface);
   border: 1px solid var(--border2);
@@ -188,6 +191,80 @@
 .status-pill[data-status="live"]      { color: var(--green); background: var(--green-bg); }
 .status-pill[data-status="launching"] { color: var(--blue);  background: var(--blue-bg); }
 .status-pill[data-status="announced"] { color: var(--text2); background: var(--surface3); }
+.status-pill[data-status="stalled"]   { color: #fff; background: #6b7280; }
+
+/* ── Chain coverage list (Stage 1.6) ──────────────────────────────────────── */
+.doc-chain-list {
+  list-style: none;
+  padding: 0; margin: 0 0 14px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.doc-chain-list li {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 16px; align-items: center;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border2);
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.doc-chain-list li:last-child { border-bottom: none; }
+
+.chain-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  width: max-content;
+}
+.chain-base     { background: #0052FF; color: #fff; }
+.chain-solana   { background: #9945FF; color: #fff; }
+.chain-ethereum { background: #627EEA; color: #fff; }
+.chain-multi    { background: #6b7280; color: #fff; }
+.chain-tbd      { background: #e5e7eb; color: #1f2937; }
+
+/* ── Bullet list (Stage 1.6) ──────────────────────────────────────────────── */
+.doc-bullet-list {
+  margin: 0 0 14px;
+  padding-left: 22px;
+  color: var(--text2);
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+.doc-bullet-list li { margin-bottom: 4px; }
+
+/* ── Sub-section header h3 (Stage 1.6) ────────────────────────────────────── */
+.doc-h3 {
+  font-size: 11px; font-weight: 700;
+  color: var(--text2);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin: 18px 0 8px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Doc note (Stage 1.6) ─────────────────────────────────────────────────── */
+.doc-note {
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-left: 2px solid var(--text3);
+  border-radius: 8px;
+  color: var(--text2);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.doc-note strong { color: var(--text); }
+
+/* Independence callout: support multiple paragraphs cleanly */
+.doc-callout p { margin: 0 0 10px; }
+.doc-callout p:last-child { margin-bottom: 0; }
 
 /* ── Independence callout ─────────────────────────────────────────────────── */
 .doc-callout {
@@ -274,6 +351,8 @@
   .header-nav-link span:not(.header-nav-arrow) { font-size: 12px; }
   .doc-schedule-row { grid-template-columns: 1fr; gap: 4px; }
   .doc-status-grid { grid-template-columns: 1fr; }
+  .doc-status-grid--four { grid-template-columns: 1fr; }
+  .doc-chain-list li { grid-template-columns: 1fr; gap: 6px; }
   .doc-table { font-size: 12.5px; }
   .doc-table th, .doc-table td { padding: 10px 12px; }
 }
