@@ -14,6 +14,7 @@ import { jsonResponse, requireAdminAuth } from '../_shared.js';
 const RSS_SOURCES = [
   // Substack-class — reliable RSS via standard CMS.
   { name: 'ValleyDAO',                  url: 'https://valleydao.substack.com/feed',                            type: 'project', filter: 'pass' },
+  { name: 'VitaDAO',                    url: 'https://vitadao.substack.com/feed',                              type: 'project', filter: 'pass' },
   { name: 'Partners in Digital Health', url: 'https://partnersindigitalhealth.substack.com/feed',              type: 'media',   filter: 'keyword' },
   { name: 'ResearchHub Foundation',     url: 'https://blog.researchhub.foundation/rss/',                       type: 'project', filter: 'pass' },
 
@@ -22,7 +23,6 @@ const RSS_SOURCES = [
   { name: 'Cointelegraph',              url: 'https://cointelegraph.com/rss',                                  type: 'media',   filter: 'keyword' },
   { name: 'CoinDesk',                   url: 'https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=xml', type: 'media',   filter: 'keyword' },
   { name: 'The Block',                  url: 'https://www.theblock.co/rss.xml',                                type: 'media',   filter: 'keyword' },
-  { name: 'Blockworks',                 url: 'https://blockworks.co/feed',                                     type: 'media',   filter: 'keyword' },
   { name: 'CryptoBriefing',             url: 'https://cryptobriefing.com/feed/',                               type: 'media',   filter: 'keyword' },
 
   // Research-focused publications — narrower DeSci surface area than daily news.
@@ -33,16 +33,27 @@ const RSS_SOURCES = [
 // don't keep re-adding URLs we already know don't work.
 //
 //   Bio Protocol  — Webflow.            bio.xyz has no <link rel="alternate">; /blog/rss, /feed, /rss all 404.
-//   VitaDAO       — Next.js + Strapi.   vitadao.com has no feed; Strapi RSS plugin not enabled.
+//                                       Re-checked 2026-05-04: paragraph.com/@bio is a 2024 stub (2 placeholder posts),
+//                                       no Substack exists (bio.substack.com / bioxyz.substack.com / bioprotocol.substack.com
+//                                       all 404), mirror.xyz/bio.eth/feed/atom now serves the Mirror SPA shell, not a feed.
+//                                       www.bio.xyz/blog is server-rendered Webflow with content but no RSS — would need
+//                                       an HTML-scraper Worker to ingest. Left out of active sources.
+//   VitaDAO       — Next.js + Strapi.   vitadao.com has no feed. Resolved 2026-05-04: vitadao.substack.com/feed is the
+//                                       canonical channel (active, low cadence). Now in RSS_SOURCES.
 //   Molecule      — Next.js + Sanity.   molecule.xyz/blog/rss serves an HTML 404 with HTTP 200 (silent failure).
 //   Bankless      — newsletter.banklesshq.com has a chronic TLS SAN mismatch (was the 526 we kept seeing).
 //   PANews        — no /feed at panewslab.com.
 //   ChainCatcher  — no /rss at chaincatcher.com.
+//   Blockworks    — blockworks.co/feed still returns valid Atom and updates its <updated> stamp daily, but
+//                                       no new <entry> items have been published since 2026-01-07. Content stream
+//                                       moved off RSS. Removed 2026-05-04.
 //
 // Re-investigation candidates if we want them back:
 //   • Mirror.xyz/<eth>.eth/feed/atom — VitaDAO and Molecule have historically published there.
-//     Mirror's bot-protection blocked our probe tool (403/429); a real Worker may fare better.
-//   • A small HTML-scraper Worker for the three project-native blogs that lack feeds.
+//     Confirmed 2026-05-04 that Mirror now serves a Next.js SPA at these URLs, not a feed. A
+//     headless-render Worker could still extract content, but plain fetch will not work.
+//   • A small HTML-scraper Worker for the three project-native blogs that lack feeds
+//     (Bio Protocol, Molecule, anyone else who Webflows their blog).
 
 const API_SOURCES = [
   {
@@ -52,12 +63,14 @@ const API_SOURCES = [
     filter: 'pass',
     timeoutMs: 20_000, // ArXiv's API is sluggish under load; 10s isn't enough.
   },
-  {
-    name: 'GitHub bio-xyz',
-    url: 'https://github.com/bio-xyz.atom',
-    type: 'release',
-    filter: 'pass',
-  },
+  // Per-repo release feeds for the bio-xyz GitHub org. The org-level
+  // github.com/bio-xyz.atom returned an empty feed (the org doesn't emit
+  // public org-level events), so we watch each active repo's releases
+  // directly. Releases are quiet by design — no entries until a real
+  // tagged release ships.
+  { name: 'bio-xyz / BioAgents', url: 'https://github.com/bio-xyz/BioAgents/releases.atom', type: 'release', filter: 'pass' },
+  { name: 'bio-xyz / CoreAgent', url: 'https://github.com/bio-xyz/CoreAgent/releases.atom', type: 'release', filter: 'pass' },
+  { name: 'bio-xyz / ClawdLab', url: 'https://github.com/bio-xyz/ClawdLab/releases.atom', type: 'release', filter: 'pass' },
 ];
 
 // ── Filter / categorize ─────────────────────────────────────────────────
