@@ -9,3 +9,6 @@ node_modules/
 .env
 .env.*
 !.env.example
+
+# Local Claude Code settings (per-developer, may contain credentials)
+.claude/settings.local.json
