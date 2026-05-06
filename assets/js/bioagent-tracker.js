@@ -108,7 +108,7 @@ const AGENTS = [
   {
     id: 'clawdlab', name: 'ClawdLab', initials: 'Cl',
     status: 'live', stage: 3, stageDecimal: 3.5,
-    chain: 'multi', displayOrder: 8, segment: 'bioagent',
+    chain: 'multi', displayOrder: 1, segment: 'platform',
     focus: 'Research Platform',
     token: 'infrastructure', tokenNote: 'Not token-based',
     parent: 'Molecule / Bio Protocol',
@@ -292,11 +292,11 @@ const AGENTS = [
     outputN: 5,
   },
   {
-    id: 'bios', name: 'BIOS Data Agent', initials: 'BI',
+    id: 'bios', name: 'BIOS (Universal AI Scientist API)', initials: 'BI',
     status: 'live', stage: 3, stageDecimal: 3.4,
-    chain: 'multi', displayOrder: 10, segment: 'bioagent',
+    chain: 'multi', displayOrder: 3, segment: 'platform',
     excludeFromLane: true,
-    focus: 'Infrastructure / Bioinformatics',
+    focus: 'Pay-per-call research API. Bearer token or x402 USDC on Base.',
     token: 'pay-per-query',
     parent: 'Bio Protocol AI',
     desc: 'Universal AI Scientist — pay-per-query bioinformatics utility. Powers other BioAgents with on-demand scientific intelligence. Used by researchers from Harvard, Stanford, Pfizer.',
@@ -455,7 +455,7 @@ const AGENTS = [
   {
     id: 'science-beach', name: 'Science Beach', initials: 'SB',
     status: 'live', stage: 1, stageDecimal: 1.5,
-    chain: 'solana', displayOrder: 17, segment: 'cross-ecosystem',
+    chain: 'solana', displayOrder: 2, segment: 'platform',
     excludeFromLane: true,
     focus: 'Open scientific commons',
     parent: 'Molecule × Bio Protocol',
@@ -1003,15 +1003,32 @@ function sortAgents(key, source = AGENTS) {
 // ─── Segment tabs (Stage 2) ─────────────────────────────────────────────────
 // Maps the URL/click param ↔ the per-agent `segment` field. Tabs are the
 // outer slice of the dataset; sort/grouping then applies inside each slice.
+//
+// "Platforms" is the infrastructure layer (research platform, public commons,
+// shared API) where agents and research live. "Adjacent" replaces the old
+// "Cross-ecosystem" label, but keeps the original `cross-ecosystem` segment
+// value so per-entry data stays untouched.
 const TAB_TO_SEGMENT = {
   bioagents: 'bioagent',
   ipts: 'ipt',
-  cross: 'cross-ecosystem',
+  platforms: 'platform',
+  adjacent: 'cross-ecosystem',
 };
 const SEGMENT_TO_TAB = {
   bioagent: 'bioagents',
   ipt: 'ipts',
-  'cross-ecosystem': 'cross',
+  platform: 'platforms',
+  'cross-ecosystem': 'adjacent',
+};
+// Backward-compat for old direct links that used ?tab=cross.
+const TAB_ALIASES = { cross: 'adjacent' };
+// Section header text shown above the agent grid for each tab. Status-group
+// headers (LIVE/LAUNCHING/...) are unaffected.
+const TAB_HEADER_LABEL = {
+  bioagents: 'Agents',
+  ipts: 'IPTs / Compounds',
+  platforms: 'Platforms',
+  adjacent: 'Projects',
 };
 let currentTab = 'bioagents';
 
@@ -1050,6 +1067,7 @@ function updateTabCounts() {
 }
 
 function setTab(tab, opts = {}) {
+  if (TAB_ALIASES[tab]) tab = TAB_ALIASES[tab];
   if (!TAB_TO_SEGMENT[tab]) tab = 'bioagents';
   currentTab = tab;
   document.querySelectorAll('[data-tab]').forEach(btn => {
@@ -1057,6 +1075,10 @@ function setTab(tab, opts = {}) {
     btn.setAttribute('aria-selected', active ? 'true' : 'false');
     btn.classList.toggle('is-active', active);
   });
+  // Section header above the grid swaps per tab (Agents / IPTs / Platforms /
+  // Projects). Hardcoded "Agents" used to lie on every tab.
+  const headerLabel = document.getElementById('grid-section-label');
+  if (headerLabel) headerLabel.textContent = TAB_HEADER_LABEL[tab] || 'Agents';
   // Keep the agent-grid (the single tabpanel) labelled by the active tab.
   const grid = document.getElementById('agent-grid');
   if (grid) grid.setAttribute('aria-labelledby', `tab-${tab}`);
@@ -1074,7 +1096,8 @@ function wireTabs() {
   document.querySelectorAll('[data-tab]').forEach(btn => {
     btn.addEventListener('click', () => setTab(btn.dataset.tab));
   });
-  // honor ?tab=… on initial load
+  // honor ?tab=… on initial load. setTab() handles aliases (?tab=cross →
+  // adjacent) and unknown values (fall back to bioagents).
   const urlTab = new URLSearchParams(window.location.search).get('tab');
   setTab(urlTab || 'bioagents', { updateUrl: false });
 }
