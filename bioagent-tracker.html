@@ -134,16 +134,6 @@
         </div>
       </section>
 
-      <!-- ── Sector Activity banner ─────────────────────────────── -->
-      <!-- Always-visible header banner showing live Science Beach metrics
-           regardless of which tab is selected. Renders from
-           SCIENCE_BEACH_METRICS in bioagent-tracker.js. -->
-      <section class="sector-activity" id="sector-activity" aria-label="Sector activity">
-        <span class="sector-activity-label">Sector Activity</span>
-        <div class="sector-activity-metrics" id="sector-activity-metrics"></div>
-        <div class="sector-activity-source" id="sector-activity-source"></div>
-      </section>
-
       <!-- ── Segment tabs (Stage 2) ─────────────────────────────── -->
       <nav class="tracker-tabs" data-tab-container role="tablist" aria-label="Segment">
         <button id="tab-bioagents" class="tracker-tab is-active" data-tab="bioagents" role="tab" aria-selected="true" aria-controls="agent-grid" type="button">
@@ -303,6 +293,17 @@
             <span class="howitworks-cta-arrow" aria-hidden="true">→</span>
           </a>
         </div>
+      </section>
+
+      <!-- ── Sector Activity banner ─────────────────────────────── -->
+      <!-- Scoped to the Platforms tab: shows live metrics for Science Beach,
+           the platform that lives inside this tab. Hidden by default; setTab()
+           reveals it when currentTab === 'platforms'. Renders from
+           SCIENCE_BEACH_METRICS in bioagent-tracker.js. -->
+      <section class="sector-activity" id="sector-activity" aria-label="Live platform metrics" hidden>
+        <span class="sector-activity-label">Sector Activity</span>
+        <div class="sector-activity-metrics" id="sector-activity-metrics"></div>
+        <div class="sector-activity-source" id="sector-activity-source"></div>
       </section>
 
       <!-- ── Agent grid ────────────────────────────────────────── -->

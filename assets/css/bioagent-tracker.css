@@ -844,6 +844,10 @@
   border-radius: 6px;
   position: relative;
 }
+/* The class selector above otherwise overrides the user-agent
+   [hidden] { display: none } rule, leaving the banner taking space on
+   tabs where it should be invisible. */
+.sector-activity[hidden] { display: none; }
 .sector-activity::before {
   content: "";
   position: absolute;

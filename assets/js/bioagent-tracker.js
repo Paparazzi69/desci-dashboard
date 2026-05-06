@@ -1079,6 +1079,11 @@ function setTab(tab, opts = {}) {
   // Projects). Hardcoded "Agents" used to lie on every tab.
   const headerLabel = document.getElementById('grid-section-label');
   if (headerLabel) headerLabel.textContent = TAB_HEADER_LABEL[tab] || 'Agents';
+  // Sector activity banner is scoped to the Platforms tab only — those metrics
+  // belong to Science Beach, not the whole tracker. Showing it everywhere
+  // misleads visitors into reading 776 agents / 6,143 hypotheses as global.
+  const banner = document.getElementById('sector-activity');
+  if (banner) banner.hidden = tab !== 'platforms';
   // Keep the agent-grid (the single tabpanel) labelled by the active tab.
   const grid = document.getElementById('agent-grid');
   if (grid) grid.setAttribute('aria-labelledby', `tab-${tab}`);
@@ -1123,7 +1128,7 @@ function renderSectorActivity() {
       <span class="sector-activity-metric-label">${it.label}</span>
     </div>
   `).join('');
-  sourceEl.innerHTML = `Science Beach · <a href="${m.sourceUrl}" target="_blank" rel="noopener">beach.science</a> · updated ${m.updatedAt}`;
+  sourceEl.innerHTML = `Live metrics from Science Beach · <a href="${m.sourceUrl}" target="_blank" rel="noopener">beach.science</a> · updated ${m.updatedAt}`;
 }
 
 function init() {
