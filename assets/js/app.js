@@ -123,8 +123,11 @@ function mountParticleNetworks() {
 function renderShell() {
   document.getElementById('status-time').textContent =
     new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  // Date renders today, formatted in en-US (e.g. "May 6, 2026"). Was
+  // previously hardcoded and went stale a week at a time, signalling
+  // "this dashboard isn't being maintained" to first-time visitors.
   document.getElementById('brand-tagline').textContent =
-    `Decentralized Science · April 29, 2026`;
+    `Decentralized Science · ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
   // Skeleton sector cards
   document.getElementById('sector-summary').innerHTML = [
     'Total Market Cap', '24h Volume', 'Sector 24h Δ', 'Dominant Token', 'Trend',
