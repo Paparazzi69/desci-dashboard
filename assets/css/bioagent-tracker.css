@@ -550,6 +550,10 @@
 .gate[data-state="pending"] { background: var(--surface3); border: 1px solid var(--border); }
 .programme-stage { font-size: 9px; color: var(--text3); margin-left: 6px; letter-spacing: 0.04em; }
 .programme-note { font-size: 10px; color: var(--text2); text-align: right; font-family: 'Space Grotesk', sans-serif; }
+/* Plain row variant (no gates): three left-aligned text columns. Used by
+   simple lookup tables like Science Beach top researchers. */
+.programme-plain-cell { font-size: 11px; color: var(--text2); }
+.programme-row--plain .programme-name { font-weight: 500; }
 
 /* mini pipeline pip indicator */
 .pip-row { display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; }
