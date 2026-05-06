@@ -13,14 +13,14 @@
 <meta property="og:title" content="BioAgent and IPT Tracker, DeSci Analytics Hub" />
 <meta property="og:description" content="Live tracker for DeSci BioAgents, IPTs, and cross-ecosystem projects. Pipeline stages, tokens, and on-chain status across the sector." />
 <meta property="og:url" content="https://descidash.com/bioagent-tracker" />
-<meta property="og:image" content="https://descidash.com/branding/header-v1.png" />
-<meta property="og:image:width" content="1500" />
-<meta property="og:image:height" content="500" />
+<meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@DeSciDashboard" />
 <meta name="twitter:title" content="BioAgent and IPT Tracker, DeSci Analytics Hub" />
 <meta name="twitter:description" content="Live tracker for DeSci BioAgents, IPTs, and cross-ecosystem projects. Pipeline stages, tokens, and on-chain status across the sector." />
-<meta name="twitter:image" content="https://descidash.com/branding/header-v1.png" />
+<meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -136,15 +136,15 @@
 
       <!-- ── Segment tabs (Stage 2) ─────────────────────────────── -->
       <nav class="tracker-tabs" data-tab-container role="tablist" aria-label="Segment">
-        <button class="tracker-tab is-active" data-tab="bioagents" role="tab" aria-pressed="true" type="button">
+        <button id="tab-bioagents" class="tracker-tab is-active" data-tab="bioagents" role="tab" aria-selected="true" aria-controls="agent-grid" type="button">
           <span class="tracker-tab-name">BioAgents</span>
           <span class="tracker-tab-count">10</span>
         </button>
-        <button class="tracker-tab" data-tab="ipts" role="tab" aria-pressed="false" type="button">
+        <button id="tab-ipts" class="tracker-tab" data-tab="ipts" role="tab" aria-selected="false" aria-controls="agent-grid" type="button">
           <span class="tracker-tab-name">IPTs / Compounds</span>
           <span class="tracker-tab-count">7</span>
         </button>
-        <button class="tracker-tab" data-tab="cross" role="tab" aria-pressed="false" type="button">
+        <button id="tab-cross" class="tracker-tab" data-tab="cross" role="tab" aria-selected="false" aria-controls="agent-grid" type="button">
           <span class="tracker-tab-name">Cross-ecosystem</span>
           <span class="tracker-tab-count">1</span>
         </button>
@@ -281,7 +281,7 @@
         </div>
 
         <div class="howitworks-actions">
-          <a class="howitworks-link" href="https://www.bio.xyz/blog-posts/bioagent-launchpad-creating-schelling-points-for-generative-bio" target="_blank" rel="noopener noreferrer">
+          <a class="howitworks-link" href="https://bio.xyz/blog-posts/bioagent-launchpad-creating-schelling-points-for-generative-bio" target="_blank" rel="noopener noreferrer">
             Learn more on bio.xyz <span aria-hidden="true">↗</span>
           </a>
           <a class="howitworks-cta" href="/methodology">
@@ -298,21 +298,21 @@
         </div>
         <div class="grid-controls-right">
           <span class="control-label">Sort</span>
-          <select class="sort-select" id="sort-select">
+          <select class="sort-select" id="sort-select" aria-label="Sort agents">
             <option value="status">Status (live first)</option>
             <option value="stage">Pipeline stage</option>
             <option value="output">Output volume</option>
             <option value="name">Name (A–Z)</option>
           </select>
           <span class="control-label">View</span>
-          <div class="view-toggle" role="tablist">
-            <button id="view-card" aria-pressed="true">Card</button>
-            <button id="view-compact" aria-pressed="false">Compact</button>
+          <div class="view-toggle" role="group" aria-label="View mode">
+            <button id="view-card" aria-pressed="true" type="button">Card</button>
+            <button id="view-compact" aria-pressed="false" type="button">Compact</button>
           </div>
         </div>
       </div>
 
-      <div class="agent-grid" id="agent-grid" data-view="card">
+      <div class="agent-grid" id="agent-grid" data-view="card" role="tabpanel" aria-labelledby="tab-bioagents">
         <!-- compact header (only visible in compact view) -->
         <div class="compact-header" aria-hidden="true">
           <span></span><span>Agent</span><span>Status</span><span>Focus</span><span>Token</span><span>Stage</span><span>Output</span>
@@ -343,6 +343,7 @@
         <div class="footer-links">
           <a href="/">Dashboard</a>
           <a href="/feed">News</a>
+          <a href="/privacy">Privacy</a>
           <a href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">Twitter</a>
         </div>
       </footer>
@@ -355,7 +356,8 @@
 <div id="agent-modal" class="agent-modal" hidden role="dialog" aria-modal="true" aria-labelledby="agent-modal-title">
   <div class="agent-modal-backdrop" data-close></div>
   <div class="agent-modal-card" role="document">
-    <button class="agent-modal-close" data-close aria-label="Close modal">×</button>
+    <h2 id="agent-modal-title" class="sr-only">Agent details</h2>
+    <button class="agent-modal-close" data-close aria-label="Close" type="button"><span aria-hidden="true">×</span></button>
     <div class="agent-modal-content"></div>
   </div>
 </div>

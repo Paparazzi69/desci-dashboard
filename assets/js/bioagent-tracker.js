@@ -989,9 +989,12 @@ function setTab(tab, opts = {}) {
   currentTab = tab;
   document.querySelectorAll('[data-tab]').forEach(btn => {
     const active = btn.dataset.tab === tab;
-    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
     btn.classList.toggle('is-active', active);
   });
+  // Keep the agent-grid (the single tabpanel) labelled by the active tab.
+  const grid = document.getElementById('agent-grid');
+  if (grid) grid.setAttribute('aria-labelledby', `tab-${tab}`);
   renderForCurrentTab();
   if (opts.updateUrl !== false) {
     const url = new URL(window.location.href);

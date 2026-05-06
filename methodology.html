@@ -4,23 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Methodology, DeSci Analytics Hub</title>
-<meta name="description" content="How we source, score, and curate DeSci sector data. Pipeline stage definitions, status criteria, and primary sources.">
+<meta name="description" content="How we source, score, and curate DeSci sector data. Pipeline stage definitions, BioAgent and IPT status criteria, primary sources, and update cadence.">
 <link rel="icon" type="image/png" href="/branding/icon-v1.png" />
 <link rel="apple-touch-icon" href="/branding/icon-v1.png" />
 <link rel="canonical" href="https://descidash.com/methodology" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="DeSci Analytics Hub" />
 <meta property="og:title" content="Methodology, DeSci Analytics Hub" />
-<meta property="og:description" content="How we source, score, and curate DeSci sector data. Pipeline stage definitions, status criteria, and primary sources." />
+<meta property="og:description" content="How we source, score, and curate DeSci sector data. Pipeline stage definitions, BioAgent and IPT status criteria, primary sources, and update cadence." />
 <meta property="og:url" content="https://descidash.com/methodology" />
-<meta property="og:image" content="https://descidash.com/branding/header-v1.png" />
-<meta property="og:image:width" content="1500" />
-<meta property="og:image:height" content="500" />
+<meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@DeSciDashboard" />
 <meta name="twitter:title" content="Methodology, DeSci Analytics Hub" />
-<meta name="twitter:description" content="How we source, score, and curate DeSci sector data. Pipeline stage definitions, status criteria, and primary sources." />
-<meta name="twitter:image" content="https://descidash.com/branding/header-v1.png" />
+<meta name="twitter:description" content="How we source, score, and curate DeSci sector data. Pipeline stage definitions, BioAgent and IPT status criteria, primary sources, and update cadence." />
+<meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -175,6 +175,9 @@
           The tracker is curated, not a directory. The following categories are deliberately excluded:
         </p>
         <ul class="doc-bullet-list">
+          <!-- External links flagged "timeout" by SEO audit on 2026-05-05 (pump.science,
+               app.bio.xyz/launchpad, cookie.fun) were verified manually and resolve in
+               a real browser; treating audit hits as false positives, leaving as-is. -->
           <li><strong>Memecoins without scientific output.</strong> Tokens that use DeSci aesthetics but produce no verifiable research, hypotheses, or programme progress. <a href="https://pump.science" target="_blank" rel="noopener noreferrer">Pump.science</a> compounds are tracked because they tie to actual mouse experiments. Most "DeSci memes" do not.</li>
           <li><strong>Closed or private projects.</strong> No public agent dashboard, no on-chain activity, no DAO communication. If we can't verify it, we don't list it.</li>
           <li><strong>Generic AI agents.</strong> <a href="https://cookie.fun" target="_blank" rel="noopener noreferrer">Cookie.fun</a>, Virtuals, ai16z, and similar ecosystems track thousands of AI agents. We only include those with explicit biology, science, or research programmes.</li>
@@ -350,7 +353,7 @@
         <h3 class="doc-h3">Solana-native coverage</h3>
         <ul class="doc-source-list">
           <li><a href="https://pump.science" target="_blank" rel="noopener noreferrer">pump.science</a>: RIF/URO experiment status, mouse trial outputs.</li>
-          <li><a href="https://curetopia.bio" target="_blank" rel="noopener noreferrer">Curetopia</a>: TGE data, AARS2 progress.</li>
+          <li><span>Curetopia</span>: TGE data, AARS2 progress. (Project site offline as of 2026-05; tracking via app.bio.xyz/agents/curetopia.)</li>
           <li>Solana on-chain explorers for $CURES, $RIF, $URO, $EGS verification.</li>
         </ul>
 
@@ -490,6 +493,7 @@
           <a href="/">Dashboard</a>
           <a href="/bioagent-tracker">BioAgent Tracker</a>
           <a href="/feed">News</a>
+          <a href="/privacy">Privacy</a>
         </div>
       </footer>
 
