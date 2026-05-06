@@ -369,10 +369,16 @@
 </div>
 
 <!-- ── Agent detail modal ─────────────────────────────────────────────────── -->
+<!-- The modal title is the agent name span injected by renderAgentDetail() in
+     bioagent-tracker.js, which carries id="agent-modal-title". The modal is
+     hidden until that injection happens, so aria-labelledby resolves to the
+     dynamic span as soon as the modal becomes user-visible. A static fallback
+     <h2> previously lived here with the same id, which created a duplicate-id
+     collision and made screen readers announce "Agent details" instead of the
+     agent name. -->
 <div id="agent-modal" class="agent-modal" hidden role="dialog" aria-modal="true" aria-labelledby="agent-modal-title">
   <div class="agent-modal-backdrop" data-close></div>
   <div class="agent-modal-card" role="document">
-    <h2 id="agent-modal-title" class="sr-only">Agent details</h2>
     <button class="agent-modal-close" data-close aria-label="Close" type="button"><span aria-hidden="true">×</span></button>
     <div class="agent-modal-content"></div>
   </div>

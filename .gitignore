@@ -13,3 +13,4 @@ node_modules/
 # Local Claude Code settings (per-developer, may contain credentials)
 .claude/settings.local.json
 .claude/
+.gstack/
