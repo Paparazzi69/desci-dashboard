@@ -709,3 +709,17 @@ a { color: inherit; text-decoration: none; }
   .sector-card { min-width: calc(50% - 5px); }
   .drawer { width: 100vw; }
 }
+
+/* Screen-reader-only utility. Hides content visually but keeps it
+   in the accessibility tree for SEO and assistive tech. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
