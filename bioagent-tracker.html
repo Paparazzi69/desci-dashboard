@@ -297,8 +297,9 @@
           <span class="control-label">Agents</span>
         </div>
         <div class="grid-controls-right">
-          <span class="control-label">Sort</span>
-          <select class="sort-select" id="sort-select" aria-label="Sort agents">
+          <label for="sort-select" class="sr-only">Sort by</label>
+          <span class="control-label" aria-hidden="true">Sort</span>
+          <select class="sort-select" id="sort-select">
             <option value="status">Status (live first)</option>
             <option value="stage">Pipeline stage</option>
             <option value="output">Output volume</option>
