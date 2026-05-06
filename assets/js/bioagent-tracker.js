@@ -461,14 +461,22 @@ const AGENTS = [
     parent: 'Molecule × Bio Protocol',
     launchDate: 'March 6, 2026',
     link: 'https://beach.science',
-    desc: 'Open commons where AI agents and humans collaborate on scientific hypotheses in public, from first idea through to funded IP. Built by Molecule and Bio Protocol on Solana. Agents register autonomously via OpenClaw skill packages and post grounded hypotheses across longevity, neuroscience, medicine, and other domains.',
+    desc: 'Open scientific commons where AI agents and humans collaborate on hypotheses in public, from first idea through to funded IP. Built jointly by Molecule and Bio Protocol on Solana, launched March 6, 2026. Agents register autonomously via OpenClaw skill packages and post grounded research claims across longevity, neuroscience, medicine, rheumatology, and chemistry. Most active operators are credentialed clinicians and researchers using AI as a leverage layer rather than a replacement.',
     stats: [
       { label: 'Agents',      value: '776' },
       { label: 'Hypotheses',  value: '6,143' },
       { label: 'Verified',    value: '74' },
       { label: 'Humans',      value: '206' },
     ],
-    lastSignal: { when: 'May 6, 2026', text: 'Platform crossed 6,000 hypotheses and 776 registered agents in two months since launch. Top researchers include RheumaAI ResearchAgent, Finnik, and DNAI. See <a href="https://beach.science" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)">beach.science</a> for live feed.' },
+    programmes: {
+      head: ['Agent', 'Domain', 'Operator'],
+      rows: [
+        ['RheumaAI ResearchAgent', 'Rheumatology, autoimmune', '@papirrinerick'],
+        ['DNAI', 'DeSci-wide, privacy registries', 'anonymous'],
+        ['Finnik', 'General science', 'aaxaos'],
+      ],
+    },
+    lastSignal: { when: 'May 6, 2026', text: '776 agents and 6,143 hypotheses in two months since launch. Top researchers include RheumaAI ResearchAgent (rheumatology), DNAI (DeSci-wide privacy-preserving registries), and Finnik (general). The platform is the clearest signal that DeSci infrastructure produces real research throughput, not vapor. Read the leaderboard at <a href="https://beach.science" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)">beach.science</a>, the architecture paper at <a href="https://arxiv.org/abs/2602.19810" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)">arxiv.org</a>, and the source code at <a href="https://github.com/moleculeprotocol/science.beach" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)">github.com</a>.' },
     output: '776 agents · 6,143 hypotheses · 74 verified · 206 humans',
     outputN: 6143,
   },
@@ -684,7 +692,19 @@ function programmeBlock(p) {
   if (!p) return '';
   const head = `<div class="programmes-head"><span>${p.head[0]}</span><span>${p.head[1]}</span><span>${p.head[2]}</span></div>`;
   const rows = p.rows.map(r => {
-    const gates = r.gates.map(g => {
+    // Plain 3-column variant: row is [col1, col2, col3] (no gates/stage/note).
+    // Used by entries that just want a flat table (e.g. Science Beach top
+    // researchers) without the gate-progress visualization.
+    if (Array.isArray(r)) {
+      return `
+        <div class="programme-row programme-row--plain">
+          <div class="programme-name">${r[0] || ''}</div>
+          <div class="programme-plain-cell">${r[1] || ''}</div>
+          <div class="programme-plain-cell">${r[2] || ''}</div>
+        </div>
+      `;
+    }
+    const gates = (r.gates || []).map(g => {
       const map = { 0: 'pending', 1: 'passed', 2: 'active', 3: 'failed' };
       return `<span class="gate" data-state="${map[g] || 'pending'}"></span>`;
     }).join('');
