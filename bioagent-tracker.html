@@ -97,7 +97,7 @@
             <span class="info-tip" data-tip="Count of distinct autonomous AI agents launched, launching, announced, or stalled via Bio Protocol launchpad. Source: bio.xyz, BioDAO announcements.">i</span>
           </div>
           <div class="metric-value">25</div>
-          <div class="metric-sub">10 BioAgents · 7 IPTs · 7 cross-ecosystem</div>
+          <div class="metric-sub">7 BioAgents · 9 IPTs · 3 Platforms · 6 Adjacent</div>
         </div>
         <div class="metric">
           <div class="metric-accent"></div>
@@ -106,7 +106,7 @@
             <span class="info-tip" data-tip="Agents currently producing verifiable output (hypotheses, candidates, papers, or IP-NFTs) onchain or in public repos.">i</span>
           </div>
           <div class="metric-value">14</div>
-          <div class="metric-sub">+ Spore.fun · aixCB · MycoDAO · AthenaDAO across cross-ecosystem</div>
+          <div class="metric-sub">+ Spore.fun · aixCB · MycoDAO · AthenaDAO across adjacent projects</div>
         </div>
         <div class="metric">
           <div class="metric-accent"></div>
@@ -148,15 +148,19 @@
       <nav class="tracker-tabs" data-tab-container role="tablist" aria-label="Segment">
         <button id="tab-bioagents" class="tracker-tab is-active" data-tab="bioagents" role="tab" aria-selected="true" aria-controls="agent-grid" type="button">
           <span class="tracker-tab-name">BioAgents</span>
-          <span class="tracker-tab-count">10</span>
+          <span class="tracker-tab-count">7</span>
         </button>
         <button id="tab-ipts" class="tracker-tab" data-tab="ipts" role="tab" aria-selected="false" aria-controls="agent-grid" type="button">
           <span class="tracker-tab-name">IPTs / Compounds</span>
-          <span class="tracker-tab-count">7</span>
+          <span class="tracker-tab-count">9</span>
         </button>
-        <button id="tab-cross" class="tracker-tab" data-tab="cross" role="tab" aria-selected="false" aria-controls="agent-grid" type="button">
-          <span class="tracker-tab-name">Cross-ecosystem</span>
-          <span class="tracker-tab-count">1</span>
+        <button id="tab-platforms" class="tracker-tab" data-tab="platforms" role="tab" aria-selected="false" aria-controls="agent-grid" type="button">
+          <span class="tracker-tab-name">Platforms</span>
+          <span class="tracker-tab-count">3</span>
+        </button>
+        <button id="tab-adjacent" class="tracker-tab" data-tab="adjacent" role="tab" aria-selected="false" aria-controls="agent-grid" type="button">
+          <span class="tracker-tab-name">Adjacent Projects</span>
+          <span class="tracker-tab-count">6</span>
         </button>
       </nav>
 
@@ -304,7 +308,7 @@
       <!-- ── Agent grid ────────────────────────────────────────── -->
       <div class="grid-controls">
         <div class="grid-controls-left">
-          <span class="control-label">Agents</span>
+          <span class="control-label" id="grid-section-label">Agents</span>
         </div>
         <div class="grid-controls-right">
           <label for="sort-select" class="sr-only">Sort by</label>
