@@ -823,6 +823,106 @@
 }
 .footer-links a:hover { color: var(--text2); }
 
+/* ── Sector Activity banner ──────────────────────────────────────────────── */
+/* Always-visible header above the segment tabs. Renders Science Beach metrics
+   from SCIENCE_BEACH_METRICS in bioagent-tracker.js. Compact one-row layout on
+   desktop; stacks vertically on mobile. Visual language matches data-card
+   pattern (subtle surface tint, neon-green numbers, monospace digits). */
+.sector-activity {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  position: relative;
+}
+.sector-activity::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--green);
+  opacity: 0.55;
+  border-radius: 6px 0 0 6px;
+}
+.sector-activity-label {
+  color: var(--text3);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.sector-activity-metrics {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.sector-activity-metric {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.sector-activity-metric + .sector-activity-metric {
+  padding-left: 14px;
+  border-left: 1px solid var(--border2);
+}
+.sector-activity-metric-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--green);
+  letter-spacing: -0.01em;
+}
+.sector-activity-metric-label {
+  font-size: 11px;
+  color: var(--text2);
+  letter-spacing: 0.02em;
+}
+.sector-activity-source {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: var(--text3);
+  letter-spacing: 0.01em;
+}
+.sector-activity-source a {
+  color: var(--text3);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--text3);
+  transition: color 0.12s;
+}
+.sector-activity-source a:hover { color: var(--green); text-decoration-color: var(--green); }
+
+@media (max-width: 640px) {
+  .sector-activity {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .sector-activity-metrics {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    width: 100%;
+  }
+  .sector-activity-metric + .sector-activity-metric {
+    padding-left: 0;
+    border-left: none;
+  }
+  .sector-activity-metric-value { font-size: 13px; }
+  .sector-activity-metric-label { font-size: 10.5px; }
+  .sector-activity-source {
+    margin-left: 0;
+    font-size: 10px;
+  }
+}
+
 /* ── Segment tabs (Stage 2) ──────────────────────────────────────────────── */
 /* Outer slice of the dataset: BioAgents / IPTs / Cross-ecosystem. Visually a
    horizontal underline tab bar with a thin divider beneath. The active tab

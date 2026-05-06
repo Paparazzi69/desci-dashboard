@@ -12,6 +12,16 @@
 // stageDecimal lets us track sub-progress within a stage for sorting (e.g.
 // 2.55 = mid wet-lab) without changing the integer bucket the lane uses.
 
+// Update weekly by checking beach.science homepage. TODO: automate via Pages Function fetching beach.science and parsing counters.
+const SCIENCE_BEACH_METRICS = {
+  agents: 776,
+  hypotheses: 6143,
+  verified: 74,
+  humans: 206,
+  updatedAt: '2026-05-06',
+  sourceUrl: 'https://beach.science',
+};
+
 const AGENTS = [
   {
     id: 'aubrai', name: 'AUBRAI', initials: 'Au',
@@ -442,6 +452,26 @@ const AGENTS = [
   // Schema-aligned with the rest of AGENTS so the same renderer/sort/lane
   // logic applies. excludeFromLane keeps these off the BioAgents pipeline
   // visualization (they are tracked outside Bio Protocol's pipeline).
+  {
+    id: 'science-beach', name: 'Science Beach', initials: 'SB',
+    status: 'live', stage: 1, stageDecimal: 1.5,
+    chain: 'solana', displayOrder: 17, segment: 'cross-ecosystem',
+    excludeFromLane: true,
+    focus: 'Open scientific commons',
+    parent: 'Molecule × Bio Protocol',
+    launchDate: 'March 6, 2026',
+    link: 'https://beach.science',
+    desc: 'Open commons where AI agents and humans collaborate on scientific hypotheses in public, from first idea through to funded IP. Built by Molecule and Bio Protocol on Solana. Agents register autonomously via OpenClaw skill packages and post grounded hypotheses across longevity, neuroscience, medicine, and other domains.',
+    stats: [
+      { label: 'Agents',      value: '776' },
+      { label: 'Hypotheses',  value: '6,143' },
+      { label: 'Verified',    value: '74' },
+      { label: 'Humans',      value: '206' },
+    ],
+    lastSignal: { when: 'May 6, 2026', text: 'Platform crossed 6,000 hypotheses and 776 registered agents in two months since launch. Top researchers include RheumaAI ResearchAgent, Finnik, and DNAI. See <a href="https://beach.science" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)">beach.science</a> for live feed.' },
+    output: '776 agents · 6,143 hypotheses · 74 verified · 206 humans',
+    outputN: 6143,
+  },
   {
     id: 'spore-fun', name: 'Spore.fun', initials: 'Sp',
     status: 'live', stage: 1, stageDecimal: 1.5,
@@ -1014,7 +1044,32 @@ function wireTabs() {
   setTab(urlTab || 'bioagents', { updateUrl: false });
 }
 
+// ─── Sector activity banner ─────────────────────────────────────────────────
+// Renders SCIENCE_BEACH_METRICS into the always-visible header banner above
+// the segment tabs. Inline metrics with comma-separated thousands; source
+// line includes a clickable beach.science link.
+function renderSectorActivity() {
+  const metricsEl = document.getElementById('sector-activity-metrics');
+  const sourceEl = document.getElementById('sector-activity-source');
+  if (!metricsEl || !sourceEl) return;
+  const m = SCIENCE_BEACH_METRICS;
+  const items = [
+    { label: 'Agents',     value: m.agents },
+    { label: 'Hypotheses', value: m.hypotheses },
+    { label: 'Verified',   value: m.verified },
+    { label: 'Humans',     value: m.humans },
+  ];
+  metricsEl.innerHTML = items.map(it => `
+    <div class="sector-activity-metric">
+      <span class="sector-activity-metric-value">${it.value.toLocaleString('en-US')}</span>
+      <span class="sector-activity-metric-label">${it.label}</span>
+    </div>
+  `).join('');
+  sourceEl.innerHTML = `Science Beach · <a href="${m.sourceUrl}" target="_blank" rel="noopener">beach.science</a> · updated ${m.updatedAt}`;
+}
+
 function init() {
+  renderSectorActivity();
   buildLane();
   wireAgentModal();
   wireTabs(); // sets initial tab + renders the right segment
