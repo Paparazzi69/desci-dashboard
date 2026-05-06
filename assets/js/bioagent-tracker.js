@@ -627,6 +627,21 @@ function chainBadge(chain) {
   return `<span class="chain-badge chain-${key}">${CHAIN_LABEL[key]}</span>`;
 }
 
+// ─── CTA label ──────────────────────────────────────────────────────────────
+// The modal "View on …" CTA used to hardcode "BIO.XYZ" regardless of where the
+// link actually pointed (Science Beach → beach.science, Spore.fun → spore.fun,
+// etc., all mislabeled). Derive the visible domain from the URL instead. Falls
+// back to "VIEW SOURCE ↗" for malformed links so the button still renders.
+function ctaLabel(link) {
+  try {
+    const url = new URL(link);
+    const domain = url.hostname.replace(/^www\./, '').toUpperCase();
+    return `VIEW ON ${domain} ↗`;
+  } catch (_) {
+    return 'VIEW SOURCE ↗';
+  }
+}
+
 // ─── Pipeline Lane — pucks ───────────────────────────────────────────────────
 const STATUS_RANK_LANE = { live: 0, launching: 1, announced: 2, stalled: 3 };
 
@@ -671,7 +686,7 @@ function buildLane() {
         <div class="lane-tooltip">
           <div class="lane-tooltip-meta" style="color:${STAGE_COLOR[stageInt]}">${a.status} · ${STAGE_LABEL[stageInt]}</div>
           <div style="color:var(--text);font-weight:500;margin-bottom:3px">${a.name}</div>
-          <div style="color:var(--text2);font-size:10px;line-height:1.5">Last signal · ${a.lastSignal.when} — ${a.lastSignal.text}</div>
+          <div style="color:var(--text2);font-size:10px;line-height:1.5">Last signal · ${a.lastSignal.when} · ${a.lastSignal.text}</div>
         </div>
       `;
       puck.addEventListener('click', () => {
@@ -851,7 +866,7 @@ function renderAgents(list, opts = {}) {
       <div class="last-signal">
         <span class="last-signal-label">Last signal</span>
         <div>
-          <span class="last-signal-time">${a.lastSignal.when}</span> — ${a.lastSignal.text}
+          <span class="last-signal-time">${a.lastSignal.when}</span> · ${a.lastSignal.text}
         </div>
       </div>
 
@@ -906,11 +921,11 @@ function renderAgentDetail(a) {
     <div class="last-signal">
       <span class="last-signal-label">Last signal</span>
       <div>
-        <span class="last-signal-time">${a.lastSignal.when}</span> — ${a.lastSignal.text}
+        <span class="last-signal-time">${a.lastSignal.when}</span> · ${a.lastSignal.text}
       </div>
     </div>
 
-    ${a.link ? `<a class="agent-cta agent-cta--external" href="${a.link}" target="_blank" rel="noopener noreferrer">View on bio.xyz ↗</a>` : ''}
+    ${a.link ? `<a class="agent-cta agent-cta--external" href="${a.link}" target="_blank" rel="noopener noreferrer">${ctaLabel(a.link)}</a>` : ''}
   `;
 }
 
