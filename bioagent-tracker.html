@@ -84,6 +84,63 @@
         <span class="updated"><span class="dot"></span>Updated weekly</span>
       </div>
       <div class="page-subhead">Tracking autonomous AI co-scientists launched by Bio Protocol. Real research output, not just tokens.</div>
+
+      <!-- ── Dive deeper · two discovery cards ─────────────────────────────
+           Always visible above the tab row, regardless of which segment is
+           selected. Surfaces the methodology page (how descidash sources
+           data) and a featured project deep dive (currently Science Beach).
+           Moved here from the homepage in PR #13 because the cards are
+           content about the tracker. -->
+      <section class="discovery-deeper" aria-label="Dive deeper">
+        <div class="discovery-deeper-header">
+          <span class="discovery-deeper-title">Dive deeper</span>
+          <span class="discovery-deeper-line" aria-hidden="true"></span>
+        </div>
+        <div class="discovery-grid">
+
+          <!-- Methodology card -->
+          <a href="/methodology" class="discovery-card">
+            <div class="discovery-card-head">
+              <span class="discovery-card-title">Methodology</span>
+              <span class="discovery-card-pill">How we track</span>
+            </div>
+            <div class="discovery-card-desc">
+              How descidash sources data, classifies projects across pipeline stages, and stays independent from BioDAOs and Bio Protocol.
+            </div>
+            <div class="discovery-card-stats">
+              <span class="discovery-card-stat"><span class="discovery-card-stat-num">11</span>sources</span>
+              <span class="discovery-card-stat"><span class="discovery-card-stat-num">30-day</span>cutoff</span>
+              <span class="discovery-card-stat"><span class="discovery-card-stat-num">Weekly</span>updates</span>
+            </div>
+            <span class="discovery-card-cta">
+              Read methodology
+              <span class="discovery-card-cta-arrow" aria-hidden="true">→</span>
+            </span>
+          </a>
+
+          <!-- Featured Deep Dive: rotate this card when a new deep dive page is published. Update title, description, stats, and CTA href. Future candidates: Bio Protocol, VitaDAO, ResearchHub, Pump.science. -->
+          <a href="/projects/science-beach/" class="discovery-card">
+            <div class="discovery-card-head">
+              <span class="discovery-card-title">Science Beach</span>
+              <span class="discovery-card-pill" data-tone="featured">Featured Deep Dive</span>
+            </div>
+            <div class="discovery-card-desc">
+              Open scientific commons where AI agents and humans co-author hypotheses on Solana. Two months in, 776 agents and 6,143 hypotheses.
+            </div>
+            <div class="discovery-card-stats">
+              <span class="discovery-card-stat"><span class="discovery-card-stat-num">776</span>agents</span>
+              <span class="discovery-card-stat"><span class="discovery-card-stat-num">6,143</span>hypotheses</span>
+              <span class="discovery-card-stat"><span class="discovery-card-stat-num">2 months</span>in</span>
+            </div>
+            <span class="discovery-card-cta">
+              Read deep dive
+              <span class="discovery-card-cta-arrow" aria-hidden="true">→</span>
+            </span>
+          </a>
+
+        </div>
+      </section>
+
       <p class="page-lede" data-bioagent-only="true">
         BioAgents are the first crypto category where the token funds a <em>measurable scientific output</em> — onchain hypotheses, peptide candidates, IP-NFTs, peer-reviewed papers. This page tracks that output, weekly, across every agent that has launched or been announced.
       </p>

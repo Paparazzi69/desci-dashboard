@@ -931,6 +931,123 @@
   }
 }
 
+/* ── Discovery section: Methodology + Featured Deep Dive ───────────────────
+   Two secondary cards above the segment tabs, always visible regardless of
+   which tab is selected. Surfaces the methodology page and a featured
+   project deep dive (currently Science Beach). The Featured Deep Dive slot
+   rotates as new /projects/<slug>/ pages publish. Section header uses the
+   same muted-uppercase pattern as the milestones header on the homepage. */
+.discovery-deeper {
+  margin: 2rem 0;
+}
+.discovery-deeper-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.discovery-deeper-title {
+  color: var(--text3);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.discovery-deeper-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+}
+.discovery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.discovery-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+  text-decoration: none;
+  color: inherit;
+  min-height: 200px;
+}
+.discovery-card:hover {
+  border-color: oklch(from var(--green) l c h / 0.35);
+  box-shadow: 0 0 0 1px oklch(from var(--green) l c h / 0.10), 0 8px 28px oklch(0 0 0 / 0.30);
+}
+.discovery-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 90% at 100% 0%, oklch(0.18 0.08 155 / 0.06), transparent 60%);
+  pointer-events: none;
+}
+.discovery-card-head {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  position: relative; z-index: 1;
+}
+.discovery-card-title {
+  font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.01em;
+}
+.discovery-card-pill {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 3px;
+  border: 1px solid var(--border);
+  color: var(--text3); background: var(--surface2);
+}
+.discovery-card-pill[data-tone="featured"] {
+  color: var(--green); background: var(--green-bg);
+  border-color: oklch(from var(--green) l c h / 0.30);
+}
+.discovery-card-desc {
+  color: var(--text2); font-size: 13px; line-height: 1.55;
+  position: relative; z-index: 1;
+}
+.discovery-card-stats {
+  display: flex; flex-wrap: wrap; gap: 6px 0; align-items: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--text2); letter-spacing: 0.02em;
+  position: relative; z-index: 1;
+}
+.discovery-card-stat {
+  display: inline-flex; align-items: center; gap: 6px; padding: 0 12px;
+  border-right: 1px solid var(--border2);
+}
+.discovery-card-stat:first-child { padding-left: 0; }
+.discovery-card-stat:last-child { border-right: none; }
+.discovery-card-stat-num { color: var(--green); font-weight: 600; }
+.discovery-card-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: 6px;
+  background: transparent;
+  border: 1px solid oklch(from var(--green) l c h / 0.35);
+  color: var(--green);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  transition: all .15s; white-space: nowrap;
+  margin-top: auto;
+  align-self: flex-start;
+  position: relative; z-index: 1;
+}
+.discovery-card:hover .discovery-card-cta {
+  background: var(--green-bg);
+  border-color: var(--green);
+  transform: translateX(2px);
+}
+.discovery-card-cta-arrow { transition: transform .15s; }
+.discovery-card:hover .discovery-card-cta-arrow { transform: translateX(2px); }
+@media (max-width: 640px) {
+  .discovery-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .discovery-card { min-height: 0; padding: 16px 18px; }
+  .discovery-card-stats { font-size: 10.5px; }
+  .discovery-card-stat { padding: 0 8px; }
+}
+
 /* ── Segment tabs (Stage 2) ──────────────────────────────────────────────── */
 /* Outer slice of the dataset: BioAgents / IPTs / Cross-ecosystem. Visually a
    horizontal underline tab bar with a thin divider beneath. The active tab
