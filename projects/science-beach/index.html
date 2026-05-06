@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Beach, Open Scientific Commons on Solana | DeSci Analytics Hub</title>
+<meta name="description" content="Deep dive on Science Beach, the open scientific commons launched by Molecule and Bio Protocol on Solana. Live metrics, architecture, top researchers, notable hypotheses, and what to watch next.">
+<link rel="icon" type="image/png" href="/branding/icon-v1.png" />
+<link rel="apple-touch-icon" href="/branding/icon-v1.png" />
+<link rel="canonical" href="https://descidash.com/projects/science-beach/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="DeSci Analytics Hub" />
+<meta property="og:title" content="Science Beach, Open Scientific Commons on Solana" />
+<meta property="og:description" content="Deep dive on Science Beach, the open scientific commons launched by Molecule and Bio Protocol on Solana. Live metrics, architecture, top researchers, and what to watch." />
+<meta property="og:url" content="https://descidash.com/projects/science-beach/" />
+<meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@DeSciDashboard" />
+<meta name="twitter:title" content="Science Beach, Open Scientific Commons on Solana" />
+<meta name="twitter:description" content="Deep dive on Science Beach, the open scientific commons launched by Molecule and Bio Protocol on Solana." />
+<meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/bioagent-tracker.css">
+<link rel="stylesheet" href="/assets/css/project-page.css">
+</head>
+<body>
+
+<div class="layout">
+  <main class="main" id="main">
+    <div class="max">
+
+      <!-- ── Header (same pattern as bioagent-tracker.html) ─────── -->
+      <header class="page-header">
+        <div class="brand">
+          <svg width="34" height="34" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <rect width="36" height="36" rx="8" fill="var(--green-bg)"/>
+            <path d="M 10 6 Q 18 12 26 6" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M 10 11 Q 18 17 26 11" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 10 16 Q 18 22 26 16" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M 10 21 Q 18 27 26 21" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 10 26 Q 18 32 26 26" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <line x1="14" y1="6" x2="14" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+            <line x1="22" y1="6" x2="22" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+          </svg>
+          <div>
+            <div class="brand-title">
+              <span class="brand-name">DeSci</span>
+              <span class="brand-sub">Project Deep Dive</span>
+            </div>
+            <div class="brand-tagline">Decentralized Science · Autonomous Co-Scientists</div>
+          </div>
+        </div>
+        <nav class="header-nav" aria-label="Primary">
+          <a class="header-nav-link" href="/">
+            <span>Dashboard</span>
+          </a>
+          <a class="header-nav-link" href="/bioagent-tracker">
+            <span>BioAgent Tracker</span>
+          </a>
+          <a class="header-nav-link" href="/feed">
+            <span>News</span>
+          </a>
+          <a class="header-nav-link" href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">
+            <span>Socials</span>
+            <span class="header-nav-arrow" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+        <div class="status">
+          <div class="live-dot" data-state="live">
+            <span class="live-dot-orb"></span>
+            <span>DEEP DIVE</span>
+          </div>
+        </div>
+      </header>
+
+      <article class="project-page">
+
+        <!-- ── 2. Breadcrumb ────────────────────────────────────── -->
+        <nav class="project-breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span class="sep">/</span>
+          <a href="/bioagent-tracker?tab=platforms">Platforms</a>
+          <span class="sep">/</span>
+          <span class="current">Science Beach</span>
+        </nav>
+
+        <!-- ── 3. Hero ──────────────────────────────────────────── -->
+        <header class="project-hero">
+          <h1>Science Beach</h1>
+          <div class="project-hero-status">
+            <span class="project-pill" data-tone="live"><span class="dot"></span>Live</span>
+            <span class="project-pill" data-tone="chain">Solana</span>
+            <span class="project-pill" data-tone="type">Platform</span>
+          </div>
+          <p class="project-tagline">Open scientific commons where AI agents and humans co-author hypotheses in public, from first idea through to funded IP.</p>
+          <p class="project-attribution">Built by Molecule and Bio Protocol. Launched March 6, 2026.</p>
+        </header>
+
+        <!-- ── 4. Live metrics banner ───────────────────────────── -->
+        <section class="project-metrics" aria-label="Live platform metrics">
+          <span class="project-metrics-label">Live Metrics</span>
+          <div class="project-metrics-row" id="project-metrics-row"></div>
+          <div class="project-metrics-source" id="project-metrics-source"></div>
+        </section>
+
+        <!-- ── 5. What it is ────────────────────────────────────── -->
+        <section class="project-section">
+          <h2>What it is</h2>
+          <p>Science Beach is an open scientific commons launched on Solana in March 2026 by Molecule Protocol and Bio Protocol. AI agents and humans publish research hypotheses, comment on each other's work, and route micropayments to the work that survives review. Two months after launch, the platform has crossed 776 registered agents and 6,143 published hypotheses.</p>
+          <p>Unlike a launchpad where agents are curated and tokenized, Science Beach lets any agent register autonomously by calling a single API endpoint. Once registered, an agent installs OpenClaw skill packages from the platform's skill registry: beach-science as the gateway, peptide-binding for in-silico work, aubrai-longevity for grounding, and bios-deep-research for paid deep research via the BIOS API on Bio Protocol's infrastructure.</p>
+          <p>The most active operators are not anonymous bot networks. The top of the leaderboard is dominated by named human-AI pairs: a rheumatologist running an AI agent specialized in autoimmune disease, a mathematician running a coordination-protocol agent, a privacy-preservation researcher running encrypted multicenter trial proposals. The platform reads less like a memecoin experiment and more like an open lab notebook used by credentialed researchers using AI as a leverage layer.</p>
+        </section>
+
+        <!-- ── 6. Architecture ──────────────────────────────────── -->
+        <section class="project-section">
+          <h2>Architecture</h2>
+          <div class="project-arch">
+            <div class="project-arch-card">
+              <h3>OpenClaw skill ecosystem</h3>
+              <p>Agents install skills as Markdown packages. The current registry includes beach-science (platform gateway), peptide-binding (in-silico pipeline with pLDDT and Kd quality gates), aubrai-longevity (longevity-domain grounding from VitaDAO's BioAgent), and bios-deep-research (paid access to Bio Protocol's research API).</p>
+            </div>
+            <div class="project-arch-card">
+              <h3>x402 payment rail</h3>
+              <p>Each agent has an integrated wallet. x402 routes USDC-on-Base micropayments per inference call. When a research thread produces valuable output, agents that contributed to the thread receive payment proportional to their contribution. Bio Protocol describes this as a reinforcement-learning reward function for scientific work.</p>
+            </div>
+            <div class="project-arch-card">
+              <h3>BIOS as universal AI scientist</h3>
+              <p>BIOS is Bio Protocol's coordination layer at ai.bio.xyz. Agents pay BIOS per query for deep research support. The same skill ecosystem and economic stack work across both Beach.Science (open commons) and ClawdLab (structured PI-led labs), giving agents a way to graduate from public hypothesis posting into formal lab work.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── 7. Domain breakdown ──────────────────────────────── -->
+        <section class="project-section">
+          <h2>Domain breakdown</h2>
+          <ol class="project-domain-list" id="project-domain-list"></ol>
+          <p class="project-domain-note">Hypotheses can be cross-tagged into multiple coves, so the sum exceeds the total hypothesis count.</p>
+        </section>
+
+        <!-- ── 8. Top researchers ───────────────────────────────── -->
+        <section class="project-section">
+          <h2>Top researchers</h2>
+          <div class="project-table">
+            <div class="project-table-row head">
+              <span>Agent</span>
+              <span>Domain</span>
+              <span>Operator</span>
+            </div>
+            <div class="project-table-row">
+              <span class="project-table-cell primary" data-label="Agent">RheumaAI ResearchAgent</span>
+              <span class="project-table-cell" data-label="Domain">Rheumatology, autoimmune</span>
+              <span class="project-table-cell" data-label="Operator">@papirrinerick</span>
+            </div>
+            <div class="project-table-row">
+              <span class="project-table-cell primary" data-label="Agent">Finnik</span>
+              <span class="project-table-cell" data-label="Domain">General science</span>
+              <span class="project-table-cell" data-label="Operator">aaxaos</span>
+            </div>
+            <div class="project-table-row">
+              <span class="project-table-cell primary" data-label="Agent">DNAI</span>
+              <span class="project-table-cell" data-label="Domain">DeSci-wide, privacy registries</span>
+              <span class="project-table-cell" data-label="Operator">anonymous</span>
+            </div>
+            <div class="project-table-row">
+              <span class="project-table-cell primary" data-label="Agent">Klavs2.0</span>
+              <span class="project-table-cell" data-label="Domain">Not specified</span>
+              <span class="project-table-cell" data-label="Operator">András AP</span>
+            </div>
+            <div class="project-table-row">
+              <span class="project-table-cell primary" data-label="Agent">Prof. X / Einstein</span>
+              <span class="project-table-cell" data-label="Domain">Mathematical modeling</span>
+              <span class="project-table-cell" data-label="Operator">Rafael Rolli</span>
+            </div>
+          </div>
+          <p class="project-table-caption">Leaderboard scores from beach.science as of May 6, 2026. Scores are computed from hypothesis quality, peer engagement, and verification rate.</p>
+        </section>
+
+        <!-- ── 9. Notable hypotheses ────────────────────────────── -->
+        <section class="project-section">
+          <h2>Notable hypotheses</h2>
+          <ul class="project-hypotheses">
+            <li class="project-hypothesis">
+              <h3 class="project-hypothesis-title">RheumaAI ResearchAgent's MRONJ model</h3>
+              <p class="project-hypothesis-body">A time-updated periodontal inflammation model that predicts medication-related osteonecrosis of the jaw better than antiresorptive treatment duration alone. Cites AAOMS 2022 and Khan consensus criteria, includes a falsifiable AUROC delta, and was the highest-engagement post in the scrape window with 37 likes.</p>
+            </li>
+            <li class="project-hypothesis">
+              <h3 class="project-hypothesis-title">DNAI's federated pharmacogenomic registry</h3>
+              <p class="project-hypothesis-body">A proposal for a CKKS homomorphic-encryption pooled registry for NUDT15 and TPMT pharmacogenomic data, designed to recover thiopurine dose-toxicity thresholds without centralizing patient data. Self-references the x402 payment rail as the testable substrate.</p>
+            </li>
+            <li class="project-hypothesis">
+              <h3 class="project-hypothesis-title">Einstein's MathCoord Protocol</h3>
+              <p class="project-hypothesis-body">A meta-hypothesis: Beach.Science needs a coordinator agent that uses stochastic dominance plus Bayesian updating to allocate x402 funding more efficiently. The post explicitly cites two existing leaderboard hypotheses as benchmarks, making it a self-aware governance proposal from inside the platform.</p>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ── 10. Why it matters ───────────────────────────────── -->
+        <section class="project-section">
+          <h2>Why it matters</h2>
+          <p>Most DeSci platforms talk about decentralized research without producing measurable scientific output. Science Beach has 6,143 hypotheses on a public ledger after two months. The hypotheses are not all good, but the worst of them are visibly bad in public, the best of them have peer engagement and citations, and the entire pipeline is auditable from registration through to funding. That is closer to how science actually works than what came before in DeSci.</p>
+          <p>For investors, the platform is interesting not because it has a token (it does not) but because it is the live test case for whether agentic infrastructure can produce real research throughput. If Science Beach hits 1,500 verified agents and the first IPT mints from research originated on the platform, the proof-of-concept extends from infrastructure speculation to actual asset creation. If it stalls at 776 agents and the leaderboard does not grow into wet-lab partnerships, the agentic-science thesis takes a meaningful hit.</p>
+        </section>
+
+        <!-- ── 11. What to watch ────────────────────────────────── -->
+        <section class="project-section">
+          <h2>What to watch</h2>
+          <ul class="project-watch">
+            <li>Verified agent count growth (currently 74 of 776)</li>
+            <li>Size and frequency of platform prize cycles after the launch $2,500 round</li>
+            <li>First IPT minted from research that originated on Beach.Science</li>
+            <li>Mainstream pharma or academic engagement with named researchers</li>
+            <li>Cross-platform graduation: agents moving from Beach.Science posting into ClawdLab structured labs</li>
+          </ul>
+        </section>
+
+        <!-- ── 12. Resources ────────────────────────────────────── -->
+        <section class="project-section">
+          <h2>Resources</h2>
+          <ul class="project-resources">
+            <li>
+              <a href="https://beach.science" target="_blank" rel="noopener noreferrer">beach.science</a>
+              <span class="project-resources-desc">live feed and leaderboard</span>
+            </li>
+            <li>
+              <a href="https://github.com/moleculeprotocol/science.beach" target="_blank" rel="noopener noreferrer">github.com/moleculeprotocol/science.beach</a>
+              <span class="project-resources-desc">open-source platform code</span>
+            </li>
+            <li>
+              <a href="https://github.com/moleculeprotocol/beach-science-skills" target="_blank" rel="noopener noreferrer">github.com/moleculeprotocol/beach-science-skills</a>
+              <span class="project-resources-desc">skill registry</span>
+            </li>
+            <li>
+              <a href="https://arxiv.org/abs/2602.19810" target="_blank" rel="noopener noreferrer">arxiv.org/abs/2602.19810</a>
+              <span class="project-resources-desc">Weidener et al. architecture paper, February 2026</span>
+            </li>
+            <li>
+              <a href="https://x.com/sciencebeach__" target="_blank" rel="noopener noreferrer">@sciencebeach__</a>
+              <span class="project-resources-desc">official platform Twitter</span>
+            </li>
+            <li>
+              <a href="https://x.com/papirrinerick" target="_blank" rel="noopener noreferrer">@papirrinerick</a>
+              <span class="project-resources-desc">top community operator (RheumaAI)</span>
+            </li>
+            <li>
+              <a href="https://x.com/Molecule_sci" target="_blank" rel="noopener noreferrer">@Molecule_sci</a>
+              <span class="project-resources-desc">Molecule Protocol (co-creator)</span>
+            </li>
+            <li>
+              <a href="https://x.com/BioProtocol" target="_blank" rel="noopener noreferrer">@BioProtocol</a>
+              <span class="project-resources-desc">Bio Protocol (co-creator)</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ── 13. Update log ───────────────────────────────────── -->
+        <p class="project-updatelog">This page is updated as the platform evolves. Last update: May 6, 2026, initial publication.</p>
+      </article>
+
+      <!-- ── 14. Footer ───────────────────────────────────────── -->
+      <footer class="tracker-footer">
+        <div>
+          desci-dashboard.pages.dev · Science Beach Deep Dive · Built with data, not hype.
+        </div>
+        <div class="footer-links">
+          <a href="/">Dashboard</a>
+          <a href="/bioagent-tracker">BioAgent Tracker</a>
+          <a href="/feed">News</a>
+          <a href="/privacy">Privacy</a>
+          <a href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">Twitter</a>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<script>
+// Snapshot of Science Beach platform metrics. Update weekly by checking
+// beach.science homepage. TODO: automate via Cloudflare Pages Function that
+// fetches beach.science and parses the live counters.
+const SCIENCE_BEACH_METRICS_DEEP_DIVE = {
+  agents: 776,
+  hypotheses: 6143,
+  verified: 74,
+  humans: 206,
+  updatedAt: '2026-05-06',
+  sourceUrl: 'https://beach.science',
+};
+
+// Domain breakdown by cove. Hypotheses cross-tag into multiple coves so the
+// sum exceeds the total hypothesis count above.
+const SCIENCE_BEACH_DOMAINS = [
+  { name: 'Longevity and Aging',     count: 6479 },
+  { name: 'Neuroscience and Brain',  count: 919  },
+  { name: 'Medicine and Health',     count: 591  },
+  { name: 'AI and Machine Learning', count: 325  },
+  { name: 'Chemistry and Materials', count: 159  },
+];
+
+(function renderMetrics() {
+  const m = SCIENCE_BEACH_METRICS_DEEP_DIVE;
+  const items = [
+    { label: 'Agents',     value: m.agents },
+    { label: 'Hypotheses', value: m.hypotheses },
+    { label: 'Verified',   value: m.verified },
+    { label: 'Humans',     value: m.humans },
+  ];
+  const row = document.getElementById('project-metrics-row');
+  if (row) {
+    row.innerHTML = items.map(it => `
+      <div class="project-metric">
+        <span class="project-metric-value">${it.value.toLocaleString('en-US')}</span>
+        <span class="project-metric-label">${it.label}</span>
+      </div>
+    `).join('');
+  }
+  const src = document.getElementById('project-metrics-source');
+  if (src) {
+    src.innerHTML = `Live metrics from <a href="${m.sourceUrl}" target="_blank" rel="noopener">beach.science</a> · updated ${m.updatedAt}`;
+  }
+})();
+
+(function renderDomains() {
+  const list = document.getElementById('project-domain-list');
+  if (!list) return;
+  const max = Math.max(...SCIENCE_BEACH_DOMAINS.map(d => d.count));
+  list.innerHTML = SCIENCE_BEACH_DOMAINS.map(d => {
+    const pct = (d.count / max) * 100;
+    return `
+      <li class="project-domain-row">
+        <span class="project-domain-name">${d.name}</span>
+        <span class="project-domain-bar" role="img" aria-label="${d.count.toLocaleString('en-US')} hypotheses">
+          <span class="project-domain-bar-fill" style="width:${pct.toFixed(1)}%"></span>
+        </span>
+        <span class="project-domain-count">${d.count.toLocaleString('en-US')}</span>
+      </li>
+    `;
+  }).join('');
+})();
+</script>
+</body>
+</html>
