@@ -1,8 +1,17 @@
 // Sentiment page client. Reads /api/sentiment, renders the overview metric
 // row + per-token table, and draws inline-SVG sparklines without any
 // external chart library.
+//
+// Column rules (matched to /v2/data/top-mentions reality + chat sentiment):
+//   • SENTIMENT · colored bar from -1 to +1 when sentiment_score is non-null,
+//     "n/a" when null (the snapshot cron skips chat below 5 mentions).
+//   • SMART · raw smart_mention_count number, header tooltip explains the
+//     proxy (smart-account reposts in top mentions).
+//   • TOP MENTION · @username + view count, whole cell links to the tweet.
 
 const API_URL = '/api/sentiment';
+const EMPTY_PLACEHOLDER = '·';
+const NA_PLACEHOLDER = 'n/a';
 
 init();
 
@@ -13,14 +22,14 @@ async function init() {
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     payload = await r.json();
   } catch (e) {
-    renderEmpty('Sentiment data unavailable · the snapshot cron has not run yet, or the network is blocked.');
+    renderEmpty('Sentiment data unavailable, the snapshot cron has not run yet, or the network is blocked.');
     console.warn('sentiment fetch failed', e);
     return;
   }
 
   const tokens = Array.isArray(payload?.tokens) ? payload.tokens : [];
   if (!tokens.length) {
-    renderEmpty('Coming soon · the daily snapshot has not run yet. Data shows up once the first cron fires.');
+    renderEmpty('Coming soon, the daily snapshot has not run yet. Data shows up once the first cron fires.');
     setUpdated(payload?.updated_at);
     return;
   }
@@ -28,38 +37,40 @@ async function init() {
   // Sort by mention_count desc · the most-discussed token leads the table.
   tokens.sort((a, b) => (b.mention_count || 0) - (a.mention_count || 0));
 
-  renderOverview(tokens);
+  renderOverview(tokens, payload?.metadata);
   renderTable(tokens);
   setUpdated(payload?.updated_at);
 }
 
-function renderOverview(tokens) {
-  let totalMentions = 0;
-  let smartMentions = 0;
-  let mindshareSum = 0;
+function renderOverview(tokens, metadata) {
+  let smartReposts = 0;
   let mindshareCount = 0;
   let sentSum = 0;
   let sentCount = 0;
 
   for (const t of tokens) {
-    if (Number.isFinite(t.mention_count)) totalMentions += t.mention_count;
-    if (Number.isFinite(t.smart_mention_count)) smartMentions += t.smart_mention_count;
-    if (Number.isFinite(t.mindshare)) {
-      mindshareSum += t.mindshare;
-      mindshareCount++;
-    }
+    if (Number.isFinite(t.smart_mention_count)) smartReposts += t.smart_mention_count;
+    if (Number.isFinite(t.mindshare)) mindshareCount++;
     if (Number.isFinite(t.sentiment_score)) {
       sentSum += t.sentiment_score;
       sentCount++;
     }
   }
 
+  const totalMentions = Number.isFinite(metadata?.total_mentions)
+    ? metadata.total_mentions
+    : tokens.reduce((n, t) => n + (Number.isFinite(t.mention_count) ? t.mention_count : 0), 0);
+
   setText('om-total', formatCount(totalMentions));
-  setText('om-smart', formatCount(smartMentions));
+  setText('om-smart', formatCount(smartReposts));
+  // Mindshare is per-token in [0..1], so a sector-level "share of tracked
+  // chatter" is just the share carried by tickers we have a value for.
   setText('om-mindshare',
-    mindshareCount ? formatPercent(mindshareSum) : '—');
+    mindshareCount && tokens.length
+      ? formatPercent(mindshareCount / tokens.length)
+      : EMPTY_PLACEHOLDER);
   setText('om-sent',
-    sentCount ? (sentSum / sentCount).toFixed(2) : '—');
+    sentCount ? signedFixed(sentSum / sentCount, 2) : NA_PLACEHOLDER);
 }
 
 function renderTable(tokens) {
@@ -97,24 +108,35 @@ function renderTable(tokens) {
     }
     tr.appendChild(mentionsCell);
 
-    tr.appendChild(td('col-num', formatCount(t.smart_mention_count)));
+    // Smart column · raw count, no formatting trick (the header carries
+    // the explanation tooltip).
+    const smartCell = td('col-num',
+      Number.isFinite(t.smart_mention_count) ? formatCount(t.smart_mention_count) : EMPTY_PLACEHOLDER);
+    smartCell.title = 'Smart-account reposts in top mentions';
+    tr.appendChild(smartCell);
 
-    // Sentiment bar -1..+1
+    // Sentiment bar -1..+1, or "n/a" when chat was skipped or failed.
     const sentCell = document.createElement('td');
-    const sentWrap = document.createElement('div');
-    sentWrap.className = 'sentiment-bar-cell';
-    sentWrap.appendChild(buildSentimentBar(t.sentiment_score));
-    const sentVal = document.createElement('span');
-    sentVal.className = 'sentiment-bar-value';
-    sentVal.textContent = Number.isFinite(t.sentiment_score)
-      ? (t.sentiment_score > 0 ? '+' : '') + t.sentiment_score.toFixed(2)
-      : '—';
-    sentWrap.appendChild(sentVal);
-    sentCell.appendChild(sentWrap);
+    if (Number.isFinite(t.sentiment_score)) {
+      const sentWrap = document.createElement('div');
+      sentWrap.className = 'sentiment-bar-cell';
+      sentWrap.appendChild(buildSentimentBar(t.sentiment_score));
+      const sentVal = document.createElement('span');
+      sentVal.className = 'sentiment-bar-value';
+      sentVal.textContent = signedFixed(t.sentiment_score, 2);
+      sentWrap.appendChild(sentVal);
+      sentCell.appendChild(sentWrap);
+    } else {
+      const na = document.createElement('span');
+      na.className = 'sentiment-bar-value';
+      na.textContent = NA_PLACEHOLDER;
+      na.title = 'Sentiment not computed (fewer than 5 mentions, or chat call failed)';
+      sentCell.appendChild(na);
+    }
     tr.appendChild(sentCell);
 
     tr.appendChild(td('col-num',
-      Number.isFinite(t.mindshare) ? formatPercent(t.mindshare) : '—'));
+      Number.isFinite(t.mindshare) ? formatPercent(t.mindshare) : EMPTY_PLACEHOLDER));
 
     // Sparkline
     const sparkCell = document.createElement('td');
@@ -125,7 +147,8 @@ function renderTable(tokens) {
     });
     tr.appendChild(sparkCell);
 
-    // Top mention
+    // Top mention · whole cell links to the tweet (or to the user's
+    // profile if we don't have a tweet id). View count in parens.
     const topCell = document.createElement('td');
     topCell.className = 'col-top';
     if (t.top_mention && t.top_mention.username) {
@@ -136,16 +159,18 @@ function renderTable(tokens) {
         : `https://x.com/${encodeURIComponent(t.top_mention.username)}`;
       a.target = '_blank';
       a.rel = 'noopener noreferrer';
-      a.textContent = '@' + t.top_mention.username;
-      topCell.appendChild(a);
+      const handle = document.createElement('span');
+      handle.textContent = '@' + t.top_mention.username;
+      a.appendChild(handle);
       if (Number.isFinite(t.top_mention.view_count)) {
         const v = document.createElement('span');
         v.className = 'top-views';
-        v.textContent = formatCount(t.top_mention.view_count) + ' views';
-        topCell.appendChild(v);
+        v.textContent = ` (${formatCount(t.top_mention.view_count)} views)`;
+        a.appendChild(v);
       }
+      topCell.appendChild(a);
     } else {
-      topCell.textContent = '—';
+      topCell.textContent = EMPTY_PLACEHOLDER;
     }
     tr.appendChild(topCell);
 
@@ -161,7 +186,6 @@ function buildSentimentBar(score) {
   wrap.appendChild(mid);
   if (!Number.isFinite(score)) return wrap;
 
-  // Clamp to [-1, +1] then map to a fill that grows from the midline.
   const clamped = Math.max(-1, Math.min(1, score));
   const fill = document.createElement('div');
   const halfWidthPct = Math.abs(clamped) * 50;
@@ -212,17 +236,17 @@ function renderEmpty(msg) {
   if (tbody) {
     tbody.innerHTML = `<tr class="placeholder-row"><td colspan="8">${msg}</td></tr>`;
   }
-  ['om-total', 'om-smart', 'om-mindshare', 'om-sent'].forEach(id => setText(id, '—'));
+  ['om-total', 'om-smart', 'om-mindshare', 'om-sent'].forEach(id => setText(id, EMPTY_PLACEHOLDER));
 }
 
 function setUpdated(unix) {
   const el = document.getElementById('sentiment-updated');
   if (!el) return;
-  if (!unix) { el.textContent = 'Last updated: —'; return; }
+  if (!unix) { el.textContent = 'Last updated: ' + EMPTY_PLACEHOLDER; return; }
   try {
     const d = new Date(unix * 1000);
     el.textContent = 'Last updated: ' + d.toUTCString().replace('GMT', 'UTC');
-  } catch { el.textContent = 'Last updated: —'; }
+  } catch { el.textContent = 'Last updated: ' + EMPTY_PLACEHOLDER; }
   const t = document.getElementById('status-time');
   if (t) {
     try {
@@ -233,15 +257,20 @@ function setUpdated(unix) {
 
 // Format helpers
 function formatCount(n) {
-  if (!Number.isFinite(n)) return '—';
+  if (!Number.isFinite(n)) return EMPTY_PLACEHOLDER;
   if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
   if (n >= 1_000) return (n / 1_000).toFixed(1) + 'K';
   return String(Math.round(n));
 }
 function formatPercent(p) {
-  if (!Number.isFinite(p)) return '—';
+  if (!Number.isFinite(p)) return EMPTY_PLACEHOLDER;
   // mindshare comes back 0..1; render as %.
   return (p * 100).toFixed(2) + '%';
+}
+function signedFixed(n, digits) {
+  if (!Number.isFinite(n)) return EMPTY_PLACEHOLDER;
+  const s = n.toFixed(digits);
+  return n > 0 ? '+' + s : s;
 }
 function td(cls, text) {
   const cell = document.createElement('td');
