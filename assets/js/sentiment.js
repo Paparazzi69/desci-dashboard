@@ -1,12 +1,14 @@
 // Sentiment page client. Reads /api/sentiment, renders the overview metric
-// row + per-token table, and draws inline-SVG sparklines without any
+// row + per-project table, and draws inline-SVG sparklines without any
 // external chart library.
 //
-// Column rules (matched to /v2/data/top-mentions reality + chat sentiment):
-//   • SENTIMENT · colored bar from -1 to +1 when sentiment_score is non-null,
+// Column rules:
+//   • PROJECT · display name (e.g. "VitaDAO") with the $ticker shown as
+//     small dim subtext below it ("$VITA").
+//   • SENTIMENT · colored bar -1..+1 when sentiment_score is non-null,
 //     "n/a" when null (the snapshot cron skips chat below 5 mentions).
-//   • SMART · raw smart_mention_count number, header tooltip explains the
-//     proxy (smart-account reposts in top mentions).
+//   • SMART · count of distinct DeSci roster handles that mentioned the
+//     project, header tooltip names the roster size.
 //   • TOP MENTION · @username + view count, whole cell links to the tweet.
 
 const API_URL = '/api/sentiment';
@@ -34,12 +36,24 @@ async function init() {
     return;
   }
 
-  // Sort by mention_count desc · the most-discussed token leads the table.
+  // Sort by mention_count desc · the most-discussed project leads the table.
   tokens.sort((a, b) => (b.mention_count || 0) - (a.mention_count || 0));
 
-  renderOverview(tokens, payload?.metadata);
+  const meta = payload?.metadata || {};
+  applySmartTooltip(meta.smart_roster_size);
+
+  renderOverview(tokens, meta);
   renderTable(tokens);
   setUpdated(payload?.updated_at);
+}
+
+function applySmartTooltip(rosterSize) {
+  const th = document.getElementById('th-smart');
+  if (!th) return;
+  const size = Number.isFinite(rosterSize) ? rosterSize : 0;
+  th.title = size
+    ? `DeSci smart accounts who mentioned this project (from our curated roster of ${size} known DeSci accounts)`
+    : 'DeSci smart accounts who mentioned this project (roster bootstrap pending)';
 }
 
 function renderOverview(tokens, metadata) {
@@ -81,12 +95,28 @@ function renderTable(tokens) {
     const tr = document.createElement('tr');
     tr.appendChild(td('col-rank', String(i + 1)));
 
-    const tickerCell = td('col-ticker', t.ticker || '');
-    tickerCell.title = 'Click to copy';
-    tickerCell.addEventListener('click', () => {
-      try { navigator.clipboard.writeText(t.ticker || ''); } catch (e) { /* ignore */ }
+    // Project cell · display name big, $ticker small dim below.
+    const projectCell = document.createElement('td');
+    projectCell.className = 'col-ticker';
+    const display = t.display || t.ticker || '';
+    const symbol = t.symbol || null;
+    const nameSpan = document.createElement('div');
+    nameSpan.className = 'project-name';
+    nameSpan.textContent = display;
+    projectCell.appendChild(nameSpan);
+    if (symbol) {
+      const tickerSpan = document.createElement('div');
+      tickerSpan.className = 'project-ticker';
+      tickerSpan.textContent = symbol;
+      projectCell.appendChild(tickerSpan);
+    }
+    projectCell.title = symbol
+      ? `Click to copy ${symbol}`
+      : `Click to copy ${display}`;
+    projectCell.addEventListener('click', () => {
+      try { navigator.clipboard.writeText(symbol || display); } catch (e) { /* ignore */ }
     });
-    tr.appendChild(tickerCell);
+    tr.appendChild(projectCell);
 
     // Mentions 24h + change badge
     const mentionsCell = document.createElement('td');
@@ -112,7 +142,7 @@ function renderTable(tokens) {
     // the explanation tooltip).
     const smartCell = td('col-num',
       Number.isFinite(t.smart_mention_count) ? formatCount(t.smart_mention_count) : EMPTY_PLACEHOLDER);
-    smartCell.title = 'Smart-account reposts in top mentions';
+    smartCell.title = 'Distinct smart accounts in our DeSci roster who mentioned this project';
     tr.appendChild(smartCell);
 
     // Sentiment bar -1..+1, or "n/a" when chat was skipped or failed.

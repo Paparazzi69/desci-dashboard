@@ -1,46 +1,38 @@
 // POST /cron/elfa-snapshot-tokens
 //
 // Bearer-auth-gated daily snapshot of crypto-Twitter signal per DeSci
-// ticker. For each ticker:
-//   1. GET /v2/data/top-mentions · pulls the loudest 50 tweets in the
-//      24h window. Total mention count comes from metadata.total; the
-//      top tweet's metrics power the top_mention columns; smart-account
-//      reposts in those tweets become smart_mention_count.
-//   2. POST /v2/chat (only if mention_count >= 5) · asks Elfa AI to
-//      grade overall sentiment. Returns a JSON object we parse for
-//      sentiment_score in [-1, +1].
+// project. For each entry in DESCI_PROJECTS:
+//   1. GET /v2/data/keyword-mentions · keyword-based search returns the
+//      tweet array + metadata.total. Project-name keywords give cleaner
+//      results than $TICKERs (Elfa's ticker filter pulls in too much noise).
+//   2. Cross-reference the tweet authors against smart_accounts to
+//      compute a real smart_mention_count (count of distinct DeSci-
+//      flagged handles that mentioned the project).
+//   3. POST /v2/chat (only if mention_count >= 5) for a sentiment grade.
 //
-// After all tickers finish, mindshare is computed locally as
-// mention_count / total_mentions and UPDATEd onto every row from this
-// run. We use a single snapshot_at value so the UPDATE matches all rows.
+// After all projects finish, mindshare = mention_count / sector_total
+// is UPDATEd onto every row from this run. We use a single snapshot_at
+// value so the UPDATE matches all rows in one statement.
 //
-// Daily cadence at 01:00 UTC (cron-job.org). One per-call sleep keeps
-// us well under Elfa's 120 rpm rate limit. One ticker failing does not
-// abort the run · we log and continue.
+// The ticker column on elfa_token_snapshots stores the project's
+// `display` name (e.g. "VitaDAO"), not "$VITA". /api/sentiment merges
+// the ticker subtext back in via DESCI_PROJECT_BY_DISPLAY.
+//
+// Daily cadence at 01:00 UTC. Per-project error isolation · one failure
+// does not abort the run.
 
 import { jsonResponse, requireAdminAuth } from '../_shared.js';
 import {
   elfaGet, elfaPost, CreditCapReached,
   getCreditsUsedToday, getMonthlyCreditsUsed, getMonthlyCreditCap,
 } from '../_shared/elfa.js';
+import { DESCI_PROJECTS } from '../_shared/desci-projects.js';
 
-// Edit this list to track different DeSci tokens. Tickers are sent to
-// Elfa with the leading $ stripped (Elfa expects "BIO", not "$BIO"), but
-// stored in D1 with the $ prefix so the frontend can render them as-is.
-const DESCI_TICKERS = [
-  '$BIO', '$VITA', '$RSC', '$HAIR', '$AUBRAI',
-  '$VITARNA', '$CRYO', '$RIF', '$URO', '$ATH',
-  '$GROW', '$NEURON',
-];
-
-const PER_CALL_SLEEP_MS         = 600;       // ~100 calls/min · safe under 120 rpm
-const TIME_WINDOW               = '24h';
-const PAGE_SIZE                 = 50;
-const SENTIMENT_MIN_MENTIONS    = 5;         // skip /v2/chat below this · saves credits
-const CHAT_TIMEOUT_MS           = 30_000;    // chat is slow (5-15s typical)
-
-// Captures USERNAME from links shaped https://x.com/USERNAME/status/12345
-const X_LINK_USERNAME_RE = /https:\/\/x\.com\/([^\/]+)\/status\//i;
+const PER_CALL_SLEEP_MS      = 600;       // ~100 calls/min · safe under 120 rpm
+const TIME_WINDOW            = '24h';
+const PAGE_SIZE              = 100;       // higher than ticker variant · keyword search casts a wider net
+const SENTIMENT_MIN_MENTIONS = 5;
+const CHAT_TIMEOUT_MS        = 30_000;
 
 export async function onRequest({ request, env }) {
   const denied = requireAdminAuth(request, env);
@@ -48,43 +40,44 @@ export async function onRequest({ request, env }) {
   if (!env.DB) return jsonResponse({ error: 'D1 binding DB not configured' }, 500);
 
   const startedAt = Math.floor(Date.now() / 1000);
-  const snapshotAt = startedAt;  // single value for this run · drives mindshare UPDATE
+  const snapshotAt = startedAt;
   const results = [];
   let successes = 0;
   let failures = 0;
   let capReached = false;
 
-  for (let i = 0; i < DESCI_TICKERS.length; i++) {
-    const tickerWithDollar = DESCI_TICKERS[i];
-    const tickerBare = tickerWithDollar.replace(/^\$/, '');
-
+  for (let i = 0; i < DESCI_PROJECTS.length; i++) {
+    const project = DESCI_PROJECTS[i];
     if (i > 0) await sleep(PER_CALL_SLEEP_MS);
 
     try {
-      const data = await elfaGet(env, '/v2/data/top-mentions', {
-        ticker: tickerBare,
+      const data = await elfaGet(env, '/v2/data/keyword-mentions', {
+        keywords: project.keyword,
         timeWindow: TIME_WINDOW,
         pageSize: PAGE_SIZE,
       });
 
-      const summary = summarizeTopMentions(data);
+      const summary = summarizeKeywordMentions(data);
 
-      // Sentiment via /v2/chat · only when there's enough chatter to
-      // ask a meaningful question. Single failure leaves sentiment_score
-      // null but does not break the row.
+      // Real smart_mention_count · count distinct handles in the response
+      // that are flagged is_smart=1 in our roster. Reads from D1, not Elfa.
+      summary.smart_mention_count = await countSmartMentions(env, summary.unique_authors);
+      delete summary.unique_authors;
+
+      // Sentiment via /v2/chat · skip below threshold to save credits.
       let sentiment = null;
       let sentimentSummary = null;
       let sentimentError = null;
       if ((summary.mention_count || 0) >= SENTIMENT_MIN_MENTIONS) {
         try {
           await sleep(PER_CALL_SLEEP_MS);
-          const chatResult = await fetchSentiment(env, tickerWithDollar);
+          const chatResult = await fetchSentiment(env, project.display);
           sentiment = chatResult.sentiment;
           sentimentSummary = chatResult.summary;
         } catch (e) {
-          if (e instanceof CreditCapReached) throw e;  // bubble · stop the run
+          if (e instanceof CreditCapReached) throw e;
           sentimentError = String(e?.message || e).slice(0, 200);
-          console.log(`elfa-snapshot ${tickerWithDollar}: sentiment failed · ${sentimentError}`);
+          console.log(`elfa-snapshot ${project.display}: sentiment failed · ${sentimentError}`);
         }
       }
 
@@ -97,21 +90,26 @@ export async function onRequest({ request, env }) {
               raw_json)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
         ).bind(
-          tickerWithDollar,
+          project.display,                   // ticker column · stores display name now
           snapshotAt,
           TIME_WINDOW,
           summary.mention_count,
           summary.smart_mention_count,
           sentiment,
-          null,                                // mindshare filled in after the loop
+          null,                              // mindshare filled in after the loop
           summary.top_mention_username,
           summary.top_mention_view_count,
           summary.top_mention_tweet_id,
-          JSON.stringify({ topMentions: data, sentimentSummary }).slice(0, 64_000),
+          JSON.stringify({
+            keywordMentions: data,
+            sentimentSummary,
+            project: { display: project.display, keyword: project.keyword, ticker: project.ticker },
+          }).slice(0, 64_000),
         ).run();
         successes++;
         results.push({
-          ticker: tickerWithDollar,
+          display: project.display,
+          ticker: project.ticker,
           ok: true,
           mention_count: summary.mention_count,
           smart_mention_count: summary.smart_mention_count,
@@ -123,7 +121,8 @@ export async function onRequest({ request, env }) {
       } catch (e) {
         failures++;
         results.push({
-          ticker: tickerWithDollar,
+          display: project.display,
+          ticker: project.ticker,
           ok: false,
           error: 'db-insert: ' + String(e?.message || e).slice(0, 200),
         });
@@ -131,17 +130,16 @@ export async function onRequest({ request, env }) {
     } catch (e) {
       failures++;
       const msg = String(e?.message || e).slice(0, 300);
-      results.push({ ticker: tickerWithDollar, ok: false, error: msg });
+      results.push({ display: project.display, ticker: project.ticker, ok: false, error: msg });
       if (e instanceof CreditCapReached) {
         capReached = true;
         break;
       }
-      console.log(`elfa-snapshot ${tickerWithDollar}: ${msg}`);
+      console.log(`elfa-snapshot ${project.display}: ${msg}`);
     }
   }
 
-  // Compute mindshare locally · share of total mentions across this run.
-  // We UPDATE rather than re-INSERT so we don't burn another snapshot row.
+  // Compute mindshare · share of total mentions across this run.
   let mindshareUpdated = 0;
   let totalMentions = 0;
   try {
@@ -163,7 +161,7 @@ export async function onRequest({ request, env }) {
     console.warn('elfa-snapshot: mindshare update failed', e);
   }
 
-  // Cap diagnostics · what did this run cost, and how much room is left?
+  // Cap diagnostics.
   let creditsUsedToday = 0;
   let creditsUsedMonth = 0;
   let creditsRemaining = null;
@@ -192,17 +190,16 @@ export async function onRequest({ request, env }) {
   });
 }
 
-function sleep(ms) {
-  return new Promise(r => setTimeout(r, ms));
-}
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// Pull the fields we actually display from a /v2/data/top-mentions
-// response. Reads defensively · Elfa nests the array under data and the
-// totals under metadata, but we tolerate the top-level fallback shape too.
-function summarizeTopMentions(data) {
+// Reads /v2/data/keyword-mentions defensively. The list is at .data
+// (sometimes .data.data); totals at .metadata.total. Each tweet exposes
+// account.username directly · no regex needed.
+function summarizeKeywordMentions(data) {
   const out = {
     mention_count: null,
-    smart_mention_count: null,
+    smart_mention_count: null,    // filled in by countSmartMentions
+    unique_authors: [],
     top_mention_username: null,
     top_mention_view_count: null,
     top_mention_tweet_id: null,
@@ -217,39 +214,49 @@ function summarizeTopMentions(data) {
 
   out.mention_count = numOrNull(meta.total ?? meta.totalMentions ?? meta.total_count ?? list.length);
 
-  // smart_mention_count · sum of repostBreakdown.smart across the list.
-  // This is "smart-account reposts engaging with top mentions", a proxy
-  // for KOL attention rather than a true smart-mention count.
-  let smartSum = 0;
-  let smartSeen = false;
+  const authorSet = new Set();
   for (const m of list) {
-    const s = numOrNull(m?.repostBreakdown?.smart ?? m?.repost_breakdown?.smart ?? null);
-    if (s !== null) { smartSum += s; smartSeen = true; }
+    const u = m?.account?.username || m?.account?.handle || m?.username;
+    if (typeof u === 'string' && u) authorSet.add(u.toLowerCase());
   }
-  out.smart_mention_count = smartSeen ? smartSum : null;
+  out.unique_authors = [...authorSet];
 
-  // Top mention · the first tweet in data[]. Elfa returns the list
-  // sorted by relevance/engagement so data[0] is the surface-worthy one.
   const top = list[0];
   if (top) {
+    out.top_mention_username =
+      top?.account?.username ?? top?.account?.handle ?? top?.username ?? null;
+    out.top_mention_view_count = numOrNull(top.viewCount ?? top.view_count ?? null);
     out.top_mention_tweet_id = top.tweetId ? String(top.tweetId)
       : top.tweet_id ? String(top.tweet_id)
       : null;
-    out.top_mention_view_count = numOrNull(top.viewCount ?? top.view_count ?? null);
-    const link = top.link || top.url || '';
-    const m = X_LINK_USERNAME_RE.exec(link);
-    if (m && m[1]) out.top_mention_username = m[1];
   }
 
   return out;
 }
 
-// Ask /v2/chat for a sentiment grade. Returns { sentiment, summary } on
-// success, throws on failure (so the caller can log and continue).
-async function fetchSentiment(env, ticker) {
+// Count how many of the given (lowercased) usernames are flagged
+// is_smart=1 in our roster. Returns 0 when the list is empty (Elfa
+// returned no tweets) so the column is never null in that case.
+async function countSmartMentions(env, lowerUsernames) {
+  if (!Array.isArray(lowerUsernames) || lowerUsernames.length === 0) return 0;
+  const placeholders = lowerUsernames.map(() => '?').join(',');
+  try {
+    const row = await env.DB.prepare(
+      `SELECT COUNT(*) AS n
+         FROM smart_accounts
+        WHERE is_smart = 1 AND LOWER(username) IN (${placeholders})`
+    ).bind(...lowerUsernames).first();
+    return Number(row?.n || 0);
+  } catch (e) {
+    console.warn('elfa-snapshot: smart-count query failed', e);
+    return null;
+  }
+}
+
+async function fetchSentiment(env, displayName) {
   const message =
     `Analyze the overall sentiment of recent crypto Twitter discussion ` +
-    `about ${ticker} in the last 24 hours. Look at top mentions and ` +
+    `about ${displayName} in the last 24 hours. Look at top mentions and ` +
     `engagement. Return ONLY a JSON object in this exact format with ` +
     `no other text: ` +
     `{"sentiment": <number from -1 to 1>, "summary": "<one short sentence under 100 chars>"}`;
@@ -259,7 +266,6 @@ async function fetchSentiment(env, ticker) {
     stream: false,
   }, { timeoutMs: CHAT_TIMEOUT_MS });
 
-  // The chat response shape varies · try the well-known fields in order.
   const text =
     data?.data?.message ??
     data?.data?.response ??
@@ -272,7 +278,6 @@ async function fetchSentiment(env, ticker) {
     throw new Error('chat: no assistant text in response');
   }
 
-  // Strip ```json or ``` fences, then pull the first JSON object out.
   const stripped = text.replace(/```(?:json)?\s*/gi, '').replace(/```/g, '').trim();
   const m = stripped.match(/\{[\s\S]*\}/);
   if (!m) throw new Error('chat: no JSON object in assistant text');
