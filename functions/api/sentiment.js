@@ -19,7 +19,7 @@
 import { jsonResponse, cacheGet, cachePut } from '../_shared.js';
 import { DESCI_PROJECT_BY_DISPLAY } from '../_shared/desci-projects.js';
 
-const CACHE_KEY  = 'sentiment:v3';
+const CACHE_KEY  = 'sentiment:v4';
 const TTL_S      = 30 * 60;            // 30 minutes
 const SPARK_DAYS = 7;
 const TIME_WINDOW = '24h';
@@ -94,12 +94,14 @@ export async function onRequest({ env }) {
     sparkByDisplay.get(t).push(Number(r.mention_count) || 0);
   }
 
-  // Roster size · for the SMART column tooltip ("from our curated roster
-  // of <X> known DeSci accounts").
+  // Roster size · for the DESCI column tooltip ("from our curated DeSci
+  // roster of <X> tracked accounts"). We count every ok row, not just
+  // is_smart=1 · the column counts mentions from any account in the
+  // roster, regardless of Elfa's crypto-graph smart flag.
   let smartRosterSize = 0;
   try {
     const row = await env.DB.prepare(
-      'SELECT COUNT(*) AS n FROM smart_accounts WHERE is_smart = 1'
+      "SELECT COUNT(*) AS n FROM smart_accounts WHERE check_status = 'ok'"
     ).first();
     smartRosterSize = Number(row?.n || 0);
   } catch (e) {
