@@ -69,6 +69,11 @@
   .item-source { color: var(--green); font-weight: 600; }
   .item-category { padding: 1px 7px; background: var(--surface3); border-radius: 3px; }
   .item-source-type { padding: 1px 7px; background: var(--surface3); border-radius: 3px; }
+  /* source_type colored badges · 'project' green, 'media' blue, 'twitter' purple,
+     'paper' / 'release' fall through to the default surface3 grey. */
+  .item-source-type[data-st="project"] { color: var(--green); background: var(--green-bg); }
+  .item-source-type[data-st="media"]   { color: var(--blue);  background: var(--blue-bg); }
+  .item-source-type[data-st="twitter"] { color: var(--purple); background: var(--purple-bg); }
   .item-title { font-size: 16px; font-weight: 600; line-height: 1.35; margin-bottom: 8px; }
   .item-title a { color: var(--text); border-bottom: 1px dashed transparent; }
   .item-title a:hover { color: var(--green); border-bottom-color: var(--green-dim); }
