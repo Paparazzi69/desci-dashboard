@@ -1,4 +1,4 @@
-// POST /cron/elfa-news-pulse
+// POST /cron/elfa-news-pulse?batch=8&offset=0
 //
 // Bearer-auth-gated daily pulse of newsworthy Twitter mentions per
 // DeSci project, sourced from Elfa's /v2/data/token-news endpoint.
@@ -15,8 +15,31 @@
 // token-news only accepts a ticker (no multi-keyword), so we skip
 // projects with ticker=null (currently only ClawdLab).
 //
-// Daily cadence at 02:00 UTC. Per-project error isolation · one
-// failure does not abort the run.
+// Why batched · Cloudflare Pages Functions have a wall-clock budget
+// (~30s on free, unbounded but unreliable on paid). 18 token-news
+// calls × ~3s each blows past 30s when network latency drifts. We
+// split work into batches of 8 (default) and let the caller iterate
+// offsets until has_more=false. token-news is fast (no chat call)
+// so a larger batch than the snapshot cron fits.
+//
+// Per-project error isolation · one failure does not abort the
+// batch. CreditCapReached is the only hard stop.
+//
+// Caller loop (PowerShell):
+//   $offset = 0
+//   do {
+//     $r = Invoke-RestMethod -Method POST `
+//       -Uri "https://descidash.com/cron/elfa-news-pulse?batch=8&offset=$offset" `
+//       -Headers @{ "Authorization" = "Bearer $env:ADMIN_TOKEN" }
+//     Write-Host "Tweets added: $($r.tweets_added), Credits left: $($r.credits_remaining)"
+//     $offset = $r.next_offset
+//   } while ($r.has_more)
+//
+// cron-job.org cadence · stagger 3 tasks 2 minutes apart so each
+// batch lands inside its own 30s window:
+//   02:00 UTC · ?batch=8&offset=0
+//   02:02 UTC · ?batch=8&offset=8
+//   02:04 UTC · ?batch=8&offset=16
 
 import { jsonResponse, requireAdminAuth } from '../_shared.js';
 import {
@@ -31,6 +54,8 @@ const PAGE_SIZE         = 20;
 const MIN_VIEW_COUNT    = 1000;
 const MIN_LIKE_COUNT    = 10;
 const TITLE_MAX         = 200;
+const DEFAULT_BATCH     = 8;
+const MAX_BATCH         = 20;
 
 export async function onRequest({ request, env }) {
   const denied = requireAdminAuth(request, env);
@@ -38,7 +63,23 @@ export async function onRequest({ request, env }) {
   if (!env.DB) return jsonResponse({ error: 'D1 binding DB not configured' }, 500);
 
   const startedAt = Math.floor(Date.now() / 1000);
-  const projects = DESCI_PROJECTS.filter(p => p.ticker);
+  const eligible = DESCI_PROJECTS.filter(p => p.ticker);
+
+  // Parse batch / offset · clamp to safe ranges.
+  const url = new URL(request.url);
+  const batchRaw = Number(url.searchParams.get('batch'));
+  const offsetRaw = Number(url.searchParams.get('offset'));
+  const batchSize = Number.isFinite(batchRaw)
+    ? Math.min(MAX_BATCH, Math.max(1, Math.floor(batchRaw)))
+    : DEFAULT_BATCH;
+  const offset = Number.isFinite(offsetRaw) && offsetRaw >= 0
+    ? Math.floor(offsetRaw)
+    : 0;
+  const projects = eligible.slice(offset, offset + batchSize);
+  const nextOffset = offset + batchSize;
+  const isFinalBatch = nextOffset >= eligible.length;
+  const hasMore = !isFinalBatch;
+
   const results = [];
   let successes = 0;
   let failures = 0;
@@ -127,6 +168,12 @@ export async function onRequest({ request, env }) {
     startedAt,
     durationMs: Date.now() - startedAt * 1000,
     capReached,
+    total_projects: eligible.length,
+    offset,
+    batch: batchSize,
+    next_offset: nextOffset,
+    has_more: hasMore && !capReached,
+    is_final_batch: isFinalBatch,
     successes,
     failures,
     tweets_added: tweetsAdded,
