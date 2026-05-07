@@ -6,10 +6,11 @@
 // 30 days ago), calls /v2/account/smart-stats (1 credit) and stores the
 // result.
 //
-// is_smart = 1 when smart_followers_count > 30. The threshold is
-// deliberately loose for the seed: every handle in the seed list was
-// curated by domain-knowledgeable humans, so we want a permissive cut
-// that still excludes obviously-dormant accounts.
+// is_smart = 1 when smart_followers_count > 5. DeSci-sized accounts
+// have small smart-follower counts (Paul Kohlhaas had 13 at the time
+// we calibrated this) so a 30-threshold dropped most of the curated
+// seed back out. Every handle in the seed list was curated by
+// domain-knowledgeable humans, so a permissive cut at 5 is safe.
 //
 // Why batched · Cloudflare Pages Functions have a wall-clock limit
 // (~30s on the free tier, unbounded on paid but unreliable in practice).
@@ -32,7 +33,7 @@ import {
 // ─── Constants ──────────────────────────────────────────────────────────
 const PER_CALL_SLEEP_MS = 600;
 const RECHECK_AFTER_S   = 30 * 24 * 60 * 60;   // 30 days
-const SMART_THRESHOLD   = 30;
+const SMART_THRESHOLD   = 5;
 const DEFAULT_BATCH     = 50;
 const MAX_BATCH         = 80;
 
@@ -398,22 +399,29 @@ async function loadKnownRows(env, slice) {
   return known;
 }
 
+// Live Elfa /v2/account/smart-stats response shape (verified 2026-05-07):
+//   { success: true,
+//     data: { smartFollowingCount, averageEngagement, averageReach,
+//             smartFollowerCount, followerCount } }
+// camelCase first, snake_case kept as a fallback in case Elfa flips it
+// on us in a future revision. DB columns stay snake_case · only the
+// JS read path changes.
 function extractSmartStats(data) {
   const d = (data && typeof data === 'object' && data.data && typeof data.data === 'object')
     ? data.data
     : data || {};
   return {
     smart_followers_count: numOrNull(
-      d.smart_followers_count ?? d.smartFollowersCount ?? d.smart_followers ?? null
+      d.smartFollowerCount ?? d.smart_followers_count ?? d.smartFollowersCount ?? null
     ),
     follower_count: numOrNull(
-      d.follower_count ?? d.followerCount ?? d.followers ?? d.followers_count ?? null
+      d.followerCount ?? d.follower_count ?? d.followers ?? d.followers_count ?? null
     ),
     following_count: numOrNull(
-      d.following_count ?? d.followingCount ?? d.following ?? null
+      d.smartFollowingCount ?? d.smart_following_count ?? d.followingCount ?? d.following_count ?? null
     ),
     engagement_rate: numOrNull(
-      d.engagement_rate ?? d.engagementRate ?? d.engagement ?? null
+      d.averageEngagement ?? d.engagement_rate ?? d.engagementRate ?? null
     ),
   };
 }
