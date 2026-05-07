@@ -16,7 +16,7 @@ import {
 } from '../_shared/elfa.js';
 
 const PER_CALL_SLEEP_MS = 600;
-const SMART_THRESHOLD   = 30;
+const SMART_THRESHOLD   = 5;
 const KEYWORDS          = 'DeSci,BioDAO,IPNFT,decentralized science';
 const TIME_WINDOW       = '7d';
 const PAGE_SIZE         = 100;
@@ -216,22 +216,28 @@ export async function onRequest({ request, env }) {
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
+// Live Elfa /v2/account/smart-stats response shape (verified 2026-05-07):
+//   { success: true,
+//     data: { smartFollowingCount, averageEngagement, averageReach,
+//             smartFollowerCount, followerCount } }
+// camelCase first, snake_case kept as a fallback in case Elfa flips it
+// on us in a future revision.
 function extractSmartStats(data) {
   const d = (data && typeof data === 'object' && data.data && typeof data.data === 'object')
     ? data.data
     : data || {};
   return {
     smart_followers_count: numOrNull(
-      d.smart_followers_count ?? d.smartFollowersCount ?? d.smart_followers ?? null
+      d.smartFollowerCount ?? d.smart_followers_count ?? d.smartFollowersCount ?? null
     ),
     follower_count: numOrNull(
-      d.follower_count ?? d.followerCount ?? d.followers ?? d.followers_count ?? null
+      d.followerCount ?? d.follower_count ?? d.followers ?? d.followers_count ?? null
     ),
     following_count: numOrNull(
-      d.following_count ?? d.followingCount ?? d.following ?? null
+      d.smartFollowingCount ?? d.smart_following_count ?? d.followingCount ?? d.following_count ?? null
     ),
     engagement_rate: numOrNull(
-      d.engagement_rate ?? d.engagementRate ?? d.engagement ?? null
+      d.averageEngagement ?? d.engagement_rate ?? d.engagementRate ?? null
     ),
   };
 }
