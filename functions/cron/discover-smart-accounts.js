@@ -5,6 +5,15 @@
 // returned tweets, and runs every author NOT already in smart_accounts
 // through /v2/account/smart-stats. New rows land with source='discovery'.
 //
+// Inclusion philosophy · we INSERT every author we resolve, regardless
+// of smart_followers_count. Anyone tweeting about DeSci sector keywords
+// is DeSci-relevant by definition, even if Elfa's crypto-graph hasn't
+// flagged them. The is_smart=1 column still uses smart_followers_count
+// > 5 (gate for the /kols leaderboard), but the row itself goes in
+// even when is_smart=0 so the snapshot's DESCI count picks them up.
+// This deliberately bloats smart_accounts in exchange for far better
+// DeSci coverage on the sentiment table.
+//
 // Per-account isolation, hard stop on CreditCapReached. Every run lands
 // a roster_run_log row with run_type='discovery' so we can trend roster
 // growth over time.
@@ -20,7 +29,10 @@ const SMART_THRESHOLD   = 5;
 const KEYWORDS          = 'DeSci,BioDAO,IPNFT,decentralized science';
 const TIME_WINDOW       = '7d';
 const PAGE_SIZE         = 100;
-const MAX_NEW_PER_RUN   = 80;   // cap discovery cost per run · ~80 credits
+const MAX_NEW_PER_RUN   = 150;  // cap discovery cost per run · ~150 credits.
+                                // Bumped from 80 once we started inserting all
+                                // authors (not just is_smart=1) since the per-run
+                                // pool of net-new handles got noticeably wider.
 
 export async function onRequest({ request, env }) {
   const denied = requireAdminAuth(request, env);
@@ -101,6 +113,10 @@ export async function onRequest({ request, env }) {
     try {
       const data = await elfaGet(env, '/v2/account/smart-stats', { username });
       const stats = extractSmartStats(data);
+      // is_smart gates the /kols leaderboard. The INSERT below runs
+      // unconditionally · authors with smart_followers_count <= 5 still
+      // land in the roster (with is_smart=0) so the snapshot's DESCI
+      // count picks them up.
       const isSmart = (stats.smart_followers_count || 0) > SMART_THRESHOLD ? 1 : 0;
 
       await env.DB.prepare(

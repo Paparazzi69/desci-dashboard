@@ -52,7 +52,7 @@ const SEED_ACCOUNTS = [
   'athenabiorg', 'Aura_Sci', 'aweissman', 'awrigh01', 'AxonDAO',
   'BacalhauProject', 'beakerdao', 'BeeARDai', 'bel_kepson', 'benjileibo',
   'bio_hacker_dao', 'BIOACC_SOL_CTO', 'biofoundershq', 'bionicdao_',
-  'BioProtocol', 'BitDoctorAI', 'blockchainmuic', 'blueyard', 'bmagierski',
+  'BioProtocol', 'BioProtocolEco', 'BitDoctorAI', 'blockchainmuic', 'blueyard', 'bmagierski',
   'BoostVC', 'BowTiedBiotech', 'BrackLab', 'brett_cornick', 'brian_armstrong',
   'bryan_johnson', 'carlaostmann', 'catalyst_xyz', 'CausalityNet',
   'ceeceeboom', 'cerbivore', 'Cerebrum_DAO', 'chadfowler', 'ChatDKG',
