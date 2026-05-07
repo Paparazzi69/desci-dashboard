@@ -1,0 +1,152 @@
+/* Sentiment page · extends style.css and bioagent-tracker.css with the
+   table + sparkline + sentiment-bar styling unique to this page. */
+
+/* ── Page subhead italic emphasis ───────────────────────────────────────── */
+.page-subhead em { color: var(--text); font-style: italic; }
+
+/* ── Sentiment table ────────────────────────────────────────────────────── */
+.sentiment-table-section { margin-bottom: 28px; }
+.sentiment-table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  overflow-x: auto;
+}
+.sentiment-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 880px;
+}
+.sentiment-table thead th {
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border2);
+  background: var(--surface2);
+  white-space: nowrap;
+}
+.sentiment-table tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border2);
+  vertical-align: middle;
+}
+.sentiment-table tbody tr:last-child td { border-bottom: none; }
+.sentiment-table tbody tr:hover { background: var(--surface2); }
+.sentiment-table .col-rank {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+  font-size: 11px;
+  width: 36px;
+}
+.sentiment-table .col-ticker {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  color: var(--text);
+  width: 90px;
+  cursor: pointer;
+}
+.sentiment-table .col-ticker:hover { color: var(--green); }
+.sentiment-table .col-num {
+  font-family: 'JetBrains Mono', monospace;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--text2);
+}
+.sentiment-table .col-num .num-strong { color: var(--text); font-weight: 600; }
+.sentiment-table .col-num .num-change-pos { color: var(--green); font-size: 11px; }
+.sentiment-table .col-num .num-change-neg { color: var(--red); font-size: 11px; }
+.sentiment-table .col-num .num-change-flat { color: var(--text3); font-size: 11px; }
+.sentiment-table .col-spark { width: 100px; }
+.sentiment-table .col-spark svg { display: block; }
+.sentiment-table .col-top {
+  color: var(--text2);
+  max-width: 220px;
+}
+.sentiment-table .col-top a { color: var(--text); text-decoration: none; }
+.sentiment-table .col-top a:hover { color: var(--green); }
+.sentiment-table .col-top .top-views {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+  font-size: 11px;
+  margin-left: 6px;
+}
+.sentiment-table .placeholder-row td {
+  color: var(--text3);
+  text-align: center;
+  font-size: 13px;
+  padding: 28px 14px;
+}
+
+/* ── Sentiment bar (-1 to +1) ───────────────────────────────────────────── */
+.sentiment-bar {
+  position: relative;
+  width: 110px;
+  height: 8px;
+  background: var(--surface3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sentiment-bar-mid {
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--border);
+  transform: translateX(-0.5px);
+}
+.sentiment-bar-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+}
+.sentiment-bar-fill.pos { background: var(--green); box-shadow: 0 0 8px oklch(from var(--green) l c h / 0.45); }
+.sentiment-bar-fill.neg { background: var(--red); box-shadow: 0 0 8px oklch(from var(--red) l c h / 0.45); }
+.sentiment-bar-fill.neutral { background: var(--text3); }
+.sentiment-bar-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text2);
+  margin-left: 8px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.sentiment-bar-cell { display: flex; align-items: center; gap: 0; }
+
+/* ── Footnote ──────────────────────────────────────────────────────────── */
+.sentiment-footnote {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 2px 24px;
+  font-size: 11px;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+}
+.sentiment-footnote-sep { color: var(--border); }
+.sentiment-footnote-link { color: var(--text2); }
+.sentiment-footnote-link:hover { color: var(--green); }
+
+/* ── Empty state ───────────────────────────────────────────────────────── */
+.sentiment-empty {
+  padding: 36px 18px;
+  text-align: center;
+  color: var(--text3);
+  font-size: 13px;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .overview { grid-template-columns: repeat(2, 1fr); }
+  .sentiment-table { font-size: 12px; }
+  .sentiment-table thead th,
+  .sentiment-table tbody td { padding: 10px 10px; }
+  .sentiment-bar { width: 80px; }
+}

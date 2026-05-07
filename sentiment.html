@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeSci Sector Sentiment, Crypto-Twitter Signals on DeSci Tokens</title>
+<meta name="description" content="Real-time crypto-Twitter signals on DeSci tokens. Mentions, smart-money attention, sentiment scores, narrative velocity.">
+<link rel="icon" type="image/png" href="/branding/icon-v1.png" />
+<link rel="apple-touch-icon" href="/branding/icon-v1.png" />
+<link rel="canonical" href="https://descidash.com/sentiment" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="DeSci Analytics Hub" />
+<meta property="og:title" content="DeSci Sector Sentiment, Crypto-Twitter Signals on DeSci Tokens" />
+<meta property="og:description" content="Real-time crypto-Twitter signals on DeSci tokens. Mentions, smart-money attention, sentiment scores, narrative velocity." />
+<meta property="og:url" content="https://descidash.com/sentiment" />
+<meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@DeSciDashboard" />
+<meta name="twitter:title" content="DeSci Sector Sentiment, Crypto-Twitter Signals on DeSci Tokens" />
+<meta name="twitter:description" content="Real-time crypto-Twitter signals on DeSci tokens. Mentions, smart-money attention, sentiment scores, narrative velocity." />
+<meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/bioagent-tracker.css">
+<link rel="stylesheet" href="/assets/css/sentiment.css">
+</head>
+<body>
+
+<div class="layout">
+  <main class="main" id="main">
+    <div class="max">
+
+      <!-- Header -->
+      <header class="page-header">
+        <div class="brand">
+          <svg width="34" height="34" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <rect width="36" height="36" rx="8" fill="var(--green-bg)"/>
+            <path d="M 10 6 Q 18 12 26 6" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M 10 11 Q 18 17 26 11" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 10 16 Q 18 22 26 16" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M 10 21 Q 18 27 26 21" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 10 26 Q 18 32 26 26" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <line x1="14" y1="6" x2="14" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+            <line x1="22" y1="6" x2="22" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+          </svg>
+          <div>
+            <div class="brand-title">
+              <span class="brand-name">DeSci</span>
+              <span class="brand-sub">Sector Sentiment</span>
+            </div>
+            <div class="brand-tagline">Crypto-Twitter signals · powered by Elfa AI</div>
+          </div>
+        </div>
+        <nav class="header-nav" aria-label="Primary">
+          <a class="header-nav-link" href="/">
+            <span>← Dashboard</span>
+          </a>
+          <a class="header-nav-link" href="/bioagent-tracker">
+            <span>BioAgent Tracker</span>
+          </a>
+          <a class="header-nav-link" href="/feed">
+            <span>News</span>
+          </a>
+          <a class="header-nav-link" href="/sentiment" aria-current="page">
+            <span>Sentiment</span>
+          </a>
+        </nav>
+        <div class="status">
+          <div class="live-dot" data-state="live">
+            <span class="live-dot-orb"></span>
+            <span>DAILY · LIVE</span>
+          </div>
+          <div class="mono status-time" id="status-time">—</div>
+        </div>
+      </header>
+
+      <!-- Title + lede -->
+      <div class="page-title">
+        <h1>DESCI SECTOR SENTIMENT</h1>
+        <span class="updated"><span class="dot"></span>Updated daily</span>
+      </div>
+      <div class="page-subhead"><em>Real-time crypto-Twitter signals on DeSci tokens. Mentions, smart-money attention, sentiment scores, narrative velocity.</em></div>
+
+      <!-- Overview metrics -->
+      <section class="overview" aria-label="Overview metrics" id="sentiment-overview">
+        <div class="metric">
+          <div class="metric-accent"></div>
+          <div class="metric-label">
+            Total mentions · 24H
+            <span class="info-tip" data-tip="Sum of mention counts across all tracked DeSci tickers in the last 24h, sourced from Elfa AI's crypto-Twitter index.">i</span>
+          </div>
+          <div class="metric-value" id="om-total">—</div>
+          <div class="metric-sub" id="om-total-sub">across tracked tickers</div>
+        </div>
+        <div class="metric">
+          <div class="metric-accent"></div>
+          <div class="metric-label">
+            Smart mentions · 24H
+            <span class="info-tip" data-tip="Mentions from Elfa-classified smart-money accounts (KOLs, founders, analysts with track record).">i</span>
+          </div>
+          <div class="metric-value" id="om-smart">—</div>
+          <div class="metric-sub" id="om-smart-sub">from smart-money accounts</div>
+        </div>
+        <div class="metric">
+          <div class="metric-accent"></div>
+          <div class="metric-label">
+            Sector mindshare
+            <span class="info-tip" data-tip="Share of crypto-Twitter chatter mentioning DeSci tickers vs the broader crypto narrative universe.">i</span>
+          </div>
+          <div class="metric-value" id="om-mindshare">—</div>
+          <div class="metric-sub" id="om-mindshare-sub">of crypto chatter</div>
+        </div>
+        <div class="metric">
+          <div class="metric-accent"></div>
+          <div class="metric-label">
+            Avg sentiment
+            <span class="info-tip" data-tip="Mean Elfa sentiment score across tracked tickers · range -1 (bearish) to +1 (bullish).">i</span>
+          </div>
+          <div class="metric-value" id="om-sent">—</div>
+          <div class="metric-sub" id="om-sent-sub">across tracked tickers</div>
+        </div>
+      </section>
+
+      <!-- Main table -->
+      <section class="sentiment-table-section" aria-label="Per-token sentiment">
+        <div class="lane-header">
+          <span class="lane-title">Per-Token Signal · 24H</span>
+          <span class="lane-line"></span>
+          <span class="lane-hint">Sorted by mentions · click ticker to copy</span>
+        </div>
+        <div class="sentiment-table-wrap">
+          <table class="sentiment-table" id="sentiment-table" aria-live="polite">
+            <thead>
+              <tr>
+                <th class="col-rank">#</th>
+                <th class="col-ticker">TOKEN</th>
+                <th class="col-num">MENTIONS 24H</th>
+                <th class="col-num">SMART</th>
+                <th class="col-sent">SENTIMENT</th>
+                <th class="col-num">MINDSHARE</th>
+                <th class="col-spark">7D</th>
+                <th class="col-top">TOP MENTION</th>
+              </tr>
+            </thead>
+            <tbody id="sentiment-tbody">
+              <tr class="placeholder-row">
+                <td colspan="8">Loading sentiment data…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Footer note -->
+      <div class="sentiment-footnote">
+        <span id="sentiment-updated">Last updated: —</span>
+        <span class="sentiment-footnote-sep">·</span>
+        <a href="/methodology" class="sentiment-footnote-link">methodology</a>
+      </div>
+
+      <footer class="page-footer">
+        <div>Data is indicative · Powered by Elfa AI · Not financial advice</div>
+        <div><a href="/privacy" style="display:inline-block;color:var(--text3);font-size:12px;text-decoration:none;padding:12px 16px;min-height:44px;line-height:20px">Privacy</a></div>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<script type="module" src="/assets/js/sentiment.js"></script>
+</body>
+</html>
