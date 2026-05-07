@@ -6,8 +6,14 @@
 //      tweet array + metadata.total. Project-name keywords give cleaner
 //      results than $TICKERs (Elfa's ticker filter pulls in too much noise).
 //   2. Cross-reference the tweet authors against smart_accounts to
-//      compute a real smart_mention_count (count of distinct DeSci-
-//      flagged handles that mentioned the project).
+//      compute smart_mention_count = distinct DeSci-roster handles
+//      who mentioned the project. The roster is the curated 303-handle
+//      seed plus discovery additions · we deliberately do NOT filter
+//      by is_smart=1 here. is_smart is Elfa's crypto-graph signal and
+//      drops academic DeSci voices like @johncumbers (founder of
+//      SynBioBeta) who have zero crypto-Twitter smart followers but
+//      are highly DeSci-relevant. The strict is_smart subset is still
+//      surfaced separately on the /kols leaderboard.
 //   3. POST /v2/chat (only if mention_count >= 5) for a sentiment grade.
 //
 // After all projects finish, mindshare = mention_count / sector_total
@@ -59,8 +65,9 @@ export async function onRequest({ request, env }) {
 
       const summary = summarizeKeywordMentions(data);
 
-      // Real smart_mention_count · count distinct handles in the response
-      // that are flagged is_smart=1 in our roster. Reads from D1, not Elfa.
+      // smart_mention_count · count distinct handles in the response
+      // that exist in our DeSci roster (any check_status='ok' row,
+      // not just is_smart=1). Reads from D1, not Elfa.
       summary.smart_mention_count = await countSmartMentions(env, summary.unique_authors);
       delete summary.unique_authors;
 
@@ -234,17 +241,20 @@ function summarizeKeywordMentions(data) {
   return out;
 }
 
-// Count how many of the given (lowercased) usernames are flagged
-// is_smart=1 in our roster. Returns 0 when the list is empty (Elfa
-// returned no tweets) so the column is never null in that case.
+// Count how many of the given (lowercased) usernames exist in our
+// DeSci roster (any check_status='ok' row). is_smart is intentionally
+// NOT part of this filter · see the header comment for the rationale.
+// Returns 0 when the list is empty (Elfa returned no tweets) so the
+// column is never null in that case.
 async function countSmartMentions(env, lowerUsernames) {
   if (!Array.isArray(lowerUsernames) || lowerUsernames.length === 0) return 0;
   const placeholders = lowerUsernames.map(() => '?').join(',');
   try {
     const row = await env.DB.prepare(
-      `SELECT COUNT(*) AS n
+      `SELECT COUNT(DISTINCT LOWER(username)) AS n
          FROM smart_accounts
-        WHERE is_smart = 1 AND LOWER(username) IN (${placeholders})`
+        WHERE check_status = 'ok'
+          AND LOWER(username) IN (${placeholders})`
     ).bind(...lowerUsernames).first();
     return Number(row?.n || 0);
   } catch (e) {
