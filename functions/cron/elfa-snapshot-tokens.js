@@ -1,10 +1,10 @@
-// POST /cron/elfa-snapshot-tokens
+// POST /cron/elfa-snapshot-tokens?batch=4&offset=0
 //
 // Bearer-auth-gated daily snapshot of crypto-Twitter signal per DeSci
-// project. For each entry in DESCI_PROJECTS:
-//   1. GET /v2/data/keyword-mentions · keyword-based search returns the
-//      tweet array + metadata.total. Project-name keywords give cleaner
-//      results than $TICKERs (Elfa's ticker filter pulls in too much noise).
+// project. For each project in the requested batch slice:
+//   1. GET /v2/data/keyword-mentions · multi-keyword OR (verified by
+//      Elfa team). Project-name keywords give cleaner results than
+//      $TICKERs (Elfa's ticker filter pulls in too much noise).
 //   2. Cross-reference the tweet authors against smart_accounts to
 //      compute smart_mention_count = distinct DeSci-roster handles
 //      who mentioned the project. The roster is the curated 303-handle
@@ -16,16 +16,39 @@
 //      surfaced separately on the /kols leaderboard.
 //   3. POST /v2/chat (only if mention_count >= 5) for a sentiment grade.
 //
-// After all projects finish, mindshare = mention_count / sector_total
-// is UPDATEd onto every row from this run. We use a single snapshot_at
-// value so the UPDATE matches all rows in one statement.
+// Why batched · Cloudflare Pages Functions have a wall-clock budget
+// (~30s on free, unbounded but unreliable on paid). 19 projects ×
+// keyword-mentions + per-project sentiment chat (5-15s each) blows
+// past 30s. We split work into batches of 4 (default) and let the
+// caller iterate offsets until has_more=false.
 //
-// The ticker column on elfa_token_snapshots stores the project's
-// `display` name (e.g. "VitaDAO"), not "$VITA". /api/sentiment merges
-// the ticker subtext back in via DESCI_PROJECT_BY_DISPLAY.
+// Mindshare and snapshot_at · we anchor every row of a given day to
+// the same snapshot_at = UTC day start unix seconds. That way:
+//   • Multiple batches within a day share the same UNIQUE row per
+//     ticker (INSERT OR REPLACE updates idempotently).
+//   • The mindshare UPDATE on the final batch sees every row from
+//     today in one statement (no cross-batch state to carry forward).
+// Mindshare runs only when this batch closes out the day's projects
+// (next_offset >= total_projects), otherwise the percentages would
+// be miscalculated mid-run.
 //
-// Daily cadence at 01:00 UTC. Per-project error isolation · one failure
-// does not abort the run.
+// Caller loop (PowerShell):
+//   $offset = 0
+//   do {
+//     $r = Invoke-RestMethod -Method POST `
+//       -Uri "https://descidash.com/cron/elfa-snapshot-tokens?batch=4&offset=$offset" `
+//       -Headers @{ "Authorization" = "Bearer $env:ADMIN_TOKEN" }
+//     Write-Host "Processed: $($r.successes), Credits left: $($r.credits_remaining)"
+//     $offset = $r.next_offset
+//   } while ($r.has_more)
+//
+// cron-job.org cadence · stagger 5 tasks 2 minutes apart so each
+// batch lands inside its own 30s window:
+//   01:00 UTC · ?batch=4&offset=0
+//   01:02 UTC · ?batch=4&offset=4
+//   01:04 UTC · ?batch=4&offset=8
+//   01:06 UTC · ?batch=4&offset=12
+//   01:08 UTC · ?batch=4&offset=16
 
 import { jsonResponse, requireAdminAuth } from '../_shared.js';
 import {
@@ -39,6 +62,8 @@ const TIME_WINDOW            = '24h';
 const PAGE_SIZE              = 100;       // higher than ticker variant · keyword search casts a wider net
 const SENTIMENT_MIN_MENTIONS = 5;
 const CHAT_TIMEOUT_MS        = 30_000;
+const DEFAULT_BATCH          = 4;
+const MAX_BATCH              = 8;         // hard ceiling · sentiment chat × 8 still fits ~30s
 
 export async function onRequest({ request, env }) {
   const denied = requireAdminAuth(request, env);
@@ -46,14 +71,33 @@ export async function onRequest({ request, env }) {
   if (!env.DB) return jsonResponse({ error: 'D1 binding DB not configured' }, 500);
 
   const startedAt = Math.floor(Date.now() / 1000);
-  const snapshotAt = startedAt;
+  // snapshot_at = UTC day start · stable across batches within a day,
+  // so every batch lands its rows under the same key and the final-
+  // batch mindshare UPDATE picks up everything in one statement.
+  const snapshotAt = utcDayStartUnix();
+
+  // Parse batch / offset · clamp to safe ranges.
+  const url = new URL(request.url);
+  const batchRaw = Number(url.searchParams.get('batch'));
+  const offsetRaw = Number(url.searchParams.get('offset'));
+  const batchSize = Number.isFinite(batchRaw)
+    ? Math.min(MAX_BATCH, Math.max(1, Math.floor(batchRaw)))
+    : DEFAULT_BATCH;
+  const offset = Number.isFinite(offsetRaw) && offsetRaw >= 0
+    ? Math.floor(offsetRaw)
+    : 0;
+  const slice = DESCI_PROJECTS.slice(offset, offset + batchSize);
+  const nextOffset = offset + batchSize;
+  const isFinalBatch = nextOffset >= DESCI_PROJECTS.length;
+  const hasMore = !isFinalBatch;
+
   const results = [];
   let successes = 0;
   let failures = 0;
   let capReached = false;
 
-  for (let i = 0; i < DESCI_PROJECTS.length; i++) {
-    const project = DESCI_PROJECTS[i];
+  for (let i = 0; i < slice.length; i++) {
+    const project = slice[i];
     if (i > 0) await sleep(PER_CALL_SLEEP_MS);
 
     try {
@@ -108,7 +152,7 @@ export async function onRequest({ request, env }) {
           summary.mention_count,
           summary.smart_mention_count,
           sentiment,
-          null,                              // mindshare filled in after the loop
+          null,                              // mindshare filled in on the final batch
           summary.top_mention_username,
           summary.top_mention_view_count,
           summary.top_mention_tweet_id,
@@ -151,26 +195,31 @@ export async function onRequest({ request, env }) {
     }
   }
 
-  // Compute mindshare · share of total mentions across this run.
+  // Mindshare · only on the final batch, so we sum every row from
+  // today (all batches share snapshotAt = UTC day start) in a single
+  // UPDATE. Mid-run mindshare would be miscalculated against a
+  // partial total, hence the gate.
   let mindshareUpdated = 0;
   let totalMentions = 0;
-  try {
-    const totals = await env.DB.prepare(
-      `SELECT COALESCE(SUM(mention_count), 0) AS total
-         FROM elfa_token_snapshots
-        WHERE snapshot_at = ? AND time_window = ?`
-    ).bind(snapshotAt, TIME_WINDOW).first();
-    totalMentions = Number(totals?.total || 0);
-    if (totalMentions > 0) {
-      const upd = await env.DB.prepare(
-        `UPDATE elfa_token_snapshots
-            SET mindshare = CAST(mention_count AS REAL) / ?
+  if (isFinalBatch) {
+    try {
+      const totals = await env.DB.prepare(
+        `SELECT COALESCE(SUM(mention_count), 0) AS total
+           FROM elfa_token_snapshots
           WHERE snapshot_at = ? AND time_window = ?`
-      ).bind(totalMentions, snapshotAt, TIME_WINDOW).run();
-      mindshareUpdated = upd?.meta?.changes || 0;
+      ).bind(snapshotAt, TIME_WINDOW).first();
+      totalMentions = Number(totals?.total || 0);
+      if (totalMentions > 0) {
+        const upd = await env.DB.prepare(
+          `UPDATE elfa_token_snapshots
+              SET mindshare = CAST(mention_count AS REAL) / ?
+            WHERE snapshot_at = ? AND time_window = ?`
+        ).bind(totalMentions, snapshotAt, TIME_WINDOW).run();
+        mindshareUpdated = upd?.meta?.changes || 0;
+      }
+    } catch (e) {
+      console.warn('elfa-snapshot: mindshare update failed', e);
     }
-  } catch (e) {
-    console.warn('elfa-snapshot: mindshare update failed', e);
   }
 
   // Cap diagnostics.
@@ -186,11 +235,17 @@ export async function onRequest({ request, env }) {
   }
 
   return jsonResponse({
-    ok: failures === 0,
+    ok: failures === 0 && !capReached,
     startedAt,
     snapshotAt,
     durationMs: Date.now() - startedAt * 1000,
     capReached,
+    total_projects: DESCI_PROJECTS.length,
+    offset,
+    batch: batchSize,
+    next_offset: nextOffset,
+    has_more: hasMore && !capReached,
+    is_final_batch: isFinalBatch,
     successes,
     failures,
     totalMentions,
@@ -203,6 +258,11 @@ export async function onRequest({ request, env }) {
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function utcDayStartUnix() {
+  const now = new Date();
+  return Math.floor(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) / 1000);
+}
 
 // Reads /v2/data/keyword-mentions defensively. The list is at .data
 // (sometimes .data.data); totals at .metadata.total. Each tweet exposes
