@@ -14,6 +14,18 @@
 //
 // Both functions/cron/elfa-snapshot-tokens.js and functions/api/sentiment.js
 // import from here so the project list lives in exactly one place.
+//
+// Editor's guide for the keywords array:
+// Keywords use comma-separated OR matching via searchType=or on Elfa
+// keyword-mentions. Aim for 3-6 variations per project covering:
+// project name, X handle without @, $TICKER, and aliases or secondary
+// accounts. Test new keywords with an Elfa probe before adding.
+//
+// Note: Elfa indexes mentions selectively. Pre-launch projects with
+// no FDV and small caps under $2.5M FDV may be under-indexed regardless
+// of keyword coverage. This is a data limitation, not a bug. Compensate
+// via the discovery cron which adds all DeSci-active authors to the
+// roster regardless of smart status.
 
 export const DESCI_PROJECTS = [
   {
@@ -78,8 +90,8 @@ export const DESCI_PROJECTS = [
   },
   {
     display: 'PeptAI',
-    keywords: ['PeptAI', 'peptai_', '$PEPT'],
-    ticker: '$PEPT',
+    keywords: ['PeptAI', 'peptai_', '$PEPTAI', 'BioProtocolEco'],
+    ticker: '$PEPTAI',
   },
   {
     display: 'BiomeAI',
