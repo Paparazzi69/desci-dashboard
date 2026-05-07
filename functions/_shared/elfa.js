@@ -14,6 +14,10 @@ const ELFA_BASE = 'https://api.elfa.ai';
 // Endpoints that cost more than the default 1 credit per call. Source:
 // Elfa pricing docs and conservative estimates for new endpoints. Refine
 // after a snapshot run lets us see the actual usage delta.
+//
+// 1-credit endpoints we currently use (default, no entry needed here):
+//   /v2/data/top-mentions, /v2/data/keyword-mentions, /v2/account/smart-stats,
+//   /v2/key-status (free).
 const HIGH_COST_ENDPOINTS = new Set([
   '/v2/data/trending-narratives',
   '/v2/data/event-summary',

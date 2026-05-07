@@ -45,13 +45,27 @@
   width: 36px;
 }
 .sentiment-table .col-ticker {
-  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
   color: var(--text);
-  width: 90px;
+  width: 140px;
   cursor: pointer;
 }
-.sentiment-table .col-ticker:hover { color: var(--green); }
+.sentiment-table .col-ticker:hover .project-name { color: var(--green); }
+.sentiment-table .col-ticker .project-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+}
+.sentiment-table .col-ticker .project-ticker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text3);
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+}
 .sentiment-table .col-num {
   font-family: 'JetBrains Mono', monospace;
   text-align: right;
