@@ -57,8 +57,13 @@ export async function onRequest({ request, env }) {
     if (i > 0) await sleep(PER_CALL_SLEEP_MS);
 
     try {
+      // Multi-keyword OR · verified by Elfa team. A single project name
+      // misses ticker / handle / lowercase variants; comma-joined list
+      // with searchType=or covers them in one call (still 1 credit).
+      const keywordsCsv = (project.keywords || []).join(',');
       const data = await elfaGet(env, '/v2/data/keyword-mentions', {
-        keywords: project.keyword,
+        keywords: keywordsCsv,
+        searchType: 'or',
         timeWindow: TIME_WINDOW,
         pageSize: PAGE_SIZE,
       });
@@ -110,7 +115,7 @@ export async function onRequest({ request, env }) {
           JSON.stringify({
             keywordMentions: data,
             sentimentSummary,
-            project: { display: project.display, keyword: project.keyword, ticker: project.ticker },
+            project: { display: project.display, keywords: project.keywords, ticker: project.ticker },
           }).slice(0, 64_000),
         ).run();
         successes++;

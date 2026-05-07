@@ -19,7 +19,7 @@
 import { jsonResponse, cacheGet, cachePut } from '../_shared.js';
 import { DESCI_PROJECT_BY_DISPLAY } from '../_shared/desci-projects.js';
 
-const CACHE_KEY  = 'sentiment:v4';
+const CACHE_KEY  = 'sentiment:v5';
 const TTL_S      = 30 * 60;            // 30 minutes
 const SPARK_DAYS = 7;
 const TIME_WINDOW = '24h';

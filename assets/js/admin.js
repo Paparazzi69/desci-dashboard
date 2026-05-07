@@ -142,7 +142,7 @@ function itemHTML(it) {
     <article class="item">
       <div class="item-meta">
         <span class="item-source">${esc(it.source)}</span>
-        <span class="item-source-type">${esc(it.sourceType)}</span>
+        <span class="item-source-type" data-st="${esc(it.sourceType)}">${esc(it.sourceType)}</span>
         <span class="item-category">${esc(it.category)}</span>
         <span>${esc(date)} UTC</span>
         ${it.author ? `<span>by ${esc(it.author)}</span>` : ''}
