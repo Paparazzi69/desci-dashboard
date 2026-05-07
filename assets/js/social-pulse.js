@@ -1,8 +1,12 @@
-// Homepage Social Pulse widget. Reads /api/sentiment and renders the top
-// 3 movers (by 24h mention change) and a "narrative of the day" summary
-// based on the most-discussed ticker. Renders "Coming soon" before the
-// daily snapshot cron has produced any data, never flickers placeholder
-// counts that get overwritten.
+// Homepage Social Pulse widget. Reads /api/sentiment and renders:
+//   • Top movers · top 3 by absolute change_24h_pct (Day 1 baseline
+//     fallback sorts by raw mention count when no prior snapshot exists).
+//   • Narrative card · sector-level summary built from /api/sentiment
+//     metadata. The "real" trending narrative will come from a separate
+//     endpoint we add later · for now this surfaces sector volume.
+//
+// Renders "Coming soon" before the daily snapshot cron has produced any
+// data, never flickers placeholder counts that get overwritten.
 
 const API_URL = '/api/sentiment';
 
@@ -27,20 +31,33 @@ async function bootSocialPulse() {
   const tokens = Array.isArray(payload?.tokens) ? payload.tokens : [];
   if (!tokens.length) return;  // Keep "Coming soon"
 
-  renderMovers(tokens);
-  renderNarrative(tokens);
+  const meta = payload?.metadata || {};
+  renderMovers(tokens, meta);
+  renderNarrative(tokens, meta);
 }
 
-function renderMovers(tokens) {
+function renderMovers(tokens, meta) {
   const list = document.getElementById('pulse-movers-list');
   if (!list) return;
 
-  // Top 3 by absolute change_24h_pct, but only if the change is finite. A
-  // ticker with no prior snapshot has change=null · skip it (no signal).
-  const ranked = tokens
-    .filter(t => Number.isFinite(t.change_24h_pct))
-    .sort((a, b) => Math.abs(b.change_24h_pct) - Math.abs(a.change_24h_pct))
-    .slice(0, 3);
+  const hasPrev = !!meta?.has_previous_day;
+  let ranked;
+  let badge = null;
+
+  if (hasPrev) {
+    // Real day-over-day movers · sort by absolute change.
+    ranked = tokens
+      .filter(t => Number.isFinite(t.change_24h_pct))
+      .sort((a, b) => Math.abs(b.change_24h_pct) - Math.abs(a.change_24h_pct))
+      .slice(0, 3);
+  } else {
+    // Day 1 baseline · no prior snapshot exists, fall back to volume.
+    ranked = tokens
+      .filter(t => Number.isFinite(t.mention_count))
+      .sort((a, b) => (b.mention_count || 0) - (a.mention_count || 0))
+      .slice(0, 3);
+    badge = 'Day 1, baseline';
+  }
 
   if (!ranked.length) return;  // Keep "Coming soon"
 
@@ -59,12 +76,14 @@ function renderMovers(tokens) {
     tk.textContent = t.ticker || '';
     li.appendChild(tk);
 
-    const change = document.createElement('span');
-    const pos = (t.change_24h_pct || 0) >= 0;
-    change.className = 'pulse-mover-change ' + (pos ? 'pos' : 'neg');
-    const arrow = pos ? '▲' : '▼';
-    change.textContent = `${arrow} ${Math.abs(t.change_24h_pct).toFixed(1)}%`;
-    li.appendChild(change);
+    if (hasPrev) {
+      const change = document.createElement('span');
+      const pos = (t.change_24h_pct || 0) >= 0;
+      change.className = 'pulse-mover-change ' + (pos ? 'pos' : 'neg');
+      const arrow = pos ? '▲' : '▼';
+      change.textContent = `${arrow} ${Math.abs(t.change_24h_pct).toFixed(1)}%`;
+      li.appendChild(change);
+    }
 
     const ment = document.createElement('span');
     ment.className = 'pulse-mover-mentions';
@@ -73,54 +92,53 @@ function renderMovers(tokens) {
 
     list.appendChild(li);
   });
+
+  if (badge) {
+    const baseline = document.createElement('li');
+    baseline.className = 'pulse-empty';
+    baseline.style.fontSize = '11px';
+    baseline.style.padding = '0';
+    baseline.textContent = badge;
+    list.appendChild(baseline);
+  }
 }
 
-function renderNarrative(tokens) {
+function renderNarrative(tokens, meta) {
   const body = document.getElementById('pulse-narrative-body');
   if (!body) return;
 
-  // "Narrative of the day" = the ticker with the highest 24h mention count.
-  // Surfaces the day's loudest conversation without spending a separate
-  // /trending-narratives credit (5x the cost of top-mentions).
-  const lead = tokens
-    .filter(t => Number.isFinite(t.mention_count))
-    .sort((a, b) => (b.mention_count || 0) - (a.mention_count || 0))[0];
+  const total = Number.isFinite(meta?.total_mentions)
+    ? meta.total_mentions
+    : tokens.reduce((n, t) => n + (Number.isFinite(t.mention_count) ? t.mention_count : 0), 0);
+  const tracked = Number.isFinite(meta?.tracked_count) ? meta.tracked_count : tokens.length;
 
-  if (!lead) return;  // Keep "Coming soon"
+  if (!total || !tracked) return;  // Keep "Coming soon"
 
   body.innerHTML = '';
-
   const p = document.createElement('p');
-  const tickerSpan = document.createElement('strong');
-  tickerSpan.style.color = 'var(--green)';
-  tickerSpan.style.fontFamily = "'JetBrains Mono', monospace";
-  tickerSpan.textContent = lead.ticker;
-  p.append(tickerSpan, ' is the most-discussed DeSci ticker in the last 24h.');
-  if (lead.top_mention && lead.top_mention.username) {
-    const id = lead.top_mention.tweet_id;
-    const a = document.createElement('a');
-    a.href = id
-      ? `https://x.com/${encodeURIComponent(lead.top_mention.username)}/status/${encodeURIComponent(id)}`
-      : `https://x.com/${encodeURIComponent(lead.top_mention.username)}`;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.textContent = '@' + lead.top_mention.username;
-    p.append(' Top voice: ', a, '.');
-  }
+  p.append('DeSci sector mentions: ');
+  const totalSpan = document.createElement('strong');
+  totalSpan.style.color = 'var(--green)';
+  totalSpan.style.fontFamily = "'JetBrains Mono', monospace";
+  totalSpan.textContent = formatCount(total);
+  p.append(totalSpan, ` across ${tracked} tracked tokens.`);
   body.appendChild(p);
 
   const small = document.createElement('small');
+  // Smart-account engagement total · gives a sense of how much KOL
+  // attention the sector is pulling.
+  const smartTotal = tokens.reduce(
+    (n, t) => n + (Number.isFinite(t.smart_mention_count) ? t.smart_mention_count : 0), 0);
+  const sentBacked = tokens.filter(t => Number.isFinite(t.sentiment_score)).length;
   const parts = [];
-  parts.push(`${formatCount(lead.mention_count)} mentions`);
-  if (Number.isFinite(lead.smart_mention_count)) {
-    parts.push(`${formatCount(lead.smart_mention_count)} smart`);
-  }
+  parts.push(`${formatCount(smartTotal)} smart reposts`);
+  if (sentBacked) parts.push(`${sentBacked} tickers with AI sentiment`);
   small.textContent = parts.join(' · ');
   body.appendChild(small);
 }
 
 function formatCount(n) {
-  if (!Number.isFinite(n)) return '—';
+  if (!Number.isFinite(n)) return '·';
   if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
   if (n >= 1_000) return (n / 1_000).toFixed(1) + 'K';
   return String(Math.round(n));

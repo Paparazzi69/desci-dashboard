@@ -74,7 +74,7 @@
             <span class="live-dot-orb"></span>
             <span>DAILY · LIVE</span>
           </div>
-          <div class="mono status-time" id="status-time">—</div>
+          <div class="mono status-time" id="status-time">·</div>
         </div>
       </header>
 
@@ -93,34 +93,34 @@
             Total mentions · 24H
             <span class="info-tip" data-tip="Sum of mention counts across all tracked DeSci tickers in the last 24h, sourced from Elfa AI's crypto-Twitter index.">i</span>
           </div>
-          <div class="metric-value" id="om-total">—</div>
+          <div class="metric-value" id="om-total">·</div>
           <div class="metric-sub" id="om-total-sub">across tracked tickers</div>
         </div>
         <div class="metric">
           <div class="metric-accent"></div>
           <div class="metric-label">
-            Smart mentions · 24H
-            <span class="info-tip" data-tip="Mentions from Elfa-classified smart-money accounts (KOLs, founders, analysts with track record).">i</span>
+            Smart reposts · 24H
+            <span class="info-tip" data-tip="Smart-account reposts in top mentions, summed across tracked tickers. Proxy for KOL attention.">i</span>
           </div>
-          <div class="metric-value" id="om-smart">—</div>
-          <div class="metric-sub" id="om-smart-sub">from smart-money accounts</div>
+          <div class="metric-value" id="om-smart">·</div>
+          <div class="metric-sub" id="om-smart-sub">smart-account reposts</div>
         </div>
         <div class="metric">
           <div class="metric-accent"></div>
           <div class="metric-label">
             Sector mindshare
-            <span class="info-tip" data-tip="Share of crypto-Twitter chatter mentioning DeSci tickers vs the broader crypto narrative universe.">i</span>
+            <span class="info-tip" data-tip="Share of mentions held by tracked DeSci tickers across this snapshot. Computed locally as mention_count / total.">i</span>
           </div>
-          <div class="metric-value" id="om-mindshare">—</div>
-          <div class="metric-sub" id="om-mindshare-sub">of crypto chatter</div>
+          <div class="metric-value" id="om-mindshare">·</div>
+          <div class="metric-sub" id="om-mindshare-sub">of tracked mentions</div>
         </div>
         <div class="metric">
           <div class="metric-accent"></div>
           <div class="metric-label">
             Avg sentiment
-            <span class="info-tip" data-tip="Mean Elfa sentiment score across tracked tickers · range -1 (bearish) to +1 (bullish).">i</span>
+            <span class="info-tip" data-tip="Mean Elfa AI sentiment score across tracked tickers, range -1 (bearish) to +1 (bullish). Computed via /v2/chat per ticker.">i</span>
           </div>
-          <div class="metric-value" id="om-sent">—</div>
+          <div class="metric-value" id="om-sent">·</div>
           <div class="metric-sub" id="om-sent-sub">across tracked tickers</div>
         </div>
       </section>
@@ -139,7 +139,7 @@
                 <th class="col-rank">#</th>
                 <th class="col-ticker">TOKEN</th>
                 <th class="col-num">MENTIONS 24H</th>
-                <th class="col-num">SMART</th>
+                <th class="col-num" title="Smart-account reposts in top mentions">SMART</th>
                 <th class="col-sent">SENTIMENT</th>
                 <th class="col-num">MINDSHARE</th>
                 <th class="col-spark">7D</th>
@@ -157,7 +157,7 @@
 
       <!-- Footer note -->
       <div class="sentiment-footnote">
-        <span id="sentiment-updated">Last updated: —</span>
+        <span id="sentiment-updated">Last updated: ·</span>
         <span class="sentiment-footnote-sep">·</span>
         <a href="/methodology" class="sentiment-footnote-link">methodology</a>
       </div>
