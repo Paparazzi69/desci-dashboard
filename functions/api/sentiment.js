@@ -19,7 +19,7 @@
 import { jsonResponse, cacheGet, cachePut } from '../_shared.js';
 import { DESCI_PROJECT_BY_DISPLAY } from '../_shared/desci-projects.js';
 
-const CACHE_KEY  = 'sentiment:v8';
+const CACHE_KEY  = 'sentiment:v9';
 const TTL_S      = 30 * 60;            // 30 minutes
 const SPARK_DAYS = 7;
 const TIME_WINDOW = '7d';              // snapshot writes 7d rows now · see header in elfa-snapshot-tokens.js
@@ -152,6 +152,22 @@ export async function onRequest({ env }) {
     if (updated_at === null || ts > updated_at) updated_at = ts;
   }
 
+  // Most bullish · the row with the highest non-null sentiment_score.
+  // Surfaced in metadata so the page (and any future consumer) doesn't
+  // have to recompute it. Returns the project's $ticker when available,
+  // falls back to the display name when ticker is null (e.g. ClawdLab).
+  let mostBullish = null;
+  for (const t of tokens) {
+    if (!Number.isFinite(t.sentiment_score)) continue;
+    if (mostBullish === null || t.sentiment_score > mostBullish.sentiment_score) {
+      mostBullish = t;
+    }
+  }
+  const mostBullishOut = mostBullish ? {
+    label: mostBullish.symbol || mostBullish.display,
+    sentiment_score: mostBullish.sentiment_score,
+  } : null;
+
   const payload = {
     updated_at,
     tokens,
@@ -160,6 +176,7 @@ export async function onRequest({ env }) {
       tracked_count: tokens.length,
       has_previous_day: hasPreviousDay,
       smart_roster_size: smartRosterSize,
+      most_bullish: mostBullishOut,
     },
   };
   await cachePut(CACHE_KEY, payload, TTL_S);

@@ -60,16 +60,22 @@ function applySmartTooltip(rosterSize) {
 
 function renderOverview(tokens, metadata) {
   let smartReposts = 0;
-  let mindshareCount = 0;
   let sentSum = 0;
   let sentCount = 0;
+  // Most bullish · highest sentiment_score among rows where the chat
+  // call actually produced a value (sentiment_error null is implicit ·
+  // null score means either skipped-below-threshold or chat-failed,
+  // either way nothing to surface).
+  let mostBullish = null;
 
   for (const t of tokens) {
     if (Number.isFinite(t.smart_mention_count)) smartReposts += t.smart_mention_count;
-    if (Number.isFinite(t.mindshare)) mindshareCount++;
     if (Number.isFinite(t.sentiment_score)) {
       sentSum += t.sentiment_score;
       sentCount++;
+      if (mostBullish === null || t.sentiment_score > mostBullish.sentiment_score) {
+        mostBullish = t;
+      }
     }
   }
 
@@ -79,12 +85,28 @@ function renderOverview(tokens, metadata) {
 
   setText('om-total', formatCount(totalMentions));
   setText('om-smart', formatCount(smartReposts));
-  // Mindshare is per-token in [0..1], so a sector-level "share of tracked
-  // chatter" is just the share carried by tickers we have a value for.
-  setText('om-mindshare',
-    mindshareCount && tokens.length
-      ? formatPercent(mindshareCount / tokens.length)
-      : EMPTY_PLACEHOLDER);
+
+  // Most bullish callout · prefer the precomputed metadata.most_bullish
+  // from the API (added in sentiment:v9), fall back to the local scan
+  // above so the card still works against an older cached payload.
+  const fromApi = metadata?.most_bullish;
+  const bullish = (fromApi && Number.isFinite(fromApi.sentiment_score))
+    ? { label: fromApi.label, score: fromApi.sentiment_score }
+    : (mostBullish
+        ? {
+            label: mostBullish.symbol || mostBullish.display || mostBullish.ticker || '',
+            score: mostBullish.sentiment_score,
+          }
+        : null);
+
+  if (bullish && bullish.label) {
+    setText('om-bullish', bullish.label);
+    setText('om-bullish-sub', `sentiment ${signedFixed(bullish.score, 2)}`);
+  } else {
+    setText('om-bullish', NA_PLACEHOLDER);
+    setText('om-bullish-sub', 'awaiting daily snapshot');
+  }
+
   setText('om-sent',
     sentCount ? signedFixed(sentSum / sentCount, 2) : NA_PLACEHOLDER);
 }
@@ -272,7 +294,9 @@ function renderEmpty(msg) {
   if (tbody) {
     tbody.innerHTML = `<tr class="placeholder-row"><td colspan="8">${msg}</td></tr>`;
   }
-  ['om-total', 'om-smart', 'om-mindshare', 'om-sent'].forEach(id => setText(id, EMPTY_PLACEHOLDER));
+  ['om-total', 'om-smart', 'om-sent'].forEach(id => setText(id, EMPTY_PLACEHOLDER));
+  setText('om-bullish', NA_PLACEHOLDER);
+  setText('om-bullish-sub', 'awaiting daily snapshot');
 }
 
 function setUpdated(unix) {
