@@ -55,7 +55,7 @@ const SEED_ACCOUNTS = [
   'BioProtocol', 'BioProtocolEco', 'BitDoctorAI', 'blockchainmuic', 'blueyard', 'bmagierski',
   'BoostVC', 'BowTiedBiotech', 'BrackLab', 'brett_cornick', 'brian_armstrong',
   'bryan_johnson', 'carlaostmann', 'catalyst_xyz', 'CausalityNet',
-  'ceeceeboom', 'cerbivore', 'Cerebrum_DAO', 'chadfowler', 'ChatDKG',
+  'ceeceeboom', 'cerbivore', 'Cerebrum_DAO', 'chadfowler', 'challaire', 'ChatDKG',
   'CherryVentures', 'chrisleiter_', 'circularweb3', 'clinamenic',
   'CounterpartsDAO', 'crdntwrk', 'CrowdFundedCure', 'crunchDAO', 'cryodao',
   'CudisWellness', 'cure_dao', 'CurlyJungleJake', 'cyber_skald',
@@ -104,7 +104,8 @@ const SEED_ACCOUNTS = [
   'Un__commons', 'UnboundScience', 'uselateral', 'valley_dao',
   'VerbinnenAndrew', 'vibe_cap', 'VibeBio', 'vincentweisser', 'vitadao',
   'VvfitVv', 'waterbear_sci', 'WeavechainWeb3', 'webisopen', 'welsharehealth',
-  'yawnxyz', 'yesnoerror', 'yzilabs', 'zacxbt', 'ZayaAI_PathDx', 'zee_jnsp',
+  'xlee_istheking', 'yawnxyz', 'YDecurious', 'yesnoerror', 'yzilabs', 'zacxbt',
+  'ZayaAI_PathDx', 'zee_jnsp',
   'ZeePrimeCap', 'zile_cao',
 ];
 
