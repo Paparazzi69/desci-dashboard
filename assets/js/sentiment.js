@@ -197,7 +197,12 @@ function renderTable(tokens) {
       const handle = document.createElement('span');
       handle.textContent = '@' + t.top_mention.username;
       a.appendChild(handle);
-      if (Number.isFinite(t.top_mention.view_count)) {
+      // Only render the view-count suffix when we have a positive
+      // number. Elfa's indexing lags · zero often means "view count
+      // not yet propagated" rather than a tweet with literally zero
+      // views, and showing "(0 views)" on a high-engagement mention
+      // is more misleading than showing nothing.
+      if (Number.isFinite(t.top_mention.view_count) && t.top_mention.view_count > 0) {
         const v = document.createElement('span');
         v.className = 'top-views';
         v.textContent = ` (${formatCount(t.top_mention.view_count)} views)`;
