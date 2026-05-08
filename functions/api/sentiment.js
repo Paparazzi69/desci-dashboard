@@ -19,7 +19,7 @@
 import { jsonResponse, cacheGet, cachePut } from '../_shared.js';
 import { DESCI_PROJECT_BY_DISPLAY } from '../_shared/desci-projects.js';
 
-const CACHE_KEY  = 'sentiment:v7';
+const CACHE_KEY  = 'sentiment:v8';
 const TTL_S      = 30 * 60;            // 30 minutes
 const SPARK_DAYS = 7;
 const TIME_WINDOW = '7d';              // snapshot writes 7d rows now · see header in elfa-snapshot-tokens.js
