@@ -120,7 +120,10 @@ function renderTable(tokens) {
     });
     tr.appendChild(projectCell);
 
-    // Mentions 24h + change badge
+    // Mentions 7d + day-over-day change badge. change_24h_pct compares
+    // today's 7d total against yesterday's 7d total · the magnitude is
+    // smaller than 24h-vs-24h would be (overlapping windows) but the
+    // direction still tracks recent momentum.
     const mentionsCell = document.createElement('td');
     mentionsCell.className = 'col-num';
     const mainSpan = document.createElement('span');

@@ -49,7 +49,7 @@ import {
 import { DESCI_PROJECTS } from '../_shared/desci-projects.js';
 
 const PER_CALL_SLEEP_MS = 600;
-const TIME_WINDOW       = '24h';
+const TIME_WINDOW       = '7d';   // matches snapshot · 24h was too narrow for DeSci small caps
 const PAGE_SIZE         = 20;
 const MIN_VIEW_COUNT    = 1000;
 const MIN_LIKE_COUNT    = 10;

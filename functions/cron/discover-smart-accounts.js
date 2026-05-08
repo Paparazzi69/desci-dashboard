@@ -1,18 +1,29 @@
 // POST /cron/discover-smart-accounts
 //
-// Bearer-auth-gated. Weekly. Pulls /v2/data/keyword-mentions for the
-// canonical DeSci sector keywords, extracts unique authors from the
-// returned tweets, and runs every author NOT already in smart_accounts
-// through /v2/account/smart-stats. New rows land with source='discovery'.
+// Bearer-auth-gated. Weekly. Mines /v2/data/keyword-mentions tweet
+// authors directly from the snapshot's raw_json (elfa_token_snapshots
+// stores the full Elfa response per project), then runs every author
+// NOT already in smart_accounts through /v2/account/smart-stats. New
+// rows land with source='discovery'.
+//
+// Why source from the snapshot · before today this cron made its own
+// keyword-mentions call against generic sector keywords (DeSci, BioDAO,
+// IPNFT). That worked at sector scale but did NOT cover the specific
+// tracked-project keyword sets, and a parser drift left candidates
+// stuck at zero. Reading the snapshot's already-saved raw_json:
+//   1. Costs zero extra Elfa credits for the tweet pull (snapshot paid)
+//   2. Discovers authors specifically engaging with the projects we
+//      track, not just sector-wide chatter
+//   3. Stays robust to Elfa response-shape drift · the snapshot already
+//      proved it can read account.username from each tweet
 //
 // Inclusion philosophy · we INSERT every author we resolve, regardless
-// of smart_followers_count. Anyone tweeting about DeSci sector keywords
-// is DeSci-relevant by definition, even if Elfa's crypto-graph hasn't
-// flagged them. The is_smart=1 column still uses smart_followers_count
-// > 5 (gate for the /kols leaderboard), but the row itself goes in
-// even when is_smart=0 so the snapshot's DESCI count picks them up.
-// This deliberately bloats smart_accounts in exchange for far better
-// DeSci coverage on the sentiment table.
+// of smart_followers_count. Anyone tweeting about a tracked DeSci
+// project is DeSci-relevant by definition, even if Elfa's crypto-graph
+// hasn't flagged them. The is_smart=1 column still uses
+// smart_followers_count > 5 (gate for the /kols leaderboard), but the
+// row itself goes in even when is_smart=0 so the snapshot's DESCI
+// count picks them up.
 //
 // Per-account isolation, hard stop on CreditCapReached. Every run lands
 // a roster_run_log row with run_type='discovery' so we can trend roster
@@ -24,15 +35,10 @@ import {
   getCreditsUsedToday, getMonthlyCreditsUsed, getMonthlyCreditCap,
 } from '../_shared/elfa.js';
 
-const PER_CALL_SLEEP_MS = 600;
-const SMART_THRESHOLD   = 5;
-const KEYWORDS          = 'DeSci,BioDAO,IPNFT,decentralized science';
-const TIME_WINDOW       = '7d';
-const PAGE_SIZE         = 100;
-const MAX_NEW_PER_RUN   = 150;  // cap discovery cost per run · ~150 credits.
-                                // Bumped from 80 once we started inserting all
-                                // authors (not just is_smart=1) since the per-run
-                                // pool of net-new handles got noticeably wider.
+const PER_CALL_SLEEP_MS    = 600;
+const SMART_THRESHOLD      = 5;
+const MAX_NEW_PER_RUN      = 150;            // ~150 credits per run, see header for cap rationale
+const SNAPSHOT_LOOKBACK_S  = 7 * 24 * 60 * 60;   // pull authors from the last week of snapshots
 
 export async function onRequest({ request, env }) {
   const denied = requireAdminAuth(request, env);
@@ -52,40 +58,53 @@ export async function onRequest({ request, env }) {
     console.warn('discover-smart-accounts: log-open failed', e);
   }
 
-  // 1. Pull a week's keyword-mentions for the sector.
-  let mentions;
-  try {
-    mentions = await elfaGet(env, '/v2/data/keyword-mentions', {
-      keywords: KEYWORDS,
-      timeWindow: TIME_WINDOW,
-      pageSize: PAGE_SIZE,
-    });
-  } catch (e) {
-    if (e instanceof CreditCapReached) {
-      return jsonResponse({ ok: false, error: 'cap-reached', startedAt }, 429);
-    }
-    return jsonResponse({ ok: false, error: String(e?.message || e) }, 502);
-  }
+  // 1. Read the last week of snapshot rows. Each row's raw_json holds
+  //    { keywordMentions: { data: [...], metadata: {...} }, ... }.
+  const since = startedAt - SNAPSHOT_LOOKBACK_S;
+  const rows = (await env.DB.prepare(
+    `SELECT ticker, snapshot_at, raw_json
+       FROM elfa_token_snapshots
+      WHERE snapshot_at >= ?
+        AND raw_json IS NOT NULL`
+  ).bind(since).all()).results || [];
 
-  const list =
-    (Array.isArray(mentions?.data) && mentions.data) ||
-    (Array.isArray(mentions?.data?.data) && mentions.data.data) ||
-    [];
-
-  // 2. Extract unique candidate usernames. Preserve first-seen casing.
+  // 2. Walk every snapshot, parse raw_json, extract distinct authors.
+  //    Preserve first-seen casing (Elfa is case-insensitive on lookup).
   const seenLower = new Set();
   const candidates = [];
-  for (const m of list) {
-    const u = m?.account?.username || m?.account?.handle || m?.username;
-    if (typeof u !== 'string' || !u) continue;
-    const lc = u.toLowerCase();
-    if (seenLower.has(lc)) continue;
-    seenLower.add(lc);
-    candidates.push(u);
+  let parseFailures = 0;
+  for (const row of rows) {
+    let parsed;
+    try {
+      parsed = JSON.parse(row.raw_json);
+    } catch {
+      parseFailures++;
+      continue;
+    }
+    const list =
+      (Array.isArray(parsed?.keywordMentions?.data) && parsed.keywordMentions.data) ||
+      (Array.isArray(parsed?.keywordMentions?.data?.data) && parsed.keywordMentions.data.data) ||
+      [];
+    for (const tweet of list) {
+      const u = tweet?.account?.username || tweet?.account?.handle || tweet?.username;
+      if (typeof u !== 'string' || !u) continue;
+      const lc = u.toLowerCase();
+      if (seenLower.has(lc)) continue;
+      seenLower.add(lc);
+      candidates.push(u);
+    }
+  }
+  console.log(
+    `discover-smart-accounts: parsed ${rows.length} snapshots ` +
+    `(${parseFailures} parse failures), found ${candidates.length} candidate usernames`
+  );
+  if (candidates.length) {
+    console.log(`discover-smart-accounts: sample candidates · ${candidates.slice(0, 5).join(', ')}`);
   }
 
   // 3. Filter to ones not already in smart_accounts.
   let newOnes = [];
+  let alreadyKnown = 0;
   if (candidates.length) {
     const placeholders = candidates.map(() => '?').join(',');
     const knownRows = (await env.DB.prepare(
@@ -93,10 +112,16 @@ export async function onRequest({ request, env }) {
         WHERE LOWER(username) IN (${placeholders})`
     ).bind(...candidates.map(u => u.toLowerCase())).all()).results || [];
     const knownSet = new Set(knownRows.map(r => r.lc));
+    alreadyKnown = knownSet.size;
     newOnes = candidates.filter(u => !knownSet.has(u.toLowerCase()));
   }
   const toCheck = newOnes.slice(0, MAX_NEW_PER_RUN);
   const skipped = newOnes.length - toCheck.length;
+  console.log(
+    `discover-smart-accounts: already in roster · ${alreadyKnown}, ` +
+    `new unknowns · ${newOnes.length}, will check · ${toCheck.length}` +
+    (skipped ? ` (skipped ${skipped} over cap)` : '')
+  );
 
   // 4. Run smart-stats for each new candidate.
   let accountsChecked = 0;
@@ -215,7 +240,10 @@ export async function onRequest({ request, env }) {
   return jsonResponse({
     ok: errors === 0 && !capReached,
     startedAt,
+    snapshots_scanned: rows.length,
+    parse_failures: parseFailures,
     candidates: candidates.length,
+    already_known: alreadyKnown,
     new_unknowns: newOnes.length,
     checked: accountsChecked,
     added: accountsAdded,
