@@ -1,10 +1,32 @@
-// POST /cron/discover-smart-accounts
+// POST /cron/discover-smart-accounts?batch=20&offset=0
 //
 // Bearer-auth-gated. Weekly. Mines /v2/data/keyword-mentions tweet
 // authors directly from the snapshot's raw_json (elfa_token_snapshots
 // stores the full Elfa response per project), then runs every author
 // NOT already in smart_accounts through /v2/account/smart-stats. New
 // rows land with source='discovery'.
+//
+// Why batched · Cloudflare Pages Functions have a wall-clock budget
+// (~30s on free, unbounded but unreliable on paid). 150 smart-stats
+// calls × 600ms sleep = 90+ seconds, which times out hard. Same
+// pattern as build-smart-roster and elfa-snapshot-tokens · ?batch=N
+// &offset=O, response carries next_offset / has_more, caller iterates
+// until has_more=false.
+//
+// Caller loop (PowerShell):
+//   $offset = 0
+//   do {
+//     $r = Invoke-RestMethod -Method POST `
+//       -Uri "https://descidash.com/cron/discover-smart-accounts?batch=20&offset=$offset" `
+//       -Headers @{ "Authorization" = "Bearer $env:ADMIN_TOKEN" }
+//     Write-Host "Added: $($r.added), Smart: $($r.marked_smart)"
+//     $offset = $r.next_offset
+//   } while ($r.has_more)
+//
+// cron-job.org cadence · weekly task that just calls offset=0 with
+// batch=30 (single shot covers ~30 candidates, plenty to keep the
+// roster fresh week to week). Manual runs use the loop above when
+// the candidate pool is bigger than 30 after a long gap.
 //
 // Why source from the snapshot · before today this cron made its own
 // keyword-mentions call against generic sector keywords (DeSci, BioDAO,
@@ -37,8 +59,9 @@ import {
 
 const PER_CALL_SLEEP_MS    = 600;
 const SMART_THRESHOLD      = 5;
-const MAX_NEW_PER_RUN      = 150;            // ~150 credits per run, see header for cap rationale
 const SNAPSHOT_LOOKBACK_S  = 7 * 24 * 60 * 60;   // pull authors from the last week of snapshots
+const DEFAULT_BATCH        = 20;             // ~12s per batch · safe under Cloudflare's 30s budget
+const MAX_BATCH            = 30;             // hard ceiling · 30 × 600ms = 18s plus per-call latency
 
 export async function onRequest({ request, env }) {
   const denied = requireAdminAuth(request, env);
@@ -46,6 +69,17 @@ export async function onRequest({ request, env }) {
   if (!env.DB) return jsonResponse({ error: 'D1 binding DB not configured' }, 500);
 
   const startedAt = Math.floor(Date.now() / 1000);
+
+  // Parse batch / offset · clamp to safe ranges.
+  const url = new URL(request.url);
+  const batchRaw = Number(url.searchParams.get('batch'));
+  const offsetRaw = Number(url.searchParams.get('offset'));
+  const batchSize = Number.isFinite(batchRaw)
+    ? Math.min(MAX_BATCH, Math.max(1, Math.floor(batchRaw)))
+    : DEFAULT_BATCH;
+  const offset = Number.isFinite(offsetRaw) && offsetRaw >= 0
+    ? Math.floor(offsetRaw)
+    : 0;
 
   let runLogId = null;
   try {
@@ -115,12 +149,15 @@ export async function onRequest({ request, env }) {
     alreadyKnown = knownSet.size;
     newOnes = candidates.filter(u => !knownSet.has(u.toLowerCase()));
   }
-  const toCheck = newOnes.slice(0, MAX_NEW_PER_RUN);
-  const skipped = newOnes.length - toCheck.length;
+  const toCheck = newOnes.slice(offset, offset + batchSize);
+  const nextOffset = offset + batchSize;
+  const isFinalBatch = nextOffset >= newOnes.length;
+  const hasMore = !isFinalBatch;
   console.log(
     `discover-smart-accounts: already in roster · ${alreadyKnown}, ` +
-    `new unknowns · ${newOnes.length}, will check · ${toCheck.length}` +
-    (skipped ? ` (skipped ${skipped} over cap)` : '')
+    `new unknowns · ${newOnes.length}, batch=${batchSize} offset=${offset}, ` +
+    `will check · ${toCheck.length}` +
+    (hasMore ? ` (next_offset ${nextOffset})` : ' (final batch)')
   );
 
   // 4. Run smart-stats for each new candidate.
@@ -245,10 +282,16 @@ export async function onRequest({ request, env }) {
     candidates: candidates.length,
     already_known: alreadyKnown,
     new_unknowns: newOnes.length,
+    total_candidates: newOnes.length,    // alias for batch consumers
+    offset,
+    batch: batchSize,
+    next_offset: nextOffset,
+    has_more: hasMore && !capReached,
+    is_final_batch: isFinalBatch,
+    processed: toCheck.length,
     checked: accountsChecked,
     added: accountsAdded,
     marked_smart: accountsMarkedSmart,
-    skipped_over_cap: skipped,
     errors,
     capReached,
     credits_used_today: creditsAfter,
