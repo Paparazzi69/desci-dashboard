@@ -182,33 +182,29 @@ function renderTable(tokens) {
     });
     tr.appendChild(sparkCell);
 
-    // Top mention · whole cell links to the tweet (or to the user's
-    // profile if we don't have a tweet id). View count in parens.
+    // Top mention · @username, deep-linked to the tweet when we have
+    // a tweet id. View count is intentionally NOT rendered · Elfa's
+    // indexing lags so the value is frequently low or zero on tweets
+    // with real engagement (seen 915 vs 6500 in the wild). The handle
+    // and the link are the actual signal; the number was noise. If
+    // tweet_id is null (legacy data before PR #16's snapshot cron),
+    // we fall back to plain text rather than a profile link · the
+    // user wanted "no link" not "wrong link".
     const topCell = document.createElement('td');
     topCell.className = 'col-top';
     if (t.top_mention && t.top_mention.username) {
-      const a = document.createElement('a');
       const id = t.top_mention.tweet_id;
-      a.href = id
-        ? `https://x.com/${encodeURIComponent(t.top_mention.username)}/status/${encodeURIComponent(id)}`
-        : `https://x.com/${encodeURIComponent(t.top_mention.username)}`;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      const handle = document.createElement('span');
-      handle.textContent = '@' + t.top_mention.username;
-      a.appendChild(handle);
-      // Only render the view-count suffix when we have a positive
-      // number. Elfa's indexing lags · zero often means "view count
-      // not yet propagated" rather than a tweet with literally zero
-      // views, and showing "(0 views)" on a high-engagement mention
-      // is more misleading than showing nothing.
-      if (Number.isFinite(t.top_mention.view_count) && t.top_mention.view_count > 0) {
-        const v = document.createElement('span');
-        v.className = 'top-views';
-        v.textContent = ` (${formatCount(t.top_mention.view_count)} views)`;
-        a.appendChild(v);
+      if (id) {
+        const a = document.createElement('a');
+        a.href =
+          `https://x.com/${encodeURIComponent(t.top_mention.username)}/status/${encodeURIComponent(id)}`;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = '@' + t.top_mention.username;
+        topCell.appendChild(a);
+      } else {
+        topCell.textContent = '@' + t.top_mention.username;
       }
-      topCell.appendChild(a);
     } else {
       topCell.textContent = EMPTY_PLACEHOLDER;
     }
