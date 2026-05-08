@@ -66,239 +66,270 @@ const MAX_BATCH            = 30;             // hard ceiling · 30 × 600ms = 18
 export async function onRequest({ request, env }) {
   const denied = requireAdminAuth(request, env);
   if (denied) return denied;
-  if (!env.DB) return jsonResponse({ error: 'D1 binding DB not configured' }, 500);
+  if (!env.DB) return jsonResponse({ ok: false, error: 'D1 binding DB not configured' });
 
+  // Top-level guard · same shape as build-smart-roster.js. Any unexpected
+  // throw inside the handler bubbles up to the catch, where we 1) log
+  // it, 2) try to mark the run-log row as errored, and 3) return HTTP
+  // 200 with { ok: false, error, stack, type } so the caller doesn't
+  // have to dig through Cloudflare logs to debug a 1101.
   const startedAt = Math.floor(Date.now() / 1000);
-
-  // Parse batch / offset · clamp to safe ranges.
-  const url = new URL(request.url);
-  const batchRaw = Number(url.searchParams.get('batch'));
-  const offsetRaw = Number(url.searchParams.get('offset'));
-  const batchSize = Number.isFinite(batchRaw)
-    ? Math.min(MAX_BATCH, Math.max(1, Math.floor(batchRaw)))
-    : DEFAULT_BATCH;
-  const offset = Number.isFinite(offsetRaw) && offsetRaw >= 0
-    ? Math.floor(offsetRaw)
-    : 0;
-
   let runLogId = null;
+
   try {
-    const ins = await env.DB.prepare(
-      `INSERT INTO roster_run_log (run_type, started_at, errors)
-       VALUES ('discovery', ?, 0)`
-    ).bind(startedAt).run();
-    runLogId = ins?.meta?.last_row_id || null;
-  } catch (e) {
-    console.warn('discover-smart-accounts: log-open failed', e);
-  }
-
-  // 1. Read the last week of snapshot rows. Each row's raw_json holds
-  //    { keywordMentions: { data: [...], metadata: {...} }, ... }.
-  const since = startedAt - SNAPSHOT_LOOKBACK_S;
-  const rows = (await env.DB.prepare(
-    `SELECT ticker, snapshot_at, raw_json
-       FROM elfa_token_snapshots
-      WHERE snapshot_at >= ?
-        AND raw_json IS NOT NULL`
-  ).bind(since).all()).results || [];
-
-  // 2. Walk every snapshot, parse raw_json, extract distinct authors.
-  //    Preserve first-seen casing (Elfa is case-insensitive on lookup).
-  const seenLower = new Set();
-  const candidates = [];
-  let parseFailures = 0;
-  for (const row of rows) {
-    let parsed;
-    try {
-      parsed = JSON.parse(row.raw_json);
-    } catch {
-      parseFailures++;
-      continue;
-    }
-    const list =
-      (Array.isArray(parsed?.keywordMentions?.data) && parsed.keywordMentions.data) ||
-      (Array.isArray(parsed?.keywordMentions?.data?.data) && parsed.keywordMentions.data.data) ||
-      [];
-    for (const tweet of list) {
-      const u = tweet?.account?.username || tweet?.account?.handle || tweet?.username;
-      if (typeof u !== 'string' || !u) continue;
-      const lc = u.toLowerCase();
-      if (seenLower.has(lc)) continue;
-      seenLower.add(lc);
-      candidates.push(u);
-    }
-  }
-  console.log(
-    `discover-smart-accounts: parsed ${rows.length} snapshots ` +
-    `(${parseFailures} parse failures), found ${candidates.length} candidate usernames`
-  );
-  if (candidates.length) {
-    console.log(`discover-smart-accounts: sample candidates · ${candidates.slice(0, 5).join(', ')}`);
-  }
-
-  // 3. Filter to ones not already in smart_accounts.
-  let newOnes = [];
-  let alreadyKnown = 0;
-  if (candidates.length) {
-    const placeholders = candidates.map(() => '?').join(',');
-    const knownRows = (await env.DB.prepare(
-      `SELECT LOWER(username) AS lc FROM smart_accounts
-        WHERE LOWER(username) IN (${placeholders})`
-    ).bind(...candidates.map(u => u.toLowerCase())).all()).results || [];
-    const knownSet = new Set(knownRows.map(r => r.lc));
-    alreadyKnown = knownSet.size;
-    newOnes = candidates.filter(u => !knownSet.has(u.toLowerCase()));
-  }
-  const toCheck = newOnes.slice(offset, offset + batchSize);
-  const nextOffset = offset + batchSize;
-  const isFinalBatch = nextOffset >= newOnes.length;
-  const hasMore = !isFinalBatch;
-  console.log(
-    `discover-smart-accounts: already in roster · ${alreadyKnown}, ` +
-    `new unknowns · ${newOnes.length}, batch=${batchSize} offset=${offset}, ` +
-    `will check · ${toCheck.length}` +
-    (hasMore ? ` (next_offset ${nextOffset})` : ' (final batch)')
-  );
-
-  // 4. Run smart-stats for each new candidate.
-  let accountsChecked = 0;
-  let accountsAdded = 0;
-  let accountsMarkedSmart = 0;
-  let errors = 0;
-  let capReached = false;
-  const creditsBefore = await getCreditsUsedToday(env);
-
-  for (let i = 0; i < toCheck.length; i++) {
-    const username = toCheck[i];
-    if (i > 0) await sleep(PER_CALL_SLEEP_MS);
+    // Parse batch / offset · clamp to safe ranges.
+    const url = new URL(request.url);
+    const batchRaw = Number(url.searchParams.get('batch'));
+    const offsetRaw = Number(url.searchParams.get('offset'));
+    const batchSize = Number.isFinite(batchRaw)
+      ? Math.min(MAX_BATCH, Math.max(1, Math.floor(batchRaw)))
+      : DEFAULT_BATCH;
+    const offset = Number.isFinite(offsetRaw) && offsetRaw >= 0
+      ? Math.floor(offsetRaw)
+      : 0;
 
     try {
-      const data = await elfaGet(env, '/v2/account/smart-stats', { username });
-      const stats = extractSmartStats(data);
-      // is_smart gates the /kols leaderboard. The INSERT below runs
-      // unconditionally · authors with smart_followers_count <= 5 still
-      // land in the roster (with is_smart=0) so the snapshot's DESCI
-      // count picks them up.
-      const isSmart = (stats.smart_followers_count || 0) > SMART_THRESHOLD ? 1 : 0;
-
-      await env.DB.prepare(
-        `INSERT INTO smart_accounts
-           (username, smart_followers_count, follower_count, following_count,
-            engagement_rate, is_smart, source, first_seen_at, last_checked_at,
-            check_status, raw_json)
-           VALUES (?, ?, ?, ?, ?, ?, 'discovery', ?, ?, 'ok', ?)
-         ON CONFLICT(username) DO UPDATE SET
-           smart_followers_count = excluded.smart_followers_count,
-           follower_count        = excluded.follower_count,
-           following_count       = excluded.following_count,
-           engagement_rate       = excluded.engagement_rate,
-           is_smart              = excluded.is_smart,
-           last_checked_at       = excluded.last_checked_at,
-           check_status          = excluded.check_status,
-           raw_json              = excluded.raw_json`
-      ).bind(
-        username,
-        stats.smart_followers_count,
-        stats.follower_count,
-        stats.following_count,
-        stats.engagement_rate,
-        isSmart,
-        startedAt,
-        startedAt,
-        JSON.stringify(data).slice(0, 16_000),
-      ).run();
-
-      accountsChecked++;
-      accountsAdded++;
-      if (isSmart) accountsMarkedSmart++;
+      const ins = await env.DB.prepare(
+        `INSERT INTO roster_run_log (run_type, started_at, errors)
+         VALUES ('discovery', ?, 0)`
+      ).bind(startedAt).run();
+      runLogId = ins?.meta?.last_row_id || null;
     } catch (e) {
-      if (e instanceof CreditCapReached) {
-        capReached = true;
-        break;
-      }
-      errors++;
-      const msg = String(e?.message || e).slice(0, 200);
-      const status = e?.status;
-      const checkStatus = status === 404 ? 'not_found' : 'error';
+      // Run-log is observability, not correctness · keep going.
+      console.warn('discover-smart-accounts: log-open failed', e);
+    }
+
+    // 1. Read the last week of snapshot rows. Each row's raw_json holds
+    //    { keywordMentions: { data: [...], metadata: {...} }, ... }.
+    const since = startedAt - SNAPSHOT_LOOKBACK_S;
+    const rows = (await env.DB.prepare(
+      `SELECT ticker, snapshot_at, raw_json
+         FROM elfa_token_snapshots
+        WHERE snapshot_at >= ?
+          AND raw_json IS NOT NULL`
+    ).bind(since).all()).results || [];
+
+    // 2. Walk every snapshot, parse raw_json, extract distinct authors.
+    //    Preserve first-seen casing (Elfa is case-insensitive on lookup).
+    const seenLower = new Set();
+    const candidates = [];
+    let parseFailures = 0;
+    for (const row of rows) {
+      let parsed;
       try {
+        parsed = JSON.parse(row.raw_json);
+      } catch {
+        parseFailures++;
+        continue;
+      }
+      const list =
+        (Array.isArray(parsed?.keywordMentions?.data) && parsed.keywordMentions.data) ||
+        (Array.isArray(parsed?.keywordMentions?.data?.data) && parsed.keywordMentions.data.data) ||
+        [];
+      for (const tweet of list) {
+        const u = tweet?.account?.username || tweet?.account?.handle || tweet?.username;
+        if (typeof u !== 'string' || !u) continue;
+        const lc = u.toLowerCase();
+        if (seenLower.has(lc)) continue;
+        seenLower.add(lc);
+        candidates.push(u);
+      }
+    }
+    console.log(
+      `discover-smart-accounts: parsed ${rows.length} snapshots ` +
+      `(${parseFailures} parse failures), found ${candidates.length} candidate usernames`
+    );
+    if (candidates.length) {
+      console.log(`discover-smart-accounts: sample candidates · ${candidates.slice(0, 5).join(', ')}`);
+    }
+
+    // 3. Filter to ones not already in smart_accounts.
+    let newOnes = [];
+    let alreadyKnown = 0;
+    if (candidates.length) {
+      const placeholders = candidates.map(() => '?').join(',');
+      const knownRows = (await env.DB.prepare(
+        `SELECT LOWER(username) AS lc FROM smart_accounts
+          WHERE LOWER(username) IN (${placeholders})`
+      ).bind(...candidates.map(u => u.toLowerCase())).all()).results || [];
+      const knownSet = new Set(knownRows.map(r => r.lc));
+      alreadyKnown = knownSet.size;
+      newOnes = candidates.filter(u => !knownSet.has(u.toLowerCase()));
+    }
+    const toCheck = newOnes.slice(offset, offset + batchSize);
+    const nextOffset = offset + batchSize;
+    const isFinalBatch = nextOffset >= newOnes.length;
+    const hasMore = !isFinalBatch;
+    console.log(
+      `discover-smart-accounts: already in roster · ${alreadyKnown}, ` +
+      `new unknowns · ${newOnes.length}, batch=${batchSize} offset=${offset}, ` +
+      `will check · ${toCheck.length}` +
+      (hasMore ? ` (next_offset ${nextOffset})` : ' (final batch)')
+    );
+
+    // 4. Run smart-stats for each new candidate.
+    let accountsChecked = 0;
+    let accountsAdded = 0;
+    let accountsMarkedSmart = 0;
+    let errors = 0;
+    let capReached = false;
+    const creditsBefore = await getCreditsUsedToday(env);
+
+    for (let i = 0; i < toCheck.length; i++) {
+      const username = toCheck[i];
+      if (i > 0) await sleep(PER_CALL_SLEEP_MS);
+
+      try {
+        const data = await elfaGet(env, '/v2/account/smart-stats', { username });
+        const stats = extractSmartStats(data);
+        // is_smart gates the /kols leaderboard. The INSERT below runs
+        // unconditionally · authors with smart_followers_count <= 5 still
+        // land in the roster (with is_smart=0) so the snapshot's DESCI
+        // count picks them up.
+        const isSmart = (stats.smart_followers_count || 0) > SMART_THRESHOLD ? 1 : 0;
+
         await env.DB.prepare(
           `INSERT INTO smart_accounts
-             (username, is_smart, source, first_seen_at, last_checked_at, check_status, raw_json)
-             VALUES (?, 0, 'discovery', ?, ?, ?, ?)
+             (username, smart_followers_count, follower_count, following_count,
+              engagement_rate, is_smart, source, first_seen_at, last_checked_at,
+              check_status, raw_json)
+             VALUES (?, ?, ?, ?, ?, ?, 'discovery', ?, ?, 'ok', ?)
            ON CONFLICT(username) DO UPDATE SET
-             last_checked_at = excluded.last_checked_at,
-             check_status    = excluded.check_status,
-             raw_json        = excluded.raw_json`
+             smart_followers_count = excluded.smart_followers_count,
+             follower_count        = excluded.follower_count,
+             following_count       = excluded.following_count,
+             engagement_rate       = excluded.engagement_rate,
+             is_smart              = excluded.is_smart,
+             last_checked_at       = excluded.last_checked_at,
+             check_status          = excluded.check_status,
+             raw_json              = excluded.raw_json`
         ).bind(
           username,
+          stats.smart_followers_count,
+          stats.follower_count,
+          stats.following_count,
+          stats.engagement_rate,
+          isSmart,
           startedAt,
           startedAt,
-          checkStatus,
-          JSON.stringify({ error: msg, status }).slice(0, 1000),
+          JSON.stringify(data).slice(0, 16_000),
         ).run();
-      } catch (dbErr) {
-        console.warn(`discover-smart-accounts: insert failed for ${username}`, dbErr);
+
+        accountsChecked++;
+        accountsAdded++;
+        if (isSmart) accountsMarkedSmart++;
+      } catch (e) {
+        if (e instanceof CreditCapReached) {
+          capReached = true;
+          break;
+        }
+        errors++;
+        const msg = String(e?.message || e).slice(0, 200);
+        const status = e?.status;
+        const checkStatus = status === 404 ? 'not_found' : 'error';
+        try {
+          await env.DB.prepare(
+            `INSERT INTO smart_accounts
+               (username, is_smart, source, first_seen_at, last_checked_at, check_status, raw_json)
+               VALUES (?, 0, 'discovery', ?, ?, ?, ?)
+             ON CONFLICT(username) DO UPDATE SET
+               last_checked_at = excluded.last_checked_at,
+               check_status    = excluded.check_status,
+               raw_json        = excluded.raw_json`
+          ).bind(
+            username,
+            startedAt,
+            startedAt,
+            checkStatus,
+            JSON.stringify({ error: msg, status }).slice(0, 1000),
+          ).run();
+        } catch (dbErr) {
+          console.warn(`discover-smart-accounts: insert failed for ${username}`, dbErr);
+        }
+        console.log(`discover-smart-accounts ${username}: ${msg}`);
       }
-      console.log(`discover-smart-accounts ${username}: ${msg}`);
     }
-  }
 
-  const creditsAfter = await getCreditsUsedToday(env);
-  const creditsSpent = Math.max(0, creditsAfter - creditsBefore);
+    const creditsAfter = await getCreditsUsedToday(env);
+    const creditsSpent = Math.max(0, creditsAfter - creditsBefore);
 
-  if (runLogId) {
+    if (runLogId) {
+      try {
+        await env.DB.prepare(
+          `UPDATE roster_run_log
+              SET ended_at = ?, accounts_checked = ?, accounts_added = ?,
+                  accounts_marked_smart = ?, credits_spent = ?, errors = ?
+            WHERE id = ?`
+        ).bind(
+          Math.floor(Date.now() / 1000),
+          accountsChecked,
+          accountsAdded,
+          accountsMarkedSmart,
+          creditsSpent,
+          errors,
+          runLogId,
+        ).run();
+      } catch (e) {
+        console.warn('discover-smart-accounts: log-close failed', e);
+      }
+    }
+
+    let creditsUsedMonth = 0;
+    let creditsRemaining = null;
     try {
-      await env.DB.prepare(
-        `UPDATE roster_run_log
-            SET ended_at = ?, accounts_checked = ?, accounts_added = ?,
-                accounts_marked_smart = ?, credits_spent = ?, errors = ?
-          WHERE id = ?`
-      ).bind(
-        Math.floor(Date.now() / 1000),
-        accountsChecked,
-        accountsAdded,
-        accountsMarkedSmart,
-        creditsSpent,
-        errors,
-        runLogId,
-      ).run();
-    } catch (e) {
-      console.warn('discover-smart-accounts: log-close failed', e);
+      creditsUsedMonth = await getMonthlyCreditsUsed(env);
+      creditsRemaining = Math.max(0, getMonthlyCreditCap() - creditsUsedMonth);
+    } catch { /* swallow */ }
+
+    return jsonResponse({
+      ok: errors === 0 && !capReached,
+      startedAt,
+      snapshots_scanned: rows.length,
+      parse_failures: parseFailures,
+      candidates: candidates.length,
+      already_known: alreadyKnown,
+      new_unknowns: newOnes.length,
+      total_candidates: newOnes.length,    // alias for batch consumers
+      offset,
+      batch: batchSize,
+      next_offset: nextOffset,
+      has_more: hasMore && !capReached,
+      is_final_batch: isFinalBatch,
+      processed: toCheck.length,
+      checked: accountsChecked,
+      added: accountsAdded,
+      marked_smart: accountsMarkedSmart,
+      errors,
+      capReached,
+      credits_used_today: creditsAfter,
+      credits_spent_this_run: creditsSpent,
+      credits_used_this_month: creditsUsedMonth,
+      credits_remaining: creditsRemaining,
+    });
+  } catch (e) {
+    const msg = String(e?.message || e).slice(0, 500);
+    const stack = String(e?.stack || '').slice(0, 1500);
+    const type = e?.constructor?.name || 'Error';
+    console.error('discover-smart-accounts: unhandled', type, msg, stack);
+    if (runLogId) {
+      try {
+        await env.DB.prepare(
+          `UPDATE roster_run_log
+              SET ended_at = ?, errors = COALESCE(errors, 0) + 1
+            WHERE id = ?`
+        ).bind(Math.floor(Date.now() / 1000), runLogId).run();
+      } catch { /* swallow · we are already in the failure path */ }
     }
+    // Return 200 with error details so the caller can read what blew up
+    // straight from the JSON body, no Cloudflare-1101 dashboard hunt.
+    return jsonResponse({
+      ok: false,
+      startedAt,
+      error: msg,
+      stack: stack || null,
+      type,
+    });
   }
-
-  let creditsUsedMonth = 0;
-  let creditsRemaining = null;
-  try {
-    creditsUsedMonth = await getMonthlyCreditsUsed(env);
-    creditsRemaining = Math.max(0, getMonthlyCreditCap() - creditsUsedMonth);
-  } catch { /* swallow */ }
-
-  return jsonResponse({
-    ok: errors === 0 && !capReached,
-    startedAt,
-    snapshots_scanned: rows.length,
-    parse_failures: parseFailures,
-    candidates: candidates.length,
-    already_known: alreadyKnown,
-    new_unknowns: newOnes.length,
-    total_candidates: newOnes.length,    // alias for batch consumers
-    offset,
-    batch: batchSize,
-    next_offset: nextOffset,
-    has_more: hasMore && !capReached,
-    is_final_batch: isFinalBatch,
-    processed: toCheck.length,
-    checked: accountsChecked,
-    added: accountsAdded,
-    marked_smart: accountsMarkedSmart,
-    errors,
-    capReached,
-    credits_used_today: creditsAfter,
-    credits_spent_this_run: creditsSpent,
-    credits_used_this_month: creditsUsedMonth,
-    credits_remaining: creditsRemaining,
-  });
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
