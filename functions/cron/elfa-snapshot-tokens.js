@@ -58,7 +58,8 @@ import {
 import { DESCI_PROJECTS } from '../_shared/desci-projects.js';
 
 const PER_CALL_SLEEP_MS      = 600;       // ~100 calls/min · safe under 120 rpm
-const TIME_WINDOW            = '24h';
+const TIME_WINDOW            = '7d';      // wider window · DeSci small caps get 5-10x more
+                                          // mentions across 7d than 24h, page no longer empty
 const PAGE_SIZE              = 100;       // higher than ticker variant · keyword search casts a wider net
 const SENTIMENT_MIN_MENTIONS = 5;
 const CHAT_TIMEOUT_MS        = 30_000;
