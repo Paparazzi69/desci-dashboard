@@ -62,6 +62,9 @@ const SMART_THRESHOLD      = 5;
 const SNAPSHOT_LOOKBACK_S  = 7 * 24 * 60 * 60;   // pull authors from the last week of snapshots
 const DEFAULT_BATCH        = 20;             // ~12s per batch · safe under Cloudflare's 30s budget
 const MAX_BATCH            = 30;             // hard ceiling · 30 × 600ms = 18s plus per-call latency
+const KNOWN_CHUNK_SIZE     = 50;             // D1 / SQLite caps placeholder count at ~100 per statement.
+                                              // 50 leaves headroom for the LOWER() projection on each side
+                                              // and stays well under the limit even on bind() overhead.
 
 export async function onRequest({ request, env }) {
   const denied = requireAdminAuth(request, env);
@@ -144,15 +147,26 @@ export async function onRequest({ request, env }) {
     }
 
     // 3. Filter to ones not already in smart_accounts.
+    //
+    // D1 / SQLite caps the per-statement parameter count at ~100 (we hit
+    // "too many SQL variables at offset 285: SQLITE_ERROR" in production
+    // when the candidate pool grew past that). Chunk the IN-clause into
+    // KNOWN_CHUNK_SIZE-sized slices, accumulate the already-known set
+    // across chunks, and filter at the end.
     let newOnes = [];
     let alreadyKnown = 0;
     if (candidates.length) {
-      const placeholders = candidates.map(() => '?').join(',');
-      const knownRows = (await env.DB.prepare(
-        `SELECT LOWER(username) AS lc FROM smart_accounts
-          WHERE LOWER(username) IN (${placeholders})`
-      ).bind(...candidates.map(u => u.toLowerCase())).all()).results || [];
-      const knownSet = new Set(knownRows.map(r => r.lc));
+      const knownSet = new Set();
+      const lowered = candidates.map(u => u.toLowerCase());
+      for (let i = 0; i < lowered.length; i += KNOWN_CHUNK_SIZE) {
+        const chunk = lowered.slice(i, i + KNOWN_CHUNK_SIZE);
+        const placeholders = chunk.map(() => '?').join(',');
+        const rs = (await env.DB.prepare(
+          `SELECT LOWER(username) AS lc FROM smart_accounts
+            WHERE LOWER(username) IN (${placeholders})`
+        ).bind(...chunk).all()).results || [];
+        for (const row of rs) knownSet.add(row.lc);
+      }
       alreadyKnown = knownSet.size;
       newOnes = candidates.filter(u => !knownSet.has(u.toLowerCase()));
     }
