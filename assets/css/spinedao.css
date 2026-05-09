@@ -619,6 +619,23 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   transition: background 0.15s ease;
 }
 .btn-ghost:hover { background: rgba(62,224,123,0.08); }
+/* Visually-disabled state for buttons whose target URL is not yet confirmed.
+   pointer-events:none kills the click + hover; tabindex="-1" + aria-disabled
+   handle keyboard + a11y. */
+.btn-ghost.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.btn-ghost.btn-disabled:hover { background: transparent; }
+.receipts-callout.expanded .r-pane .actions-note {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+  margin-top: 10px;
+  font-style: italic;
+}
 
 /* ── TEAM ────────────────────────────────────────────────────── */
 .team-grid {
