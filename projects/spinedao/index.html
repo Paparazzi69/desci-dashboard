@@ -132,6 +132,13 @@
 
     <!-- LIVE TICKER (hydrated by spinedao.js from /api/prices) -->
     <div class="ticker">
+      <!-- Stretched link makes the whole card a click target; the inner
+           contract anchor (.ticker-foot a) is z-index:2 to remain its own
+           click target for the Solscan link. -->
+      <a class="ticker-link"
+         href="https://jup.ag/tokens/spinezMPKxkBpf4Q9xET2587fehM3LuKe4xoAoXtSjR?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=ticker_card"
+         target="_blank" rel="noopener noreferrer"
+         aria-label="View $SPINE on Jupiter"></a>
       <div class="ticker-head">
         <div class="l"><span class="pulse"></span><span>// LIVE TICKER</span></div>
         <div>SPINEDAO/USD</div>
@@ -379,7 +386,6 @@
             <!-- TODO: SBT registry URL pending team confirmation -->
             <a class="btn-ghost btn-disabled" href="#" aria-disabled="true" tabindex="-1">// VIEW SBT REGISTRY →</a>
           </div>
-          <div class="actions-note">// links pending team confirmation</div>
         </div>
       </div>
     </div>
@@ -549,7 +555,7 @@
             </div>
             <div class="item">
               <div class="l">CIRCULATING</div>
-              <div class="v">297.87M</div>
+              <div class="v">~300M</div>
             </div>
             <div class="item">
               <div class="l">MINT AUTHORITY</div>
