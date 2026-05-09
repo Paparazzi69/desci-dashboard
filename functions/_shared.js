@@ -103,6 +103,9 @@ export async function fetchGeckoTerminalToken(id, address) {
     // GT often returns market_cap_usd:null for new tokens — fall back to FDV
     // so the table never shows a blank cell.
     mcap: Number(attrs.market_cap_usd ?? attrs.fdv_usd) || null,
+    // Expose FDV separately so callers (e.g. the SpineDAO ticker) can render
+    // it with a true FDV label instead of conflating it with mcap.
+    fdv: Number(attrs.fdv_usd) || null,
     vol: Number(attrs.volume_usd?.h24) || null,
     spark: closes,
     isMicroCap: false,

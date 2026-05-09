@@ -24,8 +24,14 @@
     }
   }
 
+  // SpineDAO has a fixed 1B max supply, so FDV is meaningful even pre-fully-
+  // distributed. Most CT users see the Jupiter ~$3.27M FDV figure, not the
+  // ~297.87M-circulating mcap GT reports. Compute price × 1B for parity.
+  const SPINE_MAX_SUPPLY = 1_000_000_000;
+
   function patchTicker(el, t, fetchedAt) {
     const priceEl = el.querySelector('.ticker-price');
+    const fdvEl   = el.querySelector('[data-stat="fdv"] .v');
     const mcapEl  = el.querySelector('[data-stat="mcap"] .v');
     const d1El    = el.querySelector('[data-stat="d1"] .v');
     const volEl   = el.querySelector('[data-stat="vol"] .v');
@@ -33,6 +39,7 @@
     const tsEl    = el.querySelector('[data-fetched-at]');
 
     if (priceEl && t.price != null) priceEl.textContent = fmtPrice(t.price);
+    if (fdvEl   && t.price != null) fdvEl.textContent   = fmtCompactUSD(t.price * SPINE_MAX_SUPPLY);
     if (mcapEl  && t.mcap  != null) mcapEl.textContent  = fmtCompactUSD(t.mcap);
     if (volEl   && t.vol   != null) volEl.textContent   = fmtCompactUSD(t.vol);
     if (d1El    && t.d1    != null) {
