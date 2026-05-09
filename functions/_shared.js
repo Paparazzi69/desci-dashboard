@@ -12,6 +12,7 @@ export const TOKEN_IDS = [
 // Map id (matches frontend TOKEN_META key) → Solana token contract address.
 export const GT_TOKENS = {
   'syna': 'HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
+  'spinedao': 'spinezMPKxkBpf4Q9xET2587fehM3LuKe4xoAoXtSjR',
 };
 
 
