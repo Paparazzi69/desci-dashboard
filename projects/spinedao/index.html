@@ -222,7 +222,7 @@
 
     <div class="bento">
       <a class="bento-card spine-filter"
-         href="https://spinedao.com/filter?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=filter"
+         href="https://spinedao.com/?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=filter"
          target="_blank" rel="noopener noreferrer">
         <div class="bento-corner"></div>
         <div class="glyph">
@@ -250,7 +250,7 @@
       </a>
 
       <a class="bento-card spine-descide"
-         href="https://spinedao.com/descide?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=descide"
+         href="https://spinedao.com/?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=descide"
          target="_blank" rel="noopener noreferrer">
         <div class="bento-corner"></div>
         <div class="glyph">
@@ -314,7 +314,7 @@
       </a>
 
       <a class="bento-card spine-lamina"
-         href="https://spinedao.com/lamina?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=lamina"
+         href="https://spinedao.com/?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=lamina"
          target="_blank" rel="noopener noreferrer">
         <div class="bento-corner"></div>
         <div class="glyph">
@@ -375,10 +375,11 @@
           </div>
           <div class="actions">
             <!-- TODO: paper URL pending team confirmation -->
-            <a class="btn-ghost" href="#">// READ PREPRINT →</a>
+            <a class="btn-ghost btn-disabled" href="#" aria-disabled="true" tabindex="-1">// READ PREPRINT →</a>
             <!-- TODO: SBT registry URL pending team confirmation -->
-            <a class="btn-ghost" href="#">// VIEW SBT REGISTRY →</a>
+            <a class="btn-ghost btn-disabled" href="#" aria-disabled="true" tabindex="-1">// VIEW SBT REGISTRY →</a>
           </div>
+          <div class="actions-note">// links pending team confirmation</div>
         </div>
       </div>
     </div>
@@ -688,13 +689,14 @@
       <div class="footer-col">
         <div class="h">// PROTOCOL</div>
         <div class="links">
-          <a href="https://app.bio.xyz/launchpad/SpineDAO?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=footer_bio"
+          <!-- app.bio.xyz/launchpad returns HTTP 500 when UTM params are appended; UTM intentionally stripped here. -->
+          <a href="https://app.bio.xyz/launchpad/SpineDAO"
              target="_blank" rel="noopener noreferrer">bio.xyz</a>
           <a href="https://solscan.io/token/spinezMPKxkBpf4Q9xET2587fehM3LuKe4xoAoXtSjR?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=footer_explorer"
              target="_blank" rel="noopener noreferrer">solana explorer</a>
           <a href="https://dexscreener.com/solana/spinezMPKxkBpf4Q9xET2587fehM3LuKe4xoAoXtSjR?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=footer_dexscreener"
              target="_blank" rel="noopener noreferrer">dexscreener</a>
-          <a href="https://jup.ag/swap/SOL-spinezMPKxkBpf4Q9xET2587fehM3LuKe4xoAoXtSjR?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=footer_jupiter"
+          <a href="https://jup.ag/tokens/spinezMPKxkBpf4Q9xET2587fehM3LuKe4xoAoXtSjR?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=footer_jupiter"
              target="_blank" rel="noopener noreferrer">jupiter</a>
         </div>
       </div>
