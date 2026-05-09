@@ -523,6 +523,15 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   border: 1px solid var(--border-2);
   background: var(--bg-3);
 }
+/* Two-column variant for high-confidence stats only.
+   The default 3-col grid lays out 6 cells; this drops to 2 cells with no
+   internal bottom borders since there's only one row at desktop. Mobile
+   override below restores the bottom border when cells stack. */
+@media (min-width: 768px) {
+  .receipts-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .receipts-grid.cols-2 > .receipt-cell { border-bottom: none; }
+  .receipts-grid.cols-2 > .receipt-cell:nth-child(2n) { border-right: none; }
+}
 .receipt-cell {
   padding: 56px 40px;
   border-right: 1px solid var(--border);
@@ -690,6 +699,16 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font-size: 10px; color: var(--text-3);
   letter-spacing: 0.08em; text-transform: uppercase;
   text-align: right;
+}
+/* Qualitative badge variant (replaces the numeric "X+ publications" cred for
+   surgeons whose exact publication count isn't team-confirmed). */
+.team-card .cred .badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  line-height: 1.55;
+  text-transform: uppercase;
 }
 .team-card:hover, .team-card.is-hover {
   border-color: var(--accent-dim);
