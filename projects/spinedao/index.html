@@ -569,8 +569,9 @@
       <span class="rule"></span>
       <span class="meta">PARENT PROTOCOL</span>
     </div>
+    <!-- UTM stripped: app.bio.xyz crashes on query params -->
     <a class="bio-strip"
-       href="https://bio.xyz?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=bio_protocol_lockup"
+       href="https://app.bio.xyz/launchpad/spinedao"
        target="_blank" rel="noopener noreferrer">
       <div class="bio-lockup">
         <span>SPINEDAO</span>
@@ -689,8 +690,8 @@
       <div class="footer-col">
         <div class="h">// PROTOCOL</div>
         <div class="links">
-          <!-- app.bio.xyz/launchpad returns HTTP 500 when UTM params are appended; UTM intentionally stripped here. -->
-          <a href="https://app.bio.xyz/launchpad/SpineDAO"
+          <!-- app.bio.xyz/launchpad is case-sensitive (SpineDAO 500s, spinedao works) and crashes on UTM params; both intentional. -->
+          <a href="https://app.bio.xyz/launchpad/spinedao"
              target="_blank" rel="noopener noreferrer">bio.xyz</a>
           <a href="https://solscan.io/token/spinezMPKxkBpf4Q9xET2587fehM3LuKe4xoAoXtSjR?utm_source=descidash&utm_medium=project_page&utm_campaign=spinedao&utm_content=footer_explorer"
              target="_blank" rel="noopener noreferrer">solana explorer</a>
