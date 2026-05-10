@@ -121,7 +121,15 @@
   font-size: 18px; font-weight: 700; color: var(--text);
   margin-bottom: 22px; letter-spacing: -0.005em;
 }
-.seq-row { display: grid; grid-template-columns: repeat(18, 1fr); gap: 4px; }
+.seq-row {
+  display: grid;
+  grid-template-columns: repeat(18, 1fr);
+  gap: 4px;
+  /* Reserve clearance for the absolutely-positioned residue numbers
+     rendered via .seq-box::after below each box. Without this padding
+     the next sibling (.seq-residues) crashes into the number row. */
+  padding-bottom: 22px;
+}
 .seq-box {
   aspect-ratio: 1;
   border: 1px dashed var(--border-3);
@@ -138,13 +146,13 @@
   color: var(--text-4);
 }
 .seq-residues {
-  margin-top: 12px;
+  margin-top: 16px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; color: var(--text-4);
   letter-spacing: 0.06em; line-height: 1.6;
 }
 .seq-caption {
-  margin-top: 48px;
+  margin-top: 32px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px; color: var(--text-3);
   letter-spacing: 0.1em;

@@ -143,6 +143,16 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
    selection colour, not a real CSS bug, but worth normalising. */
 ::selection      { background: rgba(62, 224, 123, 0.28); color: var(--text); }
 ::-moz-selection { background: rgba(62, 224, 123, 0.28); color: var(--text); }
+
+/* Neutralise the browser default yellow background on <mark>. We don't
+   render <mark> tags in our HTML, but Chrome's Ctrl+F find-in-page paints
+   the same yellow on matches and a QA screenshot picked that up. This rule
+   also protects against any future HTML that might use <mark> semantically. */
+mark {
+  background: transparent;
+  color: inherit;
+  font-weight: inherit;
+}
 .h-section-sub {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px; color: var(--text-2);

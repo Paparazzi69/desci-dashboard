@@ -123,6 +123,14 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
    stray text-selection in screenshots cannot read as a blue background. */
 ::selection      { background: rgba(62, 224, 123, 0.28); color: var(--text); }
 ::-moz-selection { background: rgba(62, 224, 123, 0.28); color: var(--text); }
+
+/* Neutralise the browser default yellow background on <mark> (and on
+   Chrome's Ctrl+F find-in-page highlighter which uses the same yellow). */
+mark {
+  background: transparent;
+  color: inherit;
+  font-weight: inherit;
+}
 .h-section-sub {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px; color: var(--text-2);
@@ -720,15 +728,20 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   -webkit-mask-image: linear-gradient(180deg, black, transparent 80%);
 }
 .pipe-row {
-  display: grid; grid-template-columns: repeat(9, 1fr);
+  display: grid;
+  /* minmax(0, 1fr) lets each gate column shrink without forcing the title
+     to wrap letter-by-letter; the .gate's own min-width keeps a sensible
+     floor at narrow viewports. */
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   gap: 8px; position: relative; z-index: 1;
 }
 .gate {
   background: var(--bg-3);
   border: 1px solid var(--border-2);
-  padding: 16px;
+  padding: 16px 12px;
   display: flex; flex-direction: column; gap: 12px;
   min-height: 200px;
+  min-width: 0;
   position: relative;
   overflow: hidden;
   transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
@@ -751,11 +764,15 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .gate.wet .id { color: var(--amber); }
 .gate .name {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 16px; font-weight: 700; color: var(--text);
-  letter-spacing: -0.005em; line-height: 1.1;
+  font-size: 15px; font-weight: 700; color: var(--text);
+  letter-spacing: -0.005em; line-height: 1.15;
   margin-top: 0;
-  word-break: break-word;
-  overflow-wrap: anywhere;
+  /* Standard combo: only break on word boundaries; if a single word is
+     wider than the column it falls back to break-word (mid-word break),
+     never letter-by-letter (which `overflow-wrap: anywhere` would do). */
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
 }
 .gate .tool {
   font-family: 'JetBrains Mono', monospace;
