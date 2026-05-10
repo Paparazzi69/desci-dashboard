@@ -715,7 +715,12 @@ mark {
   background: var(--bg-2);
   padding: 56px 40px 36px;
   position: relative;
-  overflow: hidden;
+  /* Allow horizontal scroll: 9 gates × 160px + gaps = ~1480px, which exceeds
+     typical viewports (1280-1440). Fixed-width cards prevent the title from
+     ever needing to wrap. Vertical overflow stays clipped so the masked grid
+     background pseudo-element doesn't bleed past the frame. */
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 .pipeline-frame::before {
   content:''; position:absolute; inset:0;
@@ -728,24 +733,28 @@ mark {
   -webkit-mask-image: linear-gradient(180deg, black, transparent 80%);
 }
 .pipe-row {
-  display: grid;
-  /* minmax(0, 1fr) lets each gate column shrink without forcing the title
-     to wrap letter-by-letter; the .gate's own min-width keeps a sensible
-     floor at narrow viewports. */
-  grid-template-columns: repeat(9, minmax(0, 1fr));
-  gap: 8px; position: relative; z-index: 1;
+  /* Flex (not grid) so each gate keeps a fixed width and the row scrolls
+     horizontally inside .pipeline-frame instead of compressing the cards. */
+  display: flex;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
 }
 .gate {
   background: var(--bg-3);
   border: 1px solid var(--border-2);
-  padding: 16px 12px;
-  display: flex; flex-direction: column; gap: 12px;
+  padding: 18px 14px 16px;
+  display: flex; flex-direction: column; gap: 10px;
+  /* Fixed 160px width fits "Conformer", "Structure", "Affinity", etc. on
+     a single line at 16px JetBrains Mono. flex: 0 0 auto stops shrinking. */
+  flex: 0 0 160px;
   min-height: 200px;
-  min-width: 0;
   position: relative;
-  overflow: hidden;
   transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
 }
+/* G9 wet-lab carries a longer label ("Wet-lab" + "binding assay" footer),
+   slightly wider. */
+.gate.wet { flex: 0 0 180px; }
 .gate.lit {
   border-color: var(--accent-dim);
   background: linear-gradient(180deg, rgba(62,224,123,0.08), var(--bg-3));
@@ -764,15 +773,11 @@ mark {
 .gate.wet .id { color: var(--amber); }
 .gate .name {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 15px; font-weight: 700; color: var(--text);
+  font-size: 16px; font-weight: 700; color: var(--text);
   letter-spacing: -0.005em; line-height: 1.15;
-  margin-top: 0;
-  /* Standard combo: only break on word boundaries; if a single word is
-     wider than the column it falls back to break-word (mid-word break),
-     never letter-by-letter (which `overflow-wrap: anywhere` would do). */
-  word-break: normal;
-  overflow-wrap: break-word;
-  hyphens: none;
+  margin-top: 4px;
+  /* No word-break tricks needed: with flex: 0 0 160px every gate column
+     is wide enough to fit any single-word title on one line. */
 }
 .gate .tool {
   font-family: 'JetBrains Mono', monospace;
@@ -1300,9 +1305,12 @@ footer {
   .why-grid { grid-template-columns: 1fr; }
   .program-banner { grid-template-columns: 1fr; gap: 12px; padding: 20px 24px; }
   .pb-status, .pb-chev { justify-self: flex-start; }
-  .pipe-row { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  /* Pipeline stays in flex+scroll on mobile too. Users swipe to see all
+     9 gates instead of stacking in 3 rows of 3. Slightly narrower cards
+     and shorter min-height to keep the footprint compact. */
   .pipeline-frame { padding: 28px 18px 24px; }
-  .gate { min-height: 132px; padding: 12px 10px; }
+  .gate { flex: 0 0 140px; min-height: 156px; padding: 14px 12px; }
+  .gate.wet { flex: 0 0 156px; }
   .gate-arrow { display: none; }
   .stack-row { grid-template-columns: 1fr 1fr; }
   .tokeno-wrap { grid-template-columns: 1fr; gap: 32px; }
