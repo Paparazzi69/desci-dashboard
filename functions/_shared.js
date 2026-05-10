@@ -13,6 +13,10 @@ export const TOKEN_IDS = [
 export const GT_TOKENS = {
   'syna': 'HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
   'spinedao': 'spinezMPKxkBpf4Q9xET2587fehM3LuKe4xoAoXtSjR',
+  // TODO: add Base contract address after $PEPTAI Ignition Sale closes.
+  // Until non-null, /api/prices skips PeptAI and the project page renders
+  // the static Ignition fixed-price placeholders ($1M FDV / $0.10 USDC).
+  'peptai': null,
 };
 
 

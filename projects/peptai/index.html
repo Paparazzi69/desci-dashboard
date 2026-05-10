@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeptAI · descidash</title>
+<meta name="description" content="Deep dive on PeptAI, the autonomous BioAgent compressing peptide drug discovery to under 24 hours and ~$1,500 per validated candidate. Four GPCR programs, 9-gate pipeline, OX2R-004 lead, $PEPTAI tokenomics, and the Bio Protocol stack.">
+<link rel="icon" type="image/png" href="/branding/icon-v1.png" />
+<link rel="apple-touch-icon" href="/branding/icon-v1.png" />
+<link rel="canonical" href="https://descidash.com/projects/peptai/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="DeSci Analytics Hub" />
+<meta property="og:title" content="PeptAI · Peptide drug discovery, compressed" />
+<meta property="og:description" content="Four autonomous AI agents. 9-gate pipeline. Wet-lab via Adaptyv Bio at ~$1,500 per candidate. Lead: OX2R-004. Tokenomics, catalysts, and the BioAgent thesis." />
+<meta property="og:url" content="https://descidash.com/projects/peptai/" />
+<meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@DeSciDashboard" />
+<meta name="twitter:title" content="PeptAI · descidash" />
+<meta name="twitter:description" content="Autonomous peptide drug discovery on Base. Four agents, 9-gate pipeline, OX2R-004 lead, $PEPTAI tokenomics." />
+<meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/bioagent-tracker.css">
+<link rel="stylesheet" href="/assets/css/project-page.css">
+<link rel="stylesheet" href="/assets/css/peptai.css">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ────────── NAV ────────── -->
+  <nav class="nav">
+    <a href="/" class="nav-logo">
+      <span class="logo-dot"></span>
+      <span>descidash</span>
+    </a>
+    <div class="nav-crumb">/ projects / <b>peptai</b></div>
+    <div class="nav-spacer"></div>
+    <div class="nav-links">
+      <a href="/">// dashboard</a>
+      <a href="/bioagent-tracker">// projects</a>
+      <a href="/feed">// feed</a>
+      <a href="/methodology">// about</a>
+    </div>
+    <a href="https://app.bio.xyz/agents/peptai"
+       target="_blank" rel="noopener noreferrer"
+       class="nav-cta">// peptai on bio →</a>
+  </nav>
+
+  <!-- ────────── 01 · HERO ────────── -->
+  <section class="hero" id="sec-1" data-screen-label="01 Hero">
+    <div class="hero-ticks"></div>
+
+    <div class="hero-top">
+      <div class="hero-tag">
+        <span class="live-dot"></span>
+        <span class="live">// LIVE</span>
+        <span class="sep">·</span>
+        <span>BIOAGENT</span>
+        <span class="sep">·</span>
+        <span class="proj">PEPTAI</span>
+        <span class="sep">·</span>
+        <span>BIO PROTOCOL</span>
+      </div>
+      <div class="hero-meta">
+        <div class="row"><span class="key">UPDATED</span><span class="val" data-fetched-at>2026.05.10</span></div>
+        <div class="row"><span class="key">COHORT</span><span class="val">BIO PROTOCOL · BIOAGENTS</span></div>
+        <div class="row"><span class="key">CHAIN</span><span class="val">BASE · MAINNET</span></div>
+      </div>
+    </div>
+
+    <div class="hero-display">
+      <div class="hero-eyebrow">
+        <span class="bar"></span>
+        <b>// 01</b>
+        <span>AUTONOMOUS PEPTIDE DRUG DISCOVERY</span>
+      </div>
+
+      <h1 class="hero-h1">
+        Peptide drug<br>discovery, <em>compressed</em><span class="period">.</span>
+      </h1>
+      <p class="hero-sub">
+        Four autonomous AI agents. <b>9 pipeline gates</b>, 8 computational plus 1 wet-lab. Wet-lab assays at <b>Adaptyv Bio</b>. Every gate decision published on-chain.
+      </p>
+    </div>
+
+    <!-- HERO TICKER · whole card is a Jupiter/launchpad link target -->
+    <a class="hero-ticker-row" href="#sec-7" aria-label="View tokenomics">
+      <div class="hero-ticker-l">
+        <div class="symb">$<span>PEPTAI</span></div>
+        <div class="where">
+          <span class="chain-badge"><span class="dot"></span>BASE</span>
+          <span>// BIO PROTOCOL LAUNCHPAD</span>
+        </div>
+      </div>
+      <div class="hero-ticker-r">
+        <div class="stat">
+          <div class="l">LAUNCH FDV</div>
+          <div class="v">$1,000,000</div>
+        </div>
+        <div class="stat">
+          <div class="l">TOKEN PRICE</div>
+          <div class="v">$0.10<small>USDC</small></div>
+        </div>
+        <div class="stat">
+          <div class="l">TOTAL SUPPLY</div>
+          <div class="v">10,000,000</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- TODO: Replace TBD contract row with actual Base contract address after $PEPTAI Ignition Sale closes -->
+    <div class="contract-row" aria-disabled="true">
+      <div class="l">
+        <span class="lab">// CONTRACT</span>
+        <span class="pill-tbd">TBD</span>
+        <span>0x · · ·</span>
+      </div>
+      <div class="r">// LIVE AFTER IGNITION CLOSE · BASE</div>
+    </div>
+  </section>
+
+  <!-- ────────── 02 · TL;DR ────────── -->
+  <section class="section observe" id="sec-2" data-screen-label="02 TLDR">
+    <div class="section-tag">
+      <span class="num">// 02</span>
+      <span>TL;DR</span>
+      <span class="rule"></span>
+      <span class="meta">THREE NUMBERS THAT MATTER</span>
+    </div>
+
+    <div class="tldr-row">
+      <div class="tldr-card">
+        <div class="head"><b>// 01</b><span>· LEAD CANDIDATE</span></div>
+        <div class="big accent">OX2R-004</div>
+        <div class="lab">ADHD lead, designed in 24 hours.</div>
+        <div class="src">// PRE-IND PUBLISHED ON MOLECULE LABS · BASE MAINNET</div>
+      </div>
+      <div class="tldr-card">
+        <div class="head"><b>// 02</b><span>· UNIT COST</span></div>
+        <div class="big accent">$1,500</div>
+        <div class="lab">Full wet-lab validation cost per candidate.</div>
+        <div class="src">// VS. MILLIONS PER MOLECULE IN TRADITIONAL PHARMA</div>
+      </div>
+      <div class="tldr-card">
+        <div class="head"><b>// 03</b><span>· PIPELINE</span></div>
+        <div class="big">9-gate</div>
+        <div class="lab">8 computational gates plus 1 wet-lab gate.</div>
+        <div class="src">// EVERY GATE DECISION PUBLISHED OPENLY · PASS AND FAIL</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 03 · WHY IT MATTERS ────────── -->
+  <section class="section observe" id="sec-3" data-screen-label="03 Why it matters">
+    <div class="section-tag">
+      <span class="num">// 03</span>
+      <span>WHY IT MATTERS</span>
+      <span class="rule"></span>
+      <span class="meta">SPEED · COST · TRANSPARENCY</span>
+    </div>
+
+    <h2 class="h-section">Three lines pharma <em>cannot draw.</em></h2>
+    <p class="h-section-sub">// THE INDUSTRY MOVES IN DECADES AND MILLIONS. PEPTAI MOVES IN HOURS AND HUNDREDS, AND PUBLISHES THE PROOF.</p>
+
+    <div class="why-grid">
+      <div class="why-block">
+        <div class="tag">// SPEED <b>· COMPRESSED LOOPS</b></div>
+        <h3>From decade to a day.</h3>
+        <p>Traditional peptide discovery takes <b>5 to 10 years</b> from target to lead. PeptAI compressed the first design loop to <b>under 24 hours</b> for OX2R-004, target picked to candidate handed off for synthesis.</p>
+        <div class="figure">// FIRST LOOP <b>≈ 24h</b></div>
+      </div>
+      <div class="why-block">
+        <div class="tag">// COST <b>· UNIT ECONOMICS</b></div>
+        <h3>Hundreds, not millions.</h3>
+        <p>First wet-lab test at <b>Adaptyv Bio</b> runs <b>~$500 to $600</b>. Full validation lands around <b>~$1,500</b> per candidate. Traditional pharma spends <b>$50K+</b> per molecule as a baseline before optimisation rounds.</p>
+        <div class="figure">// FULL VALIDATION <b>~$1,500</b></div>
+      </div>
+      <div class="why-block">
+        <div class="tag">// TRANSPARENCY <b>· ON-CHAIN</b></div>
+        <h3>Pass and fail, both posted.</h3>
+        <p>Every gate decision, including the failures, publishes to <b>Molecule Labs</b> on Base via <b>Proof-of-Invention hashing</b>. This is the inverse of pharma's file-drawer problem: you can audit which candidates died at which gate.</p>
+        <div class="figure">// PROOF-OF-INVENTION <b>· BASE</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 04 · PIPELINE PROGRAMS ────────── -->
+  <section class="section observe" id="sec-4" data-screen-label="04 Pipeline programs">
+    <div class="section-tag">
+      <span class="num">// 04</span>
+      <span>PIPELINE PROGRAMS</span>
+      <span class="rule"></span>
+      <span class="meta">FOUR AGENTS · ONE LEAD</span>
+    </div>
+
+    <h2 class="h-section">Four agents, <em>one receptor each.</em></h2>
+    <p class="h-section-sub">// CLICK A BANNER TO OPEN THE LIVE SCOREBOARD. AGENT-03 OX2R IS THE LEAD AND THE ONLY PROGRAM WITH A PRE-IND.</p>
+
+    <div class="programs">
+      <div class="program-banner" data-agent="01" tabindex="0" role="button" aria-label="Open Agent-01 GLP-1R drawer">
+        <div class="pb-badge">AGENT-01</div>
+        <div class="pb-meta">
+          <div class="receptor">GLP-1R</div>
+          <div class="area">Proof-of-pipeline validation</div>
+        </div>
+        <div class="pb-status">5-6 CANDIDATES IN PIPELINE</div>
+        <div class="pb-chev"></div>
+      </div>
+
+      <div class="program-banner" data-agent="02" tabindex="0" role="button" aria-label="Open Agent-02 KISS1R drawer">
+        <div class="pb-badge">AGENT-02</div>
+        <div class="pb-meta">
+          <div class="receptor">KISS1R</div>
+          <div class="area">Reproductive hormone axis · Fertility</div>
+        </div>
+        <div class="pb-status queued">10 CANDIDATES // 2 READY FOR WET-LAB</div>
+        <div class="pb-chev"></div>
+      </div>
+
+      <div class="program-banner is-lead" data-agent="03" tabindex="0" role="button" aria-label="Open Agent-03 OX2R LEAD drawer">
+        <div class="pb-badge">AGENT-03</div>
+        <div class="pb-meta">
+          <div class="receptor">OX2R <span>· LEAD</span></div>
+          <div class="area">Sleep · Narcolepsy · ADHD</div>
+        </div>
+        <div class="pb-status lead">PRE-IND PUBLISHED // OX2R-004 LEAD</div>
+        <div class="pb-chev"></div>
+      </div>
+
+      <!-- TODO: Agent-04 receptor pending community vote -->
+      <div class="program-banner is-disabled" data-agent="04" aria-disabled="true">
+        <div class="pb-badge">AGENT-04</div>
+        <div class="pb-meta">
+          <div class="receptor">[ TBD ]</div>
+          <div class="area">Community-selected receptor</div>
+        </div>
+        <div class="pb-status tbd">AWAITING COMMUNITY VOTE</div>
+        <div class="pb-chev"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 05 · PIPELINE ARCHITECTURE ────────── -->
+  <section class="section observe" id="sec-5" data-screen-label="05 Pipeline architecture">
+    <div class="section-tag">
+      <span class="num">// 05</span>
+      <span>PIPELINE ARCHITECTURE</span>
+      <span class="rule"></span>
+      <span class="meta">9 GATES · 8 COMPUTATIONAL + 1 WET-LAB</span>
+    </div>
+
+    <h2 class="h-section">From sequence to <em>wet-lab in 9 steps.</em></h2>
+    <p class="h-section-sub">// EACH GATE PASSES OR KILLS. FAILURES RE-ENTER FROM G1 VIA GENERATIVE REDESIGN. HUMAN REVIEW BEFORE WET-LAB.</p>
+
+    <div class="pipeline-frame">
+      <div class="pipe-row" id="pipe-row">
+        <div class="gate" data-gate="1"><div class="id">G1</div><div class="name">Structure</div><div class="tool"><b>AlphaFold</b><br>fold predict</div><span class="gate-arrow"></span></div>
+        <div class="gate" data-gate="2"><div class="id">G2</div><div class="name">Conformer</div><div class="tool">ensemble gen</div><span class="gate-arrow"></span></div>
+        <div class="gate" data-gate="3"><div class="id">G3</div><div class="name">Pose</div><div class="tool">dock + score</div><span class="gate-arrow"></span></div>
+        <div class="gate" data-gate="4"><div class="id">G4</div><div class="name">Affinity</div><div class="tool"><b>PRODIGY</b> · ΔG estimate<br><b>Boltz-2</b></div><span class="gate-arrow"></span></div>
+        <div class="gate" data-gate="5"><div class="id">G5</div><div class="name">MD</div><div class="tool"><b>Lightfold MD</b><br>2-3h / candidate</div><span class="gate-arrow"></span></div>
+        <div class="gate" data-gate="6"><div class="id">G6</div><div class="name">Protease</div><div class="tool">stability filter</div><span class="gate-arrow"></span></div>
+        <div class="gate" data-gate="7"><div class="id">G7</div><div class="name">Develop.</div><div class="tool">solubility / aggreg.</div><span class="gate-arrow"></span></div>
+        <div class="gate" data-gate="8"><div class="id">G8</div><div class="name">Immuno.</div><div class="tool">epitope scan</div><span class="gate-arrow"></span></div>
+        <div class="gate wet" data-gate="9"><div class="id">G9 · WET</div><div class="name">Wet-lab</div><div class="tool"><b>Adaptyv Bio</b><br>binding assay</div></div>
+      </div>
+
+      <div class="pipe-anno">
+        <span><b>// G5 MD</b> takes <span class="accent">2-3 hours</span> per candidate.</span>
+        <span><b>// FAILURES</b> redesigned via generative AI, re-enter from <span class="accent">G1</span>.</span>
+        <span><b>// GO/NO-GO</b> before wet-lab requires <span class="accent">human review</span>.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 06 · INFRASTRUCTURE STACK ────────── -->
+  <section class="section observe" id="sec-6" data-screen-label="06 Infrastructure">
+    <div class="section-tag">
+      <span class="num">// 06</span>
+      <span>INFRASTRUCTURE STACK</span>
+      <span class="rule"></span>
+      <span class="meta">FOUR PARTNERS</span>
+    </div>
+
+    <h2 class="h-section">The <em>plumbing</em> behind the agents.</h2>
+    <p class="h-section-sub">// PEPTAI DOES NOT REINVENT WET-LAB OR PAYMENT RAILS. IT WIRES EXISTING DESCI INFRASTRUCTURE INTO ONE LOOP.</p>
+
+    <div class="stack-row">
+      <a class="stack-card"
+         href="https://www.molecule.to/?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=molecule_labs"
+         target="_blank" rel="noopener noreferrer">
+        <div class="id"><b>// 01</b> · IP / RECORDS</div>
+        <div class="name">Molecule Labs</div>
+        <div class="role">Proof-of-Invention hashing on Base</div>
+        <div class="meta">// EVERY GATE DECISION ON-CHAIN. <b>PASS AND FAIL.</b></div>
+      </a>
+      <a class="stack-card"
+         href="https://www.adaptyvbio.com/?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=adaptyv"
+         target="_blank" rel="noopener noreferrer">
+        <div class="id"><b>// 02</b> · WET-LAB</div>
+        <div class="name">Adaptyv Bio</div>
+        <div class="role">Cloud lab for protein designers</div>
+        <div class="meta">// LAUSANNE · YC S21<br>// <b>3-WEEK</b> SEQUENCE-TO-DATA TURNAROUND</div>
+      </a>
+      <a class="stack-card"
+         href="https://www.x402.org/?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=x402_privy"
+         target="_blank" rel="noopener noreferrer">
+        <div class="id"><b>// 03</b> · PAYMENTS</div>
+        <div class="name">x402 + Privy</div>
+        <div class="role">Machine-to-machine payments</div>
+        <div class="meta">// AGENT WALLETS PAY ADAPTYV <b>PER ASSAY</b>, NO HUMAN IN THE LOOP.</div>
+      </a>
+      <a class="stack-card"
+         href="https://www.bio.xyz/?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=bio_protocol"
+         target="_blank" rel="noopener noreferrer">
+        <div class="id"><b>// 04</b> · PARENT</div>
+        <div class="name">Bio Protocol</div>
+        <div class="role">Parent protocol and launchpad</div>
+        <div class="meta">// <b>BIOXP</b> · <b>VEBIO</b> · <b>IGNITION SALES</b></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ────────── 07 · TOKENOMICS ────────── -->
+  <section class="section observe" id="sec-7" data-screen-label="07 Tokenomics">
+    <div class="section-tag">
+      <span class="num">// 07</span>
+      <span>TOKENOMICS</span>
+      <span class="rule"></span>
+      <span class="meta">$PEPTAI · TOTAL SUPPLY 10,000,000</span>
+    </div>
+
+    <h2 class="h-section">Treasury-heavy, <em>liquidity-disciplined.</em></h2>
+    <p class="h-section-sub">// 40% PROJECT TREASURY. 20% AIRDROP TO VEBIO STAKERS. ~55% CIRCULATING AT TGE.</p>
+
+    <div class="tokeno-wrap">
+      <div class="tokeno-vis">
+        <svg viewBox="-1 -1 102 102" style="width:100%;height:100%;transform:rotate(-90deg);" aria-hidden="true">
+          <!-- circumference 251.327 · segments and offsets cumulative -->
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#0d1411" stroke-width="14"/>
+          <circle class="seg" data-seg="treasury" cx="50" cy="50" r="40" fill="none" stroke="#3ee07b" stroke-width="14"
+                  stroke-dasharray="100.53 251.33" stroke-dashoffset="0"/>
+          <circle class="seg" data-seg="airdrop"  cx="50" cy="50" r="40" fill="none" stroke="#7adfa6" stroke-width="14"
+                  stroke-dasharray="50.27 251.33" stroke-dashoffset="-100.53"/>
+          <circle class="seg" data-seg="reserve"  cx="50" cy="50" r="40" fill="none" stroke="#2a9a55" stroke-width="14"
+                  stroke-dasharray="37.70 251.33" stroke-dashoffset="-150.80"/>
+          <circle class="seg" data-seg="liq"      cx="50" cy="50" r="40" fill="none" stroke="#1a5f37" stroke-width="14"
+                  stroke-dasharray="25.13 251.33" stroke-dashoffset="-188.50"/>
+          <circle class="seg" data-seg="bio"      cx="50" cy="50" r="40" fill="none" stroke="#cfe9d8" stroke-width="14"
+                  stroke-dasharray="15.08 251.33" stroke-dashoffset="-213.63"/>
+          <circle class="seg" data-seg="ignition" cx="50" cy="50" r="40" fill="none" stroke="#b6f24a" stroke-width="14"
+                  stroke-dasharray="12.57 251.33" stroke-dashoffset="-228.71"/>
+          <circle class="seg" data-seg="advisers" cx="50" cy="50" r="40" fill="none" stroke="#56655e" stroke-width="14"
+                  stroke-dasharray="10.05 251.33" stroke-dashoffset="-241.28"/>
+          <!-- gap pixels between segments -->
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#0a0e0d" stroke-width="14" stroke-dasharray="0.6 251.33" stroke-dashoffset="0"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#0a0e0d" stroke-width="14" stroke-dasharray="0.6 251.33" stroke-dashoffset="-100.53"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#0a0e0d" stroke-width="14" stroke-dasharray="0.6 251.33" stroke-dashoffset="-150.80"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#0a0e0d" stroke-width="14" stroke-dasharray="0.6 251.33" stroke-dashoffset="-188.50"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#0a0e0d" stroke-width="14" stroke-dasharray="0.6 251.33" stroke-dashoffset="-213.63"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#0a0e0d" stroke-width="14" stroke-dasharray="0.6 251.33" stroke-dashoffset="-228.71"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#0a0e0d" stroke-width="14" stroke-dasharray="0.6 251.33" stroke-dashoffset="-241.28"/>
+        </svg>
+        <div class="tokeno-center">
+          <div class="l">// TOTAL SUPPLY</div>
+          <div class="v">10,000,000<small>$PEPTAI</small></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="tokeno-legend">
+          <div class="row" data-seg="treasury"><div class="swatch" style="background:#3ee07b"></div><div class="lab">Project Treasury</div><div class="pct">40%</div></div>
+          <div class="row" data-seg="airdrop"><div class="swatch" style="background:#7adfa6"></div><div class="lab">veBIO Staker Airdrop</div><div class="pct">20%</div></div>
+          <div class="row" data-seg="reserve"><div class="swatch" style="background:#2a9a55"></div><div class="lab">Reserve Liquidity</div><div class="pct">15%</div></div>
+          <div class="row" data-seg="liq"><div class="swatch" style="background:#1a5f37"></div><div class="lab">Liquidity</div><div class="pct">10%</div></div>
+          <div class="row" data-seg="bio"><div class="swatch" style="background:#cfe9d8"></div><div class="lab">BIO Treasury</div><div class="pct">6%</div></div>
+          <div class="row" data-seg="ignition"><div class="swatch" style="background:#b6f24a"></div><div class="lab">Ignition Sale</div><div class="pct">5%</div></div>
+          <div class="row" data-seg="advisers"><div class="swatch" style="background:#56655e"></div><div class="lab">Advisers</div><div class="pct">4%</div></div>
+        </div>
+
+        <div class="token-stats">
+          <div class="token-stat"><div class="l">// TOTAL SUPPLY</div><div class="v">10,000,000</div></div>
+          <div class="token-stat"><div class="l">// LAUNCH FDV</div><div class="v">$1,000,000</div></div>
+          <div class="token-stat"><div class="l">// TOKEN PRICE</div><div class="v">$0.10 USDC</div></div>
+          <div class="token-stat"><div class="l">// NETWORK</div><div class="v">BASE</div></div>
+          <div class="token-stat"><div class="l">// TGE</div><div class="v">MAY 2026</div></div>
+          <div class="token-stat"><div class="l">// UNLOCKED AT TGE</div><div class="v"><b>~55%</b></div></div>
+          <div class="token-stat wide"><div class="l">// FULLY UNLOCKED</div><div class="v">MAY 2030 · 4 YEARS</div></div>
+          <div class="token-stat wide"><div class="l">// IGNITION OVERSUBSCRIPTION</div><div class="v"><b>15.9×</b> · $794K RAISED VS $50K TARGET</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 08 · CATALYSTS TIMELINE ────────── -->
+  <section class="section observe" id="sec-8" data-screen-label="08 Catalysts">
+    <div class="section-tag">
+      <span class="num">// 08</span>
+      <span>CATALYSTS</span>
+      <span class="rule"></span>
+      <span class="meta">APR 2026 · MAY 2026 · ROADMAP TO Q2 2027</span>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-row first elevated">
+        <div class="tl-date"><b>Apr 13</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Paul Kohlhaas announces OX2R-004<span class="tl-tag green">// LEAD</span></div>
+          <div class="ctx">First lead from PeptAI: 24-hour design loop, ~$500 to $600 first wet-lab test at Adaptyv Bio. Pre-IND staged on Molecule mainnet.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Apr 15</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">@BioProtocol quote-tweets with biology framing<span class="tl-tag">// SIGNAL</span></div>
+          <div class="ctx">Parent protocol surfaces the OX2R-004 thread. Conversation pivots from token narrative to receptor-level biology.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Apr 16-22</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">$BIO surges +105% on OX2R-004 narrative<span class="tl-tag green">// MARKET</span></div>
+          <div class="ctx">Six-day window of price discovery. Volume re-prices the parent protocol on agent-driven discovery as the new lens.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Apr 22</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Bankless feature published<span class="tl-tag amber">// PRESS</span></div>
+          <div class="ctx">First mainstream crypto-media long-form on the BioAgent thesis with PeptAI as the lead case study.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Apr 30</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">$BIO at $0.0397 · +120% from Apr 13<span class="tl-tag">// MARKET</span></div>
+          <div class="ctx">Spot price closes the month at +120% off the OX2R-004 reveal. Funding rates flip positive on perp markets.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>May 07</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">@peptai_ tooling thread<span class="tl-tag green">// TRANSPARENCY</span></div>
+          <div class="ctx">Public breakdown of the stack: BioOS, Lightfold, Adaptyv API, Privy wallets. Weekly cadence committed.</div>
+        </div>
+      </div>
+      <div class="tl-row elevated">
+        <div class="tl-date"><b>May 2026</b>(in flight)</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">$PEPTAI Ignition Sale · 15.9× oversubscribed<span class="tl-tag green">// TGE</span></div>
+          <div class="ctx">$794K raised vs $50K target. Allocations capped, no whale fills. TGE on Base imminent.</div>
+        </div>
+      </div>
+      <div class="tl-row future">
+        <div class="tl-date"><b>Q4 2026</b>planned</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Non-GPCR target enters pipeline<span class="tl-tag future">// ROADMAP</span></div>
+          <div class="ctx">First non-GPCR receptor onboarded as Agent-04 candidate. Expands chemistry beyond peptide-on-class-A.</div>
+        </div>
+      </div>
+      <div class="tl-row future">
+        <div class="tl-date"><b>Q1 2027</b>planned</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Lead optimisation with ncAA<span class="tl-tag future">// ROADMAP</span></div>
+          <div class="ctx">Non-canonical amino acids enter the design space. Half-life and protease resistance jump materially.</div>
+        </div>
+      </div>
+      <div class="tl-row future">
+        <div class="tl-date"><b>Q2 2027</b>planned</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">First in-vivo studies<span class="tl-tag future">// ROADMAP</span></div>
+          <div class="ctx">First mouse PK/PD on the lead candidate. The first real signal that any of this maps onto biology that matters.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 09 · RISK PANEL ────────── -->
+  <section class="section observe" id="sec-9" data-screen-label="09 Risk panel">
+    <div class="section-tag">
+      <span class="num">// 09</span>
+      <span>WHAT TO DISCOUNT</span>
+      <span class="rule"></span>
+      <span class="meta">FOUR HONEST CAVEATS</span>
+    </div>
+
+    <h2 class="h-section">The <em>uncomfortable</em> page.</h2>
+    <p class="h-section-sub">// EVERY OTHER SECTION IS THE PITCH. THIS ONE IS THE HEDGE. READ IT TWICE.</p>
+
+    <div class="risk-grid">
+      <div class="risk-card">
+        <div class="id"><b>// R-01</b> · LAB DATA</div>
+        <div class="body"><b>No independent wet-lab data yet.</b> Every gate decision to date is computational. OX2R-004 has not been synthesised and tested in a real lab as of latest update.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id"><b>// R-02</b> · GATE THRESHOLDS</div>
+        <div class="body"><b>Gate thresholds are not pre-registered.</b> PASS/FAIL criteria are visible per-decision but not published as a single specification. The bar can move.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id"><b>// R-03</b> · PARTNER DISCLOSURE</div>
+        <div class="body"><b>Adaptyv integration is disclosed by PeptAI only.</b> Adaptyv has not independently announced the partnership on its own channels as of latest check.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id"><b>// R-04</b> · PRE-IND SCOPE</div>
+        <div class="body"><b>Pre-IND is a marketing document, not a regulatory filing.</b> OX2R-004 is years and multiple Phase trials away from any clinic. Treat the term accordingly.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 10 · COMPARABLES ────────── -->
+  <section class="section observe" id="sec-10" data-screen-label="10 Comparables">
+    <div class="section-tag">
+      <span class="num">// 10</span>
+      <span>COMPARABLE PROJECTS</span>
+      <span class="rule"></span>
+      <span class="meta">WHAT PEPTAI IS NOT</span>
+    </div>
+
+    <h2 class="h-section">Adjacent, <em>not duplicate.</em></h2>
+    <p class="h-section-sub">// FOUR PROJECTS PEOPLE CONFUSE PEPTAI WITH. NONE OF THEM ARE AN AUTONOMOUS ON-CHAIN PEPTIDE AGENT.</p>
+
+    <div class="compare">
+      <div class="compare-row head">
+        <div>// PROJECT</div>
+        <div>// TYPE</div>
+        <div>// WHAT'S DIFFERENT</div>
+      </div>
+      <div class="compare-row">
+        <div class="proj">Aubrai<small>VITADAO</small></div>
+        <div class="type">Sister BioAgent</div>
+        <div class="diff">Longevity <b>hypothesis-generation</b>, not peptide design. Different agent shape, different target class.</div>
+      </div>
+      <div class="compare-row">
+        <div class="proj">Insilico Medicine<small>CENTRALISED</small></div>
+        <div class="type">Centralised AI pharma</div>
+        <div class="diff"><b>Phase 2 assets</b>, billion-dollar private valuation. Closed pipeline, no on-chain decisioning.</div>
+      </div>
+      <div class="compare-row">
+        <div class="proj">Cradle Bio<small>SAAS</small></div>
+        <div class="type">Protein design CRO</div>
+        <div class="diff">Web UI, not an autonomous agent. Designers drive the loop manually, no machine wallets.</div>
+      </div>
+      <div class="compare-row">
+        <div class="proj">Generate Biomedicines<small>VC-BACKED</small></div>
+        <div class="type">Generative biology</div>
+        <div class="diff"><b>$643M raised</b>, Phase 1 assets. Closed-source models, traditional pharma cap stack.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 11 · DIVE DEEPER ────────── -->
+  <section class="section observe" id="sec-11" data-screen-label="11 Dive deeper" style="padding-bottom: 96px;">
+    <div class="section-tag">
+      <span class="num">// 11</span>
+      <span>DIVE DEEPER</span>
+      <span class="rule"></span>
+      <span class="meta">FOLLOW-ON READING</span>
+    </div>
+
+    <div class="deeper-grid">
+      <div class="deeper-card">
+        <div class="id"><b>// METHODOLOGY</b></div>
+        <div class="ttl">How descidash sources <em>this data.</em></div>
+        <div class="desc">Where the numbers on this page come from. What gets cross-checked, what gets flagged TBD, and how often the page updates.</div>
+        <a href="/methodology" class="btn-ghost cta">READ METHODOLOGY →</a>
+      </div>
+      <div class="deeper-card feat">
+        <div class="id"><b>// FEATURED</b> · DEEP DIVE</div>
+        <div class="ttl">OX2R-004<span style="color:var(--text-3)">_</span><br><em>first lead from PeptAI.</em></div>
+        <div class="desc">18-residue selective OX2R agonist. The 24-hour design loop, the gate-by-gate scoreboard, and the open question: does it bind in a real lab.</div>
+        <a href="/peptides/ox2r-004" class="btn-cta cta">READ DEEP DIVE →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── FOOTER ────────── -->
+  <footer id="sec-12" data-screen-label="12 Footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="name">
+          <span class="logo-dot"></span>
+          descidash
+        </div>
+        <div class="desc">
+          // THE DESCI SECTOR TRACKER. PROJECTS, AGENTS, PEPTIDES. ON-CHAIN SCIENCE, OFF-CHAIN RECEIPTS.
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="h">// PEPTAI</div>
+        <div class="links">
+          <a href="https://x.com/peptai_?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=footer_x"
+             target="_blank" rel="noopener noreferrer">x · @peptai_</a>
+          <a href="https://x.com/paulkhls?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=footer_paulkhls"
+             target="_blank" rel="noopener noreferrer">x · @paulkhls</a>
+          <!-- TODO: Molecule Labs project URL -->
+          <a href="#" aria-disabled="true">molecule labs project</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="h">// PROTOCOL</div>
+        <div class="links">
+          <!-- app.bio.xyz/launchpad case-sensitive and crashes on UTM params, both intentional -->
+          <a href="https://app.bio.xyz/launchpad/peptai"
+             target="_blank" rel="noopener noreferrer">bio.xyz</a>
+          <a href="https://basescan.org/?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=footer_basescan"
+             target="_blank" rel="noopener noreferrer">basescan</a>
+          <a href="https://www.adaptyvbio.com/?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=footer_adaptyv"
+             target="_blank" rel="noopener noreferrer">adaptyvbio</a>
+          <a href="https://x.com/BioProtocol?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=footer_bio_x"
+             target="_blank" rel="noopener noreferrer">x · @BioProtocol</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="h">// DESCIDASH</div>
+        <div class="links">
+          <a href="/bioagent-tracker">all projects</a>
+          <a href="/feed">live feed</a>
+          <a href="/methodology">methodology</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>// TRACKED BY <a href="/">DESCIDASH.COM</a> · NOT INVESTMENT ADVICE · DATA AS OF <span data-fetched-at>2026.05.10</span></span>
+      <span>v0.4.3 · BUILD a17f</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ────────── DRAWER (right slide-in) ────────── -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="agent-drawer drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <div class="l">
+      <span class="badge" id="drawerBadge">AGENT-03</span>
+      <span class="ttl">// <span id="drawerReceptor">OX2R</span></span>
+    </div>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close drawer">×</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"><!-- populated by peptai.js --></div>
+</aside>
+
+<!-- ────────── PEPTAI GUTTER (left-edge nav) ────────── -->
+<nav class="pep-gutter" aria-label="Section navigation">
+  <button class="vert" data-target="sec-1"  type="button" aria-label="Hero"><span class="dot"></span><span class="lbl"><b>// 01</b>HERO</span></button>
+  <button class="vert" data-target="sec-2"  type="button" aria-label="TLDR"><span class="dot"></span><span class="lbl"><b>// 02</b>TLDR</span></button>
+  <button class="vert" data-target="sec-3"  type="button" aria-label="Why it matters"><span class="dot"></span><span class="lbl"><b>// 03</b>WHY</span></button>
+  <button class="vert" data-target="sec-4"  type="button" aria-label="Pipeline programs"><span class="dot"></span><span class="lbl"><b>// 04</b>AGENTS</span></button>
+  <button class="vert" data-target="sec-5"  type="button" aria-label="Pipeline architecture"><span class="dot"></span><span class="lbl"><b>// 05</b>PIPELINE</span></button>
+  <button class="vert" data-target="sec-6"  type="button" aria-label="Infrastructure stack"><span class="dot"></span><span class="lbl"><b>// 06</b>STACK</span></button>
+  <button class="vert" data-target="sec-7"  type="button" aria-label="Tokenomics"><span class="dot"></span><span class="lbl"><b>// 07</b>TOKEN</span></button>
+  <button class="vert" data-target="sec-8"  type="button" aria-label="Catalysts"><span class="dot"></span><span class="lbl"><b>// 08</b>CATALYSTS</span></button>
+  <button class="vert" data-target="sec-9"  type="button" aria-label="Risk panel"><span class="dot"></span><span class="lbl"><b>// 09</b>RISK</span></button>
+  <button class="vert" data-target="sec-10" type="button" aria-label="Comparable projects"><span class="dot"></span><span class="lbl"><b>// 10</b>COMPARE</span></button>
+  <button class="vert" data-target="sec-11" type="button" aria-label="Dive deeper"><span class="dot"></span><span class="lbl"><b>// 11</b>DEEPER</span></button>
+</nav>
+
+<script src="/assets/js/peptai.js" defer></script>
+
+</body>
+</html>
