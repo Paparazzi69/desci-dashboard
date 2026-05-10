@@ -78,7 +78,11 @@ export async function onRequest({ env }) {
 // the last good cached value. This was the cause of "SYNA disappears for
 // 5 minutes at a time" before the fix.
 async function fetchAllGtTokens(env) {
-  const entries = Object.entries(GT_TOKENS);
+  // Skip entries with null addresses — these are placeholder slots for
+  // tokens that aren't live yet (e.g. PeptAI pre-Ignition). Calling GT
+  // with a null address would throw on every cron tick and clutter logs
+  // until the contract address lands in GT_TOKENS.
+  const entries = Object.entries(GT_TOKENS).filter(([, addr]) => addr);
   const results = await Promise.all(
     entries.map(async ([id, addr]) => {
       const cacheKey = `gt-token:${id}:v1`;

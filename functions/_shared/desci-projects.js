@@ -111,8 +111,11 @@ export const DESCI_PROJECTS = [
   {
     // $PEPTAI is unique enough to keep · BioProtocolEco kept because it
     // was the verified source of the "$PEPTAI Ignition Sale" tweet.
+    // OX2R-004 added so the lead candidate's mentions feed the project's
+    // sentiment row even when posts skip the parent ticker. kisspeptin is
+    // the Agent-02 receptor name, also unique enough to attribute to PeptAI.
     display: 'PeptAI',
-    keywords: ['PeptAI', 'peptai_', '$PEPTAI', 'BioProtocolEco'],
+    keywords: ['PeptAI', 'peptai_', '$PEPTAI', 'BioProtocolEco', 'OX2R-004', 'kisspeptin'],
     ticker: '$PEPTAI',
   },
   {
