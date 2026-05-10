@@ -183,17 +183,33 @@
     <div class="drawer-section">
       <div class="h">// EXTERNAL LINKS</div>
       <div class="links-row">
-        <!-- TODO: Molecule Labs project URL -->
-        <a href="#" aria-disabled="true"><span>// MOLECULE LABS PROJECT</span><span>↗</span></a>
-        <!-- TODO: pre-IND PDF URL -->
-        <a href="#" aria-disabled="true"><span>// PRE-IND PDF</span><span>↗</span></a>
+        <a href="https://molecule.xyz/projects/88214997774048750483620597615402512868285098265515203121136501631773096632622"
+           target="_blank" rel="noopener noreferrer"><span>// MOLECULE.XYZ / OX2R PHASE 1</span><span>↗</span></a>
+        <a href="https://drive.google.com/file/d/1Kzi3OuwAwMy1vlKkcLLvxdd4YszMag41/view"
+           target="_blank" rel="noopener noreferrer"><span>// PRE-IND PAPER PDF</span><span>↗</span></a>
         <a href="https://x.com/peptai_?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=drawer_thread"
            target="_blank" rel="noopener noreferrer"><span>// @peptai_ THREAD</span><span>↗</span></a>
       </div>
     </div>
   `;
 
-  const tbdContent = (agent, receptorText) => `
+  // Per-agent external link config. Wallet rows removed entirely (agent
+  // wallet addresses not publicly disclosed). Molecule URL is only listed
+  // when a public Molecule.xyz project exists for that program.
+  const drawerLinks = {
+    '01': { molecule: null },
+    '02': { molecule: 'https://molecule.xyz/projects/7079364503028251508578684509521557949079851428906896322195700714166025795915' },
+    '04': { molecule: null },
+  };
+
+  const tbdContent = (agent, receptorText) => {
+    const cfg = drawerLinks[agent] || { molecule: null };
+    const moleculeBtn = cfg.molecule
+      ? `<a href="${cfg.molecule}" target="_blank" rel="noopener noreferrer"><span>// MOLECULE.XYZ / ${agent === '02' ? 'KISS1R' : 'PROJECT'}</span><span>↗</span></a>`
+      : '';
+    const peptaiBtn = `<a href="https://x.com/peptai_?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=drawer_thread_${agent}"
+           target="_blank" rel="noopener noreferrer"><span>// @peptai_ THREAD</span><span>↗</span></a>`;
+    return `
     <div class="drawer-section">
       <div class="h">// STATUS</div>
       <p>// AGENT-${agent} · ${receptorText}</p>
@@ -204,15 +220,12 @@
     <div class="drawer-section">
       <div class="h">// EXTERNAL LINKS</div>
       <div class="links-row">
-        <!-- TODO: Molecule Labs project URL -->
-        <a href="#" aria-disabled="true"><span>// MOLECULE LABS PROJECT</span><span>↗</span></a>
-        <a href="https://x.com/peptai_?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=drawer_thread_${agent}"
-           target="_blank" rel="noopener noreferrer"><span>// @peptai_ THREAD</span><span>↗</span></a>
-        <!-- TODO: agent wallet basescan URL -->
-        <a href="#" aria-disabled="true"><span>// AGENT WALLET (BASESCAN)</span><span>↗</span></a>
+        ${moleculeBtn}
+        ${peptaiBtn}
       </div>
     </div>
   `;
+  };
 
   const meta = {
     '01': { receptor: 'GLP-1R',  area: 'Proof-of-pipeline validation' },
