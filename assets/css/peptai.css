@@ -114,8 +114,15 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font-size: 64px; font-weight: 800;
   letter-spacing: -0.035em; line-height: 0.95;
   color: var(--text); margin-bottom: 12px;
+  /* Explicit transparent so no upstream stylesheet can leak a background. */
+  background: transparent;
 }
 .h-section em { font-style: normal; color: var(--text-3); }
+
+/* Replace the browser default blue ::selection with our green accent so a
+   stray text-selection in screenshots cannot read as a blue background. */
+::selection      { background: rgba(62, 224, 123, 0.28); color: var(--text); }
+::-moz-selection { background: rgba(62, 224, 123, 0.28); color: var(--text); }
 .h-section-sub {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px; color: var(--text-2);
@@ -719,10 +726,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .gate {
   background: var(--bg-3);
   border: 1px solid var(--border-2);
-  padding: 18px 14px 16px;
-  display: flex; flex-direction: column; gap: 6px;
-  min-height: 168px;
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+  min-height: 200px;
   position: relative;
+  overflow: hidden;
   transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
 }
 .gate.lit {
@@ -744,7 +752,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .gate .name {
   font-family: 'JetBrains Mono', monospace;
   font-size: 16px; font-weight: 700; color: var(--text);
-  letter-spacing: -0.005em; line-height: 1.15; margin-top: 4px;
+  letter-spacing: -0.005em; line-height: 1.1;
+  margin-top: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .gate .tool {
   font-family: 'JetBrains Mono', monospace;

@@ -6,28 +6,31 @@
    ──────────────────────────────────────────────────────────────────────── */
 
 /* ── HERO override · giant H1 with cursor blink ──────────────────────────── */
-.peptide-hero { /* alias used by docstring; mirror .hero behaviour */ }
-
 .hero-display {
   flex: 1;
   display: grid;
   grid-template-columns: 1.55fr 1fr;
   gap: 56px;
-  align-items: center;
+  align-items: start;
   padding: 56px 0 0 32px;
   position: relative;
   z-index: 2;
 }
+/* min-width:0 stops the giant H1 in column-1 from forcing the seq-card
+   in column-2 to compress and overlap into the H1's right edge. */
+.hero-display > * { min-width: 0; }
 
 .hero-h1 {
-  font-size: clamp(6rem, 10vw, 12rem);
+  font-size: clamp(5rem, 9vw, 11rem);
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 0.95;
   color: var(--text);
-  margin-bottom: 32px;
+  margin-bottom: 1rem;
   font-family: 'JetBrains Mono', monospace;
-  word-break: break-all;
+  /* keep-all (not break-all) so "004_" stays as one unit. The only break
+     allowed is the explicit <br> we placed between "OX2R-" and "004". */
+  word-break: keep-all;
   hyphens: none;
 }
 .cursor-blink {

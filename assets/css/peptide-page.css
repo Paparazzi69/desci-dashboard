@@ -127,12 +127,22 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   letter-spacing: -0.035em;
   line-height: 0.98;
   color: var(--text);
+  /* Explicit transparent so no upstream stylesheet (style.css,
+     bioagent-tracker.css) can leak a background onto the headline. */
+  background: transparent;
   margin-bottom: 12px;
   text-wrap: pretty;
   max-width: 1100px;
 }
 .h-section em { font-style: normal; color: var(--text-3); }
 .h-section .accent { color: var(--accent); }
+
+/* Replace the browser default blue ::selection with our green accent.
+   QA caught a screenshot where a stray text-selection on the inverse-thesis
+   headline read as "blue background covering the text" — the OS default
+   selection colour, not a real CSS bug, but worth normalising. */
+::selection      { background: rgba(62, 224, 123, 0.28); color: var(--text); }
+::-moz-selection { background: rgba(62, 224, 123, 0.28); color: var(--text); }
 .h-section-sub {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px; color: var(--text-2);
