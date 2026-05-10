@@ -123,12 +123,17 @@
 }
 .seq-row {
   display: grid;
-  grid-template-columns: repeat(18, 1fr);
+  /* minmax(0, 1fr) lets the 18 columns shrink below their content's
+     intrinsic min-width. Without it, .seq-box (display:grid + 14px letter)
+     forces a min-content width that overflows .seq-card on viewports where
+     the 2-col hero squeezes the right column. */
+  grid-template-columns: repeat(18, minmax(0, 1fr));
   gap: 4px;
   /* Reserve clearance for the absolutely-positioned residue numbers
      rendered via .seq-box::after below each box. Without this padding
      the next sibling (.seq-residues) crashes into the number row. */
   padding-bottom: 22px;
+  min-width: 0;
 }
 .seq-box {
   aspect-ratio: 1;
@@ -140,10 +145,14 @@
   display: grid;
   place-items: center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
+  /* Letter scales with viewport so it never bursts the box at narrower
+     widths and never looks cramped on desktop. ~14px max, ~10px min. */
+  font-size: clamp(0.625rem, 1.05vw, 0.875rem);
   font-weight: 700;
   color: var(--accent);
   letter-spacing: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 .seq-box::after {
   content: attr(data-i);
@@ -169,6 +178,26 @@
   border-top: 1px dashed var(--border);
 }
 .seq-caption b { color: var(--text-2); font-weight: 500; }
+
+/* Tablet squeeze range. Between the mobile breakpoint (769px) and ~1100px,
+   the 2-col .hero-display compresses the right column so far that even
+   minmax(0,1fr) columns shrink to ~6-12px each, making letters illegible.
+   Fall back to horizontal scroll inside .seq-card with a soft right-edge
+   mask as the affordance hint, per user spec. Boxes get a fixed 22px so
+   the letter at min font size still reads. */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .seq-card {
+    overflow-x: auto;
+    overflow-y: hidden;
+    mask-image: linear-gradient(to right, black calc(100% - 28px), transparent);
+    -webkit-mask-image: linear-gradient(to right, black calc(100% - 28px), transparent);
+  }
+  .seq-row {
+    grid-template-columns: repeat(18, 22px);
+    width: max-content;
+  }
+  .seq-box { font-size: 12px; }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .seq-box {
