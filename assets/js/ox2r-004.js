@@ -1,6 +1,6 @@
 // Page-specific JS for /peptides/ox2r-004/.
 // Concerns:
-//   1. Sequence visualisation: generate the 18 dimmed residue boxes.
+//   1. Sequence visualisation: render the 18 residue boxes with letters.
 //   2. Cascade --i stamping for staggered reveals.
 //   3. IntersectionObserver-driven section reveal (.observe → .in-view).
 //   4. Gutter: left-edge section nav, fades in after the hero passes.
@@ -13,6 +13,10 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── 1. 18 sequence boxes ───────────────────────────────────── */
+  // Sequence published in the Apr 1 2026 Pre-IND paper (KGDRYGVAYEHGGAQPFK).
+  // 1-indexed positions; .seq-box::after still renders the position number
+  // below each box, while textContent puts the residue letter inside.
+  const RESIDUES = ['K','G','D','R','Y','G','V','A','Y','E','H','G','G','A','Q','P','F','K'];
   const row = document.getElementById('seqRow');
   if (row) {
     for (let i = 1; i <= 18; i++) {
@@ -20,6 +24,7 @@
       b.className = 'seq-box';
       b.dataset.i = String(i);
       b.style.setProperty('--i', String(i - 1));
+      b.textContent = RESIDUES[i - 1];
       row.appendChild(b);
     }
   }

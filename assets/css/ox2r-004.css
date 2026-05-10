@@ -132,9 +132,18 @@
 }
 .seq-box {
   aspect-ratio: 1;
-  border: 1px dashed var(--border-3);
+  /* Sequence is now public (paper Apr 1 2026), so the boxes are solid
+     instead of dashed, and each box shows its residue letter centred. */
+  border: 1px solid var(--border-2);
   background: linear-gradient(135deg, var(--bg-3), var(--bg-4));
   position: relative;
+  display: grid;
+  place-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0;
 }
 .seq-box::after {
   content: attr(data-i);
@@ -418,6 +427,18 @@
   margin-left: 6px;
   cursor: not-allowed;
 }
+.tl-foot a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--accent-dim);
+  padding-bottom: 1px;
+  margin-left: 4px;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.tl-foot a:hover {
+  color: var(--accent-2);
+  border-bottom-color: var(--accent);
+}
 
 /* ── 05 GATE-BY-GATE TABLE ───────────────────────────────────────────────── */
 .gate-table {
@@ -473,7 +494,29 @@
 .pill.pass::before { content:''; width: 6px; height: 6px; background: var(--accent); }
 .pill.tbd  { color: var(--amber); border-color: var(--amber-dim); background: var(--amber-bg); border-style: dashed; }
 .pill.tbd::before  { content:''; width: 6px; height: 6px; background: var(--amber); }
+/* Pre-IND paper outcome states (paper: OX2R-004 Pre-IND, April 2026). */
+.pill.provisional { color: var(--accent-dim); border-color: var(--accent-dim); background: rgba(62,224,123,0.04); }
+.pill.provisional::before { content:''; width: 5px; height: 5px; background: var(--accent-dim); }
+.pill.conditional { color: var(--accent-2); border-color: rgba(182,242,74,0.4); background: rgba(182,242,74,0.05); }
+.pill.conditional::before { content:''; width: 6px; height: 6px; background: var(--accent-2); }
+.pill.pending { color: var(--amber); border-color: var(--amber-dim); background: var(--amber-bg); border-style: dashed; }
+.pill.pending::before { content:''; width: 6px; height: 6px; background: var(--amber); }
+.pill.deferred { color: var(--text-3); border-color: var(--border-3); background: transparent; }
+.pill.deferred::before { content:''; width: 6px; height: 6px; background: var(--text-3); }
+.pill.concern { color: var(--amber); border-color: var(--amber); background: var(--amber-bg); }
+.pill.concern::before { content:''; width: 6px; height: 6px; background: var(--amber); }
+/* FAILED is the loudest signal in the table. Solid rose, larger square indicator. */
+.pill.failed { color: var(--rose); border-color: var(--rose); background: rgba(226,107,107,0.08); }
+.pill.failed::before { content:''; width: 7px; height: 7px; background: var(--rose); }
+.pill.staged { color: var(--amber); border-color: var(--amber-dim); background: transparent; border-style: dashed; }
+.pill.staged::before { content:''; width: 6px; height: 6px; background: var(--amber); }
 .pill .note { color: var(--text-2); font-weight: 400; margin-left: 4px; }
+/* Row tints follow the dominant outcome. Failed row reads at a glance. */
+.gate-table tr.failed-row { background: rgba(226,107,107,0.04); }
+.gate-table tr.failed-row .gate-id { color: var(--rose); }
+.gate-table tr.failed-row .gate-test { color: var(--text); }
+.gate-table tr.concern-row { background: rgba(216,163,42,0.025); }
+.gate-table tr.concern-row .gate-id { color: var(--amber); }
 
 .gate-anno {
   margin-top: 24px;

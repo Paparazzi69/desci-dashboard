@@ -696,7 +696,9 @@ mark {
 }
 .spark-card svg { width: 100%; height: 56px; display: block; }
 
-.links-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+/* auto-fit so the row reads cleanly with 1, 2, or 3 buttons (per-agent
+   external links vary: GLP-1R has 1, KISS1R/OX2R have 2-3, Agent-04 has 1). */
+.links-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
 .links-row a {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
