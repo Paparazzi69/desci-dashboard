@@ -115,6 +115,44 @@
     <line x1="0" y1="28" x2="348" y2="28" stroke="#3ee07b" stroke-opacity="0.1" stroke-width="1"/>
     <line x1="0" y1="42" x2="348" y2="42" stroke="#3ee07b" stroke-opacity="0.1" stroke-width="1"/>`;
 
+  // Per-agent external link config. Wallet rows removed entirely (agent
+  // wallet addresses not publicly disclosed). Molecule URL is only listed
+  // when a public Molecule.xyz project exists for that program. Thread URL
+  // is agent-specific: Agent-03 points to Paul Kohlhaas's OX2R-004 reveal
+  // (more authoritative than the @peptai_ profile root); Agent-04 points
+  // to the @peptai_ profile root because the receptor has not been
+  // selected and no candidate thread exists yet.
+  const drawerLinks = {
+    '01': {
+      molecule: null,
+      thread: {
+        url: 'https://x.com/peptai_/status/2048796641889776099?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=agent_01',
+        label: '// @peptai_ THREAD',
+      },
+    },
+    '02': {
+      molecule: 'https://molecule.xyz/projects/7079364503028251508578684509521557949079851428906896322195700714166025795915',
+      thread: {
+        url: 'https://x.com/peptai_/status/2050154132611514446?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=agent_02',
+        label: '// @peptai_ THREAD',
+      },
+    },
+    '03': {
+      thread: {
+        url: 'https://x.com/paulkhls/status/2043824010744484016?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=agent_03',
+        label: '// PAUL OX2R-004 THREAD',
+      },
+    },
+    '04': {
+      molecule: null,
+      thread: {
+        url: 'https://x.com/peptai_?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=agent_04',
+        label: '// @peptai_ PROFILE',
+      },
+    },
+  };
+
+  const ox2rThread = drawerLinks['03'].thread;
   const ox2rContent = `
     <div class="drawer-section">
       <div class="h">// WHY THIS RECEPTOR</div>
@@ -187,28 +225,20 @@
            target="_blank" rel="noopener noreferrer"><span>// MOLECULE.XYZ / OX2R PHASE 1</span><span>↗</span></a>
         <a href="https://drive.google.com/file/d/1Kzi3OuwAwMy1vlKkcLLvxdd4YszMag41/view"
            target="_blank" rel="noopener noreferrer"><span>// PRE-IND PAPER PDF</span><span>↗</span></a>
-        <a href="https://x.com/peptai_?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=drawer_thread"
-           target="_blank" rel="noopener noreferrer"><span>// @peptai_ THREAD</span><span>↗</span></a>
+        <a href="${ox2rThread.url}"
+           target="_blank" rel="noopener noreferrer"><span>${ox2rThread.label}</span><span>↗</span></a>
       </div>
     </div>
   `;
 
-  // Per-agent external link config. Wallet rows removed entirely (agent
-  // wallet addresses not publicly disclosed). Molecule URL is only listed
-  // when a public Molecule.xyz project exists for that program.
-  const drawerLinks = {
-    '01': { molecule: null },
-    '02': { molecule: 'https://molecule.xyz/projects/7079364503028251508578684509521557949079851428906896322195700714166025795915' },
-    '04': { molecule: null },
-  };
-
   const tbdContent = (agent, receptorText) => {
-    const cfg = drawerLinks[agent] || { molecule: null };
+    const cfg = drawerLinks[agent] || { molecule: null, thread: null };
     const moleculeBtn = cfg.molecule
       ? `<a href="${cfg.molecule}" target="_blank" rel="noopener noreferrer"><span>// MOLECULE.XYZ / ${agent === '02' ? 'KISS1R' : 'PROJECT'}</span><span>↗</span></a>`
       : '';
-    const peptaiBtn = `<a href="https://x.com/peptai_?utm_source=descidash&utm_medium=project_page&utm_campaign=peptai&utm_content=drawer_thread_${agent}"
-           target="_blank" rel="noopener noreferrer"><span>// @peptai_ THREAD</span><span>↗</span></a>`;
+    const threadBtn = cfg.thread
+      ? `<a href="${cfg.thread.url}" target="_blank" rel="noopener noreferrer"><span>${cfg.thread.label}</span><span>↗</span></a>`
+      : '';
     return `
     <div class="drawer-section">
       <div class="h">// STATUS</div>
@@ -221,7 +251,7 @@
       <div class="h">// EXTERNAL LINKS</div>
       <div class="links-row">
         ${moleculeBtn}
-        ${peptaiBtn}
+        ${threadBtn}
       </div>
     </div>
   `;
