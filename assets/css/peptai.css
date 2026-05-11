@@ -408,6 +408,67 @@ mark {
   padding-top: 14px; line-height: 1.6;
 }
 
+/* Link variant for the lead-candidate card. Anchor-wrapped, with a running
+   gradient highlight that travels around the perimeter to telegraph that the
+   whole card is clickable. Only applied to TLDR card 01; cards 02 and 03
+   keep the static border. */
+@property --tldr-link-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.tldr-card.is-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  overflow: visible;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 320ms ease;
+}
+.tldr-card.is-link > * { position: relative; z-index: 1; }
+.tldr-card.is-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--tldr-link-angle, 0deg),
+    transparent 0deg,
+    transparent 210deg,
+    rgba(122, 223, 166, 0.55) 260deg,
+    var(--accent) 305deg,
+    var(--accent-2) 335deg,
+    var(--accent) 5deg,
+    rgba(122, 223, 166, 0.55) 50deg,
+    transparent 100deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+  transition: filter 280ms ease;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tldr-card.is-link::after {
+    animation: tldr-link-spin 4.5s linear infinite;
+  }
+}
+@keyframes tldr-link-spin {
+  to { --tldr-link-angle: 360deg; }
+}
+.tldr-card.is-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 38px -10px rgba(62, 224, 123, 0.32);
+}
+.tldr-card.is-link:hover::after {
+  filter: brightness(1.45) drop-shadow(0 0 6px rgba(62, 224, 123, 0.7));
+}
+
 /* ── 03 WHY IT MATTERS ───────────────────────────────────────── */
 .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 .why-block { padding: 24px 0 0; border-top: 1px solid var(--border-2); position: relative; }
