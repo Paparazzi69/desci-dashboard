@@ -637,6 +637,14 @@ mark {
   border-left: 1px solid var(--border-2);
   z-index: 90;
   transform: translateX(100%);
+  /* style.css loads before peptai.css and applies `animation: slideIn ...`
+     to .drawer, which auto-runs on first paint and walks the transform
+     from translateX(100%) to translateX(0). That is the FOUC: the drawer
+     briefly appears open on page load. Neutralise the inherited animation
+     here so the static transform is the only thing driving position. The
+     transform transition below still powers the slide-in / slide-out on
+     .is-open class toggles. */
+  animation: none;
   transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
   overflow-y: auto;
   box-shadow: -24px 0 60px rgba(0,0,0,0.5);
