@@ -408,65 +408,95 @@ mark {
   padding-top: 14px; line-height: 1.6;
 }
 
-/* Link variant for the lead-candidate card. Anchor-wrapped, with a running
-   gradient highlight that travels around the perimeter to telegraph that the
+/* Link variant for the lead-candidate card. Anchor-wrapped, with an idle
+   running gradient that sweeps around the perimeter to telegraph that the
    whole card is clickable. Only applied to TLDR card 01; cards 02 and 03
-   keep the static border. */
-@property --tldr-link-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
+   keep the static border.
+
+   Layered structure inside an isolated stacking context:
+     ::after  (z-index 0) - spinning 200% conic-gradient layer, full coverage
+     ::before (z-index 1) - opaque bg-2 panel inset 2px from card edge, masks
+                            the gradient in the interior, leaves a 2px ring
+                            exposed around the perimeter
+     > *      (z-index 2) - actual card content sits on top of the mask
+
+   Rotation is driven by transform on ::after, which is GPU-composited and
+   safe under heavy paint. overflow: hidden on the parent .tldr-card clips
+   the spinning square to card bounds. The conic-gradient stops walk through
+   soft-green -> accent -> accent-2 -> accent -> soft-green so a fixed point
+   on the border sees colors cycle across the loop, which is the "subtle
+   color shift" without needing a second hue animation that would fight the
+   hover filter override. Hover lifts via translateY (creates a stacking
+   context on hover, but the layering survives because every child layer
+   lives at non-negative z within the parent's own context). */
 .tldr-card.is-link {
   display: block;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  overflow: visible;
+  isolation: isolate;
+  border: none;
+  background: var(--bg-2);
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
               box-shadow 320ms ease;
 }
-.tldr-card.is-link > * { position: relative; z-index: 1; }
+.tldr-card.is-link > * { position: relative; z-index: 2; }
+
+/* Override the parent .tldr-card::before tick mark with an opaque inner
+   mask panel. Inset 2px on all sides so a 2px ring of ::after shows at the
+   perimeter; width/height are reset because the parent rule pins them. */
+.tldr-card.is-link::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  width: auto;
+  height: auto;
+  background: var(--bg-2);
+  z-index: 1;
+}
+
 .tldr-card.is-link::after {
   content: '';
   position: absolute;
-  inset: 0;
-  padding: 1.5px;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
   background: conic-gradient(
-    from var(--tldr-link-angle, 0deg),
+    from 0deg,
     transparent 0deg,
-    transparent 210deg,
-    rgba(122, 223, 166, 0.55) 260deg,
-    var(--accent) 305deg,
-    var(--accent-2) 335deg,
-    var(--accent) 5deg,
-    rgba(122, 223, 166, 0.55) 50deg,
-    transparent 100deg,
+    transparent 200deg,
+    rgba(122, 223, 166, 0.45) 235deg,
+    var(--accent) 270deg,
+    var(--accent-2) 290deg,
+    var(--accent) 310deg,
+    rgba(122, 223, 166, 0.45) 340deg,
     transparent 360deg
   );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
+  z-index: 0;
   pointer-events: none;
-  z-index: 2;
+  transform: rotate(0deg);
   transition: filter 280ms ease;
+  will-change: transform;
 }
 @media (prefers-reduced-motion: no-preference) {
   .tldr-card.is-link::after {
-    animation: tldr-link-spin 4.5s linear infinite;
+    animation: tldr-link-spin 5s linear infinite;
   }
 }
 @keyframes tldr-link-spin {
-  to { --tldr-link-angle: 360deg; }
+  to { transform: rotate(360deg); }
 }
 .tldr-card.is-link:hover {
   transform: translateY(-3px);
   box-shadow: 0 14px 38px -10px rgba(62, 224, 123, 0.32);
 }
 .tldr-card.is-link:hover::after {
-  filter: brightness(1.45) drop-shadow(0 0 6px rgba(62, 224, 123, 0.7));
+  filter: brightness(1.45) drop-shadow(0 0 6px rgba(62, 224, 123, 0.65));
 }
 
 /* ── 03 WHY IT MATTERS ───────────────────────────────────────── */
