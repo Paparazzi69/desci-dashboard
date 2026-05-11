@@ -322,6 +322,26 @@
   if (overlay) overlay.addEventListener('click', close);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
+  // Deep-link: if the URL hash matches an agent banner id (#agent-01..04),
+  // auto-open that drawer. Used by the parent-link CTA on /peptides/ox2r-004/
+  // and by anyone landing on a hashed URL directly. Browser scroll-to-anchor
+  // is native (it fires before defer JS executes), so we only handle the
+  // drawer-open part. The hash stays in the address bar so a refresh
+  // reproduces the same state. Hash also listened on hashchange so internal
+  // anchor clicks on the page can drive the drawer too.
+  const openFromHash = () => {
+    const m = window.location.hash.match(/^#agent-(0[1-4])$/);
+    if (!m) return;
+    const agent = m[1];
+    const banner = document.querySelector(`.program-banner[data-agent="${agent}"]`);
+    if (!banner) return;
+    document.querySelectorAll('.program-banner.is-active').forEach((x) => x.classList.remove('is-active'));
+    banner.classList.add('is-active');
+    open(agent);
+  };
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
+
   /* ── 5. Gutter ──────────────────────────────────────────────── */
   const gutter = document.querySelector('.pep-gutter');
   if (gutter) {
