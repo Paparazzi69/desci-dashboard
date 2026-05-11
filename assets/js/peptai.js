@@ -239,12 +239,18 @@
     const threadBtn = cfg.thread
       ? `<a href="${cfg.thread.url}" target="_blank" rel="noopener noreferrer"><span>${cfg.thread.label}</span><span>↗</span></a>`
       : '';
+    // Agent-04 is the open community-selected slot, not a placeholder for
+    // pending data. Give it a status line that names the governance step
+    // it is waiting on. Agents 01 and 02 keep the generic message.
+    const bodyMessage = agent === '04'
+      ? 'RECEPTOR NOT YET SELECTED. THE OPEN AGENT-04 SLOT IS AWAITING A COMMUNITY GOVERNANCE VOTE. ONCE THE VOTE LANDS, THIS DRAWER WILL POPULATE WITH THE CHOSEN RECEPTOR AND ITS PER-CANDIDATE PIPELINE DATA.'
+      : 'DETAILED SCOREBOARD PENDING SOURCE CONFIRMATION. THIS DRAWER WILL POPULATE ONCE PEPTAI PUBLISHES PER-CANDIDATE GATE DATA FOR THIS AGENT.';
     return `
     <div class="drawer-section">
       <div class="h">// STATUS</div>
       <p>// AGENT-${agent} · ${receptorText}</p>
       <p style="margin-top:14px;color:var(--text-3);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;">
-        DETAILED SCOREBOARD PENDING SOURCE CONFIRMATION. THIS DRAWER WILL POPULATE ONCE PEPTAI PUBLISHES PER-CANDIDATE GATE DATA FOR THIS AGENT.
+        ${bodyMessage}
       </p>
     </div>
     <div class="drawer-section">
@@ -283,6 +289,23 @@
     document.body.style.overflow = '';
     document.querySelectorAll('.program-banner.is-active').forEach((b) => b.classList.remove('is-active'));
   };
+
+  // Normalize Agent-04 (the open community-selected slot) so the click
+  // loop binds a handler. The HTML marks it is-disabled + aria-disabled
+  // because the receptor is TBD, but the drawer config resolves to a
+  // real PEPTAI_ PROFILE link, so the row should behave like its
+  // siblings. Strip the disabled markers, add keyboard affordances, and
+  // let the loop below attach the standard click + Enter/Space handlers.
+  const agent04 = document.querySelector('.program-banner[data-agent="04"]');
+  if (agent04) {
+    agent04.classList.remove('is-disabled');
+    agent04.removeAttribute('aria-disabled');
+    agent04.setAttribute('tabindex', '0');
+    agent04.setAttribute('role', 'button');
+    if (!agent04.hasAttribute('aria-label')) {
+      agent04.setAttribute('aria-label', 'Open Agent-04 community-selected slot drawer');
+    }
+  }
 
   document.querySelectorAll('.program-banner').forEach((b) => {
     if (b.classList.contains('is-disabled')) return;
