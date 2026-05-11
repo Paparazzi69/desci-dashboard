@@ -324,11 +324,27 @@
 
   // Deep-link: if the URL hash matches an agent banner id (#agent-01..04),
   // auto-open that drawer. Used by the parent-link CTA on /peptides/ox2r-004/
-  // and by anyone landing on a hashed URL directly. Browser scroll-to-anchor
-  // is native (it fires before defer JS executes), so we only handle the
-  // drawer-open part. The hash stays in the address bar so a refresh
-  // reproduces the same state. Hash also listened on hashchange so internal
-  // anchor clicks on the page can drive the drawer too.
+  // and by anyone landing on a hashed URL directly. Hash also listened on
+  // hashchange so internal anchor clicks on the page can drive the drawer.
+  //
+  // Production bug history: the original synchronous version of this handler
+  // produced two issues that only showed up on the live deployment, not in
+  // local fast-static preview:
+  //   (A) body-scroll lock in open() fired while the browser's native
+  //       scroll-to-anchor was still in flight, freezing scroll past the
+  //       target banner near the start of // 05 PIPELINE.
+  //   (B) adding .is-open in the same synchronous tick as initial layout
+  //       meant the transform: translateX(100%) starting state was never
+  //       committed to a paint, so the .is-open target snapped to
+  //       translateX(0) without the slide-in transition firing, leaving the
+  //       drawer effectively invisible (no visible state change).
+  //
+  // Fix: defer the open() call past one full paint cycle (double rAF) so
+  // (a) native scroll lands first, (b) initial transform is painted, then
+  // we trigger .is-open and the transition fires correctly. Also a defensive
+  // scrollIntoView call so even if native scroll has been disrupted by the
+  // section reveal animations, the banner gets pulled to top-of-viewport
+  // before body-scroll is locked.
   const openFromHash = () => {
     const m = window.location.hash.match(/^#agent-(0[1-4])$/);
     if (!m) return;
@@ -337,7 +353,10 @@
     if (!banner) return;
     document.querySelectorAll('.program-banner.is-active').forEach((x) => x.classList.remove('is-active'));
     banner.classList.add('is-active');
-    open(agent);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      banner.scrollIntoView({ block: 'start' });
+      open(agent);
+    }));
   };
   openFromHash();
   window.addEventListener('hashchange', openFromHash);
