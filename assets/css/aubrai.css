@@ -1,0 +1,210 @@
+/* ── /projects/aubrai/ deep-dive page ───────────────────────────────────────
+   Standalone branded showcase for AUBRAI, the first BioAgent on Bio Protocol.
+   Reuses peptai.css conventions where possible (own design tokens via :root,
+   own .nav/.section/.footer scaffolding) and adds aubrai-specific layouts
+   for the org triangle, team grid, flywheel diagram, terminal card, research
+   sample stack, RMR2 list, launch arc, on-chain wallet cards, and tracking
+   benchmarks. Layered after style.css + bioagent-tracker.css + project-page.css
+   per the prescribed CSS load order.
+   ──────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --bg:        #0a0e0d;
+  --bg-2:      #0d1411;
+  --bg-3:      #111815;
+  --bg-4:      #161e1a;
+  --border:    #1a2722;
+  --border-2:  #233530;
+  --border-3:  #2e453d;
+  --text:      #e6f0ec;
+  --text-2:    #8a9a93;
+  --text-3:    #56655e;
+  --text-4:    #36433d;
+  --accent:    #3ee07b;
+  --accent-2:  #b6f24a;
+  --accent-dim:#2a9a55;
+  --accent-bg: #0e2a1c;
+  --amber:     #d8a32a;
+  --amber-dim: rgba(216,163,42,0.4);
+  --amber-bg:  rgba(216,163,42,0.06);
+  --rose:      #e26b6b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); }
+body {
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.mono { font-family: 'JetBrains Mono', monospace; font-feature-settings: 'zero'; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 3px; }
+
+.page { width: 100%; max-width: 1440px; margin: 0 auto; position: relative; }
+
+/* ── NAV ─────────────────────────────────────────────────────── */
+.nav {
+  height: 56px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 56px; gap: 48px;
+  background: rgba(10,14,13,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  position: sticky; top: 0; z-index: 50;
+}
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; font-weight: 700; color: var(--text);
+  letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo .logo-dot {
+  width: 10px; height: 10px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.nav-crumb {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-3);
+  letter-spacing: 0.06em;
+}
+.nav-crumb b { color: var(--accent); font-weight: 500; }
+.nav-spacer { flex: 1; }
+.nav-links { display: flex; gap: 28px; }
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-2);
+  letter-spacing: 0.04em;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-cta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--bg);
+  background: var(--accent);
+  padding: 7px 14px;
+  letter-spacing: 0.06em; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.nav-cta:hover { background: var(--accent-2); }
+
+/* ── SECTION ─────────────────────────────────────────────────── */
+.section { padding: 120px 56px; border-top: 1px solid var(--border); position: relative; }
+.section-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-3);
+  letter-spacing: 0.1em;
+  margin-bottom: 64px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-tag .num { color: var(--accent); font-weight: 600; }
+.section-tag .rule { flex: 1; height: 1px; background: var(--border-2); max-width: 280px; }
+.section-tag .meta { color: var(--text-3); }
+
+.h-section {
+  font-size: 56px; font-weight: 800;
+  letter-spacing: -0.03em; line-height: 0.98;
+  color: var(--text); margin-bottom: 12px;
+  background: transparent;
+}
+.h-section em { font-style: normal; color: var(--text-3); }
+.h-section-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; color: var(--text-2);
+  letter-spacing: 0.06em; line-height: 1.6;
+  max-width: 720px; margin-bottom: 56px;
+  text-transform: uppercase;
+}
+
+::selection      { background: rgba(62, 224, 123, 0.28); color: var(--text); }
+::-moz-selection { background: rgba(62, 224, 123, 0.28); color: var(--text); }
+mark { background: transparent; color: inherit; font-weight: inherit; }
+
+/* ── GUTTER NAV (left edge) ──────────────────────────────────── */
+.pep-gutter {
+  position: fixed; left: 16px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 60;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 14px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+.pep-gutter.is-active { opacity: 1; pointer-events: auto; }
+.pep-gutter::before {
+  content:''; position: absolute; left: 50%; top: 8px; bottom: 8px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(207,233,216,0.18) 14%, rgba(207,233,216,0.18) 86%, transparent);
+  transform: translateX(-0.5px);
+}
+.pep-gutter .vert {
+  position: relative; width: 16px; height: 16px;
+  background: transparent; border: 0; padding: 0;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.pep-gutter .vert .dot {
+  width: 5px; height: 5px;
+  background: rgba(207, 233, 216, 0.3);
+  transition: all 220ms ease;
+}
+.pep-gutter .vert .lbl {
+  position: absolute; left: 22px;
+  font: 500 9px/1 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(207,233,216,0.55);
+  white-space: nowrap;
+  opacity: 0; transform: translateX(-4px);
+  transition: all 200ms ease;
+  pointer-events: none;
+}
+.pep-gutter .vert .lbl b { color: var(--accent); font-weight: 600; margin-right: 6px; }
+.pep-gutter .vert:hover .lbl { opacity: 1; transform: translateX(0); }
+.pep-gutter .vert.is-current .lbl { opacity: 1; transform: translateX(0); color: rgba(207,233,216,0.85); }
+.pep-gutter .vert:hover .dot { background: rgba(62,224,123,0.7); }
+.pep-gutter .vert.is-current .dot {
+  background: var(--accent);
+  width: 7px; height: 7px;
+  box-shadow: 0 0 0 3px rgba(62,224,123,0.18), 0 0 8px rgba(62,224,123,0.7);
+}
+
+/* ── SCROLL ANIMATIONS ───────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .section .section-tag .rule {
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .section.in-view .section-tag .rule { transform: scaleX(1); }
+
+  .section .h-section, .section .h-section-sub {
+    opacity: 0; transform: translateY(8px);
+    transition:
+      opacity 400ms cubic-bezier(0.22, 1, 0.36, 1) 200ms,
+      transform 400ms cubic-bezier(0.22, 1, 0.36, 1) 200ms;
+  }
+  .section .h-section-sub { transition-delay: 280ms; }
+  .section.in-view .h-section,
+  .section.in-view .h-section-sub { opacity: 1; transform: translateY(0); }
+}
+
+/* ── MOBILE ──────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav { padding: 0 20px; gap: 16px; height: 52px; }
+  .nav-links { display: none; }
+  .section { padding: 64px 20px; }
+  .section-tag { margin-bottom: 32px; }
+  .h-section { font-size: 32px; line-height: 1.05; }
+  .h-section-sub { font-size: 12px; margin-bottom: 32px; }
+  .pep-gutter { display: none; }
+}
