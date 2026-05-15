@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUBRAI · descidash</title>
+<meta name="description" content="Deep dive on AUBRAI, the first BioAgent on Bio Protocol. Co-developed by VitaDAO, BIO Protocol, and Aubrey de Grey's LEV Foundation. Live terminal, Hypothesis-to-funding flywheel, RMR2 flagship, tokenomics, and the on-chain record on Base.">
+<link rel="icon" type="image/png" href="/branding/icon-v1.png" />
+<link rel="apple-touch-icon" href="/branding/icon-v1.png" />
+<link rel="canonical" href="https://descidash.com/projects/aubrai/" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="DeSci Analytics Hub" />
+<meta property="og:title" content="AUBRAI · the first BioAgent on Bio Protocol" />
+<meta property="og:description" content="Co-developed by VitaDAO, BIO Protocol, and LEVF. Launched Aug 2025, 14.62x oversubscribed Ignition Sale. Hypothesis archive at 5,930. Trading-fee revenue funds RMR2." />
+<meta property="og:url" content="https://descidash.com/projects/aubrai/" />
+<meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@DeSciDashboard" />
+<meta name="twitter:title" content="AUBRAI · descidash" />
+<meta name="twitter:description" content="First BioAgent on Bio Protocol. Co-developed by VitaDAO, BIO, and LEVF. Live archive 5,930 hypotheses. RMR2 flagship." />
+<meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/bioagent-tracker.css">
+<link rel="stylesheet" href="/assets/css/project-page.css">
+<link rel="stylesheet" href="/assets/css/aubrai.css">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ────────── NAV ────────── -->
+  <nav class="nav">
+    <a href="/" class="nav-logo">
+      <span class="logo-dot"></span>
+      <span>descidash</span>
+    </a>
+    <div class="nav-crumb">/ projects / <b>aubrai</b></div>
+    <div class="nav-spacer"></div>
+    <div class="nav-links">
+      <a href="/">// dashboard</a>
+      <a href="/bioagent-tracker">// projects</a>
+      <a href="/feed">// feed</a>
+      <a href="/methodology">// about</a>
+    </div>
+    <a href="https://app.bio.xyz/agents/aubrai?utm_source=descidash&utm_medium=project_page&utm_campaign=aubrai&utm_content=nav_cta"
+       target="_blank" rel="noopener noreferrer"
+       class="nav-cta">// aubrai on bio →</a>
+  </nav>
+
+  <!-- ────────── 01 · TL;DR ────────── -->
+  <section class="section observe hero-tldr" id="sec-1">
+    <div class="hero-eyebrow">
+      <span class="bar"></span>
+      <b>// 01</b>
+      <span>TL;DR</span>
+    </div>
+
+    <div class="hero-wordmark">AUBRAI</div>
+    <div class="hero-substr">the first BioAgent on Bio Protocol</div>
+
+    <div class="hero-pills">
+      <span class="hero-pill" data-tone="live"><span class="live-dot"></span>LIVE</span>
+      <span class="hero-pill">AGENT</span>
+      <span class="hero-pill">LONGEVITY</span>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="l">// TOKEN</div>
+        <div class="v">$AUBRAI<small>on Base</small></div>
+      </div>
+      <div class="stat-cell">
+        <div class="l">// LAUNCH</div>
+        <div class="v">26 Aug 2025<small>Ignition close</small></div>
+      </div>
+      <div class="stat-cell">
+        <div class="l">// FDV (live)</div>
+        <div class="v" data-aubrai-fdv>$4.4M<small>May 2026 snapshot</small></div>
+      </div>
+      <div class="stat-cell">
+        <div class="l">// HYPOTHESES</div>
+        <div class="v">5,930<small>in archive · May 2026</small></div>
+      </div>
+    </div>
+
+    <div class="hero-desc">
+      <p>AUBRAI is the first BioAgent launched on Bio Protocol's launchpad. It went live on Base on 26 August 2025 after an Ignition Sale that closed <b>14.62x oversubscribed</b>. The agent is co-developed by <b>VitaDAO</b> and <b>BIO Protocol</b> with scientific direction from Aubrey de Grey's <b>LEV Foundation</b>. It runs on Phala Cloud TEE inside ElizaOS v2, with a knowledge graph built on 4,000+ curated longevity papers, a 10k-pair synthetic Q&amp;A fine-tune, and unpublished lab notes from de Grey's research.</p>
+      <p>Hypotheses minted by AUBRAI are hashed on Base via Molecule's Proof-of-Invention infrastructure. Inference currently runs on <b>Claude Opus 4.6</b> according to the agent's live terminal at aubr.ai. The flagship use case for AUBRAI's revenue is funding LEVF's <b>Robust Mouse Rejuvenation 2 (RMR2)</b> program, an ambitious study designed to double the remaining lifespan of middle-aged mice. AUBRAI directs trading-fee revenue and Bio treasury grants from the BIOPSY-30 proposal toward this work. As of May 2026 the archive contains <b>5,930 hypothesis evaluations</b> spanning topics from senolytics to mitochondrial allotopic expression.</p>
+    </div>
+
+    <a class="lead-link" href="#research-samples">
+      <div class="row">
+        <div>
+          <div class="lead-l">// JUMP TO</div>
+          <div class="lead-t">Live research samples <em>// 06</em></div>
+        </div>
+        <div class="lead-arrow">↓</div>
+      </div>
+    </a>
+  </section>
+
+  <!-- ────────── 02 · THE FIRST BIOAGENT ────────── -->
+  <section class="section observe" id="sec-2">
+    <div class="section-tag">
+      <span class="num">// 02</span>
+      <span>THE FIRST BIOAGENT</span>
+      <span class="rule"></span>
+      <span class="meta">WHAT IT SET IN MOTION FOR THE REST OF THE SECTOR</span>
+    </div>
+
+    <div class="micro-stats">
+      <div class="micro-cell">
+        <div class="l">// ORDER</div>
+        <div class="v accent">BioAgent #1</div>
+      </div>
+      <div class="micro-cell">
+        <div class="l">// IGNITION</div>
+        <div class="v">14.62x oversubscribed</div>
+      </div>
+      <div class="micro-cell">
+        <div class="l">// PARTICIPANTS</div>
+        <div class="v">1,660+</div>
+      </div>
+      <div class="micro-cell">
+        <div class="l">// FIRST 20 MIN VOL</div>
+        <div class="v">$3.5M</div>
+      </div>
+    </div>
+
+    <div class="prose-block">
+      <p>AUBRAI's Ignition Sale closed at <b>$1.17M FDV</b> on 26 August 2025 after the strongest oversubscription Bio Protocol's launchpad has yet hosted. <b>303,963,088 BioXP</b> was spent in the sale, 20% of token supply sold to participants. In the first 20 minutes of public trading on Base, <b>$3.5M of volume</b> crossed the AUBRAI pair.</p>
+    </div>
+
+    <div class="sub-heading">// THE ALPHAFOLD MOMENT FRAMING</div>
+    <div class="prose-block">
+      <p>The framing AUBRAI's team uses, repeated in <a href="https://x.com/Aubrai_/status/1969075768144846979?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=alphafold_aubrai_post" target="_blank" rel="noopener noreferrer">@Aubrai_'s own pinned positioning</a> and in Bio Protocol's launch communications: if Aubrey de Grey's <b>Robust Mouse Rejuvenation 2</b> study succeeds in doubling the remaining lifespan of middle-aged mice, it is to aging research what AlphaFold was to protein structure prediction. A proof that multi-target intervention works and is worth scaling. This is the bet AUBRAI's revenue is structured to fund.</p>
+    </div>
+
+    <div class="sub-heading">// WHAT IT SET IN MOTION</div>
+    <ul class="claim-list">
+      <li>The BioAgent template was validated. <b>PeptAI, BiomeAI, D1ckGPT, and eDMT</b> subsequently used the same ignition-sale-plus-on-chain-output structure.</li>
+      <li>The trading-fee to research-funding flywheel was established. AUBRAI itself routed <b>$300K+ to LEVF</b> in its first month.</li>
+      <li>AUBRAI became the benchmark new agents are measured against on oversubscription and time-to-revenue.</li>
+    </ul>
+  </section>
+
+  <!-- ────────── 03 · CO-DEVELOPMENT TEAM ────────── -->
+  <section class="section observe" id="sec-3">
+    <div class="section-tag">
+      <span class="num">// 03</span>
+      <span>CO-DEVELOPMENT TEAM</span>
+      <span class="rule"></span>
+      <span class="meta">THREE ORGANIZATIONS, NINE PEOPLE, ONE OPEN SCIENTIFIC RECORD</span>
+    </div>
+
+    <div class="org-tri">
+      <div class="org-box">
+        <div class="org-name">LEVF</div>
+        <div class="org-full">Longevity Escape Velocity Foundation</div>
+        <div class="org-role">Aubrey de Grey's foundation. Sets scientific direction. Operates the RMR2 program AUBRAI funds.</div>
+      </div>
+      <div class="org-box">
+        <div class="org-name">VitaDAO</div>
+        <div class="org-full">community-governed longevity DAO</div>
+        <div class="org-role">Community treasury, Web3 governance, longevity portfolio parent. VITA-FAST and VitaRNA also live in this stack.</div>
+      </div>
+      <div class="org-box">
+        <div class="org-name">BIO Protocol</div>
+        <div class="org-full">DeSci launchpad and agent infrastructure</div>
+        <div class="org-role">Launchpad infrastructure, agent engineering, x402 payment rails, Ignition Sale mechanism, BioXP rewards.</div>
+      </div>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="person-name">Aubrey de Grey</div>
+        <div class="person-role">President and Chief Scientific Officer</div>
+        <div class="person-org">// LEVF</div>
+      </div>
+      <div class="team-card">
+        <div class="person-name">Caitlin Lewis</div>
+        <div class="person-role">Director of Project Pipeline &amp; Strategy</div>
+        <div class="person-org">// LEVF</div>
+      </div>
+      <div class="team-card">
+        <div class="person-name">David Wood</div>
+        <div class="person-role">Executive Director</div>
+        <div class="person-org">// LEVF</div>
+      </div>
+      <div class="team-card">
+        <div class="person-name">Alex Dobrin</div>
+        <div class="person-role">Guardian and Web3 Co-lead</div>
+        <div class="person-org">// VITADAO</div>
+      </div>
+      <div class="team-card">
+        <div class="person-name">Alex Miloski</div>
+        <div class="person-role">Web3 Co-Lead and Longevity Interim Lead</div>
+        <div class="person-org">// VITADAO</div>
+      </div>
+      <div class="team-card">
+        <div class="person-name">Johannes Weniger</div>
+        <div class="person-role">AI Developer</div>
+        <div class="person-org">// VITADAO</div>
+      </div>
+      <div class="team-card">
+        <div class="person-name">Rhys Anderson</div>
+        <div class="person-role">Scientific Evaluator</div>
+        <div class="person-org">// VITADAO</div>
+      </div>
+      <div class="team-card">
+        <div class="person-name">Matt McAllister</div>
+        <div class="person-role">Scientific Evaluator</div>
+        <div class="person-org">// VITADAO</div>
+      </div>
+      <div class="team-card">
+        <div class="person-name">Aakaash Meduri</div>
+        <div class="person-role">Head of AI</div>
+        <div class="person-org">// BIO PROTOCOL</div>
+      </div>
+    </div>
+
+    <div class="cred-note">
+      <div class="h">// CREDIBILITY NOTE</div>
+      <p>Aubrey de Grey co-founded the SENS Research Foundation in 2009 and departed in August 2021 following a board-commissioned investigation that concluded he had made inappropriate comments to two female biotech entrepreneurs, one beginning when she was a minor (<a href="https://www.science.org/content/article/antiaging-scientist-found-have-sexually-harassed-young-women" target="_blank" rel="noopener noreferrer">Science.org, 10 Sep 2021</a>; <a href="https://www.statnews.com/2021/08/11/anti-aging-research-pioneer-aubrey-de-grey-placed-on-leave-over-sexual-harassment-allegations/" target="_blank" rel="noopener noreferrer">STAT News, 22 Aug 2021</a>). He has since founded the Longevity Escape Velocity Foundation, which directs the RMR2 program AUBRAI funds. He continues to serve as editor emeritus of the journal Rejuvenation Research. The 2021 record is material context for institutional investors and is included here for completeness.</p>
+    </div>
+  </section>
+
+  <!-- ────────── 04 · HYPOTHESIS-TO-FUNDING FLYWHEEL ────────── -->
+  <section class="section observe" id="sec-4">
+    <div class="section-tag">
+      <span class="num">// 04</span>
+      <span>HYPOTHESIS-TO-FUNDING FLYWHEEL</span>
+      <span class="rule"></span>
+      <span class="meta">PROMPT TO POI TO GRANT TO RESULT, REPEATED</span>
+    </div>
+
+    <div class="flywheel-row">
+      <div class="fly-step">
+        <div class="num">// 01</div>
+        <div class="ttl">PROMPT</div>
+        <div class="desc">User asks AUBRAI a longevity-research question on chat.aubr.ai or via the X-thread workflow.</div>
+        <span class="arrow-head"></span>
+      </div>
+      <div class="fly-step">
+        <div class="num">// 02</div>
+        <div class="ttl">HYPOTHESIS</div>
+        <div class="desc">AUBRAI generates and refines candidate hypotheses with cited literature. Returns ranked compounds, mechanisms, safety data, trial readiness when prompted in deep-research mode.</div>
+        <span class="arrow-head"></span>
+      </div>
+      <div class="fly-step">
+        <div class="num">// 03</div>
+        <div class="ttl">POI MINT</div>
+        <div class="desc">Top hypotheses are timestamped on Base as Proof-of-Invention NFTs through Molecule's infrastructure. The on-chain record creates a verifiable claim of authorship.</div>
+        <span class="arrow-head"></span>
+      </div>
+      <div class="fly-step">
+        <div class="num">// 04</div>
+        <div class="ttl">FUND</div>
+        <div class="desc">Bio treasury and ResearchHub deploy capital to the strongest hypotheses. The BIOPSY-30 proposal committed 100,000 $RSC for this purpose. AUBRAI's own trading-fee revenue routes to LEVF for RMR2.</div>
+        <span class="arrow-head"></span>
+      </div>
+      <div class="fly-step">
+        <div class="num">// 05</div>
+        <div class="ttl">FEEDBACK</div>
+        <div class="desc">Results, validations, and failures feed back into AUBRAI's knowledge graph for the next iteration.</div>
+      </div>
+    </div>
+
+    <div class="fly-stats">
+      <div class="fly-stat">
+        <div class="l">// ROUTED TO RESEARCH · FIRST MONTH</div>
+        <div class="v">$300K+</div>
+      </div>
+      <div class="fly-stat">
+        <div class="l">// BIOPSY-30 RSC PROPOSED</div>
+        <div class="v">100,000</div>
+      </div>
+    </div>
+
+    <div class="prose-block">
+      <p>This is the architecture AUBRAI's marketing calls <em>agentic science</em>. In practice it is a feedback loop where prompts produce hypotheses, hypotheses produce on-chain claims, on-chain claims produce funding decisions, and funded work produces validation that improves the next prompt response. The loop is the product.</p>
+    </div>
+  </section>
+
+  <!-- ────────── 04.5 · LIVE TERMINAL ────────── -->
+  <section class="section observe" id="sec-4-5">
+    <div class="section-tag">
+      <span class="num">// 04.5</span>
+      <span>LIVE TERMINAL</span>
+      <span class="rule"></span>
+      <span class="meta">AUBR.AI IS OPEN. THE REASONING IS VISIBLE.</span>
+    </div>
+
+    <div class="terminal-card">
+      <div class="terminal-l">
+        <div class="h">// THE WATCH SURFACE</div>
+        <p><b>aubr.ai</b> is the live terminal where AUBRAI's reasoning is visible without login. Anyone can watch the agent evaluate a hypothesis in real time, including the source citations it consults. As of May 2026 the public archive contains <b>5,930 hypothesis evaluations</b> across the agent's full run history. The interface is separate from chat.aubr.ai, which is the user-facing co-pilot. The terminal is the watch surface.</p>
+        <a class="terminal-cta" href="https://aubr.ai" target="_blank" rel="noopener noreferrer">open aubr.ai live terminal <span>↗</span></a>
+      </div>
+      <div class="terminal-r">
+        <div class="t-stat">
+          <div class="l">// ARCHIVE SIZE</div>
+          <div class="v accent">5,930</div>
+        </div>
+        <div class="t-stat">
+          <div class="l">// INFERENCE</div>
+          <div class="v">Claude Opus 4.6</div>
+        </div>
+        <div class="t-stat">
+          <div class="l">// LOADED PER VIEW</div>
+          <div class="v">100</div>
+        </div>
+        <div class="t-stat">
+          <div class="l">// LIVE SEARCH</div>
+          <div class="v">PubMed / NCBI</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 05 · TECH STACK ────────── -->
+  <section class="section observe" id="sec-5">
+    <div class="section-tag">
+      <span class="num">// 05</span>
+      <span>TECH STACK</span>
+      <span class="rule"></span>
+      <span class="meta">INFERENCE, RUNTIME, KNOWLEDGE, WALLETS, PAYMENTS, API</span>
+    </div>
+
+    <div class="tech-row">
+      <div class="tech-cell">
+        <div class="lab">INFERENCE <b>// 01</b></div>
+        <div class="desc"><b>Claude Opus 4.6</b> per aubr.ai terminal display, May 2026. Earlier pre-launch sneak-peek by <a href="https://x.com/paulkhls/status/1953887763914236328?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=tech_inference_sneak" target="_blank" rel="noopener noreferrer">@paulkhls</a> referenced OpenAI o3 and FutureHouse, indicating a possible multi-model stack.</div>
+      </div>
+      <div class="tech-cell">
+        <div class="lab">RUNTIME <b>// 02</b></div>
+        <div class="desc"><b>Phala Cloud TEE</b> on <b>ElizaOS v2</b>. Trusted execution environment for the agent loop, with confidential compute guarantees.</div>
+      </div>
+      <div class="tech-cell">
+        <div class="lab">KNOWLEDGE <b>// 03</b></div>
+        <div class="desc"><b>10,000-pair synthetic Q&amp;A fine-tune</b> over <b>4,000+ curated longevity papers</b> and unpublished lab notes from Aubrey de Grey's lab. Living biomedical literature knowledge graph for retrieval-augmented generation.</div>
+      </div>
+      <div class="tech-cell">
+        <div class="lab">WALLETS <b>// 04</b></div>
+        <div class="desc">AUBRAI operates an <b>EOA wallet on Base</b> provided by Coinbase Developer Platform with Base AgentKit integration. Self-custodial with limited transaction authorization for autonomous research-spend.</div>
+      </div>
+      <div class="tech-cell">
+        <div class="lab">HYPOTHESIS LAYER <b>// 05</b></div>
+        <div class="desc">Hypotheses are hashed on Base as <b>Proof-of-Invention NFTs</b> via Molecule's PoI infrastructure (under <a href="https://x.com/Molecule_sci?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=tech_molecule_handle" target="_blank" rel="noopener noreferrer">@Molecule_sci</a>, the canonical handle).</div>
+      </div>
+      <div class="tech-cell">
+        <div class="lab">PUBLIC API <b>// 06</b></div>
+        <div class="desc"><b>api.aubr.ai</b> with five core endpoints: <code>/deep-research/start</code>, <code>/agents/literature/query</code>, <code>/agents/analysis/run</code>, <code>/files/upload</code>, <code>/health</code>. MCP server integration documented at chat.aubr.ai/docs/mcp. API keys prefixed <code>aub_sk_*</code>. Swagger UI at api.aubr.ai/docs.</div>
+      </div>
+      <div class="tech-cell">
+        <div class="lab">PAYMENT RAILS <b>// 07</b></div>
+        <div class="desc"><b>x402 micropayments</b> via Coinbase Developer Platform Embedded Wallets. Three pricing tiers per <a href="https://x.com/Aubrai_/status/2041833607090639313?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=tech_x402_tiers" target="_blank" rel="noopener noreferrer">@Aubrai_</a>: <b>Steering $0.20</b>, <b>Smart $1.00</b>, <b>Autonomous $8.00</b>. Deep Research session credits: Normal (default), Semi ~5 credits, Auto ~20 credits.</div>
+      </div>
+    </div>
+
+    <div class="tech-cta-row">
+      <a href="https://chat.aubr.ai/docs/getting-started" target="_blank" rel="noopener noreferrer">API docs <span>↗</span></a>
+      <a href="https://api.aubr.ai/docs" target="_blank" rel="noopener noreferrer">Swagger <span>↗</span></a>
+    </div>
+  </section>
+
+  <!-- ────────── 06 · RESEARCH OUTPUT SAMPLES ────────── -->
+  <section class="section observe" id="sec-6">
+    <a id="research-samples" style="position:relative;top:-72px;display:block;"></a>
+    <div class="section-tag">
+      <span class="num">// 06</span>
+      <span>RESEARCH OUTPUT SAMPLES</span>
+      <span class="rule"></span>
+      <span class="meta">FIVE RECENT OUTPUTS, EACH WITH A VERIFIABLE CHAT-LINK</span>
+    </div>
+
+    <div class="sample-stack">
+
+      <div class="sample-card">
+        <div class="row-top">
+          <span class="sample-date">19 FEB 2026</span>
+          <span class="sample-title">ANAGE LONGEVITY QUOTIENT</span>
+        </div>
+        <p class="sample-body">Across amphibians, reptiles, and fish, negligible-senescence species live ~9x longer than body-size predicts. Median Longevity Quotient <b>9.19</b>, Mann-Whitney p = 1.58 x 10⁻⁴. Rougheye rockfish 13x, olm 10x. The parsimonious explanation is convergent investment in damage repair across phylogenetically distant lineages.</p>
+        <div class="sample-links">
+          <a href="https://x.com/Aubrai_/status/2024619081802924315?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=research_sample_anage_x" target="_blank" rel="noopener noreferrer">// X post <span>↗</span></a>
+          <a href="https://chat.aubr.ai/chats/eiA4gRCP2XLf" target="_blank" rel="noopener noreferrer">// chat.aubr.ai chat <span>↗</span></a>
+        </div>
+      </div>
+
+      <div class="sample-card">
+        <div class="row-top">
+          <span class="sample-date">20 FEB 2026</span>
+          <span class="sample-title">TABULA MURIS SENIS BLIND SPOTS</span>
+        </div>
+        <p class="sample-body">Every cell type in Tabula Muris Senis scored against GenAge and ranked by effect size. Top aging transcriptional burden sits in bone marrow HSCs (<b>d=1.57</b>) and naive B cells (d=1.31), rivalling aortic endothelial cells (d=1.55), a validated senolytic target. Navitoclax and D+Q have never been tested for HSC functional restoration.</p>
+        <div class="sample-links">
+          <a href="https://x.com/Aubrai_/status/2024785553619656833?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=research_sample_tabula_x" target="_blank" rel="noopener noreferrer">// X post <span>↗</span></a>
+          <a href="https://chat.aubr.ai/chats/ndZS11FkUKR1" target="_blank" rel="noopener noreferrer">// chat.aubr.ai chat <span>↗</span></a>
+        </div>
+      </div>
+
+      <div class="sample-card">
+        <div class="row-top">
+          <span class="sample-date">23 FEB 2026</span>
+          <span class="sample-title">DOG BREED DAMAGE CEILINGS</span>
+        </div>
+        <p class="sample-body">20 iterations, 12h deep research, <b>584,734 dogs</b> analyzed. French Bulldogs die youngest (GlycoSENS-limited, 47% cancer death at median 8.3 years). Large breeds: OncoSENS-limited. Small breeds: MitoSENS-limited. Damage categories map to morphology with Cramér's V = 0.71.</p>
+        <div class="sample-links">
+          <a href="https://x.com/Aubrai_/status/2026018129038504429?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=research_sample_dogs_x" target="_blank" rel="noopener noreferrer">// X post <span>↗</span></a>
+        </div>
+      </div>
+
+      <div class="sample-card">
+        <div class="row-top">
+          <span class="sample-date">24 FEB 2026</span>
+          <span class="sample-title">MITOCHONDRIAL ALLOTOPIC MAPPING</span>
+        </div>
+        <p class="sample-body">All 13 mitochondrial protein-coding genes mapped for allotopic expression feasibility. GenSight proved it works clinically for ND4. Three genes, <b>ND5, COX1, ATP6</b>, are the most deletion-prone and span OXPHOS complexes I, IV, V. A minimal allotopic cassette targeting these three could interrupt the age-related mtDNA-deletion pathology.</p>
+        <div class="sample-links">
+          <a href="https://x.com/Aubrai_/status/2026322428612280350?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=research_sample_mito_x" target="_blank" rel="noopener noreferrer">// X post <span>↗</span></a>
+        </div>
+      </div>
+
+      <div class="sample-card">
+        <div class="row-top">
+          <span class="sample-date">11 MAR 2026</span>
+          <span class="sample-title">GLUCOSEPANE THERAPEUTIC GAP</span>
+        </div>
+        <p class="sample-body">Zero published attempts to develop a glucosepane-cleaving therapeutic from 2018-2026. The Hallmarks of Aging framework does not include extracellular matrix crosslinking. 25 years since glucosepane was structurally identified. Known contributor to arterial stiffening, no one is working on cleaving it.</p>
+        <div class="sample-links">
+          <a href="https://x.com/Aubrai_/status/2031844739826303360?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=research_sample_glucosepane_x" target="_blank" rel="noopener noreferrer">// X post <span>↗</span></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ────────── 07 · RMR2 FLAGSHIP ────────── -->
+  <section class="section observe" id="sec-7">
+    <div class="section-tag">
+      <span class="num">// 07</span>
+      <span>RMR2 FLAGSHIP</span>
+      <span class="rule"></span>
+      <span class="meta">ROBUST MOUSE REJUVENATION STUDY 2 · MID-2026 · RESULTS 2028</span>
+    </div>
+
+    <div class="prose-block">
+      <p>RMR2 is LEVF's second-generation Robust Mouse Rejuvenation study. RMR1, completed in 2023, tested <b>seven single-intervention arms</b>. RMR2 expands to <b>20 treatment combinations</b> across <b>8 named interventions</b>, with ~50 mice per group and up to <b>2,000 mice total</b> in C57BL/6J or HET3 backgrounds. All animals except true controls receive rapamycin baseline plus running-wheel exercise. Interventions begin at 18 to 20 months of age. The combinatorial design is what makes RMR2 ambitious: previous longevity work tested single agents and found incremental gains. RMR2 tests whether stacking complementary interventions produces multiplicative, not just additive, lifespan extension.</p>
+    </div>
+
+    <div class="sub-heading">// 8 INTERVENTIONS</div>
+    <ol class="rmr2-list">
+      <li><span class="num">01</span><span><b>D-PUFAs</b>, deuterated polyunsaturated fatty acids, inhibiting lipid peroxidation</span></li>
+      <li><span class="num">02</span><span><b>Recombinant mouse serum albumin</b></span></li>
+      <li><span class="num">03</span><span><b>Mesenchymal stem cells</b>, replacing RMR1's hematopoietic stem cells</span></li>
+      <li><span class="num">04</span><span><b>Partial cellular reprogramming</b> via Yamanaka factors (Oct4 / Sox2 / Klf4 / c-Myc)</span></li>
+      <li><span class="num">05</span><span><b>IL-11 inhibition</b></span></li>
+      <li><span class="num">06</span><span><b>Cdc42 inhibition</b> with CASIN</span></li>
+      <li><span class="num">07</span><span><b>LC-FACS-based selective senolysis</b></span></li>
+      <li><span class="num">08</span><span><b>Oxytocin therapy</b></span></li>
+    </ol>
+
+    <div class="rmr2-stats">
+      <div class="rmr2-stat">
+        <div class="l">// MAIN PHASE START</div>
+        <div class="v">mid-2026<small>per LEVF Dec 2025 update</small></div>
+      </div>
+      <div class="rmr2-stat">
+        <div class="l">// SIGNIFICANT RESULTS</div>
+        <div class="v">2028<small>per LEVF Dec 2025 update</small></div>
+      </div>
+      <div class="rmr2-stat">
+        <div class="l">// MAIN PHASE COST</div>
+        <div class="v">~$6M<small>per @Aubrai_ Sep 2025</small></div>
+      </div>
+    </div>
+
+    <div class="prose-block">
+      <p>LEVF's December 2025 update is the definitive timeline source. The main phase <em>is likely to start around mid 2026, with significant results becoming available in 2028</em>. Funding remains incomplete: an EU Pathfinder grant scored 4.25/5 Impact and 4.5/5 Quality but only 3.75/5 Excellence and was rejected <em>by a whisker</em>. AUBRAI's contribution to this funding stack is material but not dominant: ~$300K from first-month trading fees plus an undisclosed cumulative since, against the ~$6M main-phase cost. AUBRAI is one funder of RMR2, not the funder.</p>
+    </div>
+
+    <a class="terminal-cta" href="https://www.levf.org/projects/robust-mouse-rejuvenation-study-2" target="_blank" rel="noopener noreferrer">Read RMR2 design at LEVF <span>↗</span></a>
+  </section>
+
+  <!-- ────────── 08 · LAUNCH ARC AND TOKENOMICS ────────── -->
+  <section class="section observe" id="sec-8">
+    <div class="section-tag">
+      <span class="num">// 08</span>
+      <span>LAUNCH ARC AND TOKENOMICS</span>
+      <span class="rule"></span>
+      <span class="meta">$269K PRE-SALE TO $40M PEAK TO ~$4.4M NOW</span>
+    </div>
+
+    <div class="arc-wrap">
+      <svg class="arc-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <!-- Up to peak (1 to 3), then down to current (3 to 4). -->
+        <path d="M 12.5,80 L 37.5,65 L 62.5,15" fill="none" stroke="#3ee07b" stroke-width="0.8" stroke-linecap="round" opacity="0.85"/>
+        <path d="M 62.5,15 L 87.5,50" fill="none" stroke="#e26b6b" stroke-width="0.8" stroke-linecap="round" opacity="0.85"/>
+      </svg>
+      <div class="arc-row">
+        <div class="arc-node">
+          <span class="dot" data-y="pre"></span>
+          <div class="lab">// PRE-SALE FDV</div>
+          <div class="val">$269K</div>
+        </div>
+        <div class="arc-node">
+          <span class="dot" data-y="launch"></span>
+          <div class="lab">// LAUNCH FDV</div>
+          <div class="val">$1.17M</div>
+        </div>
+        <div class="arc-node peak">
+          <span class="dot" data-y="peak"></span>
+          <div class="lab">// PEAK FDV</div>
+          <div class="val">$40M</div>
+        </div>
+        <div class="arc-node">
+          <span class="dot" data-y="current"></span>
+          <div class="lab">// CURRENT FDV</div>
+          <div class="val" data-aubrai-fdv>~$4.4M</div>
+        </div>
+      </div>
+    </div>
+    <div class="arc-caption">
+      <span><b>+34x</b> launch to peak.</span>
+      <span><b class="dn">-89%</b> peak to current.</span>
+    </div>
+
+    <div class="sub-heading">// TOKEN DISTRIBUTION</div>
+    <div class="tokeno-wrap">
+      <div class="tokeno-vis">
+        <svg viewBox="-1 -1 102 102" style="width:100%;height:100%;transform:rotate(-90deg);" aria-hidden="true">
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#0d1411" stroke-width="14"/>
+          <circle class="seg" data-seg="vitadao"  cx="50" cy="50" r="40" fill="none" stroke="#3ee07b" stroke-width="14"
+                  stroke-dasharray="55.29 251.33" stroke-dashoffset="0"/>
+          <circle class="seg" data-seg="initial"  cx="50" cy="50" r="40" fill="none" stroke="#7adfa6" stroke-width="14"
+                  stroke-dasharray="50.52 251.33" stroke-dashoffset="-55.29"/>
+          <circle class="seg" data-seg="ignition" cx="50" cy="50" r="40" fill="none" stroke="#b6f24a" stroke-width="14"
+                  stroke-dasharray="50.27 251.33" stroke-dashoffset="-105.81"/>
+          <circle class="seg" data-seg="treasury" cx="50" cy="50" r="40" fill="none" stroke="#2a9a55" stroke-width="14"
+                  stroke-dasharray="37.70 251.33" stroke-dashoffset="-156.08"/>
+          <circle class="seg" data-seg="levf"     cx="50" cy="50" r="40" fill="none" stroke="#1a5f37" stroke-width="14"
+                  stroke-dasharray="25.13 251.33" stroke-dashoffset="-193.78"/>
+          <circle class="seg" data-seg="bio"      cx="50" cy="50" r="40" fill="none" stroke="#cfe9d8" stroke-width="14"
+                  stroke-dasharray="17.34 251.33" stroke-dashoffset="-218.91"/>
+          <circle class="seg" data-seg="liq"      cx="50" cy="50" r="40" fill="none" stroke="#56655e" stroke-width="14"
+                  stroke-dasharray="15.08 251.33" stroke-dashoffset="-236.25"/>
+        </svg>
+        <div class="tokeno-center">
+          <div class="l">// TOTAL SUPPLY</div>
+          <div class="v">2,000,000<small>$AUBRAI</small></div>
+        </div>
+      </div>
+      <div class="tokeno-legend">
+        <div class="row"><div class="swatch" style="background:#3ee07b"></div><div class="lab">VitaDAO</div><div class="pct">22%</div></div>
+        <div class="row"><div class="swatch" style="background:#7adfa6"></div><div class="lab">Initial Funders</div><div class="pct">20.1%</div></div>
+        <div class="row"><div class="swatch" style="background:#b6f24a"></div><div class="lab">Ignition Sale</div><div class="pct">20%</div></div>
+        <div class="row"><div class="swatch" style="background:#2a9a55"></div><div class="lab">Treasury</div><div class="pct">15%</div></div>
+        <div class="row"><div class="swatch" style="background:#1a5f37"></div><div class="lab">LEVF</div><div class="pct">10%</div></div>
+        <div class="row"><div class="swatch" style="background:#cfe9d8"></div><div class="lab">Bio Protocol</div><div class="pct">6.9%</div></div>
+        <div class="row"><div class="swatch" style="background:#56655e"></div><div class="lab">Liquidity Pool</div><div class="pct">6%</div></div>
+      </div>
+    </div>
+
+    <div class="vest-card">
+      <div class="h">// VESTING CURVE</div>
+      <p><b>Vest: 4-year linear unlock to August 2029.</b> Aug 2025 TGE released ~600K tokens (Ignition Sale 20% + Liquidity 6% + initial Bio Protocol tranche). VitaDAO, Initial Funders, LEVF, and most of Treasury are on continuous 4-year vest. The largest scheduled unlock cliff inflection is <b>Aug 2026</b>, where initial-year vest accrual lands. Current circulating supply: <b>840,770</b> of <b>2,000,000</b> max.</p>
+    </div>
+
+    <div class="sub-heading">// IGNITION SALE SNAPSHOT</div>
+    <div class="ignition-stats">
+      <div class="i-stat">
+        <div class="l">// GOAL</div>
+        <div class="v">234,000 BIO</div>
+      </div>
+      <div class="i-stat">
+        <div class="l">// RAISED</div>
+        <div class="v accent">3,420,950 BIO</div>
+      </div>
+      <div class="i-stat">
+        <div class="l">// OVERSUBSCRIPTION</div>
+        <div class="v accent">14.62x (1,462%)</div>
+      </div>
+      <div class="i-stat">
+        <div class="l">// PARTICIPANTS</div>
+        <div class="v">1,660+</div>
+      </div>
+      <div class="i-stat">
+        <div class="l">// SUPPLY SOLD</div>
+        <div class="v">20%</div>
+      </div>
+      <div class="i-stat">
+        <div class="l">// BIOXP SPENT</div>
+        <div class="v">303,963,088</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 09 · CATALYSTS TIMELINE ────────── -->
+  <section class="section observe" id="sec-9">
+    <div class="section-tag">
+      <span class="num">// 09</span>
+      <span>CATALYSTS</span>
+      <span class="rule"></span>
+      <span class="meta">AUGUST 2025 TO MAY 2026</span>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-row first">
+        <div class="tl-date"><b>Aug 8</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">First BioAgent hypothesis revealed<span class="tl-tag">// SNEAK PEEK</span></div>
+          <div class="ctx"><a href="https://x.com/paulkhls/status/1953887763914236328?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_sneak_peek" target="_blank" rel="noopener noreferrer">@paulkhls</a> posts the first AUBRAI-designed novel hypothesis on integrated SENS damage targeting, designed leveraging o3 and FutureHouse, trained to think like @aubreydegrey.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Aug 25</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">de Grey and Aubrai live demo at ARDD Copenhagen<span class="tl-tag">// ARDD</span></div>
+          <div class="ctx">Aubrey de Grey and AUBRAI present together at the ARDD Meeting in Copenhagen, one day before Ignition close.</div>
+        </div>
+      </div>
+      <div class="tl-row elevated">
+        <div class="tl-date"><b>Aug 26</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Sale ends 14.62x oversubscribed<span class="tl-tag green">// IGNITION CLOSE</span></div>
+          <div class="ctx">$1.17M FDV final. 1,660+ participants. 303,963,088 BioXP spent. <a href="https://x.com/BioProtocol/status/1960269469017600182?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_ignition" target="_blank" rel="noopener noreferrer">@BioProtocol announcement</a>.</div>
+        </div>
+      </div>
+      <div class="tl-row elevated">
+        <div class="tl-date"><b>Aug 27</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Trading begins on Base<span class="tl-tag green">// LIVE</span></div>
+          <div class="ctx">$3.5M volume in the first 20 minutes. <a href="https://x.com/paulkhls/status/1960706469164208218?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_live_hour" target="_blank" rel="noopener noreferrer">$45K research funding secured in the first hour</a>.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Aug 28</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">AUBRAI staking and BioXP rewards live<span class="tl-tag">// STAKING</span></div>
+          <div class="ctx">Stake AUBRAI on the Bio App to earn BioXP for upcoming IP-Token and BioAgent sales.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Aug 29</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">BIOPSY-30 Hypothesis Challenge proposal<span class="tl-tag amber">// PROPOSAL</span></div>
+          <div class="ctx">BIO treasury proposes deploying <b>100K $RSC</b> for AUBRAI-driven longevity research. 700+ hypotheses already generated at proposal time. <a href="https://x.com/BioProtocol/status/1961447566387941835?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_biopsy30" target="_blank" rel="noopener noreferrer">Source</a>.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Sep 6</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">980 novel hypotheses, $180K fees in 8 days<span class="tl-tag green">// UPDATE</span></div>
+          <div class="ctx"><a href="https://x.com/paulkhls/status/1964168655198953752?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_980" target="_blank" rel="noopener noreferrer">Paul Kohlhaas update</a>: 980 novel hypotheses hashed on Base, $180K fees, $20M+ volume over 8 days. 145K listeners at the @aubreydegrey X Spaces unveiling.</div>
+        </div>
+      </div>
+      <div class="tl-row elevated">
+        <div class="tl-date"><b>Sep 28</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">$300K first-month milestone<span class="tl-tag green">// REVENUE</span></div>
+          <div class="ctx"><a href="https://x.com/Aubrai_/status/1972332536400691203?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_300k" target="_blank" rel="noopener noreferrer">$300K+ in trading-fee revenue</a> routed to longevity research in 30 days post-launch.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Nov 7</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">x402 micropayments live<span class="tl-tag">// X402 v1</span></div>
+          <div class="ctx">AUBRAI integrates x402 via Coinbase Developer Platform, enabling agent-to-agent USDC micropayments.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Nov 28</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">VitaSeno announced<span class="tl-tag amber">// FIRST IPT TARGET</span></div>
+          <div class="ctx">VitaDAO announces VitaSeno, a senescent-cell synthetic-lethality screen with initial target identified by AUBRAI. Status: launching soon on Bio Protocol.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Dec 6</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Deep Research ships at chat.aubr.ai<span class="tl-tag green">// PRODUCT</span></div>
+          <div class="ctx">20 to 30 minute comprehensive literature investigations. Returns ranked compounds, mechanisms, safety data, and trial readiness. <a href="https://x.com/vitadao/status/1997296583151342066?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_deep_research" target="_blank" rel="noopener noreferrer">Source</a>.</div>
+        </div>
+      </div>
+      <div class="tl-row elevated">
+        <div class="tl-date"><b>Dec 9</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">RMR2 timeline locked<span class="tl-tag amber">// LEVF UPDATE</span></div>
+          <div class="ctx"><a href="https://www.levf.org/december-2025-update" target="_blank" rel="noopener noreferrer">LEVF Dec 2025 update</a> sets RMR2 main-phase start at mid-2026, significant results in 2028. EU Pathfinder grant fails by a whisker on Excellence.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Dec 18</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">BioXP Boosts on $VITA and $AUBRAI<span class="tl-tag">// REWARDS</span></div>
+          <div class="ctx">BioXP Boosts go live with up to <b>48x</b> boost on BioXP earning per <a href="https://x.com/BioProtocol/status/2001652392677511516?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_boosts" target="_blank" rel="noopener noreferrer">@BioProtocol</a>.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Dec 30</b>2025</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Aubrai validates VitaRNA approach<span class="tl-tag green">// VALIDATION</span></div>
+          <div class="ctx"><a href="https://x.com/vitadao/status/2006098643669917894?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_vitarna" target="_blank" rel="noopener noreferrer">VitaDAO publishes</a> Aubrai's analysis of VitaRNA's suppressor tRNA approach. CGA-to-TGA mutation accumulation confirmed at order-of-magnitude rates.</div>
+        </div>
+      </div>
+      <div class="tl-row elevated">
+        <div class="tl-date"><b>Feb 19</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">First original post in 5 months<span class="tl-tag green">// SCIENCE REVIVAL</span></div>
+          <div class="ctx"><a href="https://x.com/Aubrai_/status/2024619081802924315?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_revival" target="_blank" rel="noopener noreferrer">@Aubrai_</a> returns from a 5-month silence with AnAge longevity quotient analysis. A series of four deep-research posts follows over the next week.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Mar 6</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">BixBench framework score<span class="tl-tag">// NEWSLETTER</span></div>
+          <div class="ctx"><a href="https://x.com/vitadao/status/2029903891857285468?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_bixbench" target="_blank" rel="noopener noreferrer">VitaDAO February newsletter</a>: AUBRAI on the BioAgents framework holds top BixBench position (48.78% open-answer, 55.12% MCQ+refusal, 64.39% MCQ).</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Mar 10</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">API and MCP server ship<span class="tl-tag green">// DEVELOPER</span></div>
+          <div class="ctx">Public API and MCP server live at chat.aubr.ai/docs. Cursor, Claude Desktop, and OpenClaw compatible. <a href="https://x.com/vitadao/status/2031348918747803681?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_api" target="_blank" rel="noopener noreferrer">Source</a>.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Mar 17</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">@vitadao final AUBRAI post<span class="tl-tag amber">// LAST POST</span></div>
+          <div class="ctx">Biology is starting to look a lot more like engineering. <a href="https://x.com/vitadao/status/2033875271858667595?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_last_vitadao" target="_blank" rel="noopener noreferrer">Last @vitadao mention</a> of Aubrai through 15 May 2026.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Apr 8</b>2026</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Three x402 pricing tiers documented<span class="tl-tag">// X402 v2</span></div>
+          <div class="ctx"><a href="https://x.com/Aubrai_/status/2041833607090639313?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_x402_tiers" target="_blank" rel="noopener noreferrer">Steering $0.20, Smart $1.00, Autonomous $8.00</a> tiers published. The foundation just caught up to the original November 2025 spec.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-card">
+      <div class="h">// THE 5-MONTH GAP</div>
+      <p>Between 28 September 2025 and 19 February 2026, <a href="https://x.com/Aubrai_?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=catalyst_gap_handle" target="_blank" rel="noopener noreferrer">@Aubrai_</a> posted no original content. Only retweets and replies. The interval coincides with the partner amplification cooldown described in // 11. The February 2026 return shipped substantive deep-research analyses, suggesting the agent itself kept working even when the account was quiet.</p>
+    </div>
+  </section>
+
+  <!-- ────────── 10 · COMPARABLE PROJECTS ────────── -->
+  <section class="section observe" id="sec-10">
+    <div class="section-tag">
+      <span class="num">// 10</span>
+      <span>COMPARABLE PROJECTS</span>
+      <span class="rule"></span>
+      <span class="meta">DESCI-NATIVE AND AI-LONGEVITY OUTSIDE DESCI</span>
+    </div>
+
+    <div class="compare-cols">
+      <div class="compare-col">
+        <div class="col-h">// DESCI-NATIVE</div>
+        <div class="stack">
+          <div class="cmp-card">
+            <div class="row-top">
+              <div class="name">VitaDAO</div>
+              <div class="tag">DAO PARENT</div>
+            </div>
+            <div class="desc">Longevity-portfolio DAO. <b>VITA-FAST</b> autophagy IPT progressing toward UAE Phase 2 trials. <b>VitaRNA</b> dosing patients in UAE.</div>
+          </div>
+          <div class="cmp-card">
+            <div class="row-top">
+              <div class="name">BIOS</div>
+              <div class="tag">BIOAGENT</div>
+            </div>
+            <div class="desc">Bio Protocol's research-focused agent. Holds <b>48.78% BixBench open-answer</b> score via the BioAgents framework that AUBRAI shares.</div>
+          </div>
+          <div class="cmp-card">
+            <div class="row-top">
+              <div class="name">PeptAI</div>
+              <div class="tag">BIOAGENT</div>
+            </div>
+            <div class="desc">Bio Protocol BioAgent, peptide-drug-discovery focus, <b>OX2R-004</b> lead candidate. See <a href="/projects/peptai">/projects/peptai</a> on descidash.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare-col">
+        <div class="col-h">// AI-LONGEVITY OUTSIDE DESCI</div>
+        <div class="stack">
+          <div class="cmp-card">
+            <div class="row-top">
+              <div class="name">Retro Biosciences</div>
+              <div class="tag">PRIVATE</div>
+            </div>
+            <div class="desc">Seeded by Sam Altman in 2021 ($180M). Per STAT News Dec 2025, raising at <b>$5B target valuation</b>. OpenAI's GPT-4b micro designed RetroSOX/RetroKLF proteins with 50x reprogramming-marker expression improvement. Lead asset <b>RTR242</b> (autophagy booster) in Phase 1 targeting Alzheimer's.</div>
+          </div>
+          <div class="cmp-card">
+            <div class="row-top">
+              <div class="name">Insilico Medicine (3696.HK)</div>
+              <div class="tag">PUBLIC</div>
+            </div>
+            <div class="desc">Public on HKEX since 30 Dec 2025. <b>$292M IPO</b>, ~$2.7B market cap. Lead asset <b>rentosertib</b> (TNIK inhibitor for IPF) completed Phase 2a in China with results in Nature Medicine June 2025. Announced industry's first longevity board chaired by Lilly's Andrew Adams.</div>
+          </div>
+          <div class="cmp-card">
+            <div class="row-top">
+              <div class="name">Loyal</div>
+              <div class="tag">PRIVATE</div>
+            </div>
+            <div class="desc"><b>$100M Series C</b> Feb 2026 led by age1 (Laura Deming and Alex Colville). Total funding $250M+ since 2019. <b>LOY-002</b> received first-ever FDA RXE for any longevity drug, any species, Feb 2025. STAY study enrolled 1,300 dogs at 70 clinics. Founder Celine Halioua was a complainant in the 2021 SENS investigation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose-block">
+      <p>AUBRAI's current ~$4.4M FDV is roughly three orders of magnitude below Retro Biosciences' targeted $5B raise valuation and Insilico's ~$2.7B post-IPO market cap. The gap reflects three things: AUBRAI's pre-clinical research stage, the structural difference between on-chain experiment and traditional pharma cap stack, and current crypto-sector multiples. The narrowest-comparator framing is <b>BIOS</b>, the Bio Protocol agent that actually carries the BixBench score AUBRAI's marketing references.</p>
+    </div>
+  </section>
+
+  <!-- ────────── 10.5 · ON-CHAIN VERIFICATION ────────── -->
+  <section class="section observe" id="sec-10-5">
+    <div class="section-tag">
+      <span class="num">// 10.5</span>
+      <span>ON-CHAIN</span>
+      <span class="rule"></span>
+      <span class="meta">THREE ADDRESSES. VERIFY YOURSELF.</span>
+    </div>
+
+    <div class="onchain-row">
+      <div class="wallet-card">
+        <div class="lab">// TREASURY</div>
+        <div class="func">Aubrai treasury wallet on Base.</div>
+        <div class="addr">0x44dC...7c2C</div>
+        <a class="cta" href="https://aubr.ai" target="_blank" rel="noopener noreferrer">full address verify on aubr.ai <span>↗</span></a>
+      </div>
+      <div class="wallet-card">
+        <div class="lab">// TOKEN CONTRACT</div>
+        <div class="func">$AUBRAI ERC-20 token contract.</div>
+        <div class="addr">0x9d56c29e820Dd13b0580B185d0e0Dc301d27581d</div>
+        <a class="cta" href="https://basescan.org/address/0x9d56c29e820Dd13b0580B185d0e0Dc301d27581d?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=contract_basescan" target="_blank" rel="noopener noreferrer">view on basescan <span>↗</span></a>
+      </div>
+      <div class="wallet-card">
+        <div class="lab">// AGENT EOA</div>
+        <div class="func">AUBRAI agent wallet for autonomous transactions on Base.</div>
+        <div class="addr">0x2d50...e9cC</div>
+        <a class="cta" href="https://aubr.ai" target="_blank" rel="noopener noreferrer">full address verify on aubr.ai <span>↗</span></a>
+      </div>
+    </div>
+
+    <div class="onchain-note">// TREASURY AND AGENT FULL ADDRESSES VISIBLE ON AUBR.AI TERMINAL FOOTER. TOKEN CONTRACT ON BASESCAN.</div>
+  </section>
+
+  <!-- ────────── 11 · RISKS AND WHAT TO WATCH ────────── -->
+  <section class="section observe" id="sec-11">
+    <div class="section-tag">
+      <span class="num">// 11</span>
+      <span>RISKS AND WHAT TO WATCH</span>
+      <span class="rule"></span>
+      <span class="meta">SIX RISKS, FIVE TRACKING BENCHMARKS</span>
+    </div>
+
+    <div class="risk-grid">
+      <div class="risk-card">
+        <div class="id">// BIXBENCH FRAMING</div>
+        <div class="body">AUBRAI's marketing presents <b>#1 on BixBench via the BioAgents framework</b> with three scores (48.78% open-answer, 55.12% MCQ+refusal, 64.39% MCQ). The score belongs to the framework, not a standalone AUBRAI submission. The closest implementation that carries the public score is BIOS. The via-the-framework qualifier is in AUBRAI's own copy, so the claim is technically defensible but worth understanding as framework-level rather than agent-specific.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id">// RMR2 TIMING</div>
+        <div class="body">LEVF's Dec 2025 update sets main-phase start at mid-2026 and significant results at 2028. AUBRAI's flagship narrative is structurally multi-year. The EU Pathfinder grant failed by a whisker in late 2025. Funding for the main phase remains incomplete and depends on continued AUBRAI fee revenue plus additional grant cycles.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id">// VITASENO LAUNCH</div>
+        <div class="body">Announced 4 Dec 2025 by VitaDAO as <b>launching soon on Bio Protocol</b> with target identified by AUBRAI. As of May 2026, no Ignition Sale date, contract address, or wet-lab milestone has been published, more than five months after the initial announcement. Intended approach: CRISPR senolytic gene editing per Bio Protocol Nov 2025 monthly.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id">// TOKEN UNLOCK</div>
+        <div class="body">Four-year linear vest to August 2029 across VitaDAO 22%, Initial Funders 20.1%, LEVF 10%, Bio Protocol 6.9%, plus Treasury 15%. The largest scheduled cliff inflection is <b>August 2026</b> (year-1 vest checkpoint), absorbing into current $214K liquidity and ~840K circulating supply. Monthly aggregate unlock vs liquidity is structurally unfavorable for short-term price.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id">// AMPLIFICATION DECAY</div>
+        <div class="body">Last original AUBRAI post by @paulkhls: 6 Sep 2025. Last by @BioProtocol: 23 Dec 2025. Last by @vitadao: 17 Mar 2026. Marketing oxygen has rotated to PeptAI, BiomeAI, and eDMT. The agent itself shipped Deep Research, MCP server, x402, and substantive Feb 2026 outputs during this period, so the cooling is at partner-account level, not agent-output level.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id">// DE GREY CREDIBILITY</div>
+        <div class="body">Aubrey de Grey was removed from SENS Research Foundation in August 2021 following an investigation into inappropriate comments toward two female biotech entrepreneurs. He subsequently founded LEVF and continues to direct longevity research. The history is material for institutional investors and is sourced to Science.org and STAT News. Already covered in // 03.</div>
+      </div>
+    </div>
+
+    <div class="sub-heading">// FIVE TRACKING BENCHMARKS</div>
+    <ol class="bench-list">
+      <li>Any AUBRAI-originated <b>IPT actually launches on Bio Protocol</b> with disclosed gene target and verified provenance back to an AUBRAI hypothesis. This is the single biggest catalyst.</li>
+      <li>RMR2 main phase actually begins on or before <b>September 2026</b> (one quarter of LEVF's stated window).</li>
+      <li><b>VitaSeno ships an Ignition Sale</b> with public contract address and disclosed CRISPR target.</li>
+      <li>AUBRAI publishes a <b>clean standalone BixBench submission</b> (separate from the framework score) that would natively support the marketing claim.</li>
+      <li>Token unlock at <b>August 2026 year-1 cliff</b> absorbs without major drawdown, indicating structural buyer demand at current FDV.</li>
+    </ol>
+  </section>
+
+  <!-- ────────── FOOTER ────────── -->
+  <footer id="sec-12">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="name">
+          <span class="logo-dot"></span>
+          descidash
+        </div>
+        <div class="desc">
+          // THE DESCI SECTOR TRACKER. PROJECTS, AGENTS, PEPTIDES. ON-CHAIN SCIENCE, OFF-CHAIN RECEIPTS.
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="h">// AUBRAI</div>
+        <div class="links">
+          <a href="https://aubr.ai" target="_blank" rel="noopener noreferrer">aubr.ai</a>
+          <a href="https://chat.aubr.ai" target="_blank" rel="noopener noreferrer">chat.aubr.ai</a>
+          <a href="https://x.com/Aubrai_?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=footer_aubrai_x"
+             target="_blank" rel="noopener noreferrer">x · @Aubrai_</a>
+          <a href="https://app.bio.xyz/agents/aubrai?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=footer_agent_page"
+             target="_blank" rel="noopener noreferrer">agent page</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="h">// PROTOCOL</div>
+        <div class="links">
+          <a href="https://bio.xyz?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=footer_bio"
+             target="_blank" rel="noopener noreferrer">bio.xyz</a>
+          <a href="https://www.vitadao.com?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=footer_vitadao"
+             target="_blank" rel="noopener noreferrer">vitadao</a>
+          <a href="https://www.levf.org" target="_blank" rel="noopener noreferrer">lev foundation</a>
+          <a href="https://molecule.xyz" target="_blank" rel="noopener noreferrer">molecule</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="h">// DESCIDASH</div>
+        <div class="links">
+          <a href="/methodology">methodology</a>
+          <a href="/projects/peptai">/projects/peptai</a>
+          <a href="/projects/spinedao">/projects/spinedao</a>
+          <a href="/projects/science-beach">/projects/science-beach</a>
+          <a href="https://x.com/DeSciDashboard?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=footer_descidash_x"
+             target="_blank" rel="noopener noreferrer">x · @DeSciDashboard</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>// TRACKED BY <a href="/">DESCIDASH.COM</a> · NOT INVESTMENT ADVICE · DATA AS OF 2026.05.15</span>
+      <span>v0.4.4 · BUILD aubrai</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ────────── AUBRAI GUTTER (left-edge nav) ────────── -->
+<nav class="pep-gutter" aria-label="Section navigation">
+  <button class="vert" data-target="sec-1"    type="button" aria-label="TL;DR"><span class="dot"></span><span class="lbl"><b>// 01</b>TLDR</span></button>
+  <button class="vert" data-target="sec-2"    type="button" aria-label="First BioAgent"><span class="dot"></span><span class="lbl"><b>// 02</b>FIRST</span></button>
+  <button class="vert" data-target="sec-3"    type="button" aria-label="Team"><span class="dot"></span><span class="lbl"><b>// 03</b>TEAM</span></button>
+  <button class="vert" data-target="sec-4"    type="button" aria-label="Flywheel"><span class="dot"></span><span class="lbl"><b>// 04</b>FLYWHEEL</span></button>
+  <button class="vert" data-target="sec-4-5"  type="button" aria-label="Live terminal"><span class="dot"></span><span class="lbl"><b>// 04.5</b>TERMINAL</span></button>
+  <button class="vert" data-target="sec-5"    type="button" aria-label="Tech stack"><span class="dot"></span><span class="lbl"><b>// 05</b>STACK</span></button>
+  <button class="vert" data-target="sec-6"    type="button" aria-label="Research samples"><span class="dot"></span><span class="lbl"><b>// 06</b>SAMPLES</span></button>
+  <button class="vert" data-target="sec-7"    type="button" aria-label="RMR2 flagship"><span class="dot"></span><span class="lbl"><b>// 07</b>RMR2</span></button>
+  <button class="vert" data-target="sec-8"    type="button" aria-label="Tokenomics"><span class="dot"></span><span class="lbl"><b>// 08</b>TOKEN</span></button>
+  <button class="vert" data-target="sec-9"    type="button" aria-label="Catalysts"><span class="dot"></span><span class="lbl"><b>// 09</b>CATALYSTS</span></button>
+  <button class="vert" data-target="sec-10"   type="button" aria-label="Comparable projects"><span class="dot"></span><span class="lbl"><b>// 10</b>COMPARE</span></button>
+  <button class="vert" data-target="sec-10-5" type="button" aria-label="On-chain"><span class="dot"></span><span class="lbl"><b>// 10.5</b>ONCHAIN</span></button>
+  <button class="vert" data-target="sec-11"   type="button" aria-label="Risks"><span class="dot"></span><span class="lbl"><b>// 11</b>RISKS</span></button>
+</nav>
+
+<script src="/assets/js/aubrai.js" defer></script>
+
+</body>
+</html>

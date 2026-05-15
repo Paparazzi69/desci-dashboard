@@ -7,9 +7,10 @@ export const TOKEN_IDS = [
   'rifampicin', 'vitarna', 'cryodao', 'hairdao', 'aubrai-by-bio',
 ];
 
-// Tokens not on CoinGecko but live on Solana DEX pools — fetched from
-// GeckoTerminal (CoinGecko's on-chain DEX product, free, no key needed).
-// Map id (matches frontend TOKEN_META key) → Solana token contract address.
+// Tokens fetched from GeckoTerminal (CoinGecko's on-chain DEX product,
+// free, no key needed). Map id (matches frontend TOKEN_META key) → contract
+// address. The fetch helper detects network by address shape: addresses
+// starting with `0x` resolve against Base, all others against Solana.
 export const GT_TOKENS = {
   'syna': 'HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
   'spinedao': 'spinezMPKxkBpf4Q9xET2587fehM3LuKe4xoAoXtSjR',
@@ -17,7 +18,16 @@ export const GT_TOKENS = {
   // Until non-null, /api/prices skips PeptAI and the project page renders
   // the static Ignition fixed-price placeholders ($1M FDV / $0.10 USDC).
   'peptai': null,
+  // AUBRAI on Base mainnet. Drives live FDV display on /projects/aubrai/.
+  'aubrai': '0x9d56c29e820Dd13b0580B185d0e0Dc301d27581d',
 };
+
+// Pick a GeckoTerminal network slug from a contract-address shape. Ethereum
+// hex addresses (0x...) live on Base for our purposes; everything else is
+// Solana. Adjust here if we ever add a non-Base EVM token.
+function gtNetworkFor(address) {
+  return typeof address === 'string' && address.startsWith('0x') ? 'base' : 'solana';
+}
 
 
 // Editorial detail data for tokens whose descriptions aren't available from
@@ -48,23 +58,25 @@ async function gtFetch(path) {
 // Fetch token metadata + top-pool OHLCV in parallel-friendly form.
 // OHLCV rows come back newest-first as [timestamp, open, high, low, close, vol].
 async function fetchGtRaw(address) {
-  const tokenRes = await gtFetch(`/networks/solana/tokens/${address}`);
+  const network = gtNetworkFor(address);
+  const tokenRes = await gtFetch(`/networks/${network}/tokens/${address}`);
   const attrs = tokenRes.data?.attributes || {};
   const topPoolRel = tokenRes.data?.relationships?.top_pools?.data?.[0]?.id;
-  // Pool ids look like "solana_<addr>" — strip the network prefix.
-  const poolAddr = topPoolRel ? topPoolRel.replace(/^solana_/, '') : null;
+  // Pool ids look like "<network>_<addr>". Strip whichever network prefix
+  // appears so the OHLCV path below is built cleanly.
+  const poolAddr = topPoolRel ? topPoolRel.replace(new RegExp(`^${network}_`), '') : null;
 
   let ohlcv = [];
   if (poolAddr) {
     try {
-      // limit=60 covers ~2 months of daily history — enough for ATH/ATL on
+      // limit=60 covers ~2 months of daily history, enough for ATH/ATL on
       // recently-launched tokens. Larger limits are accepted but pointless.
       const ohlcvRes = await gtFetch(
-        `/networks/solana/pools/${poolAddr}/ohlcv/day?aggregate=1&limit=60`
+        `/networks/${network}/pools/${poolAddr}/ohlcv/day?aggregate=1&limit=60`
       );
       ohlcv = ohlcvRes.data?.attributes?.ohlcv_list || [];
     } catch (e) {
-      // Pool OHLCV fetch is best-effort — token info alone is still useful.
+      // Pool OHLCV fetch is best-effort, token info alone is still useful.
       console.warn('GT OHLCV fetch failed', e);
     }
   }
