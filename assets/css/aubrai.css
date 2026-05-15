@@ -1481,10 +1481,8 @@ mark { background: transparent; color: inherit; font-weight: inherit; }
   counter-reset: bench;
 }
 .bench-list li {
-  display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: 14px;
-  padding: 16px 20px;
+  position: relative;
+  padding: 16px 20px 16px 60px;
   border: 1px solid var(--border);
   background: var(--bg-2);
   font-size: 14px;
@@ -1494,11 +1492,15 @@ mark { background: transparent; color: inherit; font-weight: inherit; }
 }
 .bench-list li::before {
   content: counter(bench, decimal-leading-zero);
+  position: absolute;
+  top: 16px;
+  left: 20px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   color: var(--accent);
   font-weight: 700;
   letter-spacing: 0;
+  line-height: 1.6;
 }
 .bench-list li b { color: var(--text); font-weight: 600; }
 
