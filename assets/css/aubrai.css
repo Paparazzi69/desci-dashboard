@@ -1506,6 +1506,63 @@ mark { background: transparent; color: inherit; font-weight: inherit; }
   .risk-grid { grid-template-columns: 1fr; }
 }
 
+/* ── FOOTER ──────────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 64px 56px 48px;
+  background: var(--bg-2);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px; margin-bottom: 48px;
+}
+.footer-brand .name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px; font-weight: 700; color: var(--text);
+  letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.footer-brand .name .logo-dot {
+  width: 10px; height: 10px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.footer-brand .desc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--text-3);
+  letter-spacing: 0.04em; line-height: 1.7;
+  max-width: 360px;
+}
+.footer-col .h {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--text-4);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.footer-col .links { display: flex; flex-direction: column; gap: 10px; }
+.footer-col .links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--text-2);
+  letter-spacing: 0.04em;
+}
+.footer-col .links a:hover { color: var(--accent); }
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-4);
+  letter-spacing: 0.06em;
+}
+.footer-bottom a { color: var(--accent); }
+
+@media (max-width: 768px) {
+  footer { padding: 40px 20px 32px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; gap: 8px; align-items: flex-start; }
+}
+
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   .section .section-tag .rule {
