@@ -839,6 +839,86 @@ mark { background: transparent; color: inherit; font-weight: inherit; }
   .tech-cell .desc { font-size: 13px; }
 }
 
+/* ── 06 RESEARCH OUTPUT SAMPLES ──────────────────────────────── */
+.sample-stack {
+  display: flex; flex-direction: column;
+  gap: 18px;
+}
+.sample-card {
+  border: 1px solid var(--border-2);
+  background: var(--bg-2);
+  padding: 24px 28px 22px;
+  position: relative;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+.sample-card:hover {
+  border-color: var(--accent-dim);
+}
+.sample-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 48px; height: 1px;
+  background: var(--accent);
+}
+.sample-card .row-top {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 14px;
+}
+.sample-date {
+  display: inline-flex; align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid var(--accent-dim);
+  background: var(--accent-bg);
+  font-weight: 600;
+}
+.sample-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.005em;
+}
+.sample-body {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-2);
+  margin-bottom: 16px;
+  max-width: 880px;
+}
+.sample-body b { color: var(--text); font-weight: 600; }
+.sample-links {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  border-top: 1px dashed var(--border);
+  padding-top: 14px;
+}
+.sample-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-2);
+  padding: 6px 12px;
+  border: 1px solid var(--border-2);
+  background: var(--bg-3);
+  letter-spacing: 0.06em;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.sample-links a:hover {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+}
+
+@media (max-width: 768px) {
+  .sample-card { padding: 18px 18px 18px; }
+  .sample-card .row-top { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .sample-title { font-size: 15px; }
+  .sample-body { font-size: 14px; }
+}
+
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   .section .section-tag .rule {
