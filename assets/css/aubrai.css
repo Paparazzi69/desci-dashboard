@@ -589,6 +589,102 @@ mark { background: transparent; color: inherit; font-weight: inherit; }
   .team-grid { grid-template-columns: 1fr; }
 }
 
+/* ── 04 HYPOTHESIS-TO-FUNDING FLYWHEEL ───────────────────────── */
+.flywheel-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 28px;
+  margin-bottom: 48px;
+  position: relative;
+}
+.fly-step {
+  position: relative;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  padding: 22px 20px 20px;
+  display: flex; flex-direction: column;
+  min-height: 180px;
+}
+.fly-step::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 36px; height: 1px;
+  background: var(--accent);
+}
+.fly-step .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  margin-bottom: 14px;
+}
+.fly-step .ttl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px; font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.005em;
+  margin-bottom: 12px;
+}
+.fly-step .desc {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.55;
+  margin-top: auto;
+}
+.fly-step::after {
+  content: '';
+  position: absolute;
+  top: 50%; right: -22px;
+  width: 16px; height: 1px;
+  background: var(--border-3);
+  transform: translateY(-50%);
+  z-index: 2;
+}
+.fly-step:last-child::after { display: none; }
+.fly-step .arrow-head {
+  position: absolute;
+  top: calc(50% - 4px); right: -10px;
+  width: 8px; height: 8px;
+  border-top: 1px solid var(--accent);
+  border-right: 1px solid var(--accent);
+  transform: rotate(45deg);
+  z-index: 3;
+}
+.fly-step:last-child .arrow-head { display: none; }
+
+.fly-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  border: 1px solid var(--border-2);
+  background: var(--bg-3);
+  margin-bottom: 28px;
+}
+.fly-stats .fly-stat {
+  padding: 20px 24px;
+  border-right: 1px solid var(--border);
+}
+.fly-stats .fly-stat:last-child { border-right: none; }
+.fly-stats .fly-stat .l {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--text-3);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.fly-stats .fly-stat .v {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px; color: var(--accent);
+  font-weight: 700; letter-spacing: -0.01em;
+}
+
+@media (max-width: 768px) {
+  .flywheel-row { grid-template-columns: 1fr; gap: 16px; }
+  .fly-step::after, .fly-step .arrow-head { display: none; }
+  .fly-stats { grid-template-columns: 1fr; }
+  .fly-stats .fly-stat { border-right: none; border-bottom: 1px solid var(--border); }
+  .fly-stats .fly-stat:last-child { border-bottom: none; }
+}
+
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   .section .section-tag .rule {
