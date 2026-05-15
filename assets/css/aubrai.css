@@ -476,6 +476,119 @@ mark { background: transparent; color: inherit; font-weight: inherit; }
   .micro-stats .micro-cell:nth-child(n+3) { border-bottom: none; }
 }
 
+/* ── 03 CO-DEVELOPMENT TEAM ──────────────────────────────────── */
+.org-tri {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  position: relative;
+  margin-bottom: 56px;
+}
+.org-tri::before {
+  content: '';
+  position: absolute;
+  left: 16.66%; right: 16.66%;
+  top: 50%; height: 1px;
+  background: var(--border-2);
+  z-index: 0;
+}
+.org-box {
+  position: relative; z-index: 1;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  padding: 22px 22px;
+  display: flex; flex-direction: column;
+}
+.org-box .org-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px; font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  margin-bottom: 6px;
+}
+.org-box .org-full {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-3);
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+}
+.org-box .org-role {
+  font-size: 13px; color: var(--text-2);
+  line-height: 1.55;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 56px;
+}
+.team-card {
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  padding: 20px 22px;
+  position: relative;
+}
+.team-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 32px; height: 1px;
+  background: var(--accent);
+}
+.team-card .person-name {
+  font-size: 16px; font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+.team-card .person-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-2);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+.team-card .person-org {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 10px;
+}
+
+.cred-note {
+  border: 1px dashed var(--border-3);
+  background: var(--bg-2);
+  padding: 24px 28px;
+  max-width: 920px;
+}
+.cred-note .h {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.cred-note p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+.cred-note p a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--text-3);
+  text-underline-offset: 2px;
+}
+.cred-note p a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+@media (max-width: 768px) {
+  .org-tri { grid-template-columns: 1fr; }
+  .org-tri::before { display: none; }
+  .team-grid { grid-template-columns: 1fr; }
+}
+
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   .section .section-tag .rule {
