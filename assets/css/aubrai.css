@@ -769,6 +769,76 @@ mark { background: transparent; color: inherit; font-weight: inherit; }
   .terminal-r .t-stat { padding: 18px 22px; }
 }
 
+/* ── 05 TECH STACK ───────────────────────────────────────────── */
+.tech-row {
+  display: flex; flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border-2);
+  margin-bottom: 36px;
+}
+.tech-cell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 28px;
+  padding: 22px 0 22px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+}
+.tech-cell .lab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: flex; align-items: center; gap: 10px;
+}
+.tech-cell .lab b {
+  color: var(--text-3); font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+.tech-cell .desc {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+.tech-cell .desc b { color: var(--text); font-weight: 600; }
+.tech-cell .desc code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  background: var(--bg-3);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.tech-cta-row {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.tech-cta-row a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  padding: 10px 16px;
+  border: 1px solid var(--accent-dim);
+  background: transparent;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background 0.18s ease;
+}
+.tech-cta-row a:hover {
+  background: rgba(62,224,123,0.06);
+}
+
+@media (max-width: 768px) {
+  .tech-cell { grid-template-columns: 1fr; gap: 8px; padding: 18px 0; }
+  .tech-cell .lab { font-size: 11px; }
+  .tech-cell .desc { font-size: 13px; }
+}
+
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   .section .section-tag .rule {
