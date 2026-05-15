@@ -1435,6 +1435,77 @@ mark { background: transparent; color: inherit; font-weight: inherit; }
   .onchain-row { grid-template-columns: 1fr; }
 }
 
+/* ── 11 RISKS & WHAT TO WATCH ────────────────────────────────── */
+.risk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 56px;
+}
+.risk-card {
+  border: 1px solid var(--border-2);
+  background: var(--bg-2);
+  padding: 22px 24px;
+  position: relative;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.risk-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 40px; height: 1px;
+  background: var(--rose);
+}
+.risk-card .id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--rose);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.risk-card .body {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.risk-card .body b { color: var(--text); font-weight: 600; }
+
+.bench-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: 920px;
+  counter-reset: bench;
+}
+.bench-list li {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 14px;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.6;
+  counter-increment: bench;
+}
+.bench-list li::before {
+  content: counter(bench, decimal-leading-zero);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.bench-list li b { color: var(--text); font-weight: 600; }
+
+@media (max-width: 768px) {
+  .risk-grid { grid-template-columns: 1fr; }
+}
+
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   .section .section-tag .rule {
