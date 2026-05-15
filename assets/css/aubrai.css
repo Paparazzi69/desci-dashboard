@@ -389,6 +389,93 @@ mark { background: transparent; color: inherit; font-weight: inherit; }
   .lead-link .lead-t { font-size: 17px; }
 }
 
+/* ── 02 THE FIRST BIOAGENT ───────────────────────────────────── */
+.micro-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--border-2);
+  border-bottom: 1px solid var(--border-2);
+  margin-bottom: 36px;
+}
+.micro-stats .micro-cell {
+  padding: 18px 20px;
+  border-right: 1px solid var(--border);
+}
+.micro-stats .micro-cell:last-child { border-right: none; }
+.micro-stats .micro-cell .l {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--text-3);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.micro-stats .micro-cell .v {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px; color: var(--text);
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+.micro-stats .micro-cell .v.accent { color: var(--accent); }
+
+.prose-block {
+  max-width: 880px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-2);
+  margin-bottom: 56px;
+}
+.prose-block p { margin-bottom: 14px; }
+.prose-block p:last-child { margin-bottom: 0; }
+.prose-block b { color: var(--text); font-weight: 600; }
+.prose-block em { font-style: normal; color: var(--accent); }
+
+.sub-heading {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-weight: 600;
+  display: flex; align-items: center; gap: 12px;
+}
+.sub-heading::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: var(--border-2);
+  max-width: 220px;
+}
+
+.claim-list {
+  display: flex; flex-direction: column;
+  gap: 14px;
+  max-width: 880px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.claim-list li {
+  position: relative;
+  padding-left: 28px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-2);
+  border-left: 2px solid var(--accent-dim);
+  padding-top: 6px; padding-bottom: 6px;
+  padding-left: 18px;
+}
+.claim-list li b { color: var(--text); font-weight: 600; }
+
+@media (max-width: 768px) {
+  .micro-stats { grid-template-columns: 1fr 1fr; }
+  .micro-stats .micro-cell {
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .micro-stats .micro-cell:nth-child(2n) { border-right: none; }
+  .micro-stats .micro-cell:nth-child(n+3) { border-bottom: none; }
+}
+
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   .section .section-tag .rule {
