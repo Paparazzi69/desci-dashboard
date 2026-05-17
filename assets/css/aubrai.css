@@ -1233,6 +1233,23 @@ mark { background: transparent; color: inherit; font-weight: inherit; }
   font-size: 14px; color: var(--text-2);
   line-height: 1.55; max-width: 620px;
 }
+/* Catalyst body anchors: subtly distinguishable from prose without
+   shouting. Slight green tint plus a thin accent-toned underline reads as
+   interactive; hover shifts to the full accent token used elsewhere on
+   the page. Scoped tightly so the global "a inherits color" rule still
+   covers structural anchors elsewhere (nav, footer, lead-card, CTAs). */
+.tl-body .ctx a {
+  color: #aedab8;
+  text-decoration: underline;
+  text-decoration-color: rgba(62, 224, 123, 0.55);
+  text-underline-offset: 2px;
+  cursor: pointer;
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+}
+.tl-body .ctx a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
 .tl-tag {
   display: inline-flex; align-items: center;
   margin-left: 12px;
