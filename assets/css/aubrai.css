@@ -1610,5 +1610,503 @@ footer {
   .section-tag { margin-bottom: 32px; }
   .h-section { font-size: 32px; line-height: 1.05; }
   .h-section-sub { font-size: 12px; margin-bottom: 32px; }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   v2 design audit · Phase 1
+   Nav scaffolding · body atoms · per-section polish.
+   All motion respects prefers-reduced-motion fallbacks at the
+   bottom of this block. Everything below this banner is additive
+   to the existing aubrai.css design system above.
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── Section-label promotion · hairline below the .section-tag ─── */
+/* The first unclassed <span> inside .section-tag is the section
+   NAME; promote it to near-white at slightly heavier weight while
+   the // NN keeps its accent treatment. A 1px low-opacity rule
+   below the whole tag block acts as the chapter divider.        */
+.section-tag {
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(207, 233, 216, 0.10);
+  margin-bottom: 52px;
+}
+.section-tag > span:not(.num):not(.rule):not(.meta) {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+/* ── Body-rhythm atoms ─────────────────────────────────────────── */
+/* .stance — editorial TL/DR for a long section. Sits once at the
+   top, between // NN tag and body prose. Italic, near-white,
+   intentionally generous around it.                               */
+.stance {
+  font-family: 'Space Grotesk', sans-serif;
+  font-style: italic;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  color: rgba(230, 240, 236, 0.94);
+  max-width: 65ch;
+  margin: -28px 0 36px;
+  padding-left: 0;
+}
+.stance--todo {
+  /* Visible placeholder treatment until copy lands. */
+  font-style: normal;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-left: 2px solid var(--amber, #d8a32a);
+  padding-left: 10px;
+  background: rgba(216, 163, 42, 0.05);
+  padding-top: 8px; padding-bottom: 8px;
+}
+
+/* .receipt — inline mono pill anchoring a sourced sentence. Stays
+   inline, never breaks paragraph flow.                            */
+.receipt {
+  display: inline-block;
+  margin: 0 0 0 6px;
+  padding: 1px 7px 1px 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78em;
+  letter-spacing: 0.02em;
+  color: var(--text-3);
+  background: rgba(207, 233, 216, 0.04);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent-dim);
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.receipt::before {
+  content: '▸';
+  color: var(--accent-dim);
+  margin-right: 4px;
+  font-size: 0.9em;
+}
+
+/* .skeptic-note — contrarian callout, clearly distinct from body. */
+.skeptic-note {
+  margin: 24px 0;
+  padding: 14px 16px 14px 18px;
+  background: rgba(216, 163, 42, 0.05);
+  border-left: 2px solid var(--amber, #d8a32a);
+  max-width: 65ch;
+}
+.skeptic-note .skeptic-head {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber, #d8a32a);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.skeptic-note p,
+.skeptic-note .body {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-2);
+  margin: 0;
+}
+
+/* Paragraph rhythm · 65ch within prose blocks. Existing .prose-block
+   used max-width:880px; tightening to 65ch improves readability and
+   matches the new atoms' rhythm. Cards/grids keep their own widths. */
+.prose-block p { max-width: 65ch; }
+
+/* ── Nav rail polish · breakpoint bump to ≥1024px ──────────────── */
+/* The existing .pep-gutter behavior at 768px is replaced by a
+   stricter 1024px desktop-only treatment. Mobile pill (below)
+   takes over for <1024px.                                          */
+@media (max-width: 1023px) {
   .pep-gutter { display: none; }
+}
+
+/* // 10.5 nests visually under // 10 inside the rail. */
+.pep-gutter .vert[data-target="sec-10-5"] {
+  margin-left: 12px;
+}
+.pep-gutter .vert[data-target="sec-10-5"]::before {
+  content: '↳';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font: 500 9px/1 'JetBrains Mono', monospace;
+  color: rgba(207, 233, 216, 0.4);
+}
+
+/* ── Scroll-progress hairline ──────────────────────────────────── */
+.proj-scroll-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  z-index: 80;
+  pointer-events: none;
+  box-shadow: 0 0 8px rgba(62, 224, 123, 0.45);
+}
+
+/* ── Mobile sticky pill + slide-down section menu ──────────────── */
+.proj-mobile-nav {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .proj-mobile-nav {
+    display: block;
+    position: sticky;
+    top: 8px;
+    z-index: 70;
+    margin: 0 auto;
+    padding: 0 16px;
+    pointer-events: none;
+  }
+  .proj-mobile-nav-pill {
+    pointer-events: auto;
+    margin: 0 auto;
+    max-width: max-content;
+    padding: 8px 14px;
+    background: rgba(13, 20, 17, 0.88);
+    border: 1px solid var(--border-2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text-2);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+  .proj-mobile-nav.is-active .proj-mobile-nav-pill {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .proj-mobile-nav-pill b { color: var(--accent); font-weight: 600; }
+  .proj-mobile-nav-pill .caret {
+    transition: transform 200ms ease;
+    color: var(--text-3);
+  }
+  .proj-mobile-nav.is-open .proj-mobile-nav-pill .caret {
+    transform: rotate(180deg);
+  }
+  .proj-mobile-nav-menu {
+    pointer-events: auto;
+    max-width: 320px;
+    margin: 6px auto 0;
+    background: rgba(13, 20, 17, 0.96);
+    border: 1px solid var(--border-2);
+    border-radius: 12px;
+    padding: 6px 4px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: none;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .proj-mobile-nav.is-open .proj-mobile-nav-menu { display: block; }
+  .proj-mobile-nav-menu .item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-2);
+    background: transparent;
+    border: 0;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  .proj-mobile-nav-menu .item:hover { background: var(--bg-3); color: var(--text); }
+  .proj-mobile-nav-menu .item b { color: var(--accent); min-width: 38px; }
+  .proj-mobile-nav-menu .item.is-current { color: var(--text); background: var(--bg-3); }
+  .proj-mobile-nav-menu .item.is-nested {
+    padding-left: 24px;
+    font-size: 11px;
+    color: var(--text-3);
+  }
+  .proj-mobile-nav-menu .item.is-nested::before {
+    content: '↳ '; color: var(--text-4);
+  }
+}
+
+/* ── // 03 · SENS mini-timeline structure ──────────────────────── */
+.sens-timeline {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  max-width: 65ch;
+}
+.sens-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px; top: 6px; bottom: 6px;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(62, 224, 123, 0.35) 12%,
+    rgba(62, 224, 123, 0.35) 88%,
+    transparent
+  );
+}
+.sens-timeline-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 18px;
+  padding: 6px 0 14px 26px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+.sens-timeline-row::before {
+  content: '';
+  position: absolute;
+  left: 3px; top: 12px;
+  width: 9px; height: 9px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  box-shadow: 0 0 0 3px rgba(13, 20, 17, 1);
+}
+.sens-timeline-row .date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 600;
+  padding-top: 1px;
+}
+.sens-timeline-row .body {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+.sens-timeline-row .body b { color: var(--text); font-weight: 600; }
+.sens-timeline-row .body a { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent-dim); }
+.sens-timeline-row--todo .body {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.05em;
+}
+.cred-note-backstop {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-3);
+  margin: 22px 0 0;
+  padding-top: 18px;
+  border-top: 1px dashed var(--border);
+  max-width: 65ch;
+}
+.cred-note-backstop a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-dim);
+}
+
+/* ── // 06 · sample card interactive affordance ────────────────── */
+.sample-card[data-href] { cursor: pointer; position: relative; }
+.sample-card[data-href] .sample-arrow {
+  position: absolute;
+  top: 14px; right: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  color: var(--text-3);
+  transition: color 180ms ease, transform 180ms ease;
+  pointer-events: none;
+}
+.sample-card[data-href]:hover .sample-arrow,
+.sample-card[data-href]:focus-visible .sample-arrow {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+.sample-card[data-href]:hover,
+.sample-card[data-href]:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--accent-dim);
+  outline: none;
+}
+.sample-card .sample-url {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sample-card .sample-url b { color: var(--accent); font-weight: 600; }
+
+/* ── // 08 · vesting curve SVG + cliff annotation ──────────────── */
+.vest-curve-wrap {
+  margin: 16px 0 24px;
+  position: relative;
+}
+.vest-curve {
+  width: 100%;
+  height: 180px;
+  display: block;
+}
+.vest-curve .axis      { stroke: rgba(207, 233, 216, 0.12); stroke-width: 1; }
+.vest-curve .grid-tick { stroke: rgba(207, 233, 216, 0.06); stroke-width: 1; stroke-dasharray: 2 4; }
+.vest-curve .curve-main {
+  fill: none;
+  stroke: rgba(62, 224, 123, 0.32);
+  stroke-width: 1.6;
+}
+.vest-curve .curve-levf {
+  fill: none;
+  stroke: rgba(207, 233, 216, 0.22);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 3;
+}
+.vest-curve .cliff-marker {
+  fill: var(--rose, #e26b6b);
+  stroke: var(--rose, #e26b6b);
+}
+.vest-curve .cliff-line {
+  stroke: var(--rose, #e26b6b);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.vest-curve-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  fill: var(--text-3);
+}
+.vest-curve-label.is-cliff { fill: var(--rose, #e26b6b); font-weight: 600; }
+.vest-curve-axis-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  fill: var(--text-4);
+}
+
+/* Compact tokenomics legend · buys back panel width. */
+.tokeno-legend.is-compact .row { padding: 6px 0; gap: 10px; }
+.tokeno-legend.is-compact .swatch { width: 8px; height: 8px; }
+.tokeno-legend.is-compact .lab { font-size: 12px; }
+.tokeno-legend.is-compact .pct { font-size: 13px; width: 50px; }
+
+/* ── // 10 · comparables mini-table ────────────────────────────── */
+.compare-table {
+  width: 100%;
+  margin: 12px 0 32px;
+  border-collapse: collapse;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-2);
+  max-width: 920px;
+}
+.compare-table thead th {
+  text-align: left;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+  font-weight: 600;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-2);
+  text-transform: uppercase;
+}
+.compare-table tbody td {
+  padding: 11px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.compare-table tbody tr:last-child td { border-bottom: none; }
+.compare-table tbody tr:hover td { background: rgba(207, 233, 216, 0.025); }
+.compare-table .name { color: var(--text); font-weight: 600; }
+.compare-table .name a { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent-dim); }
+.compare-table .tag {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-3);
+}
+.compare-table .val {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── // 10.5 · click-to-copy + last-tx age ─────────────────────── */
+.wallet-card[data-copy] { cursor: pointer; }
+.wallet-card[data-copy] .addr {
+  transition: color 180ms ease;
+  user-select: all;
+}
+.wallet-card[data-copy]:hover .addr { color: var(--accent); }
+.wallet-card .copy-hint {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-4);
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+  transition: color 180ms ease;
+}
+.wallet-card.is-copied .copy-hint { color: var(--accent); }
+.wallet-card .last-tx {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.04em;
+  margin: 10px 0 4px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+.wallet-card .last-tx b { color: var(--text-2); font-weight: 500; }
+
+/* ── Reduced-motion fallbacks · v2 audit additions ─────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .proj-scroll-progress {
+    transition: none !important;
+  }
+  .proj-mobile-nav-pill,
+  .proj-mobile-nav-pill .caret { transition: none !important; }
+  .sample-card[data-href]:hover,
+  .sample-card[data-href]:focus-visible {
+    transform: none !important;
+  }
+  .sample-card[data-href] .sample-arrow {
+    transition: color 180ms ease !important;
+  }
+  .sample-card[data-href]:hover .sample-arrow {
+    transform: none !important;
+  }
+}
+
+/* ── Mobile adjustments for v2 audit additions ─────────────────── */
+@media (max-width: 768px) {
+  .section-tag { padding-bottom: 10px; margin-bottom: 28px; }
+  .stance { font-size: 16px; margin: -16px 0 24px; }
+  .sens-timeline-row { grid-template-columns: 76px 1fr; gap: 12px; padding-left: 22px; }
+  .sens-timeline-row::before { left: 1px; top: 10px; }
+  .sens-timeline::before { left: 5px; }
+  .compare-table { font-size: 11px; }
+  .compare-table thead th,
+  .compare-table tbody td { padding: 8px 8px; }
+  .vest-curve { height: 140px; }
 }
