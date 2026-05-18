@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Projects — DeSci Analytics Hub</title>
-<meta name="description" content="The DeSci sector traced project by project. Four long-form deep dives shipped, sixteen more on the roadmap. Curated coverage with methodology and source links on every page.">
+<meta name="description" content="The DeSci sector traced project by project. Four long-form deep dives shipped, with methodology and source links on every page.">
 <link rel="icon" type="image/png" href="/branding/icon-v1.png" />
 <link rel="apple-touch-icon" href="/branding/icon-v1.png" />
 <link rel="canonical" href="https://descidash.com/projects/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="DeSci Analytics Hub" />
 <meta property="og:title" content="Projects — DeSci Analytics Hub" />
-<meta property="og:description" content="The DeSci sector traced project by project. Four long-form deep dives shipped, sixteen more on the roadmap." />
+<meta property="og:description" content="The DeSci sector traced project by project. Four long-form deep dives shipped." />
 <meta property="og:url" content="https://descidash.com/projects/" />
 <meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
 <meta property="og:image:width" content="1200" />
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@DeSciDashboard" />
 <meta name="twitter:title" content="Projects — DeSci Analytics Hub" />
-<meta name="twitter:description" content="The DeSci sector traced project by project. Four long-form deep dives shipped, sixteen more on the roadmap." />
+<meta name="twitter:description" content="The DeSci sector traced project by project. Four long-form deep dives shipped." />
 <meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,28 +47,11 @@
         <span>EasyA Kickstart</span><span class="header-nav-arrow" aria-hidden="true">↗</span>
       </a>
     </nav>
-    <div class="proj-status" aria-label="Live tracker status">
-      <span class="proj-live-dot" aria-hidden="true"></span>
-      <span class="proj-live-label proj-live-label-full">TRACKING 19 · LIVE</span>
-      <span class="proj-live-label proj-live-label-compact" aria-hidden="true">LIVE</span>
-    </div>
   </header>
-
-  <!-- ── Ticker tape · M/01 always-on ────────────────────────────── -->
-  <div class="proj-ticker" aria-label="Token ticker tape">
-    <div class="proj-ticker-track">
-      <div class="proj-ticker-row" data-ticker-row></div>
-      <div class="proj-ticker-row" data-ticker-row aria-hidden="true"></div>
-    </div>
-    <div class="proj-ticker-edge proj-ticker-edge-left" aria-hidden="true"></div>
-    <div class="proj-ticker-edge proj-ticker-edge-right" aria-hidden="true"></div>
-  </div>
 
   <!-- ── Section meta strip ──────────────────────────────────────── -->
   <div class="proj-meta">
     <span class="proj-meta-label">// INDEX · /projects</span>
-    <span class="proj-meta-rule" aria-hidden="true"></span>
-    <span class="proj-meta-time" id="meta-time">updated —</span>
   </div>
 
   <!-- ── Hero ────────────────────────────────────────────────────── -->
@@ -77,30 +60,9 @@
       The DeSci sector,<br>
       <span class="proj-h1-italic">traced project by project.</span>
     </h1>
-
-    <div class="proj-hero-grid">
-      <div class="proj-stats" role="list">
-        <div class="proj-stat" role="listitem">
-          <span class="proj-stat-num proj-stat-shipped" data-count-target="4" data-count-pad="2">04</span>
-          <span class="proj-stat-label">SHIPPED</span>
-        </div>
-        <div class="proj-stat" role="listitem">
-          <span class="proj-stat-num proj-stat-queue" data-count-target="16">16</span>
-          <span class="proj-stat-label">IN QUEUE</span>
-        </div>
-        <div class="proj-stat" role="listitem">
-          <span class="proj-stat-num proj-stat-tracked" data-count-target="19">19</span>
-          <span class="proj-stat-label">TRACKED</span>
-        </div>
-      </div>
-      <p class="proj-hero-caption">
-        Four long-form deep dives shipped. Sixteen more on the roadmap.
-        Methodology and source links on every page.
-      </p>
-    </div>
-
-    <p class="proj-hero-footnote">
-      Science Beach is a platform layer separate from the 19-project tracker.
+    <p class="proj-hero-caption">
+      Four long-form deep dives shipped.
+      Methodology and source links on every page.
     </p>
   </section>
 
@@ -301,204 +263,6 @@
     </div>
   </section>
 
-  <!-- ── // 02 IN QUEUE ──────────────────────────────────────────── -->
-  <section class="proj-section" aria-labelledby="queue-head">
-    <div class="proj-section-head">
-      <span class="proj-section-num">02</span>
-      <h2 class="proj-section-title" id="queue-head">// IN QUEUE</h2>
-      <span class="proj-section-sub">// coverage roadmap · 16 projects</span>
-      <span class="proj-section-action">sort: alpha</span>
-    </div>
-
-    <div class="proj-queue" role="table" aria-label="In-queue projects, sorted alphabetically">
-      <div class="proj-queue-headrow" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="columnheader">NO</span>
-        <span class="proj-queue-cell" role="columnheader">PROJECT</span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="columnheader">CATEGORY</span>
-      </div>
-
-      <!-- 16 alpha-sorted entries derived from functions/_shared/desci-projects.js
-           with the three shipped projects (SpineDAO, PeptAI, AUBRAI) excluded. -->
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">01</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">AthenaDAO</span>
-          <span class="proj-queue-ticker">$ATH</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-biodao">BIODAO</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">02</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">Bio Protocol</span>
-          <span class="proj-queue-ticker">$BIO</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-platform">PLATFORM</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">03</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">BiomeAI</span>
-          <span class="proj-queue-ticker">$BIOMEAI</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-bioagent">BIOAGENT</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">04</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">CerebrumDAO</span>
-          <span class="proj-queue-ticker">$NEURON</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-biodao">BIODAO</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">05</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">ClawdLab</span>
-          <span class="proj-queue-ticker">—</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-bioagent">BIOAGENT</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">06</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">CryoDAO</span>
-          <span class="proj-queue-ticker">$CRYO</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-biodao">BIODAO</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">07</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">Curetopia</span>
-          <span class="proj-queue-ticker">$CURES</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-ipt">IPT</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">08</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">DermaLabs</span>
-          <span class="proj-queue-ticker">$SKIN</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-biodao">BIODAO</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">09</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">HairDAO</span>
-          <span class="proj-queue-ticker">$HAIR</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-biodao">BIODAO</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">10</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">Molecule</span>
-          <span class="proj-queue-ticker">$MOL</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-platform">PLATFORM</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">11</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">PsyDAO</span>
-          <span class="proj-queue-ticker">$PSY</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-biodao">BIODAO</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">12</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">Pump.science</span>
-          <span class="proj-queue-ticker">$URO</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-memetic">MEMETIC</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">13</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">ResearchHub</span>
-          <span class="proj-queue-ticker">$RSC</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-platform">PLATFORM</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">14</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">Spectruth DAO</span>
-          <span class="proj-queue-ticker">$IBNFT</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-ipt">IPT</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">15</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">ValleyDAO</span>
-          <span class="proj-queue-ticker">$GROW</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-biodao">BIODAO</span>
-        </span>
-      </div>
-
-      <div class="proj-queue-row" role="row">
-        <span class="proj-queue-cell proj-queue-cell-num" role="cell">16</span>
-        <span class="proj-queue-cell proj-queue-cell-project" role="cell">
-          <span class="proj-queue-name">VitaDAO</span>
-          <span class="proj-queue-ticker">$VITA</span>
-        </span>
-        <span class="proj-queue-cell proj-queue-cell-cat" role="cell">
-          <span class="proj-pill proj-pill-biodao">BIODAO</span>
-        </span>
-      </div>
-
-    </div>
-  </section>
-
   <!-- ── Footer ──────────────────────────────────────────────────── -->
   <footer class="proj-footer">
     <div class="proj-footer-grid">
@@ -528,10 +292,8 @@
       <div class="proj-footer-col">
         <h3 class="proj-footer-label">STATUS</h3>
         <div class="proj-footer-status">
-          <div>last update · <span id="footer-relative">just now</span></div>
-          <div>tracked · 19</div>
           <div>shipped · 04</div>
-          <div>in queue · 16</div>
+          <div>tracked · 19</div>
         </div>
       </div>
     </div>
