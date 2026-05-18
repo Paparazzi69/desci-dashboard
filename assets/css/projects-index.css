@@ -180,12 +180,25 @@
 .proj-pill-bioagent-text { color: var(--op-green); }
 .proj-pill-biodao-text   { color: var(--op-blue); }
 
-/* ── Featured cards (2×2 grid) · M/04, M/05, M/06, M/09 ──────────── */
+/* ── Featured cards (2×2 grid + ox-banner row) · M/04 M/05 M/06 M/09  */
+/* Grid areas keep the OX2R-004 banner directly under the PeptAI card
+   on desktop, and immediately after it on mobile. The bottom-right cell
+   is intentionally empty on desktop — PeptAI's column extends below
+   AUBRAI's column, signaling the parent/child relationship.            */
 .proj-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "sb sd"
+    "pa au"
+    "ox .";
   gap: 24px;
 }
+.proj-card[data-slug="science-beach"] { grid-area: sb; }
+.proj-card[data-slug="spinedao"]      { grid-area: sd; }
+.proj-card[data-slug="peptai"]        { grid-area: pa; }
+.proj-card[data-slug="aubrai"]        { grid-area: au; }
+.proj-card[data-slug="ox2r-004"]      { grid-area: ox; }
 .proj-card {
   position: relative;
   background: var(--op-panel);
@@ -268,19 +281,6 @@
   color: var(--op-dimmer);
   letter-spacing: 0.05em;
 }
-.proj-card-status {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--op-green);
-  letter-spacing: 0.1em;
-}
-.proj-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; }
-.proj-dot-green { background: var(--op-green); }
-
 .proj-card-name-row {
   display: flex;
   align-items: baseline;
@@ -310,33 +310,38 @@
   max-width: 540px;
 }
 
-.proj-card-meta {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr 1fr;
-  gap: 1px;
-  background: var(--op-border);
-  border: 1px solid var(--op-border);
+/* Primary takeaway · the card's italic coral hook between blurb and
+   bullets. One line, slightly larger than body, no quotes. */
+.proj-card-takeaway {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--op-coral);
+  margin: 2px 0 -2px;
+  max-width: 600px;
 }
-.proj-card-meta-cell {
-  background: var(--op-panel-hi);
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.proj-card-meta-k {
+
+/* Mono-strip · replaces the old 3-cell metadata grid. Sits above the
+   CTA footer, between bullets and the dashed-rule. */
+.proj-card-monostrip {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.08em;
+  font-size: 11px;
   color: var(--op-dim);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
-.proj-card-meta-v {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--op-text);
+.proj-card-sep {
+  color: var(--op-dimmer);
+  margin: 0 8px;
+  font-weight: 400;
 }
-.proj-card-meta-v-ship { color: var(--op-green); }
 
 .proj-card-bullets {
   list-style: none;
@@ -398,25 +403,68 @@
   color: var(--op-dimmer);
   letter-spacing: 0.04em;
 }
-.proj-card-cta-secondary {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--op-dim);
-  text-decoration: none;
-  margin-left: auto;
-}
-.proj-card-cta-secondary-path {
-  font-size: 9px;
-  color: var(--op-dimmer);
-  letter-spacing: 0.04em;
-}
-.proj-card-cta-secondary:hover { color: var(--op-text); }
-
 .proj-card-foot .proj-card-cta + .proj-card-path { margin-right: auto; }
+
+/* ── OX2R-004 companion banner ───────────────────────────────────── */
+/* Sits in grid-area "ox" directly below the PeptAI card. Reuses the
+   .proj-card hover + click + stagger plumbing via JS selectors. Its
+   own internal layout is denser (no bullets, no metadata strip) and
+   it carries a coral left-edge to signal "child of PeptAI".          */
+.proj-banner {
+  padding: 18px 22px;
+  gap: 0;
+  border-left: 2px solid var(--op-coral);
+}
+.proj-banner-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px 24px;
+  align-items: end;
+}
+.proj-banner-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.proj-banner-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--op-dimmer);
+  text-transform: uppercase;
+}
+.proj-banner-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--op-text);
+}
+.proj-banner-takeaway {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--op-coral);
+  margin: 0;
+  max-width: 480px;
+}
+.proj-banner-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--op-coral);
+  text-decoration: none;
+  justify-self: end;
+  align-self: end;
+}
 
 /* ── Footer ──────────────────────────────────────────────────────── */
 .proj-footer {
@@ -426,8 +474,8 @@
 }
 .proj-footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 48px;
   margin-bottom: 36px;
 }
 .proj-footer-brand {
@@ -475,12 +523,6 @@
 .proj-footer-cat-platform { color: var(--op-teal); }
 .proj-footer-cat-ipt      { color: var(--op-amber); }
 .proj-footer-cat-memetic  { color: var(--op-pink); }
-.proj-footer-status {
-  color: var(--op-text);
-  font-size: 12px;
-  line-height: 1.7;
-}
-.proj-footer-status div { color: var(--op-dim); }
 
 .proj-footer-bottom {
   padding-top: 16px;
@@ -521,12 +563,32 @@
   .proj-section { padding: 0 18px 48px; }
   .proj-section-action { margin-left: 0; flex-basis: 100%; }
 
-  .proj-cards { grid-template-columns: 1fr; gap: 16px; }
+  /* Mobile reshuffles the area map so the OX2R-004 banner stacks
+     immediately after PeptAI, not at the very end. */
+  .proj-cards {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "sb"
+      "sd"
+      "pa"
+      "ox"
+      "au";
+    gap: 16px;
+  }
   .proj-card { padding: 20px 20px 18px; gap: 14px; }
   .proj-card-name { font-size: 30px; }
   .proj-card-ticker { font-size: 14px; }
-  .proj-card-meta { grid-template-columns: 1fr 1fr; }
-  .proj-card-meta-cell:last-child { grid-column: 1 / -1; }
+  .proj-card-takeaway { font-size: 15px; }
+
+  /* Banner: collapse two-column inner layout to stack on small screens. */
+  .proj-banner { padding: 16px 18px; }
+  .proj-banner-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .proj-banner-cta { justify-self: start; }
+  .proj-banner-name { font-size: 22px; }
 
   .proj-footer { padding: 36px 18px 36px; }
   .proj-footer-grid { grid-template-columns: 1fr; gap: 28px; margin-bottom: 28px; }
