@@ -1,12 +1,9 @@
-/* /projects landing — operator-terminal aesthetic ("Bloomberg for DeSci").
+/* /projects landing — minimal navigation hub.
    Loaded after style.css (core tokens) + bioagent-tracker.css (header-nav).
-   This file owns the page chrome, ticker, hero, cards, queue table, footer,
-   and all 9 motion treatments with prefers-reduced-motion fallbacks. */
-
-:root {
-  /* Operator-terminal accents (scoped via .projects-body so they don't
-     leak to other pages that include this stylesheet by mistake). */
-}
+   Page chrome, hero, four featured cards, footer. Five motion treatments:
+   M/02 hero italic mask reveal, M/04 card stagger fade-up, M/05 card hover
+   lift, M/06 CTA arrow slide, M/09 card click wipe. All five honor
+   prefers-reduced-motion with per-treatment fallbacks. */
 
 .projects-body {
   --op-bg:        #0b0d0f;
@@ -24,9 +21,7 @@
   --op-teal:      #4dd9c4;
   --op-amber:     #ffa657;
   --op-pink:      #ff7b72;
-  --op-red:       #ff7b72;
 
-  /* Override the site dot-grid background for the terminal look. */
   background: var(--op-bg);
   background-image: none;
   color: var(--op-text);
@@ -44,7 +39,7 @@
 /* ── Header band ─────────────────────────────────────────────────── */
 .proj-topbar {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 24px;
   padding: 18px 40px;
@@ -65,79 +60,12 @@
 .proj-brand-slash { color: var(--op-dimmer); }
 .proj-brand-sub { color: var(--op-text); }
 
-.proj-nav {
-  justify-self: center;
-}
-
-.proj-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--op-dim);
-  letter-spacing: 0.06em;
-}
-.proj-live-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--op-green);
-}
-.proj-live-label-compact { display: none; }
-
-/* ── Ticker tape · M/01 ──────────────────────────────────────────── */
-.proj-ticker {
-  position: relative;
-  overflow: hidden;
-  background: var(--op-bg-deep);
-  border-bottom: 1px solid var(--op-border);
-}
-.proj-ticker-track {
-  display: flex;
-  width: max-content;
-  padding: 8px 0;
-  /* M/01 ticker scroll · always-on, ~60s loop, two-copy seamless wrap.
-     Reduced-motion: paused below. */
-  animation: proj-ticker-scroll 60s linear infinite;
-}
-.proj-ticker-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 28px;
-  padding-right: 28px;
-  white-space: nowrap;
-}
-.proj-ticker-item {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
-  letter-spacing: 0.04em;
-}
-.proj-ticker-sym { color: var(--op-text); font-weight: 600; }
-.proj-ticker-pct { font-variant-numeric: tabular-nums; }
-.proj-ticker-pct.pct-up      { color: var(--op-green); }
-.proj-ticker-pct.pct-down    { color: var(--op-red); }
-.proj-ticker-pct.pct-neutral { color: var(--op-dimmer); }
-.proj-ticker-edge {
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 64px;
-  pointer-events: none;
-}
-.proj-ticker-edge-left  { left: 0;  background: linear-gradient(90deg,  var(--op-bg-deep), transparent); }
-.proj-ticker-edge-right { right: 0; background: linear-gradient(270deg, var(--op-bg-deep), transparent); }
-
-@keyframes proj-ticker-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
+.proj-nav { justify-self: end; }
 
 /* ── Section meta strip ──────────────────────────────────────────── */
 .proj-meta {
   display: flex;
   align-items: center;
-  gap: 14px;
   padding: 16px 40px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
@@ -146,32 +74,16 @@
   border-bottom: 1px solid var(--op-border);
 }
 .proj-meta-label { color: var(--op-dim); }
-.proj-meta-rule { flex: 0 0 60px; height: 1px; background: var(--op-border); }
-.proj-meta-time {
-  /* M/08 ambient pulse · LIVE indicator and timestamp share rhythm.
-     Reduced-motion: opacity fixed below. */
-  font-size: 11px;
-  color: var(--op-dimmer);
-  animation: proj-amb-pulse 6s ease-in-out infinite;
-}
-@keyframes proj-amb-pulse {
-  0%, 100% { opacity: 0.55; }
-  50%      { opacity: 0.95; }
-}
-.proj-live-dot {
-  /* M/08 ambient pulse · scales 1 → 1.15 → 1, ~2s loop. */
-  animation: proj-dot-pulse 2s ease-in-out infinite;
-  box-shadow: 0 0 0 0 rgba(126, 231, 135, 0.55);
-}
-@keyframes proj-dot-pulse {
-  0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0   rgba(126,231,135,0.45); }
-  50%      { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(126,231,135,0);    }
-}
 
 /* ── Hero ────────────────────────────────────────────────────────── */
 .proj-hero {
-  padding: 64px 40px 48px;
+  padding: 80px 40px 88px;
   position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
 }
 .proj-h1 {
   font-family: 'Space Grotesk', sans-serif;
@@ -181,11 +93,12 @@
   line-height: 0.96;
   margin: 0;
   color: var(--op-text);
+  flex: 1 1 640px;
   max-width: 1100px;
 }
 .proj-h1-italic {
   /* M/02 hero italic mask reveal · clip-path inset wipe L→R on load.
-     Reduced-motion: shown fully, no wipe (handled below). */
+     Reduced-motion: shown fully, no wipe (handled at bottom of file). */
   font-style: italic;
   font-weight: 700;
   color: var(--op-coral);
@@ -198,66 +111,19 @@
   100% { clip-path: inset(0 0    0 0); }
 }
 
-.proj-hero-grid {
-  margin-top: 36px;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-.proj-stats {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.proj-stat {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding: 12px 18px;
-  background: var(--op-panel);
-  border: 1px solid var(--op-border);
-}
-.proj-stat-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 30px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
-.proj-stat-shipped { color: var(--op-green); }
-.proj-stat-queue   { color: var(--op-amber); }
-.proj-stat-tracked { color: var(--op-text); }
-.proj-stat-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--op-dim);
-}
 .proj-hero-caption {
-  flex: 1;
-  min-width: 240px;
-  max-width: 420px;
-  margin-left: auto;
+  flex: 0 1 360px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--op-dim);
-}
-.proj-hero-footnote {
-  margin-top: 28px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--op-dimmer);
-  letter-spacing: 0.04em;
-  border-left: 2px solid var(--op-border-hi);
-  padding-left: 12px;
-  max-width: 640px;
+  margin: 0;
+  padding-bottom: 8px;
 }
 
 /* ── Section heads ───────────────────────────────────────────────── */
 .proj-section {
-  padding: 0 40px 56px;
+  padding: 0 40px 80px;
 }
 .proj-section-head {
   display: flex;
@@ -265,7 +131,7 @@
   gap: 14px;
   padding: 8px 0 16px;
   border-bottom: 1px dashed var(--op-border);
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   flex-wrap: wrap;
 }
 .proj-section-num {
@@ -309,25 +175,22 @@
 .proj-pill-bioagent { color: var(--op-green); border: 1px solid rgba(126,231,135,0.34); }
 .proj-pill-biodao   { color: var(--op-blue);  border: 1px solid rgba(121,192,255,0.34); }
 .proj-pill-platform { color: var(--op-teal);  border: 1px solid rgba(77,217,196,0.34); }
-.proj-pill-ipt      { color: var(--op-amber); border: 1px solid rgba(255,166,87,0.34); }
-.proj-pill-memetic  { color: var(--op-pink);  border: 1px solid rgba(255,123,114,0.34); }
 
 /* Ticker color helper for in-card ticker subtext. */
 .proj-pill-bioagent-text { color: var(--op-green); }
 .proj-pill-biodao-text   { color: var(--op-blue); }
-.proj-pill-platform-text { color: var(--op-teal); }
 
 /* ── Featured cards (2×2 grid) · M/04, M/05, M/06, M/09 ──────────── */
 .proj-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 24px;
 }
 .proj-card {
   position: relative;
   background: var(--op-panel);
   border: 1px solid var(--op-border);
-  padding: 22px 24px 20px;
+  padding: 24px 26px 22px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -503,7 +366,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 12px;
+  padding-top: 14px;
   border-top: 1px dashed var(--op-border);
   gap: 12px;
   flex-wrap: wrap;
@@ -521,7 +384,7 @@
 }
 .proj-card-cta-arrow {
   /* M/06 CTA arrow slide · ~4-6px right on card hover.
-     Reduced-motion: no slide (handled below). */
+     Reduced-motion: no slide (handled at bottom of file). */
   display: inline-block;
   transition: transform 200ms cubic-bezier(0.2, 0.7, 0.3, 1);
 }
@@ -553,86 +416,7 @@
 }
 .proj-card-cta-secondary:hover { color: var(--op-text); }
 
-/* The blurb sits below the name row; ensure CTA + path are split. */
 .proj-card-foot .proj-card-cta + .proj-card-path { margin-right: auto; }
-
-/* ── Queue table · M/07 ──────────────────────────────────────────── */
-.proj-queue {
-  border: 1px solid var(--op-border);
-  background: var(--op-panel);
-}
-.proj-queue-headrow,
-.proj-queue-row {
-  display: grid;
-  grid-template-columns: 56px 1fr auto;
-  gap: 16px;
-  padding: 11px 18px;
-  align-items: center;
-  border-bottom: 1px solid var(--op-border);
-}
-.proj-queue-row:last-child { border-bottom: none; }
-.proj-queue-headrow {
-  background: var(--op-panel-hi);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: var(--op-dim);
-}
-.proj-queue-row {
-  position: relative;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  transition: background-color 200ms cubic-bezier(0.2, 0.7, 0.3, 1);
-}
-/* M/07 left-edge accent + pill pulse on row hover.
-   Reduced-motion: bg shift only, no pulse (handled below). */
-.proj-queue-row::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 2.5px;
-  background: var(--op-coral);
-  transform: scaleY(0);
-  transform-origin: center;
-  transition: transform 180ms cubic-bezier(0.2, 0.7, 0.3, 1);
-  pointer-events: none;
-}
-.proj-queue-row:hover {
-  background: var(--op-panel-hi);
-}
-.proj-queue-row:hover::before {
-  transform: scaleY(1);
-}
-.proj-queue-row:hover .proj-pill {
-  animation: proj-pill-pulse 800ms ease-in-out infinite;
-}
-@keyframes proj-pill-pulse {
-  0%, 100% { transform: scale(1);    }
-  50%      { transform: scale(1.05); }
-}
-
-.proj-queue-cell-num {
-  color: var(--op-dimmer);
-  font-size: 11px;
-}
-.proj-queue-cell-project {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  min-width: 0;
-  flex-wrap: wrap;
-}
-.proj-queue-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--op-text);
-}
-.proj-queue-ticker {
-  color: var(--op-dim);
-  font-size: 11px;
-}
-.proj-queue-cell-cat { justify-self: end; }
 
 /* ── Footer ──────────────────────────────────────────────────────── */
 .proj-footer {
@@ -697,7 +481,6 @@
   line-height: 1.7;
 }
 .proj-footer-status div { color: var(--op-dim); }
-.proj-footer-status #footer-relative { color: var(--op-text); }
 
 .proj-footer-bottom {
   padding-top: 16px;
@@ -715,46 +498,35 @@
 /* ── Mobile (≤720px) ─────────────────────────────────────────────── */
 @media (max-width: 720px) {
   .proj-topbar {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
     grid-template-rows: auto auto;
     padding: 14px 18px;
     gap: 12px;
   }
-  .proj-brand        { grid-row: 1; grid-column: 1; }
-  .proj-status       { grid-row: 1; grid-column: 2; }
-  .proj-nav          { grid-row: 2; grid-column: 1 / -1; justify-self: stretch; overflow-x: auto; }
+  .proj-brand { grid-row: 1; grid-column: 1; }
+  .proj-nav   { grid-row: 2; grid-column: 1; justify-self: stretch; overflow-x: auto; }
   .proj-nav .header-nav-link { padding: 8px 12px; font-size: 12px; }
-  .proj-live-label-full    { display: none; }
-  .proj-live-label-compact { display: inline; }
 
   .proj-meta { padding: 14px 18px; flex-wrap: wrap; }
-  .proj-meta-rule { display: none; }
 
-  .proj-hero { padding: 36px 18px 30px; }
-  .proj-h1 { font-size: 40px; letter-spacing: -0.02em; line-height: 1.02; }
-  .proj-stats { grid-template-columns: 1fr 1fr 1fr; display: grid; gap: 8px; width: 100%; }
-  .proj-stat { padding: 10px 12px; }
-  .proj-stat-num { font-size: 22px; }
-  .proj-stat-label { font-size: 10px; }
-  .proj-hero-caption { margin-left: 0; max-width: 100%; }
+  .proj-hero {
+    padding: 48px 18px 56px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+  .proj-h1 { font-size: 40px; letter-spacing: -0.02em; line-height: 1.02; flex: 1 1 auto; }
+  .proj-hero-caption { flex: 1 1 auto; max-width: 100%; padding-bottom: 0; }
 
-  .proj-section { padding: 0 18px 36px; }
+  .proj-section { padding: 0 18px 48px; }
   .proj-section-action { margin-left: 0; flex-basis: 100%; }
 
-  .proj-cards { grid-template-columns: 1fr; gap: 14px; }
-  .proj-card { padding: 18px 18px 16px; gap: 14px; }
+  .proj-cards { grid-template-columns: 1fr; gap: 16px; }
+  .proj-card { padding: 20px 20px 18px; gap: 14px; }
   .proj-card-name { font-size: 30px; }
   .proj-card-ticker { font-size: 14px; }
   .proj-card-meta { grid-template-columns: 1fr 1fr; }
   .proj-card-meta-cell:last-child { grid-column: 1 / -1; }
-
-  .proj-queue-headrow,
-  .proj-queue-row {
-    grid-template-columns: 36px 1fr auto;
-    gap: 10px;
-    padding: 10px 14px;
-  }
-  .proj-queue-name { font-size: 12px; }
 
   .proj-footer { padding: 36px 18px 36px; }
   .proj-footer-grid { grid-template-columns: 1fr; gap: 28px; margin-bottom: 28px; }
@@ -762,13 +534,8 @@
 
 /* ── Reduced motion · per-treatment fallbacks ────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  /* M/01 ticker — paused at initial position, content static. */
-  .proj-ticker-track { animation-play-state: paused; }
-
   /* M/02 italic mask — show fully, no wipe. */
   .proj-h1-italic { clip-path: none !important; animation: none !important; }
-
-  /* M/03 counters — JS sets the static value, no count-up. (Handled in JS.) */
 
   /* M/04 card stagger — cards visible immediately. */
   .proj-card {
@@ -778,7 +545,7 @@
                 box-shadow 200ms cubic-bezier(0.2, 0.7, 0.3, 1);
   }
 
-  /* M/05 hover lift — keep border-color tint, drop translateY/shadow. */
+  /* M/05 hover lift — keep border tint, drop translateY/shadow. */
   .proj-card:hover,
   .proj-card:focus-visible {
     transform: none !important;
@@ -789,14 +556,6 @@
   .proj-card-cta-arrow { transition: none !important; }
   .proj-card:hover .proj-card-cta-arrow,
   .proj-card:focus-visible .proj-card-cta-arrow { transform: none !important; }
-
-  /* M/07 queue row — bg shift only, no edge bar pulse, no pill scale. */
-  .proj-queue-row::before { display: none !important; }
-  .proj-queue-row:hover .proj-pill { animation: none !important; }
-
-  /* M/08 ambient pulse — static. */
-  .proj-live-dot { animation: none !important; box-shadow: none !important; }
-  .proj-meta-time { animation: none !important; opacity: 0.75 !important; }
 
   /* M/09 card click wipe — no animation; JS navigates immediately. */
   .proj-card.is-exiting .proj-card-wipe { animation: none !important; }
