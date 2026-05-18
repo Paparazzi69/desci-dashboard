@@ -3,30 +3,35 @@
 // `display`  · UI name (e.g. "VitaDAO").
 // `ticker`   · ticker subtext rendered under the name. null for projects
 //              without a tradable token.
+// `category` · BIOAGENT | BIODAO | PLATFORM | IPT | MEMETIC. Drives the
+//              category pill on /projects (and any future per-category
+//              surface).
 //
-// Imported by upcoming /projects landing surfaces. Keep this list as the
-// single source of truth for project identity.
+// Single source of truth for project identity. Consumed by the upcoming
+// /projects landing page; the 16 IN-QUEUE rows are derived from this list
+// by excluding the three projects with a shipped deep-dive page
+// (SpineDAO, PeptAI, AUBRAI).
 
 export const DESCI_PROJECTS = [
-  { display: 'Bio Protocol', ticker: '$BIO' },
-  { display: 'VitaDAO',      ticker: '$VITA' },
-  { display: 'ResearchHub',  ticker: '$RSC' },
-  { display: 'HairDAO',      ticker: '$HAIR' },
-  { display: 'Pump.science', ticker: '$URO' },
-  { display: 'AUBRAI',       ticker: '$AUBRAI' },
-  { display: 'CryoDAO',      ticker: '$CRYO' },
-  { display: 'CerebrumDAO',  ticker: '$NEURON' },
-  { display: 'ValleyDAO',    ticker: '$GROW' },
-  { display: 'AthenaDAO',    ticker: '$ATH' },
-  { display: 'PsyDAO',       ticker: '$PSY' },
-  { display: 'Molecule',     ticker: '$MOL' },
-  { display: 'PeptAI',       ticker: '$PEPTAI' },
-  { display: 'BiomeAI',      ticker: '$BIOMEAI' },
-  { display: 'ClawdLab',     ticker: null },
-  { display: 'Curetopia',    ticker: '$CURES' },
-  { display: 'Spectruth DAO',ticker: '$IBNFT' },
-  { display: 'DermaLabs',    ticker: '$SKIN' },
-  { display: 'SpineDAO',     ticker: '$SPINE' },
+  { display: 'Bio Protocol', ticker: '$BIO',     category: 'PLATFORM' },
+  { display: 'VitaDAO',      ticker: '$VITA',    category: 'BIODAO' },
+  { display: 'ResearchHub',  ticker: '$RSC',     category: 'PLATFORM' },
+  { display: 'HairDAO',      ticker: '$HAIR',    category: 'BIODAO' },
+  { display: 'Pump.science', ticker: '$URO',     category: 'MEMETIC' },
+  { display: 'AUBRAI',       ticker: '$AUBRAI',  category: 'BIOAGENT' },
+  { display: 'CryoDAO',      ticker: '$CRYO',    category: 'BIODAO' },
+  { display: 'CerebrumDAO',  ticker: '$NEURON',  category: 'BIODAO' },
+  { display: 'ValleyDAO',    ticker: '$GROW',    category: 'BIODAO' },
+  { display: 'AthenaDAO',    ticker: '$ATH',     category: 'BIODAO' },
+  { display: 'PsyDAO',       ticker: '$PSY',     category: 'BIODAO' },
+  { display: 'Molecule',     ticker: '$MOL',     category: 'PLATFORM' },
+  { display: 'PeptAI',       ticker: '$PEPTAI',  category: 'BIOAGENT' },
+  { display: 'BiomeAI',      ticker: '$BIOMEAI', category: 'BIOAGENT' },
+  { display: 'ClawdLab',     ticker: null,       category: 'BIOAGENT' },
+  { display: 'Curetopia',    ticker: '$CURES',   category: 'IPT' },
+  { display: 'Spectruth DAO',ticker: '$IBNFT',   category: 'IPT' },
+  { display: 'DermaLabs',    ticker: '$SKIN',    category: 'BIODAO' },
+  { display: 'SpineDAO',     ticker: '$SPINE',   category: 'BIODAO' },
 ];
 
 export const DESCI_PROJECT_BY_DISPLAY = Object.fromEntries(
