@@ -1,13 +1,26 @@
 # DeSci Dashboard
 
-A live token tracker for the Decentralized Science (DeSci) crypto narrative.
-Pulls real prices from CoinGecko and a real social/news feed from Nitter +
-RSS, served by a static frontend on Cloudflare Pages and a thin layer of
-Pages Functions that handle API proxying, KV caching, and rate-limit
-fallback.
+A curated tracker for the Decentralized Science (DeSci) sector. Live token
+prices via CoinGecko and GeckoTerminal, plus hand-curated deep dives on the
+BioAgents, IP-Tokens, and platforms driving the space. Static frontend on
+Cloudflare Pages with a thin layer of Pages Functions for API proxying and
+KV caching.
 
-> **Live target:** [desci-dashboard.pages.dev](https://desci-dashboard.pages.dev)
-> (the URL Cloudflare assigns once you connect this repo — see "Deploy" below)
+> **Live target:** [descidash.com](https://descidash.com)
+
+## What's on the site
+
+- **Main dashboard** (`/`): live token index, sector bubble map, narrative
+  filters, and per-token drawers with sparklines, FDV, ATH/ATL.
+- **BioAgent Tracker** (`/bioagent-tracker`): four-tab view of 25 tracked
+  BioAgents, IPTs, platforms, and adjacent projects with status, chain,
+  pipeline stage, and last-signal date.
+- **Project deep dives** (`/projects/<slug>`): in-depth curated pages on
+  AUBRAI, PeptAI, SpineDAO, Science Beach, and OX2R-004.
+- **Methodology** (`/methodology`): how projects are sourced, scored, and
+  verified. Editorial criteria, primary sources, conflict-of-interest
+  statement, and changelog.
+- **Privacy** (`/privacy`): no accounts, no analytics, no tracking.
 
 ## Architecture
 
@@ -17,17 +30,17 @@ fallback.
 │  index.html  ·  /assets/css  ·  /assets/js               │
 └──────────────────────────────────────────────────────────┘
                            │
-                           │  /api/prices  /api/feed  /api/coin/:id
+                           │  /api/prices  /api/coin/:id
                            ▼
 ┌──────────────────────────────────────────────────────────┐
 │  Cloudflare Pages Functions (/functions)                 │
 │  • Proxy CoinGecko (key stays server-side)               │
-│  • Aggregate Nitter RSS + news RSS                       │
+│  • Proxy GeckoTerminal (free, no key)                    │
 │  • Cache in KV ("CACHE" binding)                         │
 └──────────────────────────────────────────────────────────┘
                            │
                            ▼
-                CoinGecko · Nitter · RSS
+                  CoinGecko · GeckoTerminal
 ```
 
 - **No build step.** No npm install. The frontend is plain HTML/CSS/JS using
@@ -46,8 +59,7 @@ first-class concern, not an afterthought:
 | --- | --- | --- |
 | CoinGecko hits a 429 rate limit | LIVE indicator turns **amber** ("STALE"), top-of-page banner explains | Pages Function serves a stale cache stored in KV with a longer TTL |
 | CoinGecko is unreachable on first load | Empty-state card: "Couldn't load prices. Retrying every 60s." | Frontend keeps polling; once a response lands, the table fills in live |
-| All Nitter instances fail | Sidebar banner: "RSS feeds unavailable — showing live Twitter embeds." Plus inline Twitter timeline embeds | `/api/feed` returns `{ fallback: true, accounts: [...] }` |
-| Both APIs offline | Top-of-page red banner; sector summary and table show their own friendly empty states | Polling continues; recovery is automatic |
+| GeckoTerminal times out for a Solana/Base token | That row falls back to last known cached values | Per-row TTL is shortened so the next refresh retries |
 | Network slow / drawer detail fetch hangs | Drawer opens immediately with the data we already have; description shows "Loading…" until it arrives | `/api/coin/:id` is awaited but never blocks the drawer from opening |
 
 The LIVE indicator in the header is the single source of truth for data
@@ -122,8 +134,7 @@ Either push any new commit to `main`, or in the dashboard:
 **Deployments** → **(your project)** → **Retry deployment** on the latest one.
 
 Within ~30 seconds the site should be live at
-`https://desci-dashboard.pages.dev` with real CoinGecko prices and live
-Nitter/RSS feeds.
+`https://desci-dashboard.pages.dev` with real CoinGecko prices.
 
 ### 6. Verify it works
 
@@ -131,11 +142,11 @@ Open the dashboard and check:
 
 - [ ] LIVE indicator goes green within ~5 seconds of page load
 - [ ] At least 9 ETH tokens populate the table (BIO, VITA, TRAC, RSC, etc.)
-- [ ] Two micro-cap rows are visible at the bottom with a `μ` badge
+- [ ] GeckoTerminal-sourced rows (AUBRAI, SYNA, SpineDAO, PEPTAI) populate
 - [ ] Sparklines render on every row
 - [ ] Filter chips work (try "Longevity" or "Micro-caps")
 - [ ] Clicking a row opens the drawer with description, stats, links
-- [ ] The right sidebar populates with mixed tweets and news items
+- [ ] Sector Bubble Map renders below the sector cards
 
 If the LIVE indicator stays amber, check the Pages Function logs in the
 dashboard — almost always it means the KV binding isn't named exactly
@@ -147,17 +158,19 @@ dashboard — almost always it means the KV binding isn't named exactly
 | --- | --- |
 | `wrangler.toml` | Cloudflare Pages config. `pages_build_output_dir = "."` is the only required line — KV bindings are easier to configure in the dashboard. |
 | `assets/js/data.js` | Token classification (focus, tags, chain, isMicroCap, twitter). **Keyed by CoinGecko id** — never hardcode symbol → id mapping. |
-| `functions/_shared.js` | The list of CoinGecko ids to fetch (`TOKEN_IDS`) and the mock data for the two Solana micro-caps. Edit here when you wire in real Solana data. |
-| `functions/api/feed.js` | Nitter instance list, Twitter handle list, news RSS sources, keyword filter list. |
+| `functions/_shared.js` | The list of CoinGecko ids to fetch (`TOKEN_IDS`) and the GeckoTerminal contract map (`GT_TOKENS`). Edit here when you add a new token to the index. |
 | `data/milestones.json` | Hardcoded research milestones rendered at the bottom of the page. |
 
 ## Costs
 
 - **Cloudflare Pages:** free tier (500 builds/month, unlimited bandwidth).
 - **Cloudflare KV:** free tier (100k reads/day, 1k writes/day) is more than
-  enough — the cache TTLs (60s for prices, 5m for feeds) keep us well under.
+  enough — the cache TTLs (60s for prices, 5m for drawer details) keep us
+  well under.
 - **CoinGecko Demo:** free tier, ~30 calls/min. With server-side 60s caching
   the dashboard makes at most 1 call/min regardless of visitor count.
+- **GeckoTerminal:** free, no key. Soft limit ~30 req/min, well under the
+  cache layer's needs.
 
 Total cost at small/medium scale: **$0/month**.
 

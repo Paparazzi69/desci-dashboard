@@ -14,10 +14,8 @@ export const TOKEN_IDS = [
 export const GT_TOKENS = {
   'syna': 'HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
   'spinedao': 'spinezMPKxkBpf4Q9xET2587fehM3LuKe4xoAoXtSjR',
-  // TODO: add Base contract address after $PEPTAI Ignition Sale closes.
-  // Until non-null, /api/prices skips PeptAI and the project page renders
-  // the static Ignition fixed-price placeholders ($1M FDV / $0.10 USDC).
-  'peptai': null,
+  // PEPTAI on Base mainnet.
+  'peptai': '0x54F16Bd3996169914c84dBb2A16635100cF48A0a',
   // AUBRAI on Base mainnet. Drives live FDV display on /projects/aubrai/.
   'aubrai': '0x9d56c29e820Dd13b0580B185d0e0Dc301d27581d',
 };
@@ -158,7 +156,7 @@ export function jsonResponse(body, status = 200, extraHeaders = {}) {
 }
 
 // Two-tier cache layer:
-//   • caches.default — fresh cache for /api/prices, /api/coin, /api/feed.
+//   • caches.default — fresh cache for /api/prices and /api/coin.
 //     No per-day write limit; per-PoP, which is fine for short TTLs.
 //   • env.CACHE (KV) — stale fallback for upstream failures, where cross-PoP
 //     consistency matters. To stay under KV's 1k writes/day free tier we
@@ -210,18 +208,3 @@ export async function kvRefreshStale(env, key, value, ttlSeconds) {
   } catch (e) { console.warn('KV stale put failed', e); }
 }
 
-// Bearer-token auth for /cron and /api/admin endpoints. Returns a 401
-// Response if rejected, null if accepted. Constant-time-ish compare so a
-// timing oracle can't probe the token a byte at a time.
-export function requireAdminAuth(request, env) {
-  if (!env.ADMIN_TOKEN) {
-    return jsonResponse({ error: 'ADMIN_TOKEN env var not set' }, 500);
-  }
-  const got = request.headers.get('authorization') || '';
-  const want = `Bearer ${env.ADMIN_TOKEN}`;
-  if (got.length !== want.length) return jsonResponse({ error: 'unauthorized' }, 401);
-  let r = 0;
-  for (let i = 0; i < got.length; i++) r |= got.charCodeAt(i) ^ want.charCodeAt(i);
-  if (r !== 0) return jsonResponse({ error: 'unauthorized' }, 401);
-  return null;
-}
