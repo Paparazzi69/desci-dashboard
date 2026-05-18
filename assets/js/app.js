@@ -1,6 +1,5 @@
 // Main orchestration. Fetches /api/prices, renders the dashboard, and wires
-// up sort / filter / drawer interactions. The feed lives on the separate
-// /feed page now (see feed.js + feed.html).
+// up sort / filter / drawer interactions.
 //
 // UX principle (see README): every external dependency degrades gracefully.
 // - Stale cache on 429 → amber LIVE indicator + tooltip explanation.

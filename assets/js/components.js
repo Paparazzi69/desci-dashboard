@@ -2,7 +2,7 @@
 // the caller is responsible for inserting it into the DOM. Event handlers
 // are bound centrally in app.js via delegation — keeps this file pure markup.
 
-import { fmt, fmtPrice, fmtPct, fmtNum, fmtRelTime, escapeHtml } from './format.js';
+import { fmt, fmtPrice, fmtPct, fmtNum, escapeHtml } from './format.js';
 import { sparklineSVG, largeChartSVG } from './sparkline.js';
 import { metaFor, FILTER_CHIPS } from './data.js';
 
@@ -127,63 +127,6 @@ export function tokenRowHTML(token, idx) {
       <div class="token-cell-num-data mono" data-muted="true">${fmt(token.vol)}</div>
       <div class="token-cell-spark">${sparklineSVG(token.spark || [], { positive: pos7d, w: 72, h: 26 })}</div>
     </div>
-  `;
-}
-
-export function feedItemHTML(item) {
-  if (item.type === 'tweet') {
-    return `
-      <div class="feed-item">
-        <div class="feed-head">
-          <div class="feed-avatar">
-            <span class="feed-avatar-fallback">${escapeHtml((item.name || item.handle || '?').slice(0, 2))}</span>
-          </div>
-          <div class="feed-meta">
-            <span class="feed-name">
-              ${escapeHtml(item.name || item.handle)}
-              ${item.verified ? '<span class="feed-verified">✓</span>' : ''}
-            </span>
-            <span class="feed-handle">@${escapeHtml(item.handle || '')} · ${escapeHtml(fmtRelTime(item.timestamp) || item.time || '')}</span>
-          </div>
-        </div>
-        <p class="feed-text">${escapeHtml(item.text || '')}</p>
-      </div>
-    `;
-  }
-  // News item
-  const link = item.url
-    ? `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.text || '')}</a>`
-    : escapeHtml(item.text || '');
-  return `
-    <div class="feed-item">
-      <div class="feed-head">
-        <span class="feed-source-tag">${escapeHtml(item.source || 'News')}</span>
-        <span class="feed-handle">${escapeHtml(fmtRelTime(item.timestamp) || item.time || '')}</span>
-      </div>
-      <p class="feed-text">${link}</p>
-    </div>
-  `;
-}
-
-export function feedFallbackHTML(handles) {
-  // Twitter's official embed widget — works without an API key, lazy-loaded.
-  // We use the timeline iframe form for each handle (max 4 to keep it light).
-  const top = (handles || []).slice(0, 4);
-  const blocks = top.map(h => `
-    <div class="feed-fallback-embed">
-      <iframe
-        loading="lazy"
-        src="https://syndication.twitter.com/srv/timeline-profile/screen-name/${encodeURIComponent(h)}?theme=dark&chrome=noheader%20nofooter%20transparent"
-        title="@${escapeHtml(h)} timeline"
-        height="400"></iframe>
-    </div>
-  `).join('');
-  return `
-    <div class="banner banner-amber" style="margin: 0 0 12px;">
-      <span class="banner-icon">⚠</span>
-      <span>RSS feeds unavailable — showing live Twitter embeds.</span>
-    </div>
-    ${blocks}
   `;
 }
 

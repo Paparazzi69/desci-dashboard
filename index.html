@@ -239,111 +239,6 @@
     .bioagent-teaser-stat{ padding:0 8px }
   }
 
-  /* ── Social Pulse widget (between Token Index and BioAgent teaser) ──
-     Compact two-column readout of crypto-Twitter signal sourced from the
-     daily Elfa snapshot. Left column: top 3 movers by 24h mention change.
-     Right column: most-discussed ticker as the day's narrative. */
-  .social-pulse-widget{
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin: 14px 0 14px;
-    position: relative;
-    overflow: hidden;
-  }
-  .social-pulse-widget::before{
-    content:""; position:absolute; inset:0;
-    background: radial-gradient(ellipse 70% 80% at 0% 0%, oklch(0.18 0.08 290 / 0.07), transparent 60%);
-    pointer-events:none;
-  }
-  .social-pulse-widget header{
-    display:flex; align-items:center; justify-content:space-between;
-    gap:10px; margin-bottom:12px;
-    position:relative; z-index:1;
-  }
-  .social-pulse-widget header h2{
-    font-size:11px; font-weight:600;
-    letter-spacing:0.10em; text-transform:uppercase;
-    color: var(--text2);
-  }
-  .social-pulse-widget header a{
-    font-size:11px; color: var(--green);
-    letter-spacing:0.04em; text-transform:uppercase;
-    font-weight:600;
-  }
-  .social-pulse-widget header a:hover{ text-decoration: underline; }
-  .pulse-grid{
-    display:grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 18px;
-    position:relative; z-index:1;
-  }
-  .pulse-movers h3, .pulse-narrative h3{
-    font-family:'JetBrains Mono', monospace;
-    font-size:10px; font-weight:600;
-    letter-spacing:0.10em; text-transform:uppercase;
-    color: var(--text3);
-    margin-bottom:8px;
-  }
-  .pulse-movers ol{
-    list-style:none; padding:0; margin:0;
-    display:flex; flex-direction:column; gap:6px;
-  }
-  .pulse-mover{
-    display:flex; align-items:center; gap:10px;
-    padding:6px 8px;
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    border-radius:6px;
-    font-size:13px;
-  }
-  .pulse-mover-rank{
-    font-family:'JetBrains Mono', monospace;
-    color: var(--text3);
-    font-size:11px; width:14px;
-  }
-  .pulse-mover-ticker{
-    font-family:'JetBrains Mono', monospace;
-    color: var(--text); font-weight:600;
-    flex:1;
-  }
-  .pulse-mover-change{
-    font-family:'JetBrains Mono', monospace;
-    font-size:12px; font-weight:600;
-  }
-  .pulse-mover-change.pos{ color: var(--green); }
-  .pulse-mover-change.neg{ color: var(--red); }
-  .pulse-mover-mentions{
-    font-family:'JetBrains Mono', monospace;
-    color: var(--text3);
-    font-size:11px;
-    min-width:50px; text-align:right;
-  }
-  .pulse-narrative p{
-    color: var(--text);
-    font-size:13px;
-    line-height:1.55;
-    margin-bottom:8px;
-  }
-  .pulse-narrative small{
-    color: var(--text3);
-    font-family:'JetBrains Mono', monospace;
-    font-size:11px;
-    letter-spacing:0.02em;
-  }
-  .pulse-narrative a{ color: var(--green); }
-  .pulse-narrative a:hover{ text-decoration: underline; }
-  .pulse-empty{
-    color: var(--text3);
-    font-size:13px;
-    font-style: italic;
-    padding: 8px 0;
-  }
-  @media (max-width: 720px){
-    .pulse-grid{ grid-template-columns: 1fr; gap: 14px; }
-  }
-
 </style>
 </head>
 <body>
@@ -389,15 +284,6 @@
             <rect x="14" y="14" width="7" height="7" rx="1"/>
           </svg>
           <span>Projects</span>
-        </a>
-        <a class="header-nav-link" href="/feed">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 11a9 9 0 0 1 9 9"/>
-            <path d="M4 4a16 16 0 0 1 16 16"/>
-            <circle cx="5" cy="19" r="1.5" fill="currentColor"/>
-          </svg>
-          <span>News</span>
         </a>
         <a class="header-nav-link"
            href="https://x.com/DeSciDashboard"
@@ -460,29 +346,6 @@
       </div>
     </div>
 
-    <!-- SOCIAL PULSE WIDGET · PASTE START -->
-    <section class="social-pulse-widget" id="social-pulse" aria-label="DeSci social pulse">
-      <header>
-        <h2>DESCI SOCIAL PULSE</h2>
-        <a href="/sentiment">view all →</a>
-      </header>
-      <div class="pulse-grid">
-        <div class="pulse-movers">
-          <h3>TOP MOVERS · 24H</h3>
-          <ol id="pulse-movers-list">
-            <li class="pulse-empty">Coming soon</li>
-          </ol>
-        </div>
-        <div class="pulse-narrative">
-          <h3>NARRATIVE OF THE DAY</h3>
-          <div id="pulse-narrative-body">
-            <p class="pulse-empty">Coming soon · daily snapshot has not run yet.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- SOCIAL PULSE WIDGET · PASTE END -->
-
     <!-- BIOAGENT TEASER · PASTE START -->
     <a href="/bioagent-tracker" class="bioagent-teaser">
       <div class="bioagent-teaser-head">
@@ -530,6 +393,5 @@
 <div id="drawer-mount" aria-live="polite"></div>
 
 <script type="module" src="/assets/js/app.js"></script>
-<script type="module" src="/assets/js/social-pulse.js"></script>
 </body>
 </html>
