@@ -955,43 +955,35 @@
       <span class="meta">THREE ADDRESSES. VERIFY YOURSELF.</span>
     </div>
 
-    <!-- v2 audit · click-to-copy enabled on TOKEN CONTRACT (full address
-         known on-page). TREASURY and AGENT EOA show their truncated form
-         and keep the "verify on aubr.ai" CTA — their full addresses aren't
-         published on this page, so click-to-copy would be misleading. When
-         the full addresses become canonical here, add data-copy="0x..." and
-         the click handler picks them up automatically.
-
-         data-last-tx-iso is a manually-curated fallback timestamp. The
-         JS formats it into the relative "last activity · N days ago" line.
-         WALLET_LASTTX_TODO · refresh these periodically (or wire to a live
-         basescan fetch) — they're snapshots, not live values.            -->
+    <!-- Click-to-copy is enabled on the TOKEN CONTRACT card (full address
+         is canonical on-page). TREASURY and AGENT EOA show their truncated
+         form and link to aubr.ai for the canonical full address — adding
+         data-copy="0x..." to them would auto-enable the same handler.    -->
     <div class="onchain-row">
       <div class="wallet-card">
         <div class="lab">// TREASURY</div>
         <div class="func">Aubrai treasury wallet on Base.</div>
         <div class="addr">0x44dC...7c2C</div>
-        <span class="last-tx">last activity · <b class="last-tx-rel" data-last-tx-iso="2026-05-10">5 days ago</b></span>
         <a class="cta" href="https://aubr.ai" target="_blank" rel="noopener noreferrer">full address verify on aubr.ai <span>↗</span></a>
       </div>
-      <div class="wallet-card" data-copy="0x9d56c29e820Dd13b0580B185d0e0Dc301d27581d" data-last-tx-iso="2026-05-15" tabindex="0">
+      <div class="wallet-card" data-copy="0x9d56c29e820Dd13b0580B185d0e0Dc301d27581d" tabindex="0">
         <div class="lab">// TOKEN CONTRACT</div>
         <div class="func">$AUBRAI ERC-20 token contract.</div>
         <div class="addr">0x9d56c29e820Dd13b0580B185d0e0Dc301d27581d</div>
         <span class="copy-hint">click to copy</span>
-        <span class="last-tx">last activity · <b class="last-tx-rel">unknown</b></span>
         <a class="cta" href="https://basescan.org/address/0x9d56c29e820Dd13b0580B185d0e0Dc301d27581d?utm_source=descidash&amp;utm_medium=project_page&amp;utm_campaign=aubrai&amp;utm_content=contract_basescan" target="_blank" rel="noopener noreferrer">view on basescan <span>↗</span></a>
       </div>
       <div class="wallet-card">
         <div class="lab">// AGENT EOA</div>
         <div class="func">AUBRAI agent wallet for autonomous transactions on Base.</div>
         <div class="addr">0x2d50...e9cC</div>
-        <span class="last-tx">last activity · <b class="last-tx-rel" data-last-tx-iso="2026-05-12">3 days ago</b></span>
         <a class="cta" href="https://aubr.ai" target="_blank" rel="noopener noreferrer">full address verify on aubr.ai <span>↗</span></a>
       </div>
     </div>
 
     <div class="onchain-note">// TREASURY AND AGENT FULL ADDRESSES VISIBLE ON AUBR.AI TERMINAL FOOTER. TOKEN CONTRACT ON BASESCAN.</div>
+
+    <div class="wallet-snapshot-note">// addresses verified · 2026-05-18 · checked against basescan</div>
   </section>
 
   <!-- ────────── 11 · RISKS AND WHAT TO WATCH ────────── -->
