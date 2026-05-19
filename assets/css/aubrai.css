@@ -2050,7 +2050,7 @@ footer {
   color: var(--text);
 }
 
-/* ── // 10.5 · click-to-copy + last-tx age ─────────────────────── */
+/* ── // 10.5 · click-to-copy + snapshot note ───────────────────── */
 .wallet-card[data-copy] { cursor: pointer; }
 .wallet-card[data-copy] .addr {
   transition: color 180ms ease;
@@ -2067,17 +2067,21 @@ footer {
   transition: color 180ms ease;
 }
 .wallet-card.is-copied .copy-hint { color: var(--accent); }
-.wallet-card .last-tx {
-  display: block;
+
+/* Single page-level snapshot caption, after the 3 wallet cards. Same
+   muted mono treatment as the // DATA AS OF footer on /projects/peptai.
+   Honest framing: the addresses were verified at a point in time, the
+   page does not claim real-time activity. */
+.wallet-snapshot-note {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-3);
-  letter-spacing: 0.04em;
-  margin: 10px 0 4px;
-  padding-top: 8px;
+  letter-spacing: 0.05em;
+  margin-top: 18px;
+  padding-top: 12px;
   border-top: 1px dashed var(--border);
+  max-width: 920px;
 }
-.wallet-card .last-tx b { color: var(--text-2); font-weight: 500; }
 
 /* ── Reduced-motion fallbacks · v2 audit additions ─────────────── */
 @media (prefers-reduced-motion: reduce) {

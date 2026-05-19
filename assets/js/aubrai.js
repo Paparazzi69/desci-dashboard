@@ -240,35 +240,11 @@
     });
   });
 
-  /* ── 3.8. v2 audit · // 10.5 wallet click-to-copy + last-tx ─── */
-  // Each wallet card carries data-copy (the full address) and an
-  // optional data-last-tx-iso (manually-curated fallback timestamp).
-  // Click-to-copy: writes the full address to clipboard, flashes a
-  // brief "copied ✓" state, reverts after 1500ms. The truncated
-  // address in the DOM stays as the visible label.
-  function fmtRelativeDays(iso) {
-    if (!iso) return null;
-    const t = new Date(iso).getTime();
-    if (!Number.isFinite(t)) return null;
-    const days = Math.max(0, Math.floor((Date.now() - t) / 86400000));
-    if (days < 1) return 'today';
-    if (days === 1) return '1 day ago';
-    if (days < 30) return days + ' days ago';
-    const months = Math.floor(days / 30);
-    if (months < 12) return months + ' mo ago';
-    return Math.floor(months / 12) + 'y ago';
-  }
-
-  // Format every .last-tx-rel on the page that carries a data-last-tx-iso
-  // (whether on the element itself or inherited from the wallet-card). This
-  // handles both copy-enabled and read-only wallet cards uniformly.
-  document.querySelectorAll('.last-tx-rel').forEach((el) => {
-    const iso = el.dataset.lastTxIso || el.closest('[data-last-tx-iso]')?.dataset.lastTxIso;
-    const rel = fmtRelativeDays(iso);
-    if (rel) el.textContent = rel;
-    else if (!el.textContent.trim()) el.textContent = 'unknown';
-  });
-
+  /* ── 3.8. v2 audit · // 10.5 wallet click-to-copy ───────────── */
+  // Each wallet card carries data-copy (the full address). Click-to-copy
+  // writes the full address to clipboard, flashes a brief "copied ✓"
+  // state, then reverts after 1500ms. The truncated address in the DOM
+  // stays as the visible label.
   document.querySelectorAll('.wallet-card[data-copy]').forEach((card) => {
     const full = card.dataset.copy;
     const hint = card.querySelector('.copy-hint');
