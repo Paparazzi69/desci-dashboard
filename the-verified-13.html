@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Verified 13, DeSci Sector Comparison · DeSci Analytics Hub</title>
+<meta name="description" content="Thirteen DeSci projects whose claims survive a source check. Every cell traces to a dated public source. Sortable, filterable comparison across transparency, IP model, and treasury.">
+<link rel="icon" type="image/png" href="/branding/icon-v1.png" />
+<link rel="apple-touch-icon" href="/branding/icon-v1.png" />
+<link rel="canonical" href="https://descidash.com/the-verified-13" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="DeSci Analytics Hub" />
+<meta property="og:title" content="The Verified 13, DeSci Sector Comparison" />
+<meta property="og:description" content="Thirteen DeSci projects whose claims survive a source check. Every cell traces to a dated public source. This is curation, not a leaderboard." />
+<meta property="og:url" content="https://descidash.com/the-verified-13" />
+<meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@DeSciDashboard" />
+<meta name="twitter:title" content="The Verified 13, DeSci Sector Comparison" />
+<meta name="twitter:description" content="Thirteen DeSci projects whose claims survive a source check. Every cell traces to a dated public source." />
+<meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/verified13.css">
+</head>
+<body>
+
+<div class="layout">
+  <main class="main" id="main">
+    <div class="max">
+
+      <!-- ── Header ─────────────────────────────────────────────── -->
+      <header class="page-header">
+        <div class="brand">
+          <svg width="34" height="34" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <rect width="36" height="36" rx="8" fill="var(--green-bg)"/>
+            <path d="M 10 6 Q 18 12 26 6" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M 10 11 Q 18 17 26 11" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 10 16 Q 18 22 26 16" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <path d="M 10 21 Q 18 27 26 21" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <path d="M 10 26 Q 18 32 26 26" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <line x1="14" y1="6" x2="14" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+            <line x1="22" y1="6" x2="22" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+          </svg>
+          <div>
+            <div class="brand-title">
+              <span class="brand-name">DeSci</span>
+              <span class="brand-sub">Sector Comparison</span>
+            </div>
+            <div class="brand-tagline">Decentralized Science · Verified sector map</div>
+          </div>
+        </div>
+        <nav class="header-nav" aria-label="Primary">
+          <a class="header-nav-link" href="/bioagent-tracker"><span>BioAgent Tracker</span></a>
+          <a class="header-nav-link" href="/the-verified-13" aria-current="page"><span>The Verified 13</span></a>
+          <a class="header-nav-link" href="/projects/"><span>Projects</span></a>
+          <a class="header-nav-link" href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">
+            <span>Socials</span>
+            <span class="header-nav-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="header-nav-link" href="https://kickstart.easya.io/token/3AxTzPD5H6JTjrXgkBqtp9wYpB3fhp2zX2v1zpjKHhu3" target="_blank" rel="noopener noreferrer">
+            <span>EasyA Kickstart</span>
+            <span class="header-nav-arrow" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+        <div class="status">
+          <div class="live-dot" data-state="live">
+            <span class="live-dot-orb"></span>
+            <span>VERIFIED</span>
+          </div>
+          <div class="mono status-time" id="v13-sweep">·</div>
+        </div>
+      </header>
+
+      <!-- ── Title block (read from meta) ───────────────────────── -->
+      <div class="marker" id="v13-marker">// verified sector map</div>
+      <section class="title-block">
+        <h1 id="v13-title">The Verified 13</h1>
+        <p class="lede" id="v13-intro"></p>
+      </section>
+
+      <noscript>
+        <p class="lede" style="margin-bottom:24px">
+          Thirteen DeSci projects whose claims survive a source check. Every cell
+          traces to a dated public source. This page loads its verified data with
+          JavaScript enabled.
+        </p>
+      </noscript>
+
+      <!-- ── Legend strip (text read from meta) ─────────────────── -->
+      <div class="marker">// legend</div>
+      <div class="legend" role="note" aria-label="Legend">
+        <span class="legend-keys" aria-hidden="true">
+          <span class="legend-key v">V</span>
+          <span class="legend-key p">P</span>
+          <span class="legend-key blank">·</span>
+          <span class="legend-key risk">
+            <svg width="13" height="12" viewBox="0 0 16 14" fill="none">
+              <path d="M8 1.5 L14.5 13 L1.5 13 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="none"/>
+              <line x1="8" y1="6" x2="8" y2="9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="8" cy="11" r="0.8" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="legend-key stale">!</span>
+        </span>
+        <span class="legend-text" id="v13-legend"></span>
+      </div>
+
+      <!-- ── Controls ───────────────────────────────────────────── -->
+      <div class="controls" role="toolbar" aria-label="Sort and filter">
+        <div class="control-group">
+          <label class="control-label" for="sortSelect">Sort by</label>
+          <select class="sort-select" id="sortSelect" aria-label="Sort projects by">
+            <option value="transparency">Transparency</option>
+            <option value="ip">IP model</option>
+            <option value="treasury">Treasury size</option>
+            <option value="verified">Last verified</option>
+          </select>
+        </div>
+        <div class="control-group" id="filterChips" aria-label="Filter by type">
+          <!-- chips injected by verified13.js with counts computed from the data -->
+        </div>
+      </div>
+
+      <!-- ── Comparison table ───────────────────────────────────── -->
+      <div class="marker">// comparison table</div>
+      <div class="table-wrap">
+        <div class="thead row-grid" role="row">
+          <div class="th" role="columnheader">
+            <button class="sortable" type="button" data-sort="name"><span>Project</span><span class="sort-caret">▾</span></button>
+          </div>
+          <div class="th" role="columnheader">
+            <button class="sortable" type="button" data-sort="transparency" data-active="true"><span>Transparency</span><span class="sort-caret">▾</span></button>
+          </div>
+          <div class="th" role="columnheader">
+            <button class="sortable" type="button" data-sort="ip"><span>IP model</span><span class="sort-caret">▾</span></button>
+          </div>
+          <div class="th" role="columnheader">
+            <button class="sortable" type="button" data-sort="treasury"><span>Treasury</span><span class="sort-caret">▾</span></button>
+          </div>
+          <div class="th" role="columnheader" aria-label="Expand"></div>
+        </div>
+        <div id="rowBody">
+          <div class="table-state">Loading verified data<span class="mono">// reading /data/verified13.yaml</span></div>
+        </div>
+      </div>
+
+      <!-- ── Footer block: held back (rendered from data) ───────── -->
+      <section class="footer-block" id="heldBack" aria-label="Projects held back"></section>
+
+      <!-- ── Methodology meta line (read from meta) ─────────────── -->
+      <div class="page-meta" id="v13-meta"></div>
+
+      <!-- ── Site footer ────────────────────────────────────────── -->
+      <footer class="tracker-footer">
+        <div>descidash.com · The Verified 13 · Curation, not a leaderboard.</div>
+        <div class="footer-links">
+          <a href="/">Dashboard</a>
+          <a href="/bioagent-tracker">BioAgent Tracker</a>
+          <a href="/methodology">Methodology</a>
+          <a href="/privacy">Privacy</a>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<script src="/assets/js/verified13.js"></script>
+</body>
+</html>
