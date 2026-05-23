@@ -8,16 +8,26 @@
    (0.55 / 0.35 lightness). This page is a dense comparison table where the
    category line, treasury type line, and source citations are load-bearing,
    so we brighten the two secondary text tokens (and add neutral pill tokens)
-   to satisfy the "no load-bearing text in dim grey" rule. Scoped to this
-   stylesheet only, which is loaded by this page alone. */
+   to satisfy the "no load-bearing text in dim grey" rule. Values are tuned
+   to roughly match the VoltAgent body (#bdbdbd ≈ 0.78) and mute (#8b949e ≈
+   0.62) tiers so secondary copy reads cleanly without competing with ink.
+   Scoped to this stylesheet only, which is loaded by this page alone. */
 :root {
-  --text2: oklch(0.70 0.018 215);
-  --text3: oklch(0.50 0.018 215);
+  --text2: oklch(0.76 0.018 215);
+  --text3: oklch(0.60 0.018 215);
   --neutral-bg:   oklch(0.20 0.012 215);
-  --neutral-text: oklch(0.80 0.012 215);
+  --neutral-text: oklch(0.82 0.012 215);
 }
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── 12px floor for shared chrome ─────────────────────────────────────────
+   style.css ships a few load-bearing strings under 12px (live-dot label,
+   status timestamp). Bump them just on this page so the readability floor
+   holds without touching the global stylesheet. */
+.live-dot,
+.live-dot .live-dot-label,
+.status-time { font-size: 12px; }
 
 /* ── Page width container (mirrors bioagent-tracker.css) ──────────────────── */
 .max { max-width: 1320px; margin: 0 auto; }
@@ -104,8 +114,8 @@
 .legend-keys { display: inline-flex; align-items: center; gap: 7px; flex-shrink: 0; }
 .legend-key {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 18px; height: 18px; border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  width: 20px; height: 20px; border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
 }
 .legend-key.v { background: var(--green-bg); color: var(--green); }
 .legend-key.p { background: var(--blue-bg); color: var(--blue); }
@@ -124,7 +134,7 @@
 .control-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .control-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 500;
+  font-size: 12px; font-weight: 500;
   color: var(--text3);
   text-transform: uppercase; letter-spacing: 0.08em;
 }
@@ -155,7 +165,7 @@
   white-space: nowrap;
   font-family: inherit;
 }
-.chip .count { font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.7; }
+.chip .count { font-family: 'JetBrains Mono', monospace; font-size: 12px; opacity: 0.75; }
 .chip:hover { border-color: var(--text3); color: var(--text); }
 .chip[aria-pressed="true"] {
   background: var(--green-bg);
@@ -187,7 +197,7 @@
 .thead .th {
   padding: 14px 18px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 600; letter-spacing: 0.10em;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--text3);
 }
@@ -198,7 +208,7 @@
 }
 .thead .th .sortable:hover { color: var(--text2); }
 .thead .th .sortable[data-active="true"] { color: var(--green); }
-.sort-caret { font-size: 9px; opacity: 0.6; }
+.sort-caret { font-size: 12px; opacity: 0.55; line-height: 1; }
 .sortable[data-active="true"] .sort-caret { opacity: 1; color: var(--green); }
 
 /* Body rows */
@@ -265,7 +275,7 @@
   align-self: flex-start;
   background: var(--amber-bg); color: var(--amber);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
   letter-spacing: 0.06em; text-transform: uppercase;
   padding: 3px 8px; border-radius: 4px;
   margin-top: 2px;
@@ -300,7 +310,7 @@
 }
 .detail-block .detail-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 600; letter-spacing: 0.10em;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.10em;
   color: var(--text3); text-transform: uppercase;
   margin-bottom: 8px;
 }
@@ -330,7 +340,7 @@
 .risk-block .risk-text { font-size: 13.5px; line-height: 1.55; color: var(--text); }
 .risk-block .risk-text b {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--amber); display: block; margin-bottom: 3px;
 }
 
@@ -348,7 +358,7 @@
 }
 .source-metric {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
   color: var(--text3);
   text-transform: uppercase; letter-spacing: 0.06em;
 }
@@ -365,7 +375,7 @@
   display: inline-flex; align-items: center; gap: 8px;
   padding: 5px 11px 5px 9px; border-radius: 5px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
   letter-spacing: 0.06em; text-transform: uppercase;
 }
 .verified-stamp.fresh { background: var(--green-bg); color: var(--green); }
@@ -411,19 +421,19 @@
 .page-meta {
   margin-top: 30px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px; color: var(--text3);
+  font-size: 12px; color: var(--text3);
   letter-spacing: 0.03em; line-height: 1.7;
 }
 .tracker-footer {
   margin-top: 26px;
   display: flex; justify-content: space-between; align-items: center;
   flex-wrap: wrap; gap: 10px;
-  color: var(--text3); font-size: 11px;
+  color: var(--text3); font-size: 12px;
   padding-top: 18px; border-top: 1px solid var(--border2);
 }
 .tracker-footer .footer-links { display: flex; gap: 14px; }
 .tracker-footer .footer-links a {
-  color: var(--text3); font-size: 11px;
+  color: var(--text3); font-size: 12px;
   border-bottom: 1px solid var(--border); padding-bottom: 1px;
 }
 .tracker-footer .footer-links a:hover { color: var(--text2); }
@@ -452,13 +462,14 @@
   .title-block h1 { font-size: 32px; }
   .title-block .lede { font-size: 15px; }
 
-  /* Card scaffold */
+  /* Card scaffold. Spacing aligned to a 4-base rhythm so the stack
+     reads on a clean grid (VoltAgent: 4 / 8 / 12 / 16 / 24). */
   .thead.row-grid { display: none; }
   .row-grid { display: block; }
   .row-main {
-    padding: 12px 14px 13px;
+    padding: 14px 14px 14px;
     display: flex; flex-direction: column;
-    gap: 7px;
+    gap: 8px;
     position: relative;
     min-height: 0;
   }
@@ -472,26 +483,29 @@
   /* Project header: risk flag inline, name and ticker on a line, category
      under, chevron pinned top-right of the card */
   .cell-project {
-    display: flex; align-items: flex-start; gap: 9px;
-    padding-right: 30px;
+    display: flex; align-items: flex-start; gap: 10px;
+    padding-right: 32px;
   }
-  .proj-info { gap: 1px; }
-  .proj-name-row { gap: 7px; row-gap: 2px; align-items: baseline; }
-  .proj-name { font-size: 15.5px; line-height: 1.25; }
+  .proj-info { gap: 2px; }
+  .proj-name-row { gap: 8px; row-gap: 2px; align-items: baseline; }
+  .proj-name { font-size: 16px; line-height: 1.2; }
   .proj-ticker { font-size: 12px; }
-  .proj-category { font-size: 12.5px; line-height: 1.3; }
-  .risk-warn { width: 19px; height: 19px; border-radius: 4px; margin-top: 1px; }
+  .proj-category { font-size: 13px; line-height: 1.35; }
+  .risk-warn { width: 20px; height: 20px; border-radius: 4px; margin-top: 1px; }
   .risk-warn svg { width: 12px; height: 11px; }
 
   .cell-chev { position: absolute; top: 12px; right: 12px; padding: 0; }
-  .chev { width: 22px; height: 22px; font-size: 17px; }
+  .chev { width: 24px; height: 24px; font-size: 18px; }
 
-  /* Three metric rows: small mono label on the left, value on the right */
+  /* Three metric rows: small mono label on the left, value on the right.
+     Letter-spacing widened to ~0.10em so the eyebrow labels read terminal
+     (mirrors VoltAgent's eyebrow-mono treatment at wider tracking). */
   .row-main .cell[data-mlabel="Transparency"],
   .row-main .cell[data-mlabel="IP model"] {
     display: flex; align-items: baseline;
     justify-content: space-between;
     gap: 12px;
+    min-height: 22px;
   }
   .row-main .cell[data-mlabel="Transparency"]::before,
   .row-main .cell[data-mlabel="IP model"]::before,
@@ -499,25 +513,28 @@
     display: inline-block;
     content: attr(data-mlabel);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; font-weight: 500;
-    letter-spacing: 0.05em;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.10em;
     color: var(--text3);
     text-transform: uppercase;
     margin: 0;
     flex-shrink: 0;
   }
 
-  /* Pills size to their content, never edge to edge */
+  /* Pills size to their content, never edge to edge. Radius and padding
+     pulled to the VoltAgent button/chip scale (6px radius, 4 x 10 px). */
   .pill {
-    padding: 4px 9px;
+    padding: 4px 10px;
     font-size: 12.5px;
-    border-radius: 5px;
+    border-radius: 6px;
     text-align: right;
+    line-height: 1.3;
   }
   .empty { font-size: 12px; }
 
   /* Treasury: figure right of the label, stale tag inline next to figure,
-     type (kind of treasury) on a second line, right-aligned */
+     type (kind of treasury) on a second line, right-aligned. Figure pulled
+     to weight 600 so the primary number reads as the row's value anchor. */
   .cell-treasury {
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -529,7 +546,8 @@
   .cell-treasury > .tr-figure {
     grid-column: 2; grid-row: 1;
     justify-self: end;
-    font-size: 14px;
+    font-size: 14.5px;
+    font-weight: 600;
   }
   .cell-treasury > .empty {
     grid-column: 2 / -1; grid-row: 1;
@@ -540,8 +558,9 @@
     align-self: baseline;
     margin: 0;
     font-size: 12px;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     padding: 2px 7px;
+    border-radius: 4px;
   }
   .cell-treasury > .tr-type {
     grid-column: 1 / -1; grid-row: 2;
