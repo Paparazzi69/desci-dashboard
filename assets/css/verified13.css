@@ -32,6 +32,13 @@
 }
 @keyframes spin-border { to { --angle: 360deg; } }
 
+/* Slow vertical flow used by the desktop expanded-row left accent so the
+   green-to-amber stripe drifts down without spinning the whole border. */
+@keyframes flow-accent {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 0% 200%; }
+}
+
 /* ── 12px floor for shared chrome ─────────────────────────────────────────
    style.css ships a few load-bearing strings under 12px (live-dot label,
    status timestamp). Bump them just on this page so the readability floor
@@ -194,9 +201,27 @@
 }
 .row-grid {
   display: grid;
-  grid-template-columns: minmax(260px, 1.8fr) 220px 180px minmax(220px, 1.4fr) 48px;
+  grid-template-columns: 44px minmax(260px, 1.8fr) 220px 180px minmax(220px, 1.4fr) 48px;
   align-items: center;
 }
+
+/* Index cell + label (desktop). Mirrors the mobile m-index gutter so a
+   reader can reference a project as "07" across both layouts. The cell
+   is filled from JS in applyView so the number always reflects render
+   order (sort and filter aware). */
+.cell-index {
+  padding: 18px 8px;
+  text-align: center;
+  align-self: center;
+}
+.d-index {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--green-dim);
+  letter-spacing: 0.04em;
+}
+.thead .th-index { padding: 14px 8px; }
 
 /* Header row, sticky so it stays visible while the rows scroll */
 .thead {
@@ -223,9 +248,9 @@
 .sortable[data-active="true"] .sort-caret { opacity: 1; color: var(--green); }
 
 /* Body rows */
-.row { border-bottom: 1px solid var(--border2); transition: background 0.12s ease; }
+.row { border-bottom: 1px solid var(--border2); transition: background 0.12s ease; position: relative; }
 .row:last-child { border-bottom: none; }
-.row-main { cursor: pointer; min-height: 78px; }
+.row-main { cursor: pointer; min-height: 78px; transition: background 0.12s ease, box-shadow 0.15s ease; }
 .row-main:hover { background: oklch(0.15 0.018 215); }
 .row[data-expanded="true"] .row-main { background: var(--surface2); }
 
@@ -457,8 +482,9 @@
 
 /* ── Responsive: tablet ────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
-  .row-grid { grid-template-columns: minmax(220px, 1.6fr) 180px 160px minmax(180px, 1.2fr) 40px; }
+  .row-grid { grid-template-columns: 36px minmax(220px, 1.6fr) 180px 160px minmax(180px, 1.2fr) 40px; }
   .cell { padding: 16px 14px; }
+  .cell-index { padding: 16px 6px; }
   .title-block h1 { font-size: 40px; }
 }
 @media (max-width: 980px) {
@@ -468,6 +494,49 @@
 }
 @media (max-width: 720px) {
   .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; }
+}
+
+/* ── Desktop polish (above the mobile breakpoint) ───────────────────────────
+   Carries over two ideas from the mobile redesign without changing the
+   table layout: a subtle green left-accent on hover, and a flowing
+   green-to-amber stripe on the left edge of an expanded row. The stripe
+   is a pseudo-element so it never pushes the grid columns around. */
+@media (min-width: 821px) {
+  .row-main.d-row:hover {
+    box-shadow: inset 2px 0 0 0 oklch(from var(--green-dim) l c h / 0.6);
+  }
+
+  .row[data-expanded="true"]::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 3px;
+    background: linear-gradient(180deg,
+      oklch(0.78 0.19 155 / 0.95) 0%,
+      oklch(0.80 0.17 70  / 0.85) 50%,
+      oklch(0.78 0.19 155 / 0.95) 100%);
+    background-size: 100% 200%;
+    animation: flow-accent 5s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+  /* The expanded row's stripe outranks the hover stripe so the open card
+     stays visually anchored even while the cursor hovers over it. */
+  .row[data-expanded="true"] .row-main.d-row:hover {
+    box-shadow: none;
+  }
+}
+
+/* Hold the accent still under prefers-reduced-motion so the open row is
+   still marked without continuous animation. */
+@media (min-width: 821px) and (prefers-reduced-motion: reduce) {
+  .row[data-expanded="true"]::before {
+    animation: none;
+    background: linear-gradient(180deg,
+      oklch(0.78 0.19 155 / 0.9),
+      oklch(0.80 0.17 70 / 0.8));
+    background-size: 100% 100%;
+  }
 }
 
 /* ── Responsive: mobile (m-card matches verified-13-mobile-tweaks spec) ──

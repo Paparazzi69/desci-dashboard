@@ -210,9 +210,11 @@
       (stale ? 'Stale, last verified ' : 'Last verified ') + (p.last_verified != null ? esc(p.last_verified) : NO_DATA) +
       '</span>';
 
-    // Desktop row uses the existing 5-column grid of cells.
+    // Desktop row uses the existing 6-column grid of cells (the first cell
+    // is the 01-13 index, mirroring the mobile m-index in the left gutter).
     const desktopBlock =
       '<div class="row-main row-grid d-row">' +
+        '<div class="cell cell-index"><span class="d-index mono" aria-hidden="true"></span></div>' +
         '<div class="cell cell-project">' +
           riskMark +
           '<div class="proj-info">' +
@@ -395,8 +397,10 @@
       r.style.display = show ? '' : 'none';
       if (show) {
         visible++;
-        const ix = r.querySelector('.m-index');
-        if (ix) ix.textContent = String(++mIdx).padStart(2, '0');
+        const num = String(++mIdx).padStart(2, '0');
+        // Both mobile (.m-index) and desktop (.d-index) get the same
+        // rendered-order number so sort/filter stays consistent.
+        r.querySelectorAll('.m-index, .d-index').forEach(ix => { ix.textContent = num; });
       }
     });
     if (stateEl) {
