@@ -218,6 +218,12 @@
 .row-main:hover { background: oklch(0.15 0.018 215); }
 .row[data-expanded="true"] .row-main { background: var(--surface2); }
 
+/* The mobile card block is rendered alongside the desktop grid row and
+   hidden by default. The mobile media query at the bottom of this file
+   flips the visibility so phones see the explicit compact layout and
+   desktop never has to fight grid inheritance. */
+.m-card { display: none; }
+
 .cell { padding: 18px; }
 
 /* Cell: project */
@@ -453,121 +459,133 @@
   .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; }
 }
 
-/* ── Responsive: mobile (cards collapse to a compact, dense rhythm) ─────────
-   Each project is a small card: a header line with name, ticker, category,
-   risk flag and chevron, then three metric rows (transparency, IP model,
-   treasury) as label-left value-right pairs. Roughly one third of a phone
-   screen per row, so a reader can compare several projects in one view. */
+/* ── Responsive: mobile (m-card replaces the desktop grid row) ───────────────
+   The JS template emits a desktop block (.row-main.row-grid.d-row) and an
+   explicit mobile block (.row-main.m-card) for each project. On mobile we
+   hide the desktop grid and show the m-card, which has its own self-contained
+   flex layout: a tight 2-line header (risk flag, name, ticker, category,
+   chevron) and three single-line metric rows (small mono label on the left,
+   value on the right). Pills size to their text width. The treasury figure
+   and stale chip sit on one line, with the type underneath, both right
+   aligned. The expand panel is shared. */
 @media (max-width: 820px) {
   .title-block h1 { font-size: 32px; }
   .title-block .lede { font-size: 15px; }
 
-  /* Card scaffold. Spacing aligned to a 4-base rhythm so the stack
-     reads on a clean grid (VoltAgent: 4 / 8 / 12 / 16 / 24). */
+  /* Swap visibility: hide the desktop grid row, show the explicit card */
   .thead.row-grid { display: none; }
-  .row-grid { display: block; }
-  .row-main {
-    padding: 14px 14px 14px;
+  .row-main.row-grid.d-row { display: none; }
+  .m-card {
     display: flex; flex-direction: column;
+    align-items: stretch;
     gap: 8px;
-    position: relative;
+    padding: 14px;
     min-height: 0;
+    position: relative;
   }
-  .row-main:hover { background: transparent; }
-  .row[data-expanded="true"] .row-main { background: var(--surface2); }
+  .m-card:hover { background: transparent; }
+  .row[data-expanded="true"] .m-card { background: var(--surface2); }
 
-  /* Reset cell padding and drop the large block-style label by default */
-  .cell { padding: 0; min-height: 0; }
-  .cell::before { display: none; }
-
-  /* Project header: risk flag inline, name and ticker on a line, category
-     under, chevron pinned top-right of the card */
-  .cell-project {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding-right: 32px;
+  /* Header: risk flag (if any), id block, chevron */
+  .m-head { display: flex; align-items: flex-start; gap: 10px; }
+  .m-id {
+    flex: 1 1 auto; min-width: 0;
+    display: flex; flex-direction: column; gap: 2px;
   }
-  .proj-info { gap: 2px; }
-  .proj-name-row { gap: 8px; row-gap: 2px; align-items: baseline; }
-  .proj-name { font-size: 16px; line-height: 1.2; }
-  .proj-ticker { font-size: 12px; }
-  .proj-category { font-size: 13px; line-height: 1.35; }
-  .risk-warn { width: 20px; height: 20px; border-radius: 4px; margin-top: 1px; }
-  .risk-warn svg { width: 12px; height: 11px; }
+  .m-id-line {
+    display: flex; align-items: baseline;
+    gap: 8px; row-gap: 2px; flex-wrap: wrap;
+  }
+  .m-card .proj-name {
+    font-size: 16px; font-weight: 600; line-height: 1.2;
+    color: var(--text); letter-spacing: -0.005em;
+  }
+  .m-card .proj-ticker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 500;
+    color: var(--text2); letter-spacing: 0.02em;
+  }
+  .m-card .proj-category {
+    font-size: 13px; color: var(--text2); line-height: 1.35;
+  }
+  .m-card .risk-warn {
+    flex-shrink: 0;
+    width: 20px; height: 20px; border-radius: 4px;
+    margin-top: 1px;
+    background: var(--amber-bg); color: var(--amber);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .m-card .risk-warn svg { width: 12px; height: 11px; display: block; }
+  .m-chev {
+    flex-shrink: 0; align-self: flex-start;
+    width: 24px; height: 24px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 18px; line-height: 1;
+    color: var(--text3); border-radius: 5px;
+  }
 
-  .cell-chev { position: absolute; top: 12px; right: 12px; padding: 0; }
-  .chev { width: 24px; height: 24px; font-size: 18px; }
-
-  /* Three metric rows: small mono label on the left, value on the right.
-     Letter-spacing widened to ~0.10em so the eyebrow labels read terminal
-     (mirrors VoltAgent's eyebrow-mono treatment at wider tracking). */
-  .row-main .cell[data-mlabel="Transparency"],
-  .row-main .cell[data-mlabel="IP model"] {
+  /* Three metric rows: label-left value-right, one line each */
+  .m-row {
     display: flex; align-items: baseline;
     justify-content: space-between;
     gap: 12px;
     min-height: 22px;
   }
-  .row-main .cell[data-mlabel="Transparency"]::before,
-  .row-main .cell[data-mlabel="IP model"]::before,
-  .cell-treasury::before {
-    display: inline-block;
-    content: attr(data-mlabel);
+  .m-label {
+    flex-shrink: 0;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px; font-weight: 600;
     letter-spacing: 0.10em;
     color: var(--text3);
     text-transform: uppercase;
-    margin: 0;
-    flex-shrink: 0;
+  }
+  .m-value {
+    min-width: 0;
+    text-align: right;
   }
 
-  /* Pills size to their content, never edge to edge. Radius and padding
-     pulled to the VoltAgent button/chip scale (6px radius, 4 x 10 px). */
-  .pill {
+  /* Pills shrink to their content on mobile, never edge to edge */
+  .m-card .pill {
     padding: 4px 10px;
     font-size: 12.5px;
+    font-weight: 500;
     border-radius: 6px;
-    text-align: right;
     line-height: 1.3;
+    white-space: normal;
   }
-  .empty { font-size: 12px; }
+  .m-card .empty { font-size: 12px; }
 
-  /* Treasury: figure right of the label, stale tag inline next to figure,
-     type (kind of treasury) on a second line, right-aligned. Figure pulled
-     to weight 600 so the primary number reads as the row's value anchor. */
-  .cell-treasury {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    column-gap: 8px;
-    row-gap: 2px;
-    align-items: baseline;
+  /* Treasury: figure (and optional stale chip) on one line, type beneath,
+     both right-aligned. The whole stack is one m-value, not three sections. */
+  .m-row-tr { align-items: flex-start; }
+  .m-tr-stack {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
   }
-  .cell-treasury::before { grid-column: 1; grid-row: 1; align-self: baseline; }
-  .cell-treasury > .tr-figure {
-    grid-column: 2; grid-row: 1;
-    justify-self: end;
-    font-size: 14.5px;
-    font-weight: 600;
+  .m-tr-line {
+    display: flex; align-items: baseline; justify-content: flex-end;
+    gap: 8px; flex-wrap: wrap;
   }
-  .cell-treasury > .empty {
-    grid-column: 2 / -1; grid-row: 1;
-    justify-self: end;
+  .m-card .tr-figure {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14.5px; font-weight: 600;
+    color: var(--text); letter-spacing: -0.01em;
   }
-  .cell-treasury > .tr-stale {
-    grid-column: 3; grid-row: 1;
+  .m-card .tr-figure.frozen { color: var(--red); }
+  .m-card .tr-type {
+    font-size: 12px; color: var(--text2); text-align: right; line-height: 1.35;
+  }
+  .m-card .tr-stale {
     align-self: baseline;
     margin: 0;
     font-size: 12px;
-    letter-spacing: 0.06em;
     padding: 2px 7px;
     border-radius: 4px;
+    letter-spacing: 0.06em;
   }
-  .cell-treasury > .tr-type {
-    grid-column: 1 / -1; grid-row: 2;
-    justify-self: end;
-    text-align: right;
-    font-size: 12px;
-  }
+
+  /* Chevron rotation on expand keeps working because both .chev (desktop)
+     and .m-chev (mobile) carry the chev class. The visible one rotates. */
+  .row[data-expanded="true"] .m-chev { color: var(--green); }
 
   /* Expand panel: same content, tightened to the card rhythm */
   .row-detail { padding: 14px 14px 16px; }
@@ -593,7 +611,7 @@
 
   .verified-stamp { margin-top: 13px; font-size: 12px; padding: 4px 10px 4px 8px; }
 
-  /* Page meta and footer bumped to 12px+ so nothing falls below the floor */
+  /* Page meta and footer kept at 12px floor */
   .page-meta { font-size: 12px; }
   .tracker-footer { font-size: 12px; }
   .tracker-footer .footer-links a { font-size: 12px; }

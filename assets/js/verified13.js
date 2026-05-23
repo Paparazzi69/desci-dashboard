@@ -158,6 +158,25 @@
     }
     return html;
   }
+  // Mobile-only treasury layout: figure (+ optional stale chip) on one line,
+  // type underneath, right-aligned. Used inside the .m-card structure so the
+  // mobile cards do not depend on CSS gymnastics over the desktop cells.
+  function treasuryMobile(tr) {
+    if (!tr) return emptySpan();
+    const figure = tr.figure;
+    const frozen = figure != null && String(figure).trim().toLowerCase() === 'frozen';
+    let line = '<div class="m-tr-line">';
+    line += figure == null
+      ? emptySpan()
+      : '<span class="tr-figure mono' + (frozen ? ' frozen' : '') + '">' + esc(figure) + '</span>';
+    if (tr.stale) {
+      line += '<span class="tr-stale">stale' + (tr.date != null ? ', ' + esc(tr.date) : '') + '</span>';
+    }
+    line += '</div>';
+    let out = line;
+    if (tr.type != null) out += '<span class="tr-type">' + esc(tr.type) + '</span>';
+    return out;
+  }
   function sourceRow(label, block) {
     const src = block ? block.source : null;
     const date = block ? block.date : null;
@@ -210,6 +229,50 @@
       (stale ? 'Stale, last verified ' : 'Last verified ') + (p.last_verified != null ? esc(p.last_verified) : NO_DATA) +
       '</span>';
 
+    // Desktop row uses the existing 5-column grid of cells.
+    const desktopBlock =
+      '<div class="row-main row-grid d-row">' +
+        '<div class="cell cell-project">' +
+          riskMark +
+          '<div class="proj-info">' +
+            '<div class="proj-name-row">' + projName + '</div>' +
+            '<div class="proj-category">' + textOrEmpty(p.category) + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="cell">' + transparencyPill(p.transparency) + '</div>' +
+        '<div class="cell">' + ipPill(p.ip_model) + '</div>' +
+        '<div class="cell cell-treasury">' + treasuryCell(p.treasury) + '</div>' +
+        '<div class="cell-chev" aria-hidden="true"><span class="chev">›</span></div>' +
+      '</div>';
+
+    // Mobile card has its own explicit layout: a tight 2-line header, then
+    // three single-line metric rows (label left, value right). Rendered into
+    // the same .row so the click-to-expand handler and the .row-detail panel
+    // work for both viewports without any extra wiring.
+    const mobileBlock =
+      '<div class="row-main m-card">' +
+        '<div class="m-head">' +
+          riskMark +
+          '<div class="m-id">' +
+            '<div class="m-id-line">' + projName + '</div>' +
+            '<div class="proj-category">' + textOrEmpty(p.category) + '</div>' +
+          '</div>' +
+          '<span class="chev m-chev" aria-hidden="true">›</span>' +
+        '</div>' +
+        '<div class="m-row">' +
+          '<span class="m-label">Transparency</span>' +
+          '<div class="m-value">' + transparencyPill(p.transparency) + '</div>' +
+        '</div>' +
+        '<div class="m-row">' +
+          '<span class="m-label">IP model</span>' +
+          '<div class="m-value">' + ipPill(p.ip_model) + '</div>' +
+        '</div>' +
+        '<div class="m-row m-row-tr">' +
+          '<span class="m-label">Treasury</span>' +
+          '<div class="m-value m-tr-stack">' + treasuryMobile(p.treasury) + '</div>' +
+        '</div>' +
+      '</div>';
+
     return '' +
       '<div class="row" data-cat="' + esc(p.type || '') + '" data-flagged="' + (p.risk_flag ? '1' : '0') + '"' +
       ' data-name="' + esc(p.name) + '"' +
@@ -218,19 +281,8 @@
       ' data-treasury-rank="' + (trVal == null ? '' : trVal) + '"' +
       ' data-verified-rank="' + (vVal == null ? '' : vVal) + '">' +
 
-      '<div class="row-main row-grid">' +
-        '<div class="cell cell-project" data-mlabel="Project">' +
-          riskMark +
-          '<div class="proj-info">' +
-            '<div class="proj-name-row">' + projName + '</div>' +
-            '<div class="proj-category">' + textOrEmpty(p.category) + '</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="cell" data-mlabel="Transparency">' + transparencyPill(p.transparency) + '</div>' +
-        '<div class="cell" data-mlabel="IP model">' + ipPill(p.ip_model) + '</div>' +
-        '<div class="cell cell-treasury" data-mlabel="Treasury">' + treasuryCell(p.treasury) + '</div>' +
-        '<div class="cell-chev" aria-hidden="true"><span class="chev">›</span></div>' +
-      '</div>' +
+      desktopBlock +
+      mobileBlock +
 
       '<div class="row-detail">' +
         riskBlock +
