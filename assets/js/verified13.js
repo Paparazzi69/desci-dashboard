@@ -158,25 +158,6 @@
     }
     return html;
   }
-  // Mobile-only treasury layout: figure (+ optional stale chip) on one line,
-  // type underneath, right-aligned. Used inside the .m-card structure so the
-  // mobile cards do not depend on CSS gymnastics over the desktop cells.
-  function treasuryMobile(tr) {
-    if (!tr) return emptySpan();
-    const figure = tr.figure;
-    const frozen = figure != null && String(figure).trim().toLowerCase() === 'frozen';
-    let line = '<div class="m-tr-line">';
-    line += figure == null
-      ? emptySpan()
-      : '<span class="tr-figure mono' + (frozen ? ' frozen' : '') + '">' + esc(figure) + '</span>';
-    if (tr.stale) {
-      line += '<span class="tr-stale">stale' + (tr.date != null ? ', ' + esc(tr.date) : '') + '</span>';
-    }
-    line += '</div>';
-    let out = line;
-    if (tr.type != null) out += '<span class="tr-type">' + esc(tr.type) + '</span>';
-    return out;
-  }
   function sourceRow(label, block) {
     const src = block ? block.source : null;
     const date = block ? block.date : null;
@@ -245,32 +226,50 @@
         '<div class="cell-chev" aria-hidden="true"><span class="chev">›</span></div>' +
       '</div>';
 
-    // Mobile card has its own explicit layout: a tight 2-line header, then
-    // three single-line metric rows (label left, value right). Rendered into
-    // the same .row so the click-to-expand handler and the .row-detail panel
-    // work for both viewports without any extra wiring.
+    // Mobile card: explicit DOM matching the verified-13-mobile-tweaks
+    // design spec (left-aligned, indexed 01-N in left gutter, left-border
+    // accent, label-then-value metric rows, footnote for treasury type,
+    // chevron at the head's right edge). The index span is filled by JS
+    // (updateMobileIndices) after sort/filter so it reflects render order.
+    const tr = p.treasury || {};
+    const trFigure = (tr.figure != null && String(tr.figure).trim() !== '')
+      ? '<span class="tr-figure mono' +
+          (String(tr.figure).trim().toLowerCase() === 'frozen' ? ' frozen' : '') +
+        '">' + esc(tr.figure) + '</span>'
+      : emptySpan();
+    const trStale = tr.stale
+      ? '<span class="tr-stale">stale' + (tr.date != null ? ', ' + esc(tr.date) : '') + '</span>'
+      : '';
+    const trFootnote = tr.type != null
+      ? '<div class="m-footnote">' + esc(tr.type) + '</div>'
+      : '';
+
     const mobileBlock =
       '<div class="row-main m-card">' +
+        '<span class="m-index mono" aria-hidden="true"></span>' +
         '<div class="m-head">' +
           riskMark +
-          '<div class="m-id">' +
-            '<div class="m-id-line">' + projName + '</div>' +
-            '<div class="proj-category">' + textOrEmpty(p.category) + '</div>' +
-          '</div>' +
+          '<span class="proj-name">' + esc(p.name) + '</span>' +
+          (p.ticker != null
+            ? '<span class="proj-ticker mono">' + esc(p.ticker) + '</span>'
+            : '') +
           '<span class="chev m-chev" aria-hidden="true">›</span>' +
         '</div>' +
+        '<div class="m-desc">' + textOrEmpty(p.category) + '</div>' +
         '<div class="m-row">' +
           '<span class="m-label">Transparency</span>' +
-          '<div class="m-value">' + transparencyPill(p.transparency) + '</div>' +
+          transparencyPill(p.transparency) +
         '</div>' +
         '<div class="m-row">' +
           '<span class="m-label">IP model</span>' +
-          '<div class="m-value">' + ipPill(p.ip_model) + '</div>' +
+          ipPill(p.ip_model) +
         '</div>' +
         '<div class="m-row m-row-tr">' +
           '<span class="m-label">Treasury</span>' +
-          '<div class="m-value m-tr-stack">' + treasuryMobile(p.treasury) + '</div>' +
+          trFigure +
+          trStale +
         '</div>' +
+        trFootnote +
       '</div>';
 
     return '' +
@@ -306,6 +305,61 @@
   let activeFilter = 'all';
   let rowEls = [];
   let body, stateEl, sortSelect, sortBtns, chipWrap;
+  let scrollFocus = null;
+
+  // ─── Scroll-focus: on mobile, the m-card whose vertical center sits
+  // closest to the viewport center gets the .is-focused class. Pure JS,
+  // no IntersectionObserver. rAF-throttled, matchMedia-gated. The CSS
+  // turns that class into a rotating conic-gradient border. */
+  function makeScrollFocus() {
+    const mq = window.matchMedia('(max-width: 820px)');
+    let raf = null, attached = false;
+
+    function update() {
+      if (!mq.matches) return;
+      const cards = document.querySelectorAll('.m-card');
+      if (!cards.length) return;
+      const viewCenter = window.innerHeight / 2;
+      let best = null, bestDist = Infinity;
+      cards.forEach(c => {
+        const row = c.closest('.row');
+        if (row && row.style.display === 'none') return;
+        const r = c.getBoundingClientRect();
+        if (r.width === 0 || r.height === 0) return;
+        // ignore cards that are entirely above or below the viewport
+        if (r.bottom < 0 || r.top > window.innerHeight) return;
+        const cc = (r.top + r.bottom) / 2;
+        const d = Math.abs(cc - viewCenter);
+        if (d < bestDist) { bestDist = d; best = c; }
+      });
+      cards.forEach(c => c.classList.toggle('is-focused', c === best));
+    }
+    function onScroll() {
+      if (raf) return;
+      raf = requestAnimationFrame(() => { raf = null; update(); });
+    }
+    function attach() {
+      if (attached) return;
+      attached = true;
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+    }
+    function detach() {
+      if (!attached) return;
+      attached = false;
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      document.querySelectorAll('.m-card.is-focused')
+        .forEach(c => c.classList.remove('is-focused'));
+    }
+    if (mq.matches) attach();
+    const onMq = e => { e.matches ? attach() : detach(); };
+    if (mq.addEventListener) mq.addEventListener('change', onMq);
+    else if (mq.addListener) mq.addListener(onMq); // older Safari
+
+    return { update };
+  }
 
   function numDesc(x, y) {
     const ax = x === '' ? null : +x, ay = y === '' ? null : +y;
@@ -327,19 +381,30 @@
     }
   }
   function applyView() {
-    rowEls.slice().sort(compareRows).forEach(r => body.appendChild(r));
+    // Sort first, then re-append in sorted order so the DOM matches what
+    // the reader will see. Apply the filter, then assign mobile indices
+    // 01, 02, ... walking the rows in DOM order (post-sort).
+    const sorted = rowEls.slice().sort(compareRows);
+    sorted.forEach(r => body.appendChild(r));
     let visible = 0;
-    rowEls.forEach(r => {
+    let mIdx = 0;
+    sorted.forEach(r => {
       let show = true;
       if (activeFilter === 'flagged') show = r.dataset.flagged === '1';
       else if (activeFilter !== 'all') show = r.dataset.cat === activeFilter;
       r.style.display = show ? '' : 'none';
-      if (show) visible++;
+      if (show) {
+        visible++;
+        const ix = r.querySelector('.m-index');
+        if (ix) ix.textContent = String(++mIdx).padStart(2, '0');
+      }
     });
     if (stateEl) {
       stateEl.style.display = visible === 0 ? 'block' : 'none';
       body.appendChild(stateEl); // keep the empty-state message at the end
     }
+    // Scroll-focus may need to re-pick the centered card after a re-layout.
+    if (scrollFocus && scrollFocus.update) scrollFocus.update();
   }
   function setSort(key) {
     activeSort = key;
@@ -429,6 +494,10 @@
 
     renderHeldBack(doc.held_back);
     setSort('transparency');
+
+    // Mount the scroll-focus driver once rows exist. It self-detaches on
+    // viewports above the mobile breakpoint, so desktop pays no cost.
+    scrollFocus = makeScrollFocus();
   }
 
   function showError(msg) {

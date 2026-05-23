@@ -21,6 +21,17 @@
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
+/* Registered custom property + keyframes for the mobile scroll-focus card,
+   which lights up with a rotating conic-gradient border. Declared at the
+   stylesheet root because @property must be top-level, not inside a media
+   query. The actual usage is scoped to the mobile breakpoint below. */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes spin-border { to { --angle: 360deg; } }
+
 /* ── 12px floor for shared chrome ─────────────────────────────────────────
    style.css ships a few load-bearing strings under 12px (live-dot label,
    status timestamp). Bump them just on this page so the readability floor
@@ -459,15 +470,12 @@
   .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; }
 }
 
-/* ── Responsive: mobile (m-card replaces the desktop grid row) ───────────────
-   The JS template emits a desktop block (.row-main.row-grid.d-row) and an
-   explicit mobile block (.row-main.m-card) for each project. On mobile we
-   hide the desktop grid and show the m-card, which has its own self-contained
-   flex layout: a tight 2-line header (risk flag, name, ticker, category,
-   chevron) and three single-line metric rows (small mono label on the left,
-   value on the right). Pills size to their text width. The treasury figure
-   and stale chip sit on one line, with the type underneath, both right
-   aligned. The expand panel is shared. */
+/* ── Responsive: mobile (m-card matches verified-13-mobile-tweaks spec) ──
+   Each project becomes a left-aligned card with an index 01-N in the
+   left gutter, a green left-border accent, a large title, dim mono
+   labels, and a rotating conic-gradient border on whichever card sits
+   closest to the viewport center (driven by makeScrollFocus in
+   verified13.js). Desktop d-row is hidden. */
 @media (max-width: 820px) {
   .title-block h1 { font-size: 32px; }
   .title-block .lede { font-size: 15px; }
@@ -475,76 +483,115 @@
   /* Swap visibility: hide the desktop grid row, show the explicit card */
   .thead.row-grid { display: none; }
   .row-main.row-grid.d-row { display: none; }
+
+  /* Strip the table chrome on mobile so each card stands on its own */
+  .table-wrap {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+  .row { border-bottom: none; transition: none; }
+
+  /* Card: indexed left gutter + left-border accent. Always reserves a
+     1.5px border all around so the focus state can swap colors without
+     shifting layout. */
   .m-card {
-    display: flex; flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    padding: 14px;
-    min-height: 0;
+    display: block;
     position: relative;
+    padding: 14px 14px 14px 46px;
+    margin-bottom: 12px;
+    border: 1.5px solid transparent;
+    border-left-color: var(--border);
+    border-radius: 14px;
+    min-height: 0;
+    cursor: pointer;
+    background: transparent;
   }
   .m-card:hover { background: transparent; }
   .row[data-expanded="true"] .m-card { background: var(--surface2); }
 
-  /* Header: risk flag (if any), id block, chevron */
-  .m-head { display: flex; align-items: flex-start; gap: 10px; }
-  .m-id {
-    flex: 1 1 auto; min-width: 0;
-    display: flex; flex-direction: column; gap: 2px;
+  /* Index number 01-13 in the left gutter, filled by JS in render order */
+  .m-index {
+    position: absolute;
+    left: 14px; top: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; font-weight: 500;
+    color: var(--green-dim);
+    letter-spacing: 0.04em;
+    width: 26px;
+    pointer-events: none;
   }
-  .m-id-line {
-    display: flex; align-items: baseline;
-    gap: 8px; row-gap: 2px; flex-wrap: wrap;
+
+  /* Head: name + ticker, chevron pinned at the right */
+  .m-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
   }
   .m-card .proj-name {
-    font-size: 16px; font-weight: 600; line-height: 1.2;
-    color: var(--text); letter-spacing: -0.005em;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--text);
   }
   .m-card .proj-ticker {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; font-weight: 500;
-    color: var(--text2); letter-spacing: 0.02em;
-  }
-  .m-card .proj-category {
-    font-size: 13px; color: var(--text2); line-height: 1.35;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text3);
+    letter-spacing: 0.02em;
   }
   .m-card .risk-warn {
-    flex-shrink: 0;
-    width: 20px; height: 20px; border-radius: 4px;
-    margin-top: 1px;
+    width: 20px; height: 20px;
+    border-radius: 4px;
     background: var(--amber-bg); color: var(--amber);
     display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    align-self: center;
   }
   .m-card .risk-warn svg { width: 12px; height: 11px; display: block; }
   .m-chev {
-    flex-shrink: 0; align-self: flex-start;
-    width: 24px; height: 24px;
+    margin-left: auto;
+    align-self: center;
+    width: 22px; height: 22px;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 18px; line-height: 1;
-    color: var(--text3); border-radius: 5px;
+    color: var(--text3);
+    flex-shrink: 0;
+  }
+  .row[data-expanded="true"] .m-chev { color: var(--green); }
+
+  /* Category line, dimmer than name and ticker */
+  .m-desc {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.4;
+    margin-bottom: 8px;
   }
 
-  /* Three metric rows: label-left value-right, one line each */
+  /* Metric rows: label and value clustered on the left with a 14px gap.
+     Values do not align across rows; each row is its own line. */
   .m-row {
-    display: flex; align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-    min-height: 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 4px 0;
+    font-size: 13px;
   }
   .m-label {
-    flex-shrink: 0;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; font-weight: 600;
+    font-size: 12px;
+    font-weight: 600;
     letter-spacing: 0.10em;
     color: var(--text3);
     text-transform: uppercase;
-  }
-  .m-value {
-    min-width: 0;
-    text-align: right;
+    flex-shrink: 0;
   }
 
-  /* Pills shrink to their content on mobile, never edge to edge */
+  /* Pills shrink to their text */
   .m-card .pill {
     padding: 4px 10px;
     font-size: 12.5px;
@@ -553,41 +600,68 @@
     line-height: 1.3;
     white-space: normal;
   }
-  .m-card .empty { font-size: 12px; }
+  .m-card .empty {
+    font-size: 12px;
+    color: var(--text3);
+    font-style: italic;
+  }
 
-  /* Treasury: figure (and optional stale chip) on one line, type beneath,
-     both right-aligned. The whole stack is one m-value, not three sections. */
-  .m-row-tr { align-items: flex-start; }
-  .m-tr-stack {
-    display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
-  }
-  .m-tr-line {
-    display: flex; align-items: baseline; justify-content: flex-end;
-    gap: 8px; flex-wrap: wrap;
-  }
+  /* Treasury row: figure + optional inline stale chip */
   .m-card .tr-figure {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 14.5px; font-weight: 600;
-    color: var(--text); letter-spacing: -0.01em;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
   }
   .m-card .tr-figure.frozen { color: var(--red); }
-  .m-card .tr-type {
-    font-size: 12px; color: var(--text2); text-align: right; line-height: 1.35;
-  }
   .m-card .tr-stale {
-    align-self: baseline;
     margin: 0;
     font-size: 12px;
     padding: 2px 7px;
     border-radius: 4px;
     letter-spacing: 0.06em;
+    align-self: center;
   }
 
-  /* Chevron rotation on expand keeps working because both .chev (desktop)
-     and .m-chev (mobile) carry the chev class. The visible one rotates. */
-  .row[data-expanded="true"] .m-chev { color: var(--green); }
+  /* Footnote: treasury type, e.g. "Ignition Sale, Base" */
+  .m-footnote {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.4;
+    margin-top: 6px;
+  }
 
-  /* Expand panel: same content, tightened to the card rhythm */
+  /* Scroll-focused card: rotating conic-gradient border. The padding-box
+     keeps the card's interior bg, the border-box hosts the conic gradient
+     under a transparent 1.5px border. Only one card carries .is-focused
+     at a time, set by makeScrollFocus on every scroll/resize tick. */
+  .m-card.is-focused {
+    border-color: transparent;
+    background:
+      linear-gradient(var(--bg), var(--bg)) padding-box,
+      conic-gradient(from var(--angle),
+        oklch(0.78 0.19 155 / 0.95) 0deg,
+        oklch(0.78 0.19 155 / 0)    60deg,
+        oklch(0.80 0.17 70  / 0)   180deg,
+        oklch(0.80 0.17 70  / 0.85) 240deg,
+        oklch(0.78 0.19 155 / 0)   300deg,
+        oklch(0.78 0.19 155 / 0.95) 360deg) border-box;
+    animation: spin-border 4s linear infinite;
+  }
+  .row[data-expanded="true"] .m-card.is-focused {
+    background:
+      linear-gradient(var(--surface2), var(--surface2)) padding-box,
+      conic-gradient(from var(--angle),
+        oklch(0.78 0.19 155 / 0.95) 0deg,
+        oklch(0.78 0.19 155 / 0)    60deg,
+        oklch(0.80 0.17 70  / 0)   180deg,
+        oklch(0.80 0.17 70  / 0.85) 240deg,
+        oklch(0.78 0.19 155 / 0)   300deg,
+        oklch(0.78 0.19 155 / 0.95) 360deg) border-box;
+  }
+
+  /* Expand panel: same content, tightened for mobile */
   .row-detail { padding: 14px 14px 16px; }
   .detail-grid { grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
   .detail-block .detail-label { font-size: 12px; margin-bottom: 5px; }
@@ -611,7 +685,7 @@
 
   .verified-stamp { margin-top: 13px; font-size: 12px; padding: 4px 10px 4px 8px; }
 
-  /* Page meta and footer kept at 12px floor */
+  /* Page meta and footer kept at the 12px floor */
   .page-meta { font-size: 12px; }
   .tracker-footer { font-size: 12px; }
   .tracker-footer .footer-links a { font-size: 12px; }
@@ -620,4 +694,39 @@
   .footer-block h2 { font-size: 20px; }
   .footer-block .footer-intro { font-size: 13.5px; }
   .held-back-list { grid-template-columns: 1fr; }
+}
+
+/* Reduced motion: hold the rotating gradient still and fall back to a
+   static green-to-amber diagonal so motion-sensitive readers still see
+   which card is focused. */
+@media (max-width: 820px) and (prefers-reduced-motion: reduce) {
+  .m-card.is-focused {
+    animation: none;
+    background:
+      linear-gradient(var(--bg), var(--bg)) padding-box,
+      linear-gradient(135deg,
+        oklch(0.78 0.19 155 / 0.9),
+        oklch(0.80 0.17 70 / 0.8)) border-box;
+  }
+  .row[data-expanded="true"] .m-card.is-focused {
+    background:
+      linear-gradient(var(--surface2), var(--surface2)) padding-box,
+      linear-gradient(135deg,
+        oklch(0.78 0.19 155 / 0.9),
+        oklch(0.80 0.17 70 / 0.8)) border-box;
+  }
+}
+
+/* Older engines without @property fall back to the same static gradient. */
+@supports not (background: conic-gradient(from var(--angle), red, blue)) {
+  @media (max-width: 820px) {
+    .m-card.is-focused {
+      animation: none;
+      background:
+        linear-gradient(var(--bg), var(--bg)) padding-box,
+        linear-gradient(135deg,
+          oklch(0.78 0.19 155 / 0.9),
+          oklch(0.80 0.17 70 / 0.8)) border-box;
+    }
+  }
 }
