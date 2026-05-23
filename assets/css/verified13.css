@@ -649,7 +649,16 @@
         oklch(0.78 0.19 155 / 0.95) 360deg) border-box;
     animation: spin-border 4s linear infinite;
   }
-  .row[data-expanded="true"] .m-card.is-focused {
+
+  /* When the focused card is expanded, hand the gradient off to the
+     parent .row so the rotating border wraps both the head and the
+     detail panel as one card. The m-card inside drops its own gradient
+     and lets the row's interior bg show through. Uses :has() (modern
+     Chromium/WebKit/Firefox); older engines fall back to a static
+     gradient on the m-card alone via the @supports rule below. */
+  .row[data-expanded="true"]:has(.m-card.is-focused) {
+    border: 1.5px solid transparent;
+    border-radius: 14px;
     background:
       linear-gradient(var(--surface2), var(--surface2)) padding-box,
       conic-gradient(from var(--angle),
@@ -659,6 +668,18 @@
         oklch(0.80 0.17 70  / 0.85) 240deg,
         oklch(0.78 0.19 155 / 0)   300deg,
         oklch(0.78 0.19 155 / 0.95) 360deg) border-box;
+    animation: spin-border 4s linear infinite;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .row[data-expanded="true"]:has(.m-card.is-focused) .m-card {
+    margin-bottom: 0;
+    border-radius: 0;
+  }
+  .row[data-expanded="true"]:has(.m-card.is-focused) .m-card.is-focused {
+    background: transparent;
+    border-color: transparent;
+    animation: none;
   }
 
   /* Expand panel: same content, tightened for mobile */
@@ -698,7 +719,8 @@
 
 /* Reduced motion: hold the rotating gradient still and fall back to a
    static green-to-amber diagonal so motion-sensitive readers still see
-   which card is focused. */
+   which card is focused. The expanded-row wrapper gets the same static
+   fallback so the gradient still wraps the whole open card. */
 @media (max-width: 820px) and (prefers-reduced-motion: reduce) {
   .m-card.is-focused {
     animation: none;
@@ -708,7 +730,8 @@
         oklch(0.78 0.19 155 / 0.9),
         oklch(0.80 0.17 70 / 0.8)) border-box;
   }
-  .row[data-expanded="true"] .m-card.is-focused {
+  .row[data-expanded="true"]:has(.m-card.is-focused) {
+    animation: none;
     background:
       linear-gradient(var(--surface2), var(--surface2)) padding-box,
       linear-gradient(135deg,
@@ -717,7 +740,9 @@
   }
 }
 
-/* Older engines without @property fall back to the same static gradient. */
+/* Older engines without @property fall back to the same static gradient.
+   :has() is part of the same Baseline 2023 cohort as @property + conic
+   from var, so this fallback covers both. */
 @supports not (background: conic-gradient(from var(--angle), red, blue)) {
   @media (max-width: 820px) {
     .m-card.is-focused {
