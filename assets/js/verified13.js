@@ -39,10 +39,26 @@
       while (i < lines.length) {
         const ln = lines[i];
         if (ln.indent !== indent || ln.text.startsWith('- ')) break;
-        const ci = ln.text.indexOf(':');
-        if (ci === -1) { i++; continue; }
-        const key = ln.text.slice(0, ci).trim();
-        const rest = ln.text.slice(ci + 1).trim();
+        // Split key from value on the FIRST ": " (colon followed by a space),
+        // not the first colon anywhere, so a value that itself contains a
+        // colon (a full URL such as https://doi.org/...) keeps its colon. A
+        // bare "key:" at end of line (a nested block follows) is caught by the
+        // trailing-colon branch. Anything else falls back to the first colon
+        // so no other line shape parses differently than before.
+        let ci = ln.text.indexOf(': ');
+        let key, rest;
+        if (ci !== -1) {
+          key = ln.text.slice(0, ci).trim();
+          rest = ln.text.slice(ci + 2).trim();
+        } else if (ln.text.charAt(ln.text.length - 1) === ':') {
+          key = ln.text.slice(0, -1).trim();
+          rest = '';
+        } else {
+          ci = ln.text.indexOf(':');
+          if (ci === -1) { i++; continue; }
+          key = ln.text.slice(0, ci).trim();
+          rest = ln.text.slice(ci + 1).trim();
+        }
         if (rest === '') {
           i++;
           obj[key] = (i < lines.length && lines[i].indent > indent)
@@ -87,14 +103,24 @@
   }
 
   // Transparency is the one quality axis. Colour is driven by the tier field.
+  // The three proof-backed tiers each get their own class so peer-reviewed
+  // reads as the strongest verified state, preprint a clear step below it,
+  // and venue neutral. Their link affordance is added in transparencyPill.
   const TIER_CLASS = {
     'failures': 'pill-green',
-    'peer-reviewed': 'pill-blue',
+    'peer-reviewed': 'pill-peer',
+    'preprint': 'pill-preprint',
+    'venue': 'pill-venue',
     'on-chain': 'pill-blue',
     'pr-only': 'pill-amber',
   };
-  // Best (strongest signal) first for the transparency sort.
-  const TIER_RANK = { 'failures': 0, 'peer-reviewed': 1, 'on-chain': 2, 'pr-only': 3 };
+  // Best (strongest signal) first for the transparency sort. The proof-backed
+  // tiers (peer-reviewed, preprint, venue) rank above the unlinked process
+  // signals (on-chain, pr-only). Publishing failures stays the single
+  // strongest transparency signal.
+  const TIER_RANK = {
+    'failures': 0, 'peer-reviewed': 1, 'preprint': 2, 'venue': 3, 'on-chain': 4, 'pr-only': 5,
+  };
 
   const TYPE_LABEL = { agent: 'Agents', dao: 'DAOs', platform: 'Platforms', infrastructure: 'Infrastructure' };
   const TYPE_ORDER = ['agent', 'dao', 'platform', 'infrastructure'];
@@ -134,10 +160,50 @@
     '<line x1="8" y1="6" x2="8" y2="9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>' +
     '<circle cx="8" cy="11" r="0.8" fill="currentColor"/></svg>';
 
+  // Small external-link mark shown inside a proof-linked badge and the
+  // expanded-row citation, so the reader can see the badge opens a source.
+  const EXTLINK_SVG =
+    '<svg class="pill-ext" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">' +
+    '<path d="M4.6 2.5 H9.5 V7.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M9.5 2.5 L2.5 9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  // Tiers whose badge is a clickable link to its proof.
+  const LINK_TIERS = { 'peer-reviewed': true, 'preprint': true, 'venue': true };
+
+  // Shown when a peer-reviewed tier is missing its proof link. The hard rule:
+  // a Peer-reviewed badge can never appear without a proof URL, so we fall back
+  // to a plain neutral state and never print the words Peer-reviewed.
+  const NO_PROOF_LABEL = 'Unverified';
+
+  function hasProof(t) {
+    return !!(t && t.proof_url != null && String(t.proof_url).trim() !== '');
+  }
+
   // ─── Row markup ──────────────────────────────────────────────────────────────
   function transparencyPill(t) {
     if (!t || t.value == null) return emptySpan();
-    const cls = TIER_CLASS[t.tier] || 'pill-neutral';
+    const tier = t.tier;
+    const proof = hasProof(t);
+
+    // Hard rule: a Peer-reviewed badge requires a proof link. Without one we
+    // must not render it at all, and must not print the words Peer-reviewed.
+    if (tier === 'peer-reviewed' && !proof) {
+      return '<span class="pill pill-neutral">' + esc(NO_PROOF_LABEL) + '</span>';
+    }
+
+    // Proof-backed tiers render as a link that opens the source in a new tab,
+    // with an underline and an external-link mark so it reads as a link (the
+    // global reset strips underlines off anchors).
+    if (LINK_TIERS[tier] && proof) {
+      const cls = TIER_CLASS[tier] || 'pill-neutral';
+      return '<a class="pill pill-link ' + cls + '" href="' + esc(t.proof_url) + '"' +
+        ' target="_blank" rel="noopener noreferrer">' +
+        '<span class="pill-text">' + esc(t.value) + '</span>' + EXTLINK_SVG + '</a>';
+    }
+
+    // Everything else, including a preprint or venue tier that is missing its
+    // proof link, stays a plain non-link pill.
+    const cls = TIER_CLASS[tier] || 'pill-neutral';
     return '<span class="pill ' + cls + '">' + esc(t.value) + '</span>';
   }
   function ipPill(ip) {
@@ -169,6 +235,44 @@
       '</div>';
   }
 
+  // Transparency citation for the expanded panel: the audit trail. The title
+  // links to the cited paper, then venue, date, where the project is named in
+  // it, and the quoted basis. Used only for projects that carry proof fields.
+  function proofCitation(t) {
+    const titleText = t.proof_title != null ? esc(t.proof_title) : esc(t.proof_url);
+    const title = hasProof(t)
+      ? '<a class="proof-title" href="' + esc(t.proof_url) + '" target="_blank" rel="noopener noreferrer">' +
+          '<span class="proof-title-text">' + titleText + '</span>' + EXTLINK_SVG + '</a>'
+      : '<span class="proof-title"><span class="proof-title-text">' + titleText + '</span></span>';
+
+    const meta = [];
+    if (t.proof_venue != null) meta.push('<span class="proof-venue">' + esc(t.proof_venue) + '</span>');
+    if (t.proof_date != null) meta.push('<span class="proof-date mono">' + esc(t.proof_date) + '</span>');
+    const metaRow = meta.length
+      ? '<div class="proof-meta">' + meta.join('<span class="proof-sep" aria-hidden="true">·</span>') + '</div>'
+      : '';
+
+    const named = t.proof_named_in != null
+      ? '<div class="proof-named"><span class="proof-named-label">Named in</span>' + esc(t.proof_named_in) + '</div>'
+      : '';
+    const quote = t.proof_quote != null
+      ? '<blockquote class="proof-quote">' + esc(t.proof_quote) + '</blockquote>'
+      : '';
+
+    return '<div class="source-proof">' +
+      '<span class="source-metric">Transparency</span>' +
+      '<div class="proof-cite">' + title + metaRow + named + quote + '</div>' +
+      '</div>';
+  }
+
+  // Projects with proof fields show the full citation; everything else keeps
+  // the plain source + date line.
+  function transparencySource(t) {
+    return (t && (t.proof_url != null || t.proof_title != null))
+      ? proofCitation(t)
+      : sourceRow('Transparency', t);
+  }
+
   function rowHTML(p) {
     const tRank = TIER_RANK[p.transparency && p.transparency.tier];
     const trVal = treasuryValue(p.treasury && p.treasury.figure);
@@ -197,9 +301,10 @@
         '<div class="risk-text"><b>Risk flag</b>' + esc(p.risk_note) + '</div></div>'
       : '';
 
-    // Detail: sources, one line per metric
+    // Detail: sources, one line per metric. Transparency shows the full
+    // citation when proof fields are present, otherwise source + date.
     const sources =
-      sourceRow('Transparency', p.transparency) +
+      transparencySource(p.transparency) +
       sourceRow('IP model', p.ip_model) +
       sourceRow('Treasury', p.treasury) +
       sourceRow('Cost to result', p.cost_to_result);

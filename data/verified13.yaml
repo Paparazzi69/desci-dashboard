@@ -2,8 +2,8 @@ meta:
   page_title: The Verified 13
   marker: verified sector map
   intro: Thirteen DeSci projects whose claims survive a source check. Every cell traces to a dated public source. Empty cells stay empty. This is curation, not a leaderboard.
-  legend: V verified. P partial. Blank means no verifiable data, not zero. A risk flag marks a documented incident. A cell goes stale after 60 days.
-  methodology: every cell traces to a dated public source. staleness window 60 days. no composite score, no letter grades.
+  legend: Each badge links to its proof. A Peer-reviewed badge means the project is named in a peer-reviewed journal article and links directly to it. Blank means no verifiable data, not zero. A risk flag marks a documented incident. A cell goes stale after 60 days.
+  methodology: every claim traces to a dated public source. a Peer-reviewed badge requires a direct link to a peer-reviewed journal article that names the project. preprints are shown as a separate lower tier. no composite score, no letter grades. staleness window 60 days.
   last_full_sweep: May 2026
 
 projects:
@@ -84,8 +84,14 @@ projects:
     transparency:
       value: Peer-reviewed
       tier: peer-reviewed
-      source: VitaDAO newsletter, funded university labs
-      date: Feb 2026
+      proof_url: https://doi.org/10.1016/j.devcel.2024.04.020
+      proof_title: Suppressed basal mitophagy drives cellular aging phenotypes that can be reversed by a p62-targeting small molecule
+      proof_venue: Developmental Cell, Cell Press
+      proof_date: Aug 2024
+      proof_named_in: Acknowledgements, funding statement
+      proof_quote: Acknowledgements list a VitaDAO and Molecule academic partnership among the funding awarded to V.I. Korolchuk, verified against the Cell Press PDF
+      source: Kelly et al., Developmental Cell, peer-reviewed journal article
+      date: Aug 2024
     ip_model:
       value: IP-NFT / IPT
       source: Molecule docs, VITA-FAST first longevity IPT
@@ -114,10 +120,16 @@ projects:
     type: platform
     risk_flag: false
     transparency:
-      value: Peer-reviewed
-      tier: peer-reviewed
-      source: DAO Times, public on-platform peer review
-      date: Jan 2026
+      value: Peer review venue
+      tier: venue
+      proof_url: https://www.researchhub.com/journal
+      proof_title: ResearchHub Journal, open-access peer-review venue with paid reviewers
+      proof_venue: ResearchHub Journal
+      proof_date: 2026
+      proof_named_in: ResearchHub operates the venue itself
+      proof_quote: ResearchHub runs a peer-review venue with paid open review, it does not author primary research papers, so it is classed as a venue not a peer-reviewed project
+      source: ResearchHub Journal, peer-review platform
+      date: 2026
     ip_model:
       value: Token-incentive
       source: ResearchHub docs
@@ -146,9 +158,9 @@ projects:
     type: dao
     risk_flag: false
     transparency:
-      value: Peer-reviewed
-      tier: peer-reviewed
-      source: Nature Scientific Reports 2019, Percepta evidence
+      value: On-chain records
+      tier: on-chain
+      source: Molecule Catalyst governance, NEURON IP-NFT on-chain
       date: 2026
     ip_model:
       value: IP-NFT / IPT
@@ -180,8 +192,14 @@ projects:
     transparency:
       value: Peer-reviewed
       tier: peer-reviewed
-      source: Dr. Ralf Paus collaboration, Follicle Thought
-      date: 2026
+      proof_url: https://doi.org/10.1093/ced/llaf190
+      proof_title: Pilot evidence that topically applied triiodothyronine can stimulate hair growth in human scalp skin
+      proof_venue: Clinical and Experimental Dermatology
+      proof_date: Sep 2025
+      proof_named_in: Conflicts of interest and author affiliation
+      proof_quote: Conflicts of interest section states HairDAO and CUTANEON filed a patent application related to the study, and author Andrew Verbinnen is listed with a HairDAO affiliation
+      source: Gherardini et al., Clinical and Experimental Dermatology, peer-reviewed journal article
+      date: Sep 2025
     ip_model:
       value: Token-incentive
       source: hairdao.xyz, holds patents and trademarks
@@ -241,10 +259,10 @@ projects:
     type: dao
     risk_flag: false
     transparency:
-      value: Peer-reviewed
-      tier: peer-reviewed
-      source: SynBioBeta, Imperial College funded research
-      date: Feb 2026
+      value: On-chain records
+      tier: on-chain
+      source: GROW governance votes, IP-NFT financing public
+      date: 2026
     ip_model:
       value: IP-NFT / IPT
       source: Bio Launchpad, first IP-NFT was the Ledesma-Amaro deal
@@ -256,7 +274,7 @@ projects:
       date: ~
       stale: false
     cost_to_result:
-      value: $200K to 250K per qualifying applicant, specific deal £228,000 to Imperial College
+      value: $200K to 250K per qualifying applicant, specific deal GBP 228,000 to Imperial College
       source: valleydao.bio, SynBioBeta
       date: Feb 2026
     stack:
@@ -273,10 +291,10 @@ projects:
     type: dao
     risk_flag: false
     transparency:
-      value: Peer-reviewed
-      tier: peer-reviewed
-      source: BeautyMatter, funded research and TIME feature
-      date: Jan 2026
+      value: On-chain records
+      tier: on-chain
+      source: ATH governance, Molecule IP-NFT on-chain
+      date: 2026
     ip_model:
       value: IP-NFT / IPT
       source: Cordero ovarian-reserve work spinning out
@@ -288,7 +306,7 @@ projects:
       date: early 2026
       stale: true
     cost_to_result:
-      value: ~$1.5M deployed across 6 labs, 2 startups, 10 fellowships since 2022
+      value: about $1.5M deployed across 6 labs, 2 startups, 10 fellowships since 2022
       source: BeautyMatter
       date: early 2026
     stack:
@@ -304,10 +322,16 @@ projects:
     type: dao
     risk_flag: false
     transparency:
-      value: Peer-reviewed
-      tier: peer-reviewed
-      source: Curetopia vision paper, AARS2 yeast screen
-      date: 2025
+      value: Preprint
+      tier: preprint
+      proof_url: https://doi.org/10.1101/2024.08.23.609415
+      proof_title: Industrializing yeast as a drug repurposing platform for inherited metabolic diseases
+      proof_venue: bioRxiv preprint, not yet peer-reviewed
+      proof_date: Aug 2024
+      proof_named_in: Authorship, senior author Ethan Perlstein
+      proof_quote: This is a preprint on bioRxiv and has not completed peer review, senior author Ethan Perlstein founded Curetopia and Perlara, so it is shown as Preprint not Peer-reviewed
+      source: Thevandavakkam et al., bioRxiv preprint
+      date: Aug 2024
     ip_model:
       value: IP-NFT / IPT
       source: Curetopia vision paper, provisional patents on AARS2 finding

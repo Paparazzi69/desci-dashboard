@@ -135,8 +135,7 @@
   width: 20px; height: 20px; border-radius: 4px;
   font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
 }
-.legend-key.v { background: var(--green-bg); color: var(--green); }
-.legend-key.p { background: var(--blue-bg); color: var(--blue); }
+.legend-key.proof { background: var(--green-bg); color: var(--green); font-size: 13px; }
 .legend-key.blank { background: var(--surface3); color: var(--text2); border: 1px dashed var(--border); }
 .legend-key.stale { background: var(--amber-bg); color: var(--amber); }
 .legend-key.risk { background: var(--amber-bg); color: var(--amber); }
@@ -295,6 +294,25 @@
 .pill-amber   { background: var(--amber-bg); color: var(--amber); border-color: oklch(from var(--amber) l c h / 0.22); }
 .pill-neutral { background: var(--neutral-bg); color: var(--neutral-text); border-color: var(--border); }
 
+/* Proof-backed transparency tiers. peer-reviewed reads as the strongest
+   verified state (green, the strongest border), preprint a clear step below
+   it (blue), venue neutral. The badge itself is the proof: it links to the
+   cited source. */
+.pill-peer     { background: var(--green-bg); color: var(--green); border-color: oklch(from var(--green) l c h / 0.45); }
+.pill-preprint { background: var(--blue-bg);  color: var(--blue);  border-color: oklch(from var(--blue) l c h / 0.38); }
+.pill-venue    { background: var(--neutral-bg); color: var(--neutral-text); border-color: var(--border); }
+
+/* Link affordance for the proof-backed badges. The global reset strips
+   underlines off anchors, so the value text is underlined explicitly and an
+   external-link mark is appended to make the badge read as a link. */
+.pill-link { cursor: pointer; gap: 6px; text-decoration: none; transition: background 0.12s ease, border-color 0.12s ease; }
+.pill-link .pill-text { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+.pill-link .pill-ext { flex-shrink: 0; opacity: 0.85; }
+.pill-peer.pill-link:hover     { background: oklch(from var(--green) l c h / 0.20); border-color: var(--green); }
+.pill-preprint.pill-link:hover { background: oklch(from var(--blue) l c h / 0.18);  border-color: var(--blue); }
+.pill-venue.pill-link:hover    { background: var(--surface3); border-color: var(--text3); }
+.pill-link:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
 /* Explicit empty state for blank (tilde) cells. A deliberate, honest state. */
 .empty {
   color: var(--text3);
@@ -411,6 +429,53 @@
   text-align: right;
 }
 .source-date.empty, .source-citation .empty { text-align: inherit; }
+
+/* Transparency citation: the audit trail in the expanded panel. The title
+   links to the cited paper, then venue, date, where the project is named in
+   it, and the quoted basis. */
+.source-proof {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 16px;
+  align-items: baseline;
+}
+.proof-cite { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.proof-title {
+  display: inline-flex; align-items: baseline; gap: 5px;
+  color: var(--green);
+  font-size: 13.5px; font-weight: 600; line-height: 1.45;
+  text-wrap: pretty;
+}
+.proof-title-text {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: oklch(from var(--green) l c h / 0.5);
+}
+.proof-title:hover .proof-title-text { text-decoration-color: var(--green); }
+.proof-title .pill-ext { flex-shrink: 0; opacity: 0.85; align-self: center; }
+.proof-meta {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px;
+  font-size: 12.5px; color: var(--text2); line-height: 1.4;
+}
+.proof-venue { color: var(--text); }
+.proof-date { font-size: 12px; color: var(--text2); }
+.proof-sep { color: var(--text3); }
+.proof-named { font-size: 12.5px; color: var(--text2); line-height: 1.5; }
+.proof-named-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-right: 5px;
+}
+.proof-quote {
+  margin: 2px 0 0;
+  padding: 2px 0 2px 12px;
+  border-left: 2px solid oklch(from var(--green) l c h / 0.35);
+  font-size: 13px; line-height: 1.55; color: var(--text2);
+  font-style: italic; text-wrap: pretty;
+}
 
 .verified-stamp {
   margin-top: 18px;
@@ -772,6 +837,9 @@
   .source-metric { grid-column: 1; grid-row: 1; font-size: 12px; }
   .source-date { grid-column: 2; grid-row: 1; font-size: 12px; text-align: right; }
   .source-citation { grid-column: 1 / -1; grid-row: 2; font-size: 13px; line-height: 1.45; }
+
+  /* Citation stacks: metric label on its own line, then the full reference */
+  .source-proof { grid-template-columns: 1fr; gap: 6px; }
 
   .verified-stamp { margin-top: 13px; font-size: 12px; padding: 4px 10px 4px 8px; }
 

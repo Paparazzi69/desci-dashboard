@@ -92,6 +92,47 @@
   margin-bottom: 36px;
   animation: fadeUp 0.3s ease both;
 }
+
+/* ── The Verified 13 transparency tiers ───────────────────────────────────── */
+.doc-tier-list {
+  display: flex; flex-direction: column;
+  gap: 1px;
+  background: var(--border2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.doc-tier {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 18px;
+  align-items: start;
+  background: var(--surface);
+  padding: 14px 18px;
+}
+.doc-tier dt { margin: 0; }
+.doc-tier dd {
+  margin: 0;
+  color: var(--text2);
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+.tier-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  width: max-content; max-width: 100%;
+  padding: 5px 11px;
+  border-radius: 6px;
+  font-size: 12.5px; font-weight: 500; line-height: 1.3;
+  border: 1px solid transparent;
+}
+.tier-badge .tier-ext { flex-shrink: 0; opacity: 0.85; }
+.tier-peer     { background: var(--green-bg); color: var(--green); border-color: oklch(from var(--green) l c h / 0.45); }
+.tier-preprint { background: var(--blue-bg);  color: var(--blue);  border-color: oklch(from var(--blue) l c h / 0.38); }
+.tier-venue    { background: var(--surface3); color: var(--text);  border-color: var(--border); }
+.tier-onchain  { background: var(--blue-bg);  color: var(--blue);  border-color: oklch(from var(--blue) l c h / 0.22); }
+.tier-failures { background: var(--green-bg); color: var(--green); border-color: oklch(from var(--green) l c h / 0.22); }
+.tier-pronly   { background: var(--amber-bg); color: var(--amber); border-color: oklch(from var(--amber) l c h / 0.22); }
 .doc-h2 {
   font-size: 11px; font-weight: 700;
   color: var(--text3);
@@ -409,6 +450,7 @@
   .doc-status-grid--four { grid-template-columns: 1fr; }
   .doc-chain-list li { grid-template-columns: 1fr; gap: 6px; }
   .doc-criteria { grid-template-columns: 1fr; }
+  .doc-tier { grid-template-columns: 1fr; gap: 8px; }
   .doc-table { font-size: 12.5px; }
   .doc-table th, .doc-table td { padding: 10px 12px; }
   .doc-changelog td:first-child { min-width: 90px; width: 90px; }
