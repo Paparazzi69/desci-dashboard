@@ -1,0 +1,444 @@
+meta:
+  page_title: The Verified 13
+  marker: verified sector map
+  intro: Thirteen DeSci projects whose claims survive a source check. Every cell traces to a dated public source. Empty cells stay empty. This is curation, not a leaderboard.
+  legend: V verified. P partial. Blank means no verifiable data, not zero. A risk flag marks a documented incident. A cell goes stale after 60 days.
+  methodology: every cell traces to a dated public source. staleness window 60 days. no composite score, no letter grades.
+  last_full_sweep: May 2026
+
+projects:
+
+  - id: peptai
+    name: PeptAI
+    ticker: $PEPTAI
+    category: peptide drug-discovery agent
+    type: agent
+    risk_flag: false
+    transparency:
+      value: Publishes failures
+      tier: failures
+      source: OX2R-004 pre-IND paper, Molecule mainnet
+      date: Apr 2026
+    ip_model:
+      value: Open disclosure
+      source: Founder enabling-disclosure post
+      date: Apr 2026
+    treasury:
+      figure: $1.64M
+      type: Ignition Sale, Base
+      source: descidash PeptAI page, post-close
+      date: May 2026
+      stale: false
+    cost_to_result:
+      value: $500 to 1,500 per validated peptide candidate
+      source: Bankless feature
+      date: Apr 2026
+    stack:
+      - AlphaFold
+      - Boltz2
+      - PRODIGY
+      - LiteFold MD
+      - Adaptyv Bio wet-lab via x402
+      - Molecule Labs publishing
+    last_verified: May 2026
+    last_verified_stale: false
+
+  - id: aubrai
+    name: AUBRAI
+    ticker: $AUBRAI
+    category: longevity BioAgent
+    type: agent
+    risk_flag: false
+    transparency:
+      value: On-chain records
+      tier: on-chain
+      source: Bio Monthly, Alea Research
+      date: May 2026
+    ip_model:
+      value: IP-NFT / IPT
+      source: Bio Protocol, VitaSTEM IPT launch
+      date: Aug 2025
+    treasury:
+      figure: $900K+ directed
+      type: self-funding from agent fees
+      source: Alea Research
+      date: May 2026
+      stale: false
+    cost_to_result:
+      value: $900K+ directed to longevity research, over 1,000 hypotheses minted on-chain
+      source: Alea Research
+      date: May 2026
+    stack:
+      - Bio Protocol BioAgent framework
+      - Molecule Proof-of-Invention
+      - LEV Foundation wet lab, RMR2
+    last_verified: May 2026
+    last_verified_stale: false
+
+  - id: vitadao
+    name: VitaDAO
+    ticker: $VITA
+    category: longevity DAO
+    type: dao
+    risk_flag: false
+    transparency:
+      value: Peer-reviewed
+      tier: peer-reviewed
+      source: VitaDAO newsletter, funded university labs
+      date: Feb 2026
+    ip_model:
+      value: IP-NFT / IPT
+      source: Molecule docs, VITA-FAST first longevity IPT
+      date: Feb 2026
+    treasury:
+      figure: $55.8M
+      type: multisig, Gnosis Safe, multi-asset
+      source: DAO Times
+      date: Jan 2026
+      stale: true
+    cost_to_result:
+      value: over $4.2M deployed across 30+ longevity projects since 2021
+      source: Gate Learn
+      date: 2026
+    stack:
+      - Aubrai BioAgent
+      - LEV Foundation, RMR2 mouse studies
+      - Molecule IP-NFT
+    last_verified: Feb 2026
+    last_verified_stale: true
+
+  - id: researchhub
+    name: ResearchHub
+    ticker: $RSC
+    category: open-science platform
+    type: platform
+    risk_flag: false
+    transparency:
+      value: Peer-reviewed
+      tier: peer-reviewed
+      source: DAO Times, public on-platform peer review
+      date: Jan 2026
+    ip_model:
+      value: Token-incentive
+      source: ResearchHub docs
+      date: Mar 2026
+    treasury:
+      figure: fee-burn
+      type: 100% weekly fee burn, $7M raised across 3 rounds
+      source: Messari, DAO Times
+      date: Jan 2026
+      stale: false
+    cost_to_result:
+      value: $150 in RSC per completed peer review
+      source: ResearchHub Foundation
+      date: 2025
+    stack:
+      - Ethereum
+      - Base bridge
+      - Endaoment fiat off-ramp
+    last_verified: Mar 2026
+    last_verified_stale: false
+
+  - id: cerebrumdao
+    name: CerebrumDAO
+    ticker: $NEURON
+    category: brain-health DAO
+    type: dao
+    risk_flag: false
+    transparency:
+      value: Peer-reviewed
+      tier: peer-reviewed
+      source: Nature Scientific Reports 2019, Percepta evidence
+      date: 2026
+    ip_model:
+      value: IP-NFT / IPT
+      source: Molecule Catalyst, CLAW IPT
+      date: 2026
+    treasury:
+      figure: ~
+      type: multisig, total undisclosed
+      source: cerebrumdao.com
+      date: 2026
+      stale: false
+    cost_to_result:
+      value: $245K per Percepta clinical study, $80K of it funded by Bio Protocol
+      source: Molecule Catalyst, crypto.news
+      date: 2026
+    stack:
+      - Reputable Health, decentralized trials
+      - Cognitive Clarity Inc.
+      - Oura and Apple Watch wearables
+    last_verified: 2026
+    last_verified_stale: false
+
+  - id: hairdao
+    name: HairDAO
+    ticker: $HAIR
+    category: hair-loss research DAO
+    type: dao
+    risk_flag: false
+    transparency:
+      value: Peer-reviewed
+      tier: peer-reviewed
+      source: Dr. Ralf Paus collaboration, Follicle Thought
+      date: 2026
+    ip_model:
+      value: Token-incentive
+      source: hairdao.xyz, holds patents and trademarks
+      date: 2026
+    treasury:
+      figure: ~
+      type: live figure published at hairdao.xyz, no verified total in this pass
+      source: ~
+      date: ~
+      stale: false
+    cost_to_result:
+      value: $125,000 for the founding T3 and T4 scalp organ-culture study
+      source: Follicle Thought founder interview
+      date: 2022
+    stack:
+      - HairDAO App, patient-reported logs
+      - Cutaneon, Dr. Paus lab
+    last_verified: 2026
+    last_verified_stale: false
+
+  - id: cryodao
+    name: CryoDAO
+    ticker: $CRYO
+    category: cryopreservation DAO
+    type: dao
+    risk_flag: false
+    transparency:
+      value: On-chain records
+      tier: on-chain
+      source: Snapshot governance, public newsletters
+      date: 2026
+    ip_model:
+      value: IP-NFT / IPT
+      source: cryodao.org, CPA Repository first internally-funded IP-NFT
+      date: 2026
+    treasury:
+      figure: $3M+
+      type: treasury and CRYO market cap each exceed $3M, plus 13.32M BIO received
+      source: Tangem Wallet asset page
+      date: Feb 2026
+      stale: true
+    cost_to_result:
+      value: ~
+      source: ~
+      date: ~
+    stack:
+      - Advanced Neural Biosciences, CRYORAT
+      - CryoCore
+      - Tomorrow Bio
+    last_verified: Feb 2026
+    last_verified_stale: true
+
+  - id: valleydao
+    name: ValleyDAO
+    ticker: $GROW
+    category: synthetic biology DAO
+    type: dao
+    risk_flag: false
+    transparency:
+      value: Peer-reviewed
+      tier: peer-reviewed
+      source: SynBioBeta, Imperial College funded research
+      date: Feb 2026
+    ip_model:
+      value: IP-NFT / IPT
+      source: Bio Launchpad, first IP-NFT was the Ledesma-Amaro deal
+      date: Feb 2026
+    treasury:
+      figure: ~
+      type: no verified treasury figure in this pass
+      source: ~
+      date: ~
+      stale: false
+    cost_to_result:
+      value: $200K to 250K per qualifying applicant, specific deal £228,000 to Imperial College
+      source: valleydao.bio, SynBioBeta
+      date: Feb 2026
+    stack:
+      - Imperial College London lab
+      - Molecule IP-NFT
+      - Bio Protocol launchpad
+    last_verified: Feb 2026
+    last_verified_stale: true
+
+  - id: athenadao
+    name: AthenaDAO
+    ticker: $ATH
+    category: women's health DAO
+    type: dao
+    risk_flag: false
+    transparency:
+      value: Peer-reviewed
+      tier: peer-reviewed
+      source: BeautyMatter, funded research and TIME feature
+      date: Jan 2026
+    ip_model:
+      value: IP-NFT / IPT
+      source: Cordero ovarian-reserve work spinning out
+      date: 2026
+    treasury:
+      figure: $5M
+      type: AthenaBIO equity vehicle, on-chain DAO treasury total not disclosed
+      source: BeautyMatter
+      date: early 2026
+      stale: true
+    cost_to_result:
+      value: ~$1.5M deployed across 6 labs, 2 startups, 10 fellowships since 2022
+      source: BeautyMatter
+      date: early 2026
+    stack:
+      - ReproTech program with BioFrontiers
+      - dataforwomen.ai
+    last_verified: Mar 2026
+    last_verified_stale: true
+
+  - id: curetopia
+    name: Curetopia
+    ticker: $CURES
+    category: rare-disease DAO
+    type: dao
+    risk_flag: false
+    transparency:
+      value: Peer-reviewed
+      tier: peer-reviewed
+      source: Curetopia vision paper, AARS2 yeast screen
+      date: 2025
+    ip_model:
+      value: IP-NFT / IPT
+      source: Curetopia vision paper, provisional patents on AARS2 finding
+      date: 2025
+    treasury:
+      figure: $1.77M
+      type: raised from 1,000+ contributors, initial FDV $3.33M
+      source: BioSpace, CryptoSlate
+      date: Mar 2025
+      stale: true
+    cost_to_result:
+      value: ~
+      source: ~
+      date: ~
+    stack:
+      - Perlara, yeast screening lab
+      - Bio Protocol launchpad
+      - Unravel Biosciences
+    last_verified: Mar 2025
+    last_verified_stale: true
+
+  - id: bioprotocol
+    name: Bio Protocol
+    ticker: $BIO
+    category: DeSci launchpad and protocol
+    type: infrastructure
+    risk_flag: false
+    transparency:
+      value: On-chain records
+      tier: on-chain
+      source: Bio Monthly blog, open-source BioAgent framework on GitHub
+      date: May 2026
+    ip_model:
+      value: IP-NFT / IPT, routed via BioDAOs
+      source: CMC AI, Crypto News Navigator
+      date: Apr 2026
+    treasury:
+      figure: $6.9M seed
+      type: Maelstrom-led, plus 6.9% of each launched project token and AMM fees
+      source: Ventureburn
+      date: Sep 2025
+      stale: true
+    cost_to_result:
+      value: $100,000 grant per Ignition-Sale BioDAO, in exchange for 6.9% of project tokens
+      source: IQ.wiki
+      date: 2026
+    stack:
+      - Multi-chain, Ethereum, Solana, Base
+      - Open-source BioAgent framework
+      - OriginTrail DKG
+      - BIOS AI scientist
+    last_verified: May 2026
+    last_verified_stale: false
+
+  - id: molecule
+    name: Molecule
+    ticker: ~
+    category: IP infrastructure layer
+    type: infrastructure
+    risk_flag: false
+    transparency:
+      value: Open-source legal framework
+      tier: on-chain
+      source: Molecule docs, IP-NFTs stored on Arweave
+      date: 2026
+    ip_model:
+      value: IP-NFT / IPT, inventor
+      source: Molecule blog, invented IP-NFT 2022 and IPT 2023
+      date: 2026
+    treasury:
+      figure: ~
+      type: private company, not disclosed
+      source: ~
+      date: ~
+      stale: false
+    cost_to_result:
+      value: ~
+      source: ~
+      date: ~
+    stack:
+      - Ethereum
+      - Arweave
+      - Molecule Catalyst
+      - Molecule Labs
+    last_verified: 2026
+    last_verified_stale: false
+
+  - id: pumpscience
+    name: Pump.science
+    ticker: $RIF, $URO
+    category: meme-wrapper launchpad
+    type: platform
+    risk_flag: true
+    risk_note: GitHub private-key leak, Nov 2024. Compromised launch wallet, fraudulent tokens minted, wallet cannot be rotated on pump.fun.
+    transparency:
+      value: PR-only
+      tier: pr-only
+      source: Protos
+      date: Nov 2024
+    ip_model:
+      value: Meme-wrapper
+      source: Unchained Crypto, meme tokens tied to existing compounds
+      date: 2026
+    treasury:
+      figure: frozen
+      type: no new tokens since the key leak, audits pending
+      source: Protos, CoinGecko
+      date: Nov 2024
+      stale: true
+    cost_to_result:
+      value: ~
+      source: ~
+      date: ~
+    stack:
+      - Solana
+      - transaction fees fund the experiments
+    last_verified: Nov 2024
+    last_verified_stale: true
+
+held_back:
+  note: 6 projects did not clear a source check on at least 3 of the 5 metrics. Listed so the exclusion is visible.
+  projects:
+    - name: PsyDAO
+      gap: no verified treasury or cost figure for the eDMT program
+    - name: SpineDAO
+      gap: market-cap figures conflict across providers, no verified IP or stack datum
+    - name: DermaLabs
+      gap: no Ignition Sale total or treasury disclosed, trial mechanics pre-launch
+    - name: BiomeAI
+      gap: no public output, cost, or stack datum yet
+    - name: Spectruth
+      gap: Ibonova IPT raise not disclosed, project pre-launch
+    - name: ClawdLab
+      gap: infrastructure with no token, no treasury, belongs in a stack reference not a peer row
