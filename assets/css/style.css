@@ -455,10 +455,6 @@ a { color: inherit; text-decoration: none; }
   text-align: center;
   color: var(--text3);
   font-size: 13px;
-  /* Reserve room equivalent to ~12 token rows (about 60px × 12) so the page
-     doesn't shift downward when prices land. The empty-state message reads
-     as centered-in-area rather than floating at the top of an empty box. */
-  min-height: 720px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -466,13 +462,18 @@ a { color: inherit; text-decoration: none; }
 }
 .empty-state strong { color: var(--text2); display: block; margin-bottom: 4px; }
 
-/* Mobile keeps the natural empty-state height — cards are below the fold
-   anyway and the long reserved space would push the BioAgent teaser off
-   the first scroll. */
+/* Reserve room equal to 12 rendered token rows (measured 809px at 1366
+   viewport) so the homepage doesn't shift downward when prices land.
+   Applied to #token-tbody directly so the reservation holds for both
+   the empty-state and the rendered-rows states — no growth on transition.
+   Mobile keeps the natural height: Token Index is below the fold on
+   phones and the reservation would push BioAgent teaser off-screen. */
+#token-tbody {
+  min-height: 820px;
+}
 @media (max-width: 768px) {
-  .empty-state {
+  #token-tbody {
     min-height: 0;
-    display: block;
   }
 }
 
