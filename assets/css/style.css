@@ -153,7 +153,10 @@ a { color: inherit; text-decoration: none; }
 }
 .sector-card-value { font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.2; }
 .sector-card-sub { color: var(--text2); font-size: 11px; margin-top: 3px; }
-.sector-card-skeleton { color: var(--text3); font-size: 14px; opacity: 0.5; animation: shimmer 1.5s ease-in-out infinite; }
+/* Skeleton state keeps the real .sector-card-value font-size (18px) so the
+   card doesn't grow when data arrives. Dim color + shimmer animation are
+   the only "loading" cues we need; the size shift was causing CLS. */
+.sector-card-skeleton { color: var(--text3); opacity: 0.5; animation: shimmer 1.5s ease-in-out infinite; }
 
 /* ── Section divider ─────────────────────────────────────────── */
 .section-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }

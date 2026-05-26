@@ -26,11 +26,18 @@ export function sectorCardHTML(label, value, sub, accentVar) {
 }
 
 export function sectorCardSkeleton(label) {
+  // Mirror the structure of sectorCardHTML exactly so the card height is the
+  // same before and after data arrives. Previously the skeleton was missing
+  // .sector-card-sub entirely, which made each card ~17px shorter on first
+  // paint; multiplied across 5 cards that was ~85px of shift cascading into
+  // every section below (bubble map, Token Index, BioAgent teaser) once
+  // /api/prices returned. Lighthouse caught it as 0.44 CLS on the homepage.
   return `
     <div class="sector-card">
       <div class="sector-card-accent" style="background:var(--text3)"></div>
       <div class="sector-card-label">${escapeHtml(label)}</div>
       <div class="sector-card-value mono sector-card-skeleton">———</div>
+      <div class="sector-card-sub">&nbsp;</div>
     </div>
   `;
 }
