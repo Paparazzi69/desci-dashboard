@@ -21,6 +21,12 @@ export const TOKEN_IDS = [
   // (mcap ~$5.7M). CoinGecko API is chain-agnostic — works even though
   // the token lives on BSC, which isn't in our GeckoTerminal path.
   'galeon',
+  // 2026-05-27 batch 3: 3 more DeSci tokens, slugs verified directly
+  // on CoinGecko. PYTHIA = AI Meme on Solana via Pump.fun (~$21M).
+  // NOVA = Bittensor subnet 68, Metanova Labs decentralized drug
+  // discovery (~$29M). NANA = NanoVita on BSC, AI + nanotech health
+  // research (~$760K). All three CoinGecko-categorized as DeSci.
+  'pythia', 'nova-3', 'nanovita',
 ];
 
 // Tokens fetched from GeckoTerminal (CoinGecko's on-chain DEX product,
