@@ -7,6 +7,10 @@
 // Removing CoinGecko-tracked tokens that don't have entries here just means
 // they render with default classification ("Uncategorized" / blue).
 
+// NOTE: this client-side list is currently unused by app.js (which iterates
+// state.tokens from /api/prices directly). Kept for documentation parity
+// with the server-side TOKEN_IDS in functions/_shared.js — same ids except
+// AUBRAI which is fetched via GeckoTerminal (id 'aubrai', see GT_TOKENS).
 export const TOKEN_IDS = [
   'bio-protocol',
   'vitadao',
@@ -16,7 +20,7 @@ export const TOKEN_IDS = [
   'vitarna',
   'cryodao',
   'hairdao',
-  'aubrai-by-bio',
+  'aubrai',
   'syna',
 ];
 
@@ -61,7 +65,10 @@ export const TOKEN_META = {
     tags: ['Drug Discovery'], chain: 'ETH',
     twitter: 'HairDAO_', website: 'hairdao.xyz',
   },
-  'aubrai-by-bio': {
+  // Key matches GeckoTerminal id ('aubrai') in _shared.js GT_TOKENS.
+  // Was 'aubrai-by-bio' (CoinGecko id) until dedupe-token-index PR dropped
+  // the CG fetch for AUBRAI to avoid double-listing it in the Token Index.
+  'aubrai': {
     focus: 'Longevity', focusColor: 'amber',
     tags: ['Longevity', 'AI-DeSci'], chain: 'BASE',
     twitter: 'Aubrai_', website: 'aubr.ai',
