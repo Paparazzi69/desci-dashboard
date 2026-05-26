@@ -14,3 +14,9 @@ node_modules/
 .claude/settings.local.json
 .claude/
 .gstack/
+
+# Local-only files (notes, audit backups, tooling output)
+Claude.md
+*.local-backup-*
+squirrel.toml
+squirrel-report*.txt
