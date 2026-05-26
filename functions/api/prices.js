@@ -59,7 +59,15 @@ export async function onRequest({ env }) {
   const merged = [...cgResult.tokens, ...gtResult.tokens];
   const payload = {
     tokens: merged,
-    stale: gtResult.anyStale,
+    // Stale = data actually missing from payload, NOT just "one GT token
+    // came from KV cache". The 30-min KV cache fallback exists exactly so
+    // a transient live-fetch failure doesn't degrade the response — the
+    // cached values are still recent. Flagging the whole payload stale
+    // every time GT rate-limits us produced a permanent STALE pill on the
+    // homepage even when prices were correct. anyMissing = true only if
+    // a GT token has neither live data nor cache, which is the only
+    // case worth signaling to the user.
+    stale: gtResult.anyMissing,
     fetchedAt: new Date().toISOString(),
   };
   // If any GT token is missing entirely (no live fetch + no cache fallback),
