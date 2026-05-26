@@ -48,9 +48,8 @@ async function boot() {
   loadMilestones();
   await refreshPrices();
   renderBubbleMap();
-  renderTreemapMobile();
 
-  setInterval(() => { refreshPrices().then(() => { renderBubbleMap(); renderTreemapMobile(); }); }, REFRESH_PRICES_MS);
+  setInterval(() => { refreshPrices().then(renderBubbleMap); }, REFRESH_PRICES_MS);
   setInterval(updateLiveIndicator, 5_000);
   setInterval(() => {
     document.getElementById('status-time').textContent =
@@ -257,49 +256,6 @@ function renderBubbleMap() {
   // Cleanup previous instance
   if (state.bubbleMapCleanup) { state.bubbleMapCleanup(); state.bubbleMapCleanup = null; }
   state.bubbleMapCleanup = mountBubbleMap(el, state.tokens, (id) => openDrawer(id), tokenImages);
-}
-
-// ─── Render: mobile treemap ───────────────────────────────────────────────────
-// At ≤768px the canvas bubble-map is hidden (it can't pack the bubbles into
-// a phone viewport). Instead we render a two-row treemap of rectangles whose
-// width-share is proportional to mcap and whose tint encodes 24h direction.
-// Clicking a rectangle opens the same drawer the bubbles do.
-function renderTreemapMobile() {
-  const el = document.getElementById('treemap-mobile-mount');
-  if (!el) return;
-  if (state.tokens.length === 0) {
-    el.innerHTML = '';
-    return;
-  }
-  const sorted = [...state.tokens].sort((a, b) => (b.mcap || 0) - (a.mcap || 0));
-  const half = Math.ceil(sorted.length / 2);
-  const row1 = sorted.slice(0, half);
-  const row2 = sorted.slice(half);
-
-  const cellHTML = (t) => {
-    const pos = (t.d1 ?? 0) >= 0;
-    return `<button class="treemap-cell" data-pos="${pos}"
-              style="flex-grow:${Math.max(1, t.mcap || 1)}"
-              data-id="${t.id}"
-              aria-label="${(t.symbol || '').toUpperCase()} ${((t.d1 ?? 0)).toFixed(1)}%">
-              <span class="treemap-cell-tic">${(t.symbol || '?').toUpperCase()}</span>
-              <span class="treemap-cell-d1">${((t.d1 ?? 0) >= 0 ? '+' : '')}${((t.d1 ?? 0)).toFixed(1)}%</span>
-            </button>`;
-  };
-
-  el.innerHTML = `
-    <div class="treemap-row">${row1.map(cellHTML).join('')}</div>
-    <div class="treemap-row">${row2.map(cellHTML).join('')}</div>
-  `;
-
-  // Event delegation, single handler. Click → open drawer same as bubble click.
-  if (!el.dataset.bound) {
-    el.addEventListener('click', (e) => {
-      const cell = e.target.closest('.treemap-cell');
-      if (cell?.dataset.id) openDrawer(cell.dataset.id);
-    });
-    el.dataset.bound = '1';
-  }
 }
 
 // ─── Render: milestones ───────────────────────────────────────────────────────

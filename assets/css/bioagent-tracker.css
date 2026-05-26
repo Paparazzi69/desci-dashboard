@@ -53,6 +53,22 @@
   transform: translate(1px, -1px);
 }
 
+@media (max-width: 720px) {
+  .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; }
+  .header-nav-link span:not(.header-nav-arrow) { font-size: 12px; }
+  /* 5 pills overflow phone viewport. Switch the unified pill to a
+     horizontal-scroll strip with hidden scrollbar and right-edge fade. */
+  .header-nav {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, black calc(100% - 24px), transparent);
+    -webkit-mask-image: linear-gradient(to right, black calc(100% - 24px), transparent);
+  }
+  .header-nav::-webkit-scrollbar { display: none; }
+}
+
 /* ── Page title + lede ────────────────────────────────────────────────────── */
 .page-title { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
 .page-title h1 {
