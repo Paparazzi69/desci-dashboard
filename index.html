@@ -62,15 +62,74 @@
     overflow: hidden;
     position: relative;
   }
-  /* Mobile: bubble map's linear canvas layout overflows narrow viewports
-     and packLinear() filters out bubbles that don't fit, leaving an empty
-     box. Hide on mobile; Token Index immediately below carries the same
-     data with proper mobile rendering. Replace with a richer mobile-only
-     visualisation in a later PR. */
+
+  /* ── Treemap (mobile only) ── */
+  /* Mobile alternative to the linear-canvas bubble map. Two rows of
+     rectangles, width proportional to mcap, green/red tint by 24h.
+     Hidden on desktop where bubble-map handles the same job. */
+  .treemap-section { display: none; margin-bottom: 24px; }
+  #treemap-mobile-mount {
+    background: var(--surface, #111820);
+    border: 1px solid var(--border2, #1a2d3a);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .treemap-row {
+    display: flex;
+    gap: 4px;
+    height: 64px;
+  }
+  .treemap-cell {
+    flex-basis: 0;
+    flex-shrink: 1;
+    min-width: 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    padding: 4px 2px;
+    cursor: pointer;
+    background: var(--surface2, #18242c);
+    color: var(--text, #d8eae5);
+    font-family: inherit;
+    transition: background 0.12s ease, transform 0.12s ease;
+  }
+  .treemap-cell:hover { transform: translateY(-1px); }
+  .treemap-cell[data-pos="true"] {
+    background: oklch(0.32 0.13 145 / 0.55);
+    border-color: oklch(0.55 0.18 145 / 0.4);
+    color: oklch(0.95 0.13 145);
+  }
+  .treemap-cell[data-pos="false"] {
+    background: oklch(0.28 0.13 25 / 0.55);
+    border-color: oklch(0.5 0.18 25 / 0.4);
+    color: oklch(0.92 0.13 25);
+  }
+  .treemap-cell-tic {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+  .treemap-cell-d1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    opacity: 0.85;
+  }
+
   @media (max-width: 768px) {
-    .bubblemap-section {
-      display: none;
-    }
+    .bubblemap-section { display: none; }
+    .treemap-section { display: block; }
   }
   @keyframes pulse {
     0%,100%{opacity:1;transform:scale(1)}
@@ -353,7 +412,7 @@
       <!-- 5 SectorCards injected -->
     </section>
 
-    <!-- ── Bubble Map ── -->
+    <!-- ── Bubble Map (desktop) ── -->
     <div class="bubblemap-section">
       <div class="bubblemap-header">
         <span class="bubblemap-title">Sector Bubble Map</span>
@@ -361,6 +420,16 @@
         <span class="bubblemap-hint">Size = market cap · Color = 24h · Click to explore</span>
       </div>
       <div id="bubblemap-mount"></div>
+    </div>
+
+    <!-- ── Treemap (mobile alternative to bubble map) ── -->
+    <div class="treemap-section">
+      <div class="bubblemap-header">
+        <span class="bubblemap-title">Sector Map</span>
+        <span class="bubblemap-line"></span>
+        <span class="bubblemap-hint">Size = mcap · Color = 24h</span>
+      </div>
+      <div id="treemap-mobile-mount"></div>
     </div>
 
     <div class="section-divider">
