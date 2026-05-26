@@ -16,6 +16,11 @@ export const TOKEN_IDS = [
   // AxonDAO, Urolithin A (Pump.science), Curetopia, BiomeAI, PsyDAO.
   'cerebrum-dao', 'valleydao', 'athenadao', 'axondao-governance-token',
   'urolithin-a', 'curetopia', 'biomeai', 'psydao',
+  // 2026-05-27 batch 2: Galeon (healthcare data platform on BSC).
+  // CoinGecko slug verified via coingecko.com/en/coins/galeon
+  // (mcap ~$5.7M). CoinGecko API is chain-agnostic — works even though
+  // the token lives on BSC, which isn't in our GeckoTerminal path.
+  'galeon',
 ];
 
 // Tokens fetched from GeckoTerminal (CoinGecko's on-chain DEX product,
