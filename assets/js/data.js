@@ -131,6 +131,14 @@ export const TOKEN_META = {
     tags: ['Drug Discovery', 'IP-NFT'], chain: 'ETH',
     twitter: 'psy_dao', website: 'psydao.io',
   },
+  // Galeon lives on BSC (contract 0x1d0ac23f03870f768ca005c84cbb6fb82aa884fd).
+  // CoinGecko's /coins/markets is chain-agnostic so we don't need a
+  // GeckoTerminal fallback — the BNB badge just renders as a label.
+  'galeon': {
+    focus: 'Healthcare AI', focusColor: 'blue',
+    tags: ['AI-DeSci'], chain: 'BNB',
+    twitter: 'Galeon_care', website: 'galeon.care',
+  },
 };
 
 // Default classification when the API surfaces a token we don't have metadata
