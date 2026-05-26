@@ -63,11 +63,11 @@ const AGENTS = [
     parent: 'Bio Protocol core',
     launchDate: '2025',
     link: 'https://app.bio.xyz/agents/peptai',
-    desc: 'Head agent coordinating 4 target-scoped sub-agents for autonomous peptide drug discovery. 9-gate validation pipeline. Wet lab via Adaptyv Bio paid machine-to-machine over x402.',
+    desc: 'Head agent coordinating three active target programs plus one community-selected slot for autonomous peptide drug discovery. 8 computational gates plus wet-lab handoff via Adaptyv Bio, paid machine-to-machine over x402.',
     stats: [
       { label: 'Active GPCRs',     value: 'GLP1R · KISS1R · OX2R' },
       { label: '$ / molecule',     value: '~$1,500' },
-      { label: 'Validation gates', value: '9 (G1–G8 + WL)' },
+      { label: 'Validation gates', value: '8 + WL' },
       { label: 'Lead candidate',   value: 'OX2R-004' },
     ],
     programmes: {
@@ -97,7 +97,7 @@ const AGENTS = [
         { name: 'Agent-01 → GLP-1R',  domain: 'Metabolic',         desc: '$30B+/year approved drugs (semaglutide, tirzepatide, liraglutide). Calibrates against ChEMBL; AlphaFold + Boltz2 + PRODIGY + LiteFold MD; G1–G8 viability screens. Survivors synthesize at Adaptyv Bio.' },
         { name: 'Agent-02 → KISS1R',  domain: 'Reproductive hormone signaling', desc: 'Fertility & hypogonadism. Underexplored target with therapeutic potential. Same gate stack as Agent-01.' },
         { name: 'Agent-03 → OX2R',    domain: 'Novel ADHD peptide agonist', desc: 'Opposite direction from approved orexin drugs (small-molecule antagonists for insomnia). Documented orexin hypofunction in drug-naive ADHD children. Runs G1–G8 before wet lab. OX2R-004 lead candidate.' },
-        { name: 'Agent-04 → Community', domain: 'DAO-governed target', desc: 'Awaiting selection. Once chosen, the agent calibrates gates against available binding data and begins the 9-gate pipeline.' },
+        { name: 'Agent-04 → Community', domain: 'DAO-governed target', desc: 'Awaiting selection. Once chosen, the agent calibrates gates against available binding data and begins the 8-gate computational pipeline plus wet-lab handoff.' },
       ],
     },
     architectureNote: 'Wet lab execution at Adaptyv Bio paid machine-to-machine via x402 protocol. Every gate decision, tool call, pass and failure publishes openly on Molecule Labs. The fleet scales with budget.',
