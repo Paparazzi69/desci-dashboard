@@ -99,8 +99,8 @@ export function tokenRowHTML(token, idx) {
   const isMicro = !!(meta.isMicroCap || token.isMicroCap);
   return `
     <div class="token-row" role="row" tabindex="0" data-id="${escapeHtml(token.id)}">
-      <div class="token-cell-num mono">${idx + 1}</div>
-      <div class="token-cell-name">
+      <div class="token-cell-num mono" data-col="num">${idx + 1}</div>
+      <div class="token-cell-name" data-col="name">
         <div class="token-name-row">
           ${logoCell(token)}
           <div class="token-name-text">
@@ -116,16 +116,16 @@ export function tokenRowHTML(token, idx) {
           ${chainBadge(meta.chain)}
         </div>
       </div>
-      <div class="token-cell-num-data mono"${isMicro ? ' data-muted="true"' : ''}>${fmtPrice(token.price)}</div>
-      <div class="token-cell-num-data mono">
+      <div class="token-cell-num-data mono" data-col="price"${isMicro ? ' data-muted="true"' : ''}>${fmtPrice(token.price)}</div>
+      <div class="token-cell-num-data mono" data-col="d1">
         <span class="change-pill" data-pos="${pos24h}">${fmtPct(token.d1)}</span>
       </div>
-      <div class="token-cell-num-data mono">
+      <div class="token-cell-num-data mono" data-col="d7">
         <span class="change-text" data-pos="${pos7d}">${fmtPct(token.d7)}</span>
       </div>
-      <div class="token-cell-num-data mono">${fmt(token.mcap)}</div>
-      <div class="token-cell-num-data mono" data-muted="true">${fmt(token.vol)}</div>
-      <div class="token-cell-spark">${sparklineSVG(token.spark || [], { positive: pos7d, w: 72, h: 26 })}</div>
+      <div class="token-cell-num-data mono" data-col="mcap">${fmt(token.mcap)}</div>
+      <div class="token-cell-num-data mono" data-col="vol" data-muted="true">${fmt(token.vol)}</div>
+      <div class="token-cell-spark" data-col="spark">${sparklineSVG(token.spark || [], { positive: pos7d, w: 72, h: 26 })}</div>
     </div>
   `;
 }
