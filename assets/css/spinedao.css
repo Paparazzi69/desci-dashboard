@@ -1275,8 +1275,10 @@ footer {
     padding: 0 16px; gap: 12px; height: 52px;
   }
   .nav-crumb { display: none; }
-  .nav-links { gap: 14px; }
-  .nav-links a { font-size: 10px; }
+  /* Hide nav links on mobile for consistency with peptai/aubrai/ox2r-004 —
+     the descidash logo + breadcrumb on the left and the project CTA on the
+     right are enough; the global nav links crowd the row at 657px. */
+  .nav-links { display: none; }
   .nav-cta { padding: 6px 10px; font-size: 10px; }
 
   .section { padding: 64px 16px; }
@@ -1405,4 +1407,23 @@ footer {
   footer { padding: 48px 16px 32px; }
   .footer-grid { grid-template-columns: 1fr; gap: 28px; margin-bottom: 32px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  /* Disable scroll-reveal opacity/transform on mobile. See peptai.css for
+     the same rationale: section bodies are vertically long at 657-768px,
+     leaving large empty zones while IntersectionObserver waited to fire. */
+  .section .h-section,
+  .section .h-section-sub,
+  .receipts-section .receipts-tag,
+  .receipts-section .receipts-h,
+  .section .stat-card,
+  .section .bento-card,
+  .receipts-section .receipt-cell,
+  .section .team-card,
+  .section .tl-row,
+  .section .tokeno-wrap,
+  .section .receipts-foot {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }

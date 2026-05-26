@@ -180,23 +180,24 @@
 .seq-caption b { color: var(--text-2); font-weight: 500; }
 
 /* Tablet squeeze range. Between the mobile breakpoint (769px) and ~1100px,
-   the 2-col .hero-display compresses the right column so far that even
-   minmax(0,1fr) columns shrink to ~6-12px each, making letters illegible.
-   Fall back to horizontal scroll inside .seq-card with a soft right-edge
-   mask as the affordance hint, per user spec. Boxes get a fixed 22px so
-   the letter at min font size still reads. */
+   the 2-col .hero-display compresses the right column so far that the 18
+   boxes shrink to ~10-20px each. Previously we fell back to horizontal scroll
+   with a fade mask, but the mask hid the right edge so users couldn't tell
+   only 8 of 18 residues were visible. Now we shrink-to-fit: all 18 boxes
+   visible at smaller font with no scroll, since residue letters still read
+   down to ~7px on a sharp display. */
 @media (min-width: 769px) and (max-width: 1100px) {
   .seq-card {
-    overflow-x: auto;
+    overflow-x: visible;
     overflow-y: hidden;
-    mask-image: linear-gradient(to right, black calc(100% - 28px), transparent);
-    -webkit-mask-image: linear-gradient(to right, black calc(100% - 28px), transparent);
+    mask-image: none;
+    -webkit-mask-image: none;
   }
   .seq-row {
-    grid-template-columns: repeat(18, 22px);
-    width: max-content;
+    grid-template-columns: repeat(18, minmax(0, 1fr));
+    width: auto;
   }
-  .seq-box { font-size: 12px; }
+  .seq-box { font-size: clamp(0.4rem, 0.95vw, 0.75rem); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
