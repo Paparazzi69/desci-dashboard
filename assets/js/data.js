@@ -31,6 +31,12 @@ export const TOKEN_IDS = [
   'curetopia',
   'biomeai',
   'psydao',
+  // 2026-05-27 batch 2
+  'galeon',
+  // 2026-05-27 batch 3
+  'pythia',
+  'nova-3',
+  'nanovita',
 ];
 
 export const TOKEN_META = {
@@ -138,6 +144,25 @@ export const TOKEN_META = {
     focus: 'Healthcare AI', focusColor: 'blue',
     tags: ['AI-DeSci'], chain: 'BNB',
     twitter: 'Galeon_care', website: 'galeon.care',
+  },
+  // 2026-05-27 batch 3 — Neiry/Pump.fun rat-brain-AI experiment,
+  // listed on Solana but the project itself is neuroscience DeSci.
+  'pythia': {
+    focus: 'Memetic Science', focusColor: 'amber',
+    tags: ['AI-DeSci', 'Drug Discovery'], chain: 'SOL',
+    twitter: 'neirylab', website: 'ratpythia.ai',
+  },
+  // Metanova Labs decentralized drug discovery on Bittensor subnet 68.
+  'nova-3': {
+    focus: 'Drug Discovery', focusColor: 'blue',
+    tags: ['AI-DeSci', 'Drug Discovery'], chain: 'TAO',
+    twitter: 'metanova_labs', website: 'metanova-labs.ai',
+  },
+  // NanoVita AI + nanotech health research on BSC.
+  'nanovita': {
+    focus: 'AI-DeSci', focusColor: 'green',
+    tags: ['AI-DeSci', 'Drug Discovery'], chain: 'BNB',
+    twitter: 'Nanovita_Labs', website: 'nanovitalab.com',
   },
 };
 
