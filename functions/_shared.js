@@ -2,9 +2,15 @@
 
 // CoinGecko-listed tokens. The /api/prices endpoint queries CoinGecko's
 // /coins/markets for these ids in a single call.
+//
+// AUBRAI is intentionally NOT here: it lives in GT_TOKENS via its Base
+// contract (0x9d56...) and is fetched through GeckoTerminal. Including both
+// the CoinGecko 'aubrai-by-bio' id and the GT entry double-listed AUBRAI
+// in the Token Index. The GT entry wins because it's the canonical source
+// driving /projects/aubrai/ live FDV.
 export const TOKEN_IDS = [
   'bio-protocol', 'vitadao', 'origintrail', 'researchcoin',
-  'rifampicin', 'vitarna', 'cryodao', 'hairdao', 'aubrai-by-bio',
+  'rifampicin', 'vitarna', 'cryodao', 'hairdao',
 ];
 
 // Tokens fetched from GeckoTerminal (CoinGecko's on-chain DEX product,
