@@ -1369,12 +1369,15 @@ footer {
   color: rgba(207,233,216,0.55);
   white-space: nowrap;
   opacity: 0; transform: translateX(-4px);
-  transition: all 200ms ease;
+  transition: opacity 80ms ease, transform 80ms ease, color 200ms ease;
   pointer-events: none;
 }
 .pep-gutter .vert .lbl b { color: var(--accent); font-weight: 600; margin-right: 6px; }
 .pep-gutter .vert:hover .lbl { opacity: 1; transform: translateX(0); }
-.pep-gutter .vert.is-current .lbl { opacity: 1; transform: translateX(0); color: rgba(207,233,216,0.85); }
+.pep-gutter .vert.is-current .lbl {
+  opacity: 1; transform: translateX(0); color: rgba(207,233,216,0.85);
+  transition: opacity 220ms ease 100ms, transform 220ms ease 100ms, color 200ms ease;
+}
 .pep-gutter .vert:hover .dot { background: rgba(62,224,123,0.7); }
 .pep-gutter .vert.is-current .dot {
   background: var(--accent);
