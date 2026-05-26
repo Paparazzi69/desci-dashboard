@@ -497,6 +497,22 @@
 .table-state .mono { color: var(--text3); font-size: 12px; display: block; margin-top: 6px; }
 .table-state.error { color: var(--amber); }
 
+/* Reserve space for the YAML-driven content so the page doesn't shift
+   downward by ~1600px when the 13 rows + 6 held-back cards arrive.
+   Measured at 1366 desktop: #rowBody rendered ~1310px, #heldBack ~380px.
+   Mobile keeps natural heights — Verified 13 below the fold there. */
+#rowBody {
+  min-height: 1310px;
+}
+#heldBack {
+  min-height: 380px;
+}
+@media (max-width: 768px) {
+  #rowBody, #heldBack {
+    min-height: 0;
+  }
+}
+
 /* ── Footer block: 6 projects held back ────────────────────────────────────── */
 .footer-block {
   margin-top: 44px;
