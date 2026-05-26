@@ -1292,7 +1292,7 @@ footer {
   .nav-links a { font-size: 11px; white-space: nowrap; }
   .nav-cta { padding: 6px 10px; font-size: 10px; }
 
-  .section { padding: 64px 16px; }
+  .section { padding: 64px 20px; }
   .receipts-section { padding: 72px 16px; }
   .section-tag { margin-bottom: 36px; flex-wrap: wrap; }
   .section-tag .rule { display: none; }
@@ -1300,7 +1300,7 @@ footer {
 
   .hero {
     min-height: auto;
-    padding: 20px 16px 32px;
+    padding: 20px 20px 32px;
   }
   .hero-ticks { display: none; }
   /* Hide the vertebra glyph entirely on mobile — at 200px tall it ate
