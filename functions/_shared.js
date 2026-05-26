@@ -11,6 +11,11 @@
 export const TOKEN_IDS = [
   'bio-protocol', 'vitadao', 'origintrail', 'researchcoin',
   'rifampicin', 'vitarna', 'cryodao', 'hairdao',
+  // 2026-05-27 batch: 8 additional DeSci tokens >$100K mcap found via
+  // CoinGecko DeSci category sweep. Adds CerebrumDAO, ValleyDAO, AthenaDAO,
+  // AxonDAO, Urolithin A (Pump.science), Curetopia, BiomeAI, PsyDAO.
+  'cerebrum-dao', 'valleydao', 'athenadao', 'axondao-governance-token',
+  'urolithin-a', 'curetopia', 'biomeai', 'psydao',
 ];
 
 // Tokens fetched from GeckoTerminal (CoinGecko's on-chain DEX product,

@@ -22,6 +22,15 @@ export const TOKEN_IDS = [
   'hairdao',
   'aubrai',
   'syna',
+  // 2026-05-27 batch
+  'cerebrum-dao',
+  'valleydao',
+  'athenadao',
+  'axondao-governance-token',
+  'urolithin-a',
+  'curetopia',
+  'biomeai',
+  'psydao',
 ];
 
 export const TOKEN_META = {
@@ -63,7 +72,8 @@ export const TOKEN_META = {
   'hairdao': {
     focus: 'Dermatology', focusColor: 'red',
     tags: ['Drug Discovery'], chain: 'ETH',
-    twitter: 'HairDAO_', website: 'hairdao.xyz',
+    // Project rebranded its X handle in May 2026: HairDAO_ → anagenxyz.
+    twitter: 'anagenxyz', website: 'hairdao.xyz',
   },
   // Key matches GeckoTerminal id ('aubrai') in _shared.js GT_TOKENS.
   // Was 'aubrai-by-bio' (CoinGecko id) until dedupe-token-index PR dropped
@@ -79,6 +89,47 @@ export const TOKEN_META = {
     twitter: 'synapseneuro_ai', website: 'synapseneuro.org',
     customImage: '/assets/images/syna.jpg',
     trade: 'https://kickstart.easya.io/token/HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
+  },
+  // ── 2026-05-27 batch: 8 additional DeSci tokens (>$100K mcap) ──
+  'cerebrum-dao': {
+    focus: 'Brain Health', focusColor: 'amber',
+    tags: ['Longevity', 'IP-NFT'], chain: 'ETH',
+    twitter: 'CerebrumDAO', website: 'cerebrumdao.com',
+  },
+  'valleydao': {
+    focus: 'Synbio', focusColor: 'green',
+    tags: ['Drug Discovery'], chain: 'ETH',
+    twitter: 'valley_dao', website: 'valleydao.com',
+  },
+  'athenadao': {
+    focus: 'Women’s Health', focusColor: 'red',
+    tags: ['Drug Discovery', 'IP-NFT'], chain: 'ETH',
+    twitter: 'AthenaDAO_', website: 'athenadao.co',
+  },
+  'axondao-governance-token': {
+    focus: 'Biomedical Data', focusColor: 'blue',
+    tags: ['AI-DeSci'], chain: 'ETH',
+    twitter: 'AxonDAO', website: 'axondao.io',
+  },
+  'urolithin-a': {
+    focus: 'Drug Discovery', focusColor: 'blue',
+    tags: ['Drug Discovery', 'Longevity'], chain: 'SOL',
+    twitter: 'pumpdotscience', website: 'pump.science',
+  },
+  'curetopia': {
+    focus: 'Rare Disease', focusColor: 'amber',
+    tags: ['IP-NFT', 'Drug Discovery'], chain: 'SOL',
+    twitter: 'CuretopiaDAO', website: 'curetopia.bio',
+  },
+  'biomeai': {
+    focus: 'Microbiome', focusColor: 'green',
+    tags: ['AI-DeSci', 'Longevity'], chain: 'BASE',
+    twitter: 'biomeai_', website: 'biome.ai',
+  },
+  'psydao': {
+    focus: 'Psychedelics', focusColor: 'amber',
+    tags: ['Drug Discovery', 'IP-NFT'], chain: 'ETH',
+    twitter: 'psy_dao', website: 'psydao.io',
   },
 };
 
