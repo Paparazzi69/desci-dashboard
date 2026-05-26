@@ -62,6 +62,16 @@
     overflow: hidden;
     position: relative;
   }
+  /* Mobile: bubble map's linear canvas layout overflows narrow viewports
+     and packLinear() filters out bubbles that don't fit, leaving an empty
+     box. Hide on mobile; Token Index immediately below carries the same
+     data with proper mobile rendering. Replace with a richer mobile-only
+     visualisation in a later PR. */
+  @media (max-width: 768px) {
+    .bubblemap-section {
+      display: none;
+    }
+  }
   @keyframes pulse {
     0%,100%{opacity:1;transform:scale(1)}
     50%{opacity:.5;transform:scale(.85)}
