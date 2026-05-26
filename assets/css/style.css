@@ -336,6 +336,112 @@ a { color: inherit; text-decoration: none; }
 
 .token-cell-spark { padding: 8px 6px; display: flex; align-items: center; justify-content: center; }
 
+/* ── Mobile: stack token-row cells into a card layout ────────────
+   At ≤768px the 8-column grid (min-width 760px) overflows the viewport
+   and the trailing columns (mcap/vol/spark) clip off-screen. We rearrange
+   each row into a 3-column card: the index column on the left stays tight,
+   the name+tags+stats stack in the middle, price/d1 sit on the right edge.
+   Stat cells (d7/mcap/vol/spark) get inline pseudo-element labels so the
+   user knows what each number is without the hidden table header. */
+@media (max-width: 768px) {
+  .token-table-wrap {
+    overflow-x: visible;
+  }
+  .token-table {
+    min-width: 0;
+  }
+  .token-thead {
+    display: none;
+  }
+
+  .token-row {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    grid-template-areas:
+      "num name  price"
+      "num name  d1"
+      ".   d7    d7"
+      ".   mcap  mcap"
+      ".   vol   vol"
+      ".   spark spark";
+    padding: 14px 10px;
+    gap: 4px 10px;
+    align-items: start;
+  }
+
+  .token-row [data-col="num"] {
+    grid-area: num;
+    padding: 0;
+    align-self: start;
+    padding-top: 2px;
+  }
+  .token-row [data-col="name"] {
+    grid-area: name;
+    padding: 0;
+  }
+  .token-row [data-col="price"] {
+    grid-area: price;
+    padding: 0;
+    text-align: right;
+  }
+  .token-row [data-col="d1"] {
+    grid-area: d1;
+    padding: 0;
+    text-align: right;
+  }
+  .token-row [data-col="d7"] {
+    grid-area: d7;
+    padding: 6px 0 0;
+    text-align: left;
+  }
+  .token-row [data-col="mcap"] {
+    grid-area: mcap;
+    padding: 0;
+    text-align: left;
+  }
+  .token-row [data-col="vol"] {
+    grid-area: vol;
+    padding: 0;
+    text-align: left;
+  }
+  .token-row [data-col="spark"] {
+    grid-area: spark;
+    padding: 6px 0 0;
+    justify-content: flex-start;
+  }
+
+  /* Inline labels so each stat row is self-describing without the thead */
+  .token-row [data-col="d7"]::before {
+    content: "7d ";
+    color: var(--text3);
+    margin-right: 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .token-row [data-col="mcap"]::before {
+    content: "MCAP ";
+    color: var(--text3);
+    margin-right: 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .token-row [data-col="vol"]::before {
+    content: "VOL ";
+    color: var(--text3);
+    margin-right: 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Name cell tightens up on mobile so the right column has room */
+  .token-row .token-fullname {
+    max-width: none;
+  }
+}
+
 .empty-state {
   padding: 40px 20px;
   text-align: center;
