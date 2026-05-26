@@ -465,7 +465,20 @@ footer {
 /* ── MOBILE ──────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .nav { padding: 0 20px; gap: 16px; height: 52px; }
-  .nav-links { display: none; }
+  /* Show main-nav links on mobile as a horizontal-scroll strip; consistent
+     with peptai/spinedao deep-dive nav. */
+  .nav-links {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    max-width: 100%;
+    mask-image: linear-gradient(to right, black calc(100% - 18px), transparent);
+    -webkit-mask-image: linear-gradient(to right, black calc(100% - 18px), transparent);
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a { font-size: 11px; white-space: nowrap; }
   .section { padding: 64px 20px; }
   .section-tag { margin-bottom: 32px; }
   .h-section { font-size: 36px; line-height: 1.05; }
