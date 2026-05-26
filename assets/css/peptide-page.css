@@ -481,4 +481,22 @@ footer {
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; gap: 8px; align-items: flex-start; }
   .pep-gutter { display: none; }
+
+  /* Disable scroll-reveal opacity/transform on mobile. See peptai.css for
+     the same rationale: section bodies are vertically long at 657-768px,
+     leaving large empty zones while IntersectionObserver waited to fire. */
+  .section .h-section,
+  .section .h-section-sub,
+  .section .tldr-card,
+  .section .why-block,
+  .section .stack-card,
+  .section .risk-card,
+  .section .deeper-card,
+  .section .sel-card,
+  .section .token-card,
+  .section .token-aside {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }

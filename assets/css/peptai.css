@@ -387,10 +387,14 @@ mark {
 }
 .tldr-card .head b { color: var(--accent); font-weight: 600; }
 .tldr-card .big {
-  font-size: 60px; font-weight: 800;
+  /* Adaptive font so values like "$500-600" and "G9 staging" never wrap on
+     dashes or spaces at narrow widths (~880px squeeze zone). Clamp keeps
+     it dramatic on desktop, readable on tablet, fits on mobile. */
+  font-size: clamp(36px, 4.5vw, 60px); font-weight: 800;
   letter-spacing: -0.035em; line-height: 0.98;
   color: var(--text); margin-bottom: 18px;
   font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
 }
 .tldr-card .big.accent {
   color: var(--accent);
@@ -1433,4 +1437,26 @@ footer {
   .footer-bottom { flex-direction: column; gap: 8px; align-items: flex-start; }
   .pep-gutter { display: none; }
   .agent-drawer, .drawer { width: 100vw; max-width: 100vw; }
+
+  /* Disable scroll-reveal opacity/transform on mobile. Section bodies are
+     vertically long at 657-768px, so the IntersectionObserver gate left
+     huge empty zones in the viewport while a section faded in. Snap all
+     contents in immediately on mobile — animation budget on a phone is
+     better spent on nothing than on fake suspense. */
+  .section .h-section,
+  .section .h-section-sub,
+  .section .tldr-card,
+  .section .why-block,
+  .section .stack-card,
+  .section .risk-card,
+  .section .program-banner,
+  .section .deeper-card,
+  .section .tl-row,
+  .section .tokeno-wrap,
+  .section .compare-row,
+  .section .pipeline-frame {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
