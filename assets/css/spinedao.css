@@ -1182,7 +1182,7 @@ footer {
   white-space: nowrap;
   opacity: 0;
   transform: translateX(-4px);
-  transition: opacity 200ms ease, transform 200ms ease, color 200ms ease;
+  transition: opacity 80ms ease, transform 80ms ease, color 200ms ease;
   pointer-events: none;
 }
 .spine-gutter .vert .lbl b {
@@ -1192,6 +1192,7 @@ footer {
 .spine-gutter .vert.is-current .lbl {
   opacity: 1; transform: translateX(0);
   color: rgba(207, 233, 216, 0.85);
+  transition: opacity 220ms ease 100ms, transform 220ms ease 100ms, color 200ms ease;
 }
 .spine-gutter .vert:hover .dot { background: rgba(62, 224, 123, 0.7); }
 .spine-gutter .vert.is-current .dot {
