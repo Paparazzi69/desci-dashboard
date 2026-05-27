@@ -262,7 +262,12 @@ a { color: inherit; text-decoration: none; }
    reads through subtly — the rounded border keeps the card framing intact.
    token-thead and token-row sit above the canvas via z-index:1. */
 .token-table-wrap {
-  overflow-x: auto;
+  /* No overflow-x: auto here — setting it creates an implicit scroll
+     container that captures mouse-wheel events when the cursor is over
+     Token Index, so page scroll feels stuck. The .token-table inside
+     has min-width: 760px which fits any modern desktop viewport; on
+     mobile the @media block below overrides min-width to 0 so the
+     cards layout never needs horizontal scroll either. */
   position: relative;
   border: 1px solid var(--border2);
   border-radius: 10px;
