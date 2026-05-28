@@ -737,6 +737,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font-size: 11px; color: var(--text-3);
   letter-spacing: 0.04em;
 }
+.paper-authors b {
+  color: var(--accent);
+  font-weight: 600;
+}
 .papers-foot {
   padding: 14px 28px;
   border-top: 1px solid var(--border-2);
