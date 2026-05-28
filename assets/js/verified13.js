@@ -227,11 +227,17 @@
   function sourceRow(label, block) {
     const src = block ? block.source : null;
     const date = block ? block.date : null;
+    // When BOTH source and date are missing we want a single "no verified
+    // data" reading once in the citation column. Printing it again in the
+    // narrow 110px date column wraps it onto two lines and visually shifts
+    // the row, so leave the date span empty in that case.
+    const bothEmpty = src == null && date == null;
     return '<div class="source-row">' +
       '<span class="source-metric">' + esc(label) + '</span>' +
       '<span class="source-citation">' + textOrEmpty(src) + '</span>' +
       '<span class="source-date' + (date == null ? ' empty' : '') + '">' +
-      (date == null ? NO_DATA : esc(date)) + '</span>' +
+      (bothEmpty ? '' : (date == null ? NO_DATA : esc(date))) +
+      '</span>' +
       '</div>';
   }
 
