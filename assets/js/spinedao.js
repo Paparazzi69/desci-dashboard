@@ -287,18 +287,17 @@
     const list = el.querySelector('[data-papers-list]');
     const exploreLink = el.querySelector('[data-papers-explore]');
     const papers = Array.isArray(json.papers) ? json.papers : [];
-    const highlight = Array.isArray(json.highlightAuthors) ? json.highlightAuthors : [];
     if (json.exploreUrl && exploreLink) exploreLink.href = json.exploreUrl;
     if (!papers.length) {
       // EPMC returned empty — keep skeleton structure so layout doesn't shift.
       return;
     }
-    list.innerHTML = papers.map(p => paperRowHtml(p, highlight)).join('');
+    list.innerHTML = papers.map(paperRowHtml).join('');
   }
 
-  function paperRowHtml(p, highlight) {
+  function paperRowHtml(p) {
     const title   = escapeHtml(p.title || '');
-    const authors = renderAuthors(p.authors || '', highlight);
+    const authors = renderAuthors(p.authors);
     const journal = p.journal ? `<span class="journal">${escapeHtml(p.journal)}</span>` : '';
     const year    = p.year || '';
     const cited   = (p.citedBy > 0) ? `<span class="cited">${p.citedBy}</span> cited` : '';
@@ -313,17 +312,18 @@
     `;
   }
 
-  // Escape author string first, then wrap any founder name in <b>. Founder
-  // names from Europe PMC are simple "Surname X" tokens with no HTML-special
-  // chars, so the post-escape literal replace is safe.
-  function renderAuthors(authorString, highlight) {
-    let out = escapeHtml(authorString);
-    for (const name of highlight) {
-      const safe = escapeHtml(name);
-      const re = new RegExp(`\\b${safe.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g');
-      out = out.replace(re, `<b>${safe}</b>`);
-    }
-    return out;
+  // Render the structured authors object as
+  //   "<b>Lafage V</b> · with Schwab F, Patel A et al."
+  // Founder names lead and are bolded so the SpineDAO connection is the
+  // first thing a reader sees. Non-founder co-authors are demoted behind a
+  // `with` separator — the original academic credit order they came in.
+  function renderAuthors(a) {
+    if (!a || !Array.isArray(a.founders)) return '';
+    const founderHtml = a.founders.map(n => `<b>${escapeHtml(n)}</b>`).join(', ');
+    const others = (a.others || []).map(escapeHtml);
+    const tail = others.join(', ') + (a.moreOthers ? ' et al.' : '');
+    if (!tail) return founderHtml;
+    return `${founderHtml} <span class="with">· with ${tail}</span>`;
   }
 
   function escapeHtml(s) {
