@@ -1,7 +1,7 @@
 meta:
-  page_title: The Verified 13
+  page_title: Verified List
   marker: verified sector map
-  intro: Thirteen DeSci projects whose claims survive a source check. Every cell traces to a dated public source. Empty cells stay empty. This is curation, not a leaderboard.
+  intro: DeSci projects whose claims survive a source check. Every cell traces to a dated public source. Empty cells stay empty. The list grows as projects bring evidence. This is curation, not a leaderboard.
   legend: Each badge links to its proof. A Peer-reviewed badge means the project is named in a peer-reviewed journal article and links directly to it. Blank means no verifiable data, not zero. A risk flag marks a documented incident. A cell goes stale after 60 days.
   methodology: every claim traces to a dated public source. a Peer-reviewed badge requires a direct link to a peer-reviewed journal article that names the project. preprints are shown as a separate lower tier. no composite score, no letter grades. staleness window 60 days.
   last_full_sweep: May 2026
@@ -451,6 +451,45 @@ projects:
     last_verified: Nov 2024
     last_verified_stale: true
 
+  - id: innbio
+    name: Innovative Bioresearch
+    ticker: $INNBC
+    category: on-chain biomedical research
+    type: infrastructure
+    risk_flag: false
+    transparency:
+      value: Peer-reviewed
+      tier: peer-reviewed
+      proof_url: https://doi.org/10.1186/s12911-024-02498-z
+      proof_title: INNBC DApp, a decentralized application to permanently store biomedical data on a modern, proof-of-stake (POS), blockchain such as BNB Smart Chain
+      proof_venue: BMC Medical Informatics and Decision Making, Springer Nature
+      proof_date: Apr 2024
+      proof_named_in: Title and authorship
+      proof_quote: The project is named in the article title. Sole author Jonathan Fior is listed with Innovative Bioresearch Ltd, London as his sole affiliation. Indexed in PubMed at PMID 38664792.
+      source: Fior, BMC Med Inform Decis Mak, peer-reviewed journal article
+      date: Apr 2024
+    ip_model:
+      value: Founder-IP, open disclosure
+      source: Three peer-reviewed papers (2014 J Cancer, 2016 Vaccines, 2024 BMC Med Inform Decis Mak), all sole-authored by Fior under Innovative Bioresearch affiliation
+      date: Apr 2024
+    treasury:
+      figure: ~
+      type: INNBC ERC20 token on Ethereum since 2018, contract verified, not listed on CoinGecko or CoinMarketCap, treasury total not disclosed
+      source: ~
+      date: ~
+      stale: false
+    cost_to_result:
+      value: ~
+      source: ~
+      date: ~
+    stack:
+      - INNBC ERC20 token on Ethereum
+      - INNBC DApp, on-chain biomedical data storage on BNB Smart Chain
+      - INNBC AI Agent
+      - Planned INNBC L1 chain
+    last_verified: May 2026
+    last_verified_stale: false
+
 held_back:
   note: These projects did not clear a source check on at least 3 of the 5 metrics. Listed so the exclusion is visible.
   projects:
@@ -466,5 +505,3 @@ held_back:
       gap: Ibonova IPT raise not disclosed, project pre-launch
     - name: ClawdLab
       gap: infrastructure with no token, no treasury, belongs in a stack reference not a peer row
-    - name: Innovative Bioresearch
-      gap: 2024 INNBC DApp paper in BMC Med Inform Decis Mak clears the peer-reviewed criterion, but INNBC token off CoinGecko and CMC with about $200 in 24h volume on the 2018 Ethereum ERC20, no verified treasury, no public cost-per-result figure
