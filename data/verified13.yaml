@@ -454,7 +454,7 @@ projects:
   - id: innbio
     name: Innovative Bioresearch
     ticker: $INNBC
-    category: on-chain biomedical research
+    category: on-chain biomedical data infrastructure, since 2018
     type: infrastructure
     risk_flag: false
     transparency:
@@ -484,7 +484,7 @@ projects:
       date: ~
     stack:
       - INNBC ERC20 token on Ethereum
-      - INNBC DApp, on-chain biomedical data storage on BNB Smart Chain
+      - INNBC DApp on BNB Smart Chain, stores raw biomedical files (text, archives, clinical PDFs) directly in transaction input data via Base64, not the hash-only pattern used by most web3 science apps
       - INNBC AI Agent
       - Planned INNBC L1 chain
     last_verified: May 2026
