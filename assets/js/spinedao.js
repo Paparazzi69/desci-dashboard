@@ -262,4 +262,59 @@
       }
     });
   });
+
+  /* ── 5. Papers block (Europe PMC live) ─────────────────────── */
+  const papersBlock = document.querySelector('[data-papers-project]');
+  if (papersBlock) hydratePapers(papersBlock);
+
+  async function hydratePapers(el) {
+    const slug = el.dataset.papersProject;
+    try {
+      const r = await fetch(`/api/papers/${encodeURIComponent(slug)}`, {
+        headers: { accept: 'application/json' },
+      });
+      if (!r.ok) throw new Error(`papers ${r.status}`);
+      const json = await r.json();
+      renderPapers(el, json);
+    } catch (err) {
+      // Leave skeleton in place — a broken-looking block is worse than a
+      // quietly absent one. The section above still shows the 1,000+ count.
+      console.warn('[spinedao] papers fetch failed:', err);
+    }
+  }
+
+  function renderPapers(el, json) {
+    const list = el.querySelector('[data-papers-list]');
+    const exploreLink = el.querySelector('[data-papers-explore]');
+    const papers = Array.isArray(json.papers) ? json.papers : [];
+    if (json.exploreUrl && exploreLink) exploreLink.href = json.exploreUrl;
+    if (!papers.length) {
+      // EPMC returned empty — keep skeleton structure so layout doesn't shift.
+      return;
+    }
+    list.innerHTML = papers.map(paperRowHtml).join('');
+  }
+
+  function paperRowHtml(p) {
+    const title   = escapeHtml(p.title || '');
+    const authors = escapeHtml(p.authors || '');
+    const journal = p.journal ? `<span class="journal">${escapeHtml(p.journal)}</span>` : '';
+    const year    = p.year || '';
+    const cited   = (p.citedBy > 0) ? `<span class="cited">${p.citedBy}</span> cited` : '';
+    const meta    = [year, journal, cited].filter(Boolean).join(' · ');
+    const href    = p.doi ? `https://doi.org/${encodeURI(p.doi)}` : '#';
+    return `
+      <li class="paper-row">
+        <a class="paper-title-link" href="${href}" target="_blank" rel="noopener noreferrer">${title}</a>
+        <div class="paper-meta">${meta}</div>
+        <div class="paper-authors">${authors}</div>
+      </li>
+    `;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    }[c]));
+  }
 })();

@@ -651,6 +651,107 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .btn-ghost.btn-disabled:hover { background: transparent; }
 
+/* ── PEER-REVIEWED PAPERS LIVE BLOCK ─────────────────────────
+   Mirrors the receipts-callout aesthetic. The list reserves height
+   for 6 rows × 96px = 576px so the JS-rendered content doesn't shift
+   layout when /api/papers resolves. */
+.papers-block {
+  margin-top: 28px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+}
+.papers-head {
+  padding: 22px 28px 18px;
+  border-bottom: 1px solid var(--border-2);
+}
+.papers-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--accent);
+  letter-spacing: 0.16em;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 8px;
+}
+.papers-tag .pulse-sq {
+  width: 8px; height: 8px; background: var(--accent);
+  display: inline-block;
+}
+.papers-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--text-3);
+  letter-spacing: 0.06em;
+}
+.papers-list {
+  list-style: none; margin: 0; padding: 0;
+  min-height: 576px;
+}
+.paper-row {
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 16px;
+  row-gap: 6px;
+  min-height: 96px;
+  box-sizing: border-box;
+  align-content: center;
+}
+.paper-row:last-child { border-bottom: none; }
+.paper-row.is-loading { opacity: 0.35; }
+.paper-row.is-loading .paper-title-link {
+  background: var(--border);
+  height: 16px; width: 80%;
+  border-radius: 2px;
+}
+.paper-row.is-loading .paper-authors {
+  background: var(--border);
+  height: 11px; width: 50%;
+  border-radius: 2px;
+  margin-top: 4px;
+}
+.paper-title-link {
+  grid-column: 1 / 2;
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 15px; font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  transition: color 0.15s ease;
+}
+.paper-title-link:hover { color: var(--accent); }
+.paper-meta {
+  grid-column: 2 / 3; grid-row: 1 / 2;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--text-3);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  text-align: right;
+  align-self: start;
+  padding-top: 4px;
+}
+.paper-meta .cited { color: var(--accent); font-weight: 700; }
+.paper-meta .journal { color: var(--text-2); }
+.paper-authors {
+  grid-column: 1 / -1;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-3);
+  letter-spacing: 0.04em;
+}
+.papers-foot {
+  padding: 14px 28px;
+  border-top: 1px solid var(--border-2);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--text-3);
+  letter-spacing: 0.12em;
+}
+.papers-explore {
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+.papers-explore:hover { opacity: 0.7; }
+
 /* ── TEAM ────────────────────────────────────────────────────── */
 .team-grid {
   display: grid;
@@ -1375,6 +1476,22 @@ footer {
   .receipts-callout.expanded .r-pane { padding: 24px; }
   .receipts-callout.expanded .l-pane .ttl { font-size: 22px; }
   .receipts-callout.expanded .l-pane .doi { font-size: 12px; padding: 10px 12px; gap: 8px; }
+
+  .papers-block { margin-top: 20px; }
+  .papers-head { padding: 18px 20px 14px; }
+  .papers-list { min-height: 660px; }
+  .paper-row {
+    padding: 14px 20px;
+    grid-template-columns: 1fr;
+    min-height: 110px;
+    row-gap: 4px;
+  }
+  .paper-meta {
+    grid-column: 1; grid-row: auto;
+    text-align: left; padding-top: 0;
+    order: 3;
+  }
+  .papers-foot { padding: 12px 20px; flex-direction: column; gap: 8px; align-items: flex-start; }
 
   .team-grid {
     grid-template-columns: 1fr;
