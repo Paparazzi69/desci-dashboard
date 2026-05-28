@@ -43,10 +43,11 @@ export async function onRequest({ params, env }) {
     return jsonResponse({ error: 'unknown project', papers: [] }, 404);
   }
 
-  // v2 added `highlightAuthors` to the payload and the founder-pinned author
-  // shortening — bump on any payload-shape change so callers don't get a
-  // stale shape from caches.default or KV.
-  const cacheKey = `papers:${slug}:v2`;
+  // v3 changes `authors` from a string to a {founders, others, moreOthers}
+  // shape so the client can render "Lafage V · with Schwab F et al." instead
+  // of leading with non-SpineDAO co-authors. Bump on any payload-shape
+  // change so callers don't get a stale shape from caches.default or KV.
+  const cacheKey = `papers:${slug}:v3`;
   const fresh = await cacheGet(cacheKey);
   if (fresh) return jsonResponse(fresh);
 
@@ -91,7 +92,7 @@ async function fetchEuropePmc(query, highlight) {
     .slice(0, PAGE_SIZE)
     .map(p => ({
       title: (p.title || '').replace(/\.$/, ''),
-      authors: shortenAuthors(p.authorString || '', highlight),
+      authors: shapeAuthors(p.authorString || '', highlight),
       journal: p.journalInfo?.journal?.title || null,
       year: Number(p.pubYear) || null,
       doi: p.doi,
@@ -100,17 +101,23 @@ async function fetchEuropePmc(query, highlight) {
     }));
 }
 
-// "Schwab F, Patel A, Ungar B, Farcy JP, Lafage V" → "Schwab F, Patel A,
-// Lafage V et al." when Lafage V is in the highlight list. Founder names
-// are pinned into the displayed slice so the project connection stays
-// visible even when they're past position 2 in the credit order.
-function shortenAuthors(s, highlight = []) {
+// Splits the author list into founders + everyone else so the client can
+// lead with the SpineDAO surgeons and demote unrelated co-authors. Academic
+// credit order (first author = primary contributor, last = senior PI) is
+// preserved within each group — we don't claim a founder is the lead author
+// when they're not, we just re-rank for relevance to this dashboard.
+//
+// "Schwab F, Patel A, Ungar B, Farcy JP, Lafage V" with founder Lafage V →
+//   { founders: ['Lafage V'], others: ['Schwab F', 'Patel A'], moreOthers: true }
+function shapeAuthors(s, highlight = []) {
   const cleaned = s.replace(/\.$/, '');
   const parts = cleaned.split(',').map(x => x.trim()).filter(Boolean);
-  if (parts.length <= 3) return parts.join(', ');
-  const head = parts.slice(0, 2);
-  const pinned = highlight.filter(h => parts.includes(h) && !head.includes(h));
-  const shown = [...head, ...pinned];
-  const more = shown.length < parts.length;
-  return shown.join(', ') + (more ? ' et al.' : '');
+  const founders = parts.filter(p => highlight.includes(p));
+  const others = parts.filter(p => !highlight.includes(p));
+  const shownOthers = others.slice(0, 2);
+  return {
+    founders,
+    others: shownOthers,
+    moreOthers: others.length > shownOthers.length,
+  };
 }
