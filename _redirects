@@ -1,0 +1,5 @@
+# Permanent 301 from the original campaign URL to the renamed page.
+# The Verified List started life as "The Verified 13" with a fixed count
+# baked into the URL. The list now grows on evidence, so the slug retired
+# to /verified-list while old links and tweets keep working.
+/the-verified-13 /verified-list 301
