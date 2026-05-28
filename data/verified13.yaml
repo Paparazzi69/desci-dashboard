@@ -452,7 +452,7 @@ projects:
     last_verified_stale: true
 
 held_back:
-  note: 6 projects did not clear a source check on at least 3 of the 5 metrics. Listed so the exclusion is visible.
+  note: These projects did not clear a source check on at least 3 of the 5 metrics. Listed so the exclusion is visible.
   projects:
     - name: PsyDAO
       gap: no verified treasury or cost figure for the eDMT program
@@ -466,3 +466,5 @@ held_back:
       gap: Ibonova IPT raise not disclosed, project pre-launch
     - name: ClawdLab
       gap: infrastructure with no token, no treasury, belongs in a stack reference not a peer row
+    - name: Innovative Bioresearch
+      gap: 2024 INNBC DApp paper in BMC Med Inform Decis Mak clears the peer-reviewed criterion, but INNBC token off CoinGecko and CMC with about $200 in 24h volume on the 2018 Ethereum ERC20, no verified treasury, no public cost-per-result figure
