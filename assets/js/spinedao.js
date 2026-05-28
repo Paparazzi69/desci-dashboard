@@ -287,17 +287,18 @@
     const list = el.querySelector('[data-papers-list]');
     const exploreLink = el.querySelector('[data-papers-explore]');
     const papers = Array.isArray(json.papers) ? json.papers : [];
+    const highlight = Array.isArray(json.highlightAuthors) ? json.highlightAuthors : [];
     if (json.exploreUrl && exploreLink) exploreLink.href = json.exploreUrl;
     if (!papers.length) {
       // EPMC returned empty — keep skeleton structure so layout doesn't shift.
       return;
     }
-    list.innerHTML = papers.map(paperRowHtml).join('');
+    list.innerHTML = papers.map(p => paperRowHtml(p, highlight)).join('');
   }
 
-  function paperRowHtml(p) {
+  function paperRowHtml(p, highlight) {
     const title   = escapeHtml(p.title || '');
-    const authors = escapeHtml(p.authors || '');
+    const authors = renderAuthors(p.authors || '', highlight);
     const journal = p.journal ? `<span class="journal">${escapeHtml(p.journal)}</span>` : '';
     const year    = p.year || '';
     const cited   = (p.citedBy > 0) ? `<span class="cited">${p.citedBy}</span> cited` : '';
@@ -310,6 +311,19 @@
         <div class="paper-authors">${authors}</div>
       </li>
     `;
+  }
+
+  // Escape author string first, then wrap any founder name in <b>. Founder
+  // names from Europe PMC are simple "Surname X" tokens with no HTML-special
+  // chars, so the post-escape literal replace is safe.
+  function renderAuthors(authorString, highlight) {
+    let out = escapeHtml(authorString);
+    for (const name of highlight) {
+      const safe = escapeHtml(name);
+      const re = new RegExp(`\\b${safe.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g');
+      out = out.replace(re, `<b>${safe}</b>`);
+    }
+    return out;
   }
 
   function escapeHtml(s) {
