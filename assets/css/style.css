@@ -225,6 +225,12 @@ a { color: inherit; text-decoration: none; }
 .filter-chip-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; opacity: 0.7; }
 .filter-chips-readout { color: var(--green-dim); font-size: 11px; margin-left: 4px; }
 
+/* Touch targets: chips are 30px tall on desktop (fine with a mouse). On
+   narrow viewports bump to the 44px tap-target floor to avoid mis-taps. */
+@media (max-width: 720px) {
+  .filter-chip { min-height: 44px; }
+}
+
 /* ── Badges ──────────────────────────────────────────────────── */
 .badge {
   font-size: 10px;
