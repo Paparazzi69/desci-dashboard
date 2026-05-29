@@ -127,19 +127,82 @@
   @media (max-width: 720px) {
     .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; min-height: 44px; }
     .header-nav-link span:not(.header-nav-arrow) { font-size: 12px; }
-    /* The 5 pills overflow a phone viewport even after the padding cuts.
-       Switch the unified pill to a horizontal-scroll strip so the user
-       can swipe through them; hide the scrollbar so the cohesive look
-       stays. Mask gradient on the right edge hints there's more. */
-    .header-nav {
-      overflow-x: auto;
-      overflow-y: hidden;
-      max-width: 100%;
-      scrollbar-width: none;
-      mask-image: linear-gradient(to right, black calc(100% - 24px), transparent);
-      -webkit-mask-image: linear-gradient(to right, black calc(100% - 24px), transparent);
-    }
-    .header-nav::-webkit-scrollbar { display: none; }
+    /* Icon-only primary on a phone: the 3 primary items collapse to their
+       icons so they plus the More button fit the width without the old
+       horizontal-scroll strip (which pushed More off-screen). Labels stay
+       available to screen readers via aria-label on each link. */
+    .header-nav > a.header-nav-link span:not(.header-nav-arrow) { display: none; }
+    .header-nav > a.header-nav-link { padding: 8px 12px; }
+    .header-nav-menu { left: 0; right: auto; }
+  }
+
+  /* ── "More" overflow menu ──
+     Primary items stay inline in the pill; secondary and external links live
+     behind a disclosure so the bar stays short as the nav grows. The menu is a
+     sibling of the pill (not inside it) so the pill's overflow:hidden does not
+     clip the dropdown. */
+  .header-nav-wrap { position: relative; display: inline-flex; }
+  .header-nav-more-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .header-nav-caret {
+    font-size: 11px; line-height: 1; margin-left: 1px;
+    color: var(--text3, #4a6470);
+    transition: transform 0.15s, color 0.15s;
+  }
+  .header-nav-more-btn[aria-expanded="true"] {
+    background: rgba(61,232,160,0.09);
+    color: var(--green, #3de8a0);
+  }
+  .header-nav-more-btn[aria-expanded="true"] .header-nav-caret {
+    transform: rotate(180deg);
+    color: var(--green, #3de8a0);
+  }
+  .header-nav-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 210px;
+    padding: 6px;
+    background: rgba(10, 20, 28, 0.97);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(61,232,160,0.22);
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .header-nav-menu[hidden] { display: none; }
+  .header-nav-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    min-height: 44px;
+    border-radius: 9px;
+    color: var(--text, #d8eae5);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .header-nav-menu-item:hover {
+    background: rgba(61,232,160,0.10);
+    color: var(--green, #3de8a0);
+  }
+  .header-nav-menu-item svg { flex-shrink: 0; opacity: 0.85; }
+  .header-nav-menu-item .header-nav-arrow { margin-left: auto; }
+  .header-nav-menu-sep {
+    height: 1px;
+    margin: 4px 8px;
+    background: rgba(61,232,160,0.14);
   }
 
   /* ── BioAgent teaser block (sits below Token Index, above Milestones) ──
@@ -299,8 +362,9 @@
           <div class="brand-tagline" id="brand-tagline">Decentralized Science</div>
         </div>
       </a>
+      <div class="header-nav-wrap">
       <nav class="header-nav" aria-label="Primary">
-        <a class="header-nav-link" href="/bioagent-tracker">
+        <a class="header-nav-link" href="/bioagent-tracker" aria-label="BioAgent Tracker">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="3"/>
@@ -308,7 +372,7 @@
           </svg>
           <span>BioAgent Tracker</span>
         </a>
-        <a class="header-nav-link" href="/verified-list">
+        <a class="header-nav-link" href="/verified-list" aria-label="Verified List">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="4"  y1="4" x2="4"  y2="20"/>
@@ -318,7 +382,7 @@
           </svg>
           <span>Verified List</span>
         </a>
-        <a class="header-nav-link" href="/projects/">
+        <a class="header-nav-link" href="/projects/" aria-label="Projects">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="3"  y="3"  width="7" height="7" rx="1"/>
@@ -328,16 +392,33 @@
           </svg>
           <span>Projects</span>
         </a>
-        <a class="header-nav-link"
-           href="https://x.com/DeSciDashboard"
-           target="_blank" rel="noopener noreferrer">
+        <button class="header-nav-link header-nav-more-btn" type="button"
+                aria-haspopup="true" aria-expanded="false" aria-controls="nav-more-menu">
+          <span>More</span>
+          <span class="header-nav-caret" aria-hidden="true">▾</span>
+        </button>
+      </nav>
+      <div class="header-nav-menu" id="nav-more-menu" role="menu" aria-label="More" hidden>
+        <a class="header-nav-menu-item" role="menuitem" href="/methodology">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="3" width="16" height="18" rx="2"/>
+            <line x1="8" y1="8" x2="16" y2="8"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+            <line x1="8" y1="16" x2="13" y2="16"/>
+          </svg>
+          <span>Methodology</span>
+        </a>
+        <div class="header-nav-menu-sep" role="separator"></div>
+        <a class="header-nav-menu-item" role="menuitem"
+           href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.74-8.842L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
           </svg>
           <span>Socials</span>
           <span class="header-nav-arrow" aria-hidden="true">↗</span>
         </a>
-        <a class="header-nav-link"
+        <a class="header-nav-menu-item" role="menuitem"
            href="https://kickstart.easya.io/token/3AxTzPD5H6JTjrXgkBqtp9wYpB3fhp2zX2v1zpjKHhu3"
            target="_blank" rel="noopener noreferrer">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -347,7 +428,8 @@
           <span>EasyA Kickstart</span>
           <span class="header-nav-arrow" aria-hidden="true">↗</span>
         </a>
-      </nav>
+      </div>
+      </div>
       <div class="status">
         <div class="live-dot" id="live-dot" data-state="loading">
           <span class="live-dot-orb"></span>
@@ -436,5 +518,27 @@
 <div id="drawer-mount" aria-live="polite"></div>
 
 <script type="module" src="/assets/js/app.js"></script>
+<script>
+/* Header "More" overflow menu: disclosure toggle (click, outside-click, Escape). */
+(function () {
+  var btn = document.querySelector('.header-nav-more-btn');
+  var menu = document.getElementById('nav-more-menu');
+  if (!btn || !menu) return;
+  function setOpen(open) {
+    menu.hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setOpen(menu.hidden);
+  });
+  document.addEventListener('click', function (e) {
+    if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !menu.hidden) { setOpen(false); btn.focus(); }
+  });
+})();
+</script>
 </body>
 </html>
