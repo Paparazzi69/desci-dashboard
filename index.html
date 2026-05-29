@@ -75,136 +75,6 @@
     0%,100%{opacity:1;transform:scale(1)}
     50%{opacity:.5;transform:scale(.85)}
   }
-  /* ── Header nav (single stadium container, 3 sections) ──
-     One unified pill with subtle green outer halo. Three buttons inside
-     separated by thin dividers. Each button gets its own hover state but
-     the container stays cohesive — they read as ONE thing, not three. */
-  .header-nav {
-    display: inline-flex;
-    align-items: stretch;
-    border: 1px solid rgba(61,232,160,0.28);
-    border-radius: 28px;
-    overflow: hidden;
-    background: rgba(13, 22, 26, 0.55);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    box-shadow:
-      0 0 0 4px rgba(61,232,160,0.04),
-      0 8px 28px rgba(61,232,160,0.06),
-      inset 0 0 24px rgba(61,232,160,0.025);
-  }
-  .header-nav-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    padding: 10px 22px;
-    color: var(--text, #d8eae5);
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: none;
-    letter-spacing: 0.01em;
-    border-right: 1px solid rgba(61,232,160,0.16);
-    transition: background 0.15s, color 0.15s;
-    white-space: nowrap;
-  }
-  .header-nav-link:last-child { border-right: none; }
-  .header-nav-link:hover {
-    background: rgba(61,232,160,0.09);
-    color: var(--green, #3de8a0);
-  }
-  .header-nav-link svg { flex-shrink: 0; }
-  .header-nav-arrow {
-    color: var(--text3, #4a6470);
-    transition: color 0.15s, transform 0.15s;
-    line-height: 1;
-    margin-left: 2px;
-    font-size: 12px;
-  }
-  .header-nav-link:hover .header-nav-arrow {
-    color: var(--green, #3de8a0);
-    transform: translate(1px, -1px);
-  }
-  @media (max-width: 720px) {
-    .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; min-height: 44px; }
-    .header-nav-link span:not(.header-nav-arrow) { font-size: 12px; }
-    /* Icon-only primary on a phone: the 3 primary items collapse to their
-       icons so they plus the More button fit the width without the old
-       horizontal-scroll strip (which pushed More off-screen). Labels stay
-       available to screen readers via aria-label on each link. */
-    .header-nav > a.header-nav-link span:not(.header-nav-arrow) { display: none; }
-    .header-nav > a.header-nav-link { padding: 8px 12px; }
-    .header-nav-menu { left: 0; right: auto; }
-  }
-
-  /* ── "More" overflow menu ──
-     Primary items stay inline in the pill; secondary and external links live
-     behind a disclosure so the bar stays short as the nav grows. The menu is a
-     sibling of the pill (not inside it) so the pill's overflow:hidden does not
-     clip the dropdown. */
-  .header-nav-wrap { position: relative; display: inline-flex; }
-  .header-nav-more-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-  }
-  .header-nav-caret {
-    font-size: 11px; line-height: 1; margin-left: 1px;
-    color: var(--text3, #4a6470);
-    transition: transform 0.15s, color 0.15s;
-  }
-  .header-nav-more-btn[aria-expanded="true"] {
-    background: rgba(61,232,160,0.09);
-    color: var(--green, #3de8a0);
-  }
-  .header-nav-more-btn[aria-expanded="true"] .header-nav-caret {
-    transform: rotate(180deg);
-    color: var(--green, #3de8a0);
-  }
-  .header-nav-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    min-width: 210px;
-    padding: 6px;
-    background: rgba(10, 20, 28, 0.97);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(61,232,160,0.22);
-    border-radius: 14px;
-    box-shadow: 0 12px 32px rgba(0,0,0,0.45);
-    z-index: 60;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .header-nav-menu[hidden] { display: none; }
-  .header-nav-menu-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    min-height: 44px;
-    border-radius: 9px;
-    color: var(--text, #d8eae5);
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background 0.15s, color 0.15s;
-  }
-  .header-nav-menu-item:hover {
-    background: rgba(61,232,160,0.10);
-    color: var(--green, #3de8a0);
-  }
-  .header-nav-menu-item svg { flex-shrink: 0; opacity: 0.85; }
-  .header-nav-menu-item .header-nav-arrow { margin-left: auto; }
-  .header-nav-menu-sep {
-    height: 1px;
-    margin: 4px 8px;
-    background: rgba(61,232,160,0.14);
-  }
-
   /* ── BioAgent teaser block (sits below Token Index, above Milestones) ──
      Self-contained .bat-* / .bioagent-teaser* namespace — won't collide
      with any existing dashboard styles. Click → /bioagent-tracker. */
@@ -364,67 +234,40 @@
       </a>
       <div class="header-nav-wrap">
       <nav class="header-nav" aria-label="Primary">
+        <a class="header-nav-link" href="/" aria-current="page" aria-label="Dashboard">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>
+          <span>Dashboard</span>
+        </a>
         <a class="header-nav-link" href="/bioagent-tracker" aria-label="BioAgent Tracker">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 1v6m0 10v6m11-11h-6M7 12H1m17.5-7.5l-4.2 4.2M9.7 14.3l-4.2 4.2m0-13l4.2 4.2m4.6 4.6l4.2 4.2"/>
-          </svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6m11-11h-6M7 12H1m17.5-7.5l-4.2 4.2M9.7 14.3l-4.2 4.2m0-13l4.2 4.2m4.6 4.6l4.2 4.2"/></svg>
           <span>BioAgent Tracker</span>
         </a>
         <a class="header-nav-link" href="/verified-list" aria-label="Verified List">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="4"  y1="4" x2="4"  y2="20"/>
-            <line x1="10" y1="4" x2="10" y2="20"/>
-            <line x1="16" y1="4" x2="16" y2="20"/>
-            <line x1="20" y1="4" x2="20" y2="20"/>
-          </svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="4" x2="4" y2="20"/><line x1="10" y1="4" x2="10" y2="20"/><line x1="16" y1="4" x2="16" y2="20"/><line x1="20" y1="4" x2="20" y2="20"/></svg>
           <span>Verified List</span>
         </a>
         <a class="header-nav-link" href="/projects/" aria-label="Projects">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3"  y="3"  width="7" height="7" rx="1"/>
-            <rect x="14" y="3"  width="7" height="7" rx="1"/>
-            <rect x="3"  y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-          </svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           <span>Projects</span>
         </a>
-        <button class="header-nav-link header-nav-more-btn" type="button"
-                aria-haspopup="true" aria-expanded="false" aria-controls="nav-more-menu">
+        <button class="header-nav-link header-nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="nav-more-menu">
           <span>More</span>
           <span class="header-nav-caret" aria-hidden="true">▾</span>
         </button>
       </nav>
       <div class="header-nav-menu" id="nav-more-menu" role="menu" aria-label="More" hidden>
         <a class="header-nav-menu-item" role="menuitem" href="/methodology">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="4" y="3" width="16" height="18" rx="2"/>
-            <line x1="8" y1="8" x2="16" y2="8"/>
-            <line x1="8" y1="12" x2="16" y2="12"/>
-            <line x1="8" y1="16" x2="13" y2="16"/>
-          </svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg>
           <span>Methodology</span>
         </a>
         <div class="header-nav-menu-sep" role="separator"></div>
-        <a class="header-nav-menu-item" role="menuitem"
-           href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.74-8.842L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
+        <a class="header-nav-menu-item" role="menuitem" href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.74-8.842L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           <span>Socials</span>
           <span class="header-nav-arrow" aria-hidden="true">↗</span>
         </a>
-        <a class="header-nav-menu-item" role="menuitem"
-           href="https://kickstart.easya.io/token/3AxTzPD5H6JTjrXgkBqtp9wYpB3fhp2zX2v1zpjKHhu3"
-           target="_blank" rel="noopener noreferrer">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-          </svg>
+        <a class="header-nav-menu-item" role="menuitem" href="https://kickstart.easya.io/token/3AxTzPD5H6JTjrXgkBqtp9wYpB3fhp2zX2v1zpjKHhu3" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           <span>EasyA Kickstart</span>
           <span class="header-nav-arrow" aria-hidden="true">↗</span>
         </a>
@@ -518,27 +361,6 @@
 <div id="drawer-mount" aria-live="polite"></div>
 
 <script type="module" src="/assets/js/app.js"></script>
-<script>
-/* Header "More" overflow menu: disclosure toggle (click, outside-click, Escape). */
-(function () {
-  var btn = document.querySelector('.header-nav-more-btn');
-  var menu = document.getElementById('nav-more-menu');
-  if (!btn || !menu) return;
-  function setOpen(open) {
-    menu.hidden = !open;
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
-  btn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    setOpen(menu.hidden);
-  });
-  document.addEventListener('click', function (e) {
-    if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) setOpen(false);
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !menu.hidden) { setOpen(false); btn.focus(); }
-  });
-})();
-</script>
+<script src="/assets/js/nav.js"></script>
 </body>
 </html>

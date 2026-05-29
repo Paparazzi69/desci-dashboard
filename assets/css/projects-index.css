@@ -546,8 +546,7 @@
     gap: 12px;
   }
   .proj-brand { grid-row: 1; grid-column: 1; }
-  .proj-nav   { grid-row: 2; grid-column: 1; justify-self: stretch; overflow-x: auto; }
-  .proj-nav .header-nav-link { padding: 8px 12px; font-size: 12px; }
+  .proj-nav   { grid-row: 2; grid-column: 1; justify-self: start; }
 
   .proj-meta { padding: 14px 18px; flex-wrap: wrap; }
 
