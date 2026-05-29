@@ -43,6 +43,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     white-space: nowrap;
+    margin: 0;
   }
   .bubblemap-line {
     flex: 1;
@@ -124,7 +125,7 @@
     transform: translate(1px, -1px);
   }
   @media (max-width: 720px) {
-    .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; }
+    .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; min-height: 44px; }
     .header-nav-link span:not(.header-nav-arrow) { font-size: 12px; }
     /* The 5 pills overflow a phone viewport even after the padding cuts.
        Switch the unified pill to a horizontal-scroll strip so the user
@@ -176,7 +177,7 @@
     position:relative; z-index:1;
   }
   .bioagent-teaser-title{
-    font-size:18px; font-weight:600; color:var(--text); letter-spacing:-0.01em;
+    font-size:18px; font-weight:600; color:var(--text); letter-spacing:-0.01em; margin:0;
   }
   .bioagent-teaser-new{
     font-size:9px; font-weight:700; letter-spacing:0.10em; text-transform:uppercase;
@@ -365,7 +366,7 @@
     <!-- ── Bubble Map (desktop only, hidden on ≤768px) ── -->
     <div class="bubblemap-section">
       <div class="bubblemap-header">
-        <span class="bubblemap-title">Sector Bubble Map</span>
+        <h2 class="bubblemap-title">Sector Bubble Map</h2>
         <span class="bubblemap-line"></span>
         <span class="bubblemap-hint">Size = market cap · Color = 24h · Click to explore</span>
       </div>
@@ -373,7 +374,7 @@
     </div>
 
     <div class="section-divider">
-      <span>Token Index</span>
+      <h2>Token Index</h2>
       <span class="section-divider-line"></span>
     </div>
 
@@ -391,7 +392,7 @@
     <!-- BIOAGENT TEASER · PASTE START -->
     <a href="/bioagent-tracker" class="bioagent-teaser">
       <div class="bioagent-teaser-head">
-        <span class="bioagent-teaser-title">BioAgent Tracker</span>
+        <h2 class="bioagent-teaser-title">BioAgent Tracker</h2>
         <span class="bioagent-teaser-new">Updated weekly</span>
       </div>
       <div class="bioagent-teaser-desc">
