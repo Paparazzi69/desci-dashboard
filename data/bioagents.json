@@ -116,8 +116,8 @@
       ]
     },
     "lastSignal": {
-      "when": "Oct 2025",
-      "text": "Launched VitaSTEM IP-Token — first AI-enabled IP-Token in DeSci."
+      "when": "Feb 2026",
+      "text": "Ranked #1 on the BixBench benchmark (open-answer 48.78%, multiple-choice 64.39%), ahead of Edison and Kepler. RMR2 combination-intervention pilot underway at the LEV Foundation, main phase targeted mid-2026."
     },
     "output": "1,000+ hypotheses · 2,211+ PoI · 2 IP-NFTs · $900K+ funding",
     "outputN": 1000
@@ -413,14 +413,14 @@
     "displayOrder": 7,
     "segment": "bioagent",
     "focus": "Microbiome",
-    "token": "upcoming",
+    "token": "$BIOMEAI",
     "parent": "MicrobiomeDAO",
     "link": "https://app.bio.xyz/agents/biomeai",
     "desc": "Collaborative gut health discovery through N=10 model. Logs food, supplements, habits — AI spots patterns specific to your microbiome group.",
     "stats": [
       {
         "label": "Token",
-        "value": "upcoming"
+        "value": "$BIOMEAI"
       },
       {
         "label": "Focus",
@@ -493,8 +493,8 @@
       ]
     },
     "lastSignal": {
-      "when": "Active",
-      "text": "Pay-to-compute microbiome data marketplace active. 1 PoI minted (with AUBRAI — first Microbiome PoI)."
+      "when": "Sep 2025",
+      "text": "Ignition Sale complete; $BIOMEAI staking live on the Bio App. Pay-to-compute microbiome data marketplace active, 1 PoI minted (with AUBRAI, first Microbiome PoI)."
     },
     "output": "1 Microbiome PoI · pay-to-compute marketplace live",
     "outputN": 80
@@ -622,7 +622,7 @@
       },
       {
         "label": "Stage",
-        "value": "Pre-clinical"
+        "value": "Pilot trial"
       },
       {
         "label": "Token",
@@ -671,10 +671,10 @@
       ]
     },
     "lastSignal": {
-      "when": "4w ago",
-      "text": "Roadmap published. Pre-clinical AND-gate construct in computational design."
+      "when": "Jan 2026",
+      "text": "Pilot trial initiated at the University of Cadiz, validating three lead candidates for the extracellular AND-gate platform. Targets CD56+CD33 in AML and CD56+CD38 in multiple myeloma."
     },
-    "output": "Pre-clinical · AND-gate in design",
+    "output": "Pilot trial · AND-gate validation at Univ. Cadiz",
     "outputN": 30
   },
   {
@@ -690,7 +690,7 @@
     "focus": "Men's Health",
     "token": "$DICK",
     "parent": "Bio Protocol",
-    "launchDate": "May 2026",
+    "launchDate": "Oct 2025",
     "link": "https://app.bio.xyz/agents/d1ckgpt",
     "desc": "Men's health BioAgent assessing biological age and guiding reversal. Trained on 600+ clinician-curated studies with its own Decentralized Knowledge Graph.",
     "stats": [
@@ -753,8 +753,8 @@
       ]
     },
     "lastSignal": {
-      "when": "May 2026",
-      "text": "Live on Bio Protocol as BioAgent. Token $DICK on Base. Trained on 600+ clinician-curated studies with own Decentralized Knowledge Graph."
+      "when": "Oct 2025",
+      "text": "Live on Bio Protocol as a BioAgent. $DICK launched on Base in Oct 2025 and now trades well below its ~$0.30 ATH. Trained on 600+ clinician-curated studies with its own Decentralized Knowledge Graph."
     },
     "output": "600+ studies ingested · DKG live",
     "outputN": 20
@@ -875,7 +875,7 @@
       },
       {
         "label": "Benchmark",
-        "value": "#1 BixBench V50"
+        "value": "Tied #1 BixBench V50 (90%)"
       },
       {
         "label": "Users",
@@ -888,9 +888,9 @@
     ],
     "lastSignal": {
       "when": "Mar 2026",
-      "text": "Hit #1 on BixBench Verified 50 benchmark — universal AI scientist live for any BioAgent."
+      "text": "Tied #1 on the BixBench Verified 50 benchmark (90%, with K-Dense), ahead of Biomni Lab and Edison. Universal AI scientist live for any BioAgent."
     },
-    "output": "#1 BixBench V50 · powers BioAgent fleet",
+    "output": "Tied #1 BixBench V50 · powers BioAgent fleet",
     "outputN": 700
   },
   {
@@ -1198,7 +1198,7 @@
     "focus": "Open scientific commons",
     "parent": "Molecule × Bio Protocol",
     "launchDate": "March 6, 2026",
-    "link": "https://beach.science",
+    "link": "https://openlabs.bio.xyz",
     "desc": "Open scientific commons where AI agents and humans collaborate on hypotheses in public, from first idea through to funded IP. Built jointly by Molecule and Bio Protocol on Solana, launched March 6, 2026. Agents register autonomously via OpenClaw skill packages and post grounded research claims across longevity, neuroscience, medicine, rheumatology, and chemistry. Most active operators are credentialed clinicians and researchers using AI as a leverage layer rather than a replacement.",
     "stats": [
       {
@@ -1244,9 +1244,9 @@
     },
     "lastSignal": {
       "when": "May 6, 2026",
-      "text": "776 agents and 6,143 hypotheses in two months since launch. Top researchers include RheumaAI ResearchAgent (rheumatology), DNAI (DeSci-wide privacy-preserving registries), and Finnik (general). The platform is the clearest signal that DeSci infrastructure produces real research throughput, not vapor. Read the full deep dive at <a href=\"/projects/science-beach/\" style=\"color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)\">descidash.com/projects/science-beach</a>, or the leaderboard at <a href=\"https://beach.science\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)\">beach.science</a>, the architecture paper at <a href=\"https://arxiv.org/abs/2602.19810\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)\">arxiv.org</a>, and the source code at <a href=\"https://github.com/moleculeprotocol/science.beach\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)\">github.com</a>."
+      "text": "Migrated to OpenLabs (openlabs.bio.xyz); existing discoveries carried over. 776 agents and 6,143 hypotheses in two months since launch. Top researchers include RheumaAI ResearchAgent (rheumatology), DNAI (DeSci-wide privacy-preserving registries), and Finnik (general). The platform is the clearest signal that DeSci infrastructure produces real research throughput, not vapor. Read the full deep dive at <a href=\"/projects/science-beach/\" style=\"color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)\">descidash.com/projects/science-beach</a>, or the leaderboard at <a href=\"https://beach.science\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)\">beach.science</a>, the architecture paper at <a href=\"https://arxiv.org/abs/2602.19810\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)\">arxiv.org</a>, and the source code at <a href=\"https://github.com/moleculeprotocol/science.beach\" target=\"_blank\" rel=\"noopener\" style=\"color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--text3)\">github.com</a>."
     },
-    "output": "776 agents · 6,143 hypotheses · 74 verified · 206 humans",
+    "output": "Migrated to OpenLabs · 776 agents · 6,143 hypotheses (May 2026 snapshot)",
     "outputN": 6143
   },
   {
@@ -1285,9 +1285,9 @@
     ],
     "lastSignal": {
       "when": "2026",
-      "text": "TEE breeding mechanic active. Academic paper documents agent evolution."
+      "text": "TEE breeding active; advanced to a third generation after $ADAM and $EVE graduated at the $500K MC threshold. Academic paper documents agent evolution."
     },
-    "output": "TEE breeding live · $ADAM/$EVE offspring at $500K MC",
+    "output": "TEE breeding · 3rd generation after $ADAM/$EVE graduated",
     "outputN": 200
   },
   {
@@ -1489,10 +1489,10 @@
       }
     ],
     "lastSignal": {
-      "when": "Feb 2026",
-      "text": "Published on bioRxiv. Multi-agent framework released."
+      "when": "May 2026",
+      "text": "James Zou (Stanford): 11 agents spawned ~37,000 sub-agents to annotate ~56,000 clinical trials. Drugs targeting cell-type-specific genes were 48% likelier to reach market; the framework independently proposed a B7-H3 ADC for lung cancer that Merck later converged on."
     },
-    "output": "Stanford multi-agent framework · bioRxiv",
+    "output": "James Zou (Stanford) · 56K trials annotated · B7-H3 ADC",
     "outputN": 10
   }
 ]
