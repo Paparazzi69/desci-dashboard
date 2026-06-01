@@ -6,27 +6,56 @@
    identically on this page. Page-chrome (header nav, page-title, page-lede,
    footer) is reused from style.css + methodology.css. */
 
-/* ── Page intro / per-project section ───────────────────────────── */
+/* ── Per-project section ────────────────────────────────────────────
+   The papers block's colour tokens live in spinedao.css (the deep dive's
+   self-contained palette), which /papers does not load. Re-declare them here
+   on the section so the block keeps its SpineDAO // 04 look — dark card,
+   visible borders, green accent — instead of bare text on the page bg. */
 .papers-project {
-  margin-bottom: 44px;
+  --bg-2:      #0d1411;
+  --border:    #1a2722;
+  --border-2:  #233530;
+  --text:      #e6f0ec;
+  --text-2:    #8a9a93;
+  --text-3:    #56655e;
+  --text-4:    #36433d;
+  --accent:    #3ee07b;
+  margin-bottom: 56px;
 }
 .papers-project:last-of-type {
   margin-bottom: 0;
+}
+/* Visible divider between projects so the page reads as distinct sections,
+   not one wall of text. */
+.papers-project + .papers-project {
+  border-top: 1px solid var(--border-2);
+  padding-top: 52px;
 }
 .papers-project-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .papers-project-name {
+  display: flex;
+  align-items: center;
+  gap: 11px;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--text);
   margin: 0;
+}
+/* Accent square anchors each project header, echoing the block's pulse-sq. */
+.papers-project-name::before {
+  content: "";
+  width: 11px;
+  height: 11px;
+  background: var(--accent);
+  flex: none;
 }
 .papers-project-link {
   font-family: 'JetBrains Mono', monospace;
@@ -147,9 +176,10 @@
 
 /* ── Mobile ─────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .papers-project { margin-bottom: 36px; }
+  .papers-project { margin-bottom: 40px; }
+  .papers-project + .papers-project { padding-top: 40px; }
   .papers-project-head { flex-direction: column; gap: 4px; align-items: flex-start; }
-  .papers-project-name { font-size: 19px; }
+  .papers-project-name { font-size: 20px; }
   .papers-head { padding: 18px 20px 14px; }
   /* Rows wrap taller on phones — reserve more so the skeleton matches. */
   .papers-list { min-height: 720px; }
