@@ -222,7 +222,7 @@
       "gateLayout": "long"
     },
     "saleData": {
-      "title": "Ignition Sale (LIVE · ends ~May 13, 2026)",
+      "title": "Ignition Sale (closed May 14, 2026)",
       "rows": [
         [
           "Launch FDV",
@@ -282,7 +282,7 @@
     "architectureNote": "Wet lab execution at Adaptyv Bio paid machine-to-machine via x402 protocol. Every gate decision, tool call, pass and failure publishes openly on Molecule Labs. The fleet scales with budget.",
     "lastSignal": {
       "when": "May 2026",
-      "text": "Ignition Sale LIVE — 12.5x oversubscribed, 682 participants, $624K USDC committed."
+      "text": "Ignition Sale closed (May 14). 12.5x oversubscribed, ~$624K USDC committed, 682 participants."
     },
     "output": "OX2R-004 peptide · 4-agent fleet · Ignition 12.5x oversubscribed",
     "outputN": 850
@@ -513,7 +513,7 @@
     "token": "$SKIN",
     "parent": "Bio Protocol",
     "link": "https://app.bio.xyz/agents/dermalabs",
-    "desc": "Dermatologist-led science meets community-powered skincare research. Decentralized trials + AI imaging, bridged to consumer via Biofy commerce layer.",
+    "desc": "Dermatologist-led science (founder Jez Marston, MD-PhD) meets community-powered skincare research. Decentralized trials + AI imaging, bridged to consumer via Biofy commerce layer.",
     "stats": [
       {
         "label": "Token",
@@ -867,7 +867,7 @@
     "focus": "Pay-per-call research API. Bearer token or x402 USDC on Base.",
     "token": "pay-per-query",
     "parent": "Bio Protocol AI",
-    "desc": "Universal AI Scientist — pay-per-query bioinformatics utility. Powers other BioAgents with on-demand scientific intelligence. Used by researchers from Harvard, Stanford, Pfizer.",
+    "desc": "Universal AI Scientist, a pay-per-query bioinformatics utility. Powers other BioAgents with on-demand scientific intelligence.",
     "stats": [
       {
         "label": "Type",
@@ -878,8 +878,8 @@
         "value": "Tied #1 BixBench V50 (90%)"
       },
       {
-        "label": "Users",
-        "value": "Harvard · Stanford · Pfizer"
+        "label": "Accuracy",
+        "value": "90% (BixBench V50 tie)"
       },
       {
         "label": "Token",
@@ -1117,29 +1117,29 @@
     "id": "beeard",
     "name": "BeeARD (PsyDAO)",
     "initials": "Be",
-    "status": "announced",
+    "status": "live",
     "stage": 0,
     "stageDecimal": 0.18,
     "chain": "tbd",
     "displayOrder": 16,
     "segment": "bioagent",
     "focus": "Psychedelics",
-    "token": "TBD",
+    "token": "$BEEARD",
     "parent": "PsyDAO",
-    "desc": "Psychedelics Discovery Agent — discovered novel psilocybin derivative. Announced by PsyDAO.",
+    "desc": "Psychedelics discovery agent by PsyDAO. IP-Token (IPNFT #44) live on Ethereum and Base; scouts and tokenizes psychedelic compound IP.",
     "stats": [
       {
         "label": "Status",
-        "value": "Announced"
+        "value": "Live (IP-Token)"
       },
       {
         "label": "Domain",
-        "value": "Novel psilocybin derivatives"
+        "value": "Psychedelic IP discovery"
       }
     ],
     "lastSignal": {
-      "when": "Announced",
-      "text": "Discovered novel psilocybin derivative."
+      "when": "2026",
+      "text": "BeeARD IP-Token (IPNFT #44) live on Ethereum and Base. MVP, dataset generation, and open-source discovery framework shipped."
     },
     "output": "Announced · novel psilocybin derivative",
     "outputN": 5
@@ -1384,14 +1384,14 @@
     "segment": "cross-ecosystem",
     "excludeFromLane": true,
     "focus": "Women's Fertility BioDAO",
-    "token": "$GIRLE · $BABY",
+    "token": "$ATH · $GIRLE · $BABY",
     "parent": "AthenaDAO (daos.fun)",
     "link": "https://athenadao.co",
     "desc": "Women's health and fertility-focused BioDAO with token-native science agents. Operates GIRLE and BABY agents researching reproductive health, hormonal therapeutics, and fertility interventions. Underexplored DeSci segment with growing market demand.",
     "stats": [
       {
         "label": "Tokens",
-        "value": "$GIRLE · $BABY"
+        "value": "$ATH · $GIRLE · $BABY"
       },
       {
         "label": "Platform",
