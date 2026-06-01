@@ -44,11 +44,14 @@ const PROJECT_QUERIES = {
   // 6 Medline hits are androgenetic-alopecia / follicular-delivery papers from
   // the HairDAO-funded Gelfuso–Gratieri lab (verified live, no topic fence
   // needed). Includes the Clinical & Experimental Dermatology 2025 DOI.
+  // highlight = HairDAO people, verified: Bakst/Verbinnen are the two co-
+  // founders, Paus R (Ralf Paus) is a working-group advisor, Gelfuso/Gratieri
+  // lead the funded lab that appears across the set.
   hairdao: {
     mode: 'project',
     query: '"HairDAO" AND SRC:MED',
     label: 'Peer-reviewed research naming HairDAO',
-    highlight: [],
+    highlight: ['Bakst A', 'Verbinnen A', 'Paus R', 'Gelfuso GM', 'Gratieri T'],
     exploreUrl: 'https://europepmc.org/search?query=' + encodeURIComponent('"HairDAO" AND SRC:MED'),
   },
 
@@ -56,11 +59,15 @@ const PROJECT_QUERIES = {
   // a funding mention, so a longevity KW fence is required — with it, all top
   // hits are aging/senescence work (senescence biomarker, Clinical Trials
   // Targeting Aging, NAD+ in aging). Verified live against Europe PMC.
+  // highlight = VitaDAO people, verified: Scheibye-Knudsen M is a key advisor
+  // and led VitaDAO's first funded project (Longevity Molecule), Bakula D is in
+  // that lab, Fang EF runs the VitaDAO-funded Fang Lab, Kohlhaas P co-founded
+  // VitaDAO. (Verdin E left out — VitaDAO link not confirmed.)
   vitadao: {
     mode: 'project',
     query: '"VitaDAO" AND SRC:MED AND (KW:"aging" OR KW:"longevity" OR KW:"senescence" OR KW:"ageing")',
     label: 'Aging research naming VitaDAO',
-    highlight: [],
+    highlight: ['Scheibye-Knudsen M', 'Bakula D', 'Fang EF', 'Kohlhaas P'],
     exploreUrl: 'https://europepmc.org/search?query=' + encodeURIComponent('"VitaDAO" AND SRC:MED AND (KW:"aging" OR KW:"longevity" OR KW:"senescence")'),
   },
 };
@@ -80,7 +87,9 @@ export async function onRequest({ params, env }) {
   // shape so the client can render "Lafage V · with Schwab F et al." instead
   // of leading with non-SpineDAO co-authors. Bump on any payload-shape
   // change so callers don't get a stale shape from caches.default or KV.
-  const cacheKey = `papers:${slug}:v3`;
+  // v4 adds populated `highlight` for hairdao/vitadao (was empty), so bump to
+  // evict the old cached payloads that still have no highlighted authors.
+  const cacheKey = `papers:${slug}:v4`;
   const fresh = await cacheGet(cacheKey);
   if (fresh) return jsonResponse(fresh);
 
