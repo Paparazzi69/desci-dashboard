@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peer-Reviewed Research, DeSci Analytics Hub</title>
+<meta name="description" content="Live peer-reviewed research for DeSci projects, curated from Europe PMC (Medline). Top-cited papers by or naming SpineDAO, HairDAO, and VitaDAO, each with a working DOI.">
+<link rel="icon" type="image/png" href="/branding/icon-v1.png" />
+<link rel="apple-touch-icon" href="/branding/icon-v1.png" />
+<link rel="canonical" href="https://descidash.com/papers" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="DeSci Analytics Hub" />
+<meta property="og:title" content="Peer-Reviewed Research, DeSci Analytics Hub" />
+<meta property="og:description" content="Live peer-reviewed research for DeSci projects, curated from Europe PMC (Medline). Top-cited papers by or naming SpineDAO, HairDAO, and VitaDAO, each with a working DOI." />
+<meta property="og:url" content="https://descidash.com/papers" />
+<meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@DeSciDashboard" />
+<meta name="twitter:title" content="Peer-Reviewed Research, DeSci Analytics Hub" />
+<meta name="twitter:description" content="Live peer-reviewed research for DeSci projects, curated from Europe PMC (Medline). Top-cited papers by or naming SpineDAO, HairDAO, and VitaDAO, each with a working DOI." />
+<meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=optional" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/methodology.css">
+<link rel="stylesheet" href="/assets/css/papers.css">
+</head>
+<body>
+
+<div class="layout">
+  <main class="main" id="main">
+
+    <header class="page-header">
+      <a class="brand" href="/" aria-label="descidash dashboard">
+        <svg width="34" height="34" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <rect width="36" height="36" rx="8" fill="var(--green-bg)"/>
+          <path d="M 10 6 Q 18 12 26 6" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M 10 11 Q 18 17 26 11" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+          <path d="M 10 16 Q 18 22 26 16" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M 10 21 Q 18 27 26 21" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+          <path d="M 10 26 Q 18 32 26 26" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <line x1="14" y1="6" x2="14" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+          <line x1="22" y1="6" x2="22" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
+        </svg>
+        <div>
+          <div class="brand-title">
+            <span class="brand-name">DeSci</span>
+            <span class="brand-sub">Research</span>
+          </div>
+          <div class="brand-tagline">Peer-reviewed, live from Europe PMC.</div>
+        </div>
+      </a>
+      <div class="header-nav-wrap">
+      <nav class="header-nav" aria-label="Primary">
+        <a class="header-nav-link" href="/" aria-label="Dashboard">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a class="header-nav-link" href="/bioagent-tracker" aria-label="BioAgent Tracker">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6m11-11h-6M7 12H1m17.5-7.5l-4.2 4.2M9.7 14.3l-4.2 4.2m0-13l4.2 4.2m4.6 4.6l4.2 4.2"/></svg>
+          <span>BioAgent Tracker</span>
+        </a>
+        <a class="header-nav-link" href="/verified-list" aria-label="Verified List">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="4" x2="4" y2="20"/><line x1="10" y1="4" x2="10" y2="20"/><line x1="16" y1="4" x2="16" y2="20"/><line x1="20" y1="4" x2="20" y2="20"/></svg>
+          <span>Verified List</span>
+        </a>
+        <a class="header-nav-link" href="/projects/" aria-label="Projects">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Projects</span>
+        </a>
+        <button class="header-nav-link header-nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="nav-more-menu">
+          <span>More</span>
+          <span class="header-nav-caret" aria-hidden="true">▾</span>
+        </button>
+      </nav>
+      <div class="header-nav-menu" id="nav-more-menu" role="menu" aria-label="More" hidden>
+        <a class="header-nav-menu-item" role="menuitem" href="/methodology">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg>
+          <span>Methodology</span>
+        </a>
+        <div class="header-nav-menu-sep" role="separator"></div>
+        <a class="header-nav-menu-item" role="menuitem" href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.74-8.842L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <span>Socials</span>
+          <span class="header-nav-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="header-nav-menu-item" role="menuitem" href="https://kickstart.easya.io/token/3AxTzPD5H6JTjrXgkBqtp9wYpB3fhp2zX2v1zpjKHhu3" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>EasyA Kickstart</span>
+          <span class="header-nav-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+      </div>
+    </header>
+
+    <div class="page-title">
+      <h1>Peer-Reviewed Research</h1>
+    </div>
+    <p class="page-lede">
+      Live academic record for DeSci projects, curated from
+      <a href="https://europepmc.org/" target="_blank" rel="noopener noreferrer">Europe PMC</a>
+      and filtered to Medline (peer-reviewed only, no preprints or books). Each project's query
+      is hand-built and verified so only papers genuinely tied to it surface. Two kinds of signal:
+      papers <strong>by</strong> a project's named scientists (team track record), and papers that
+      <strong>name</strong> a project in their funding or acknowledgements. Sorted by citations,
+      every title links to a working DOI. The list grows as more projects gain a verified query.
+    </p>
+
+    <!-- SpineDAO — author-mode (by the founding surgeons). Has a deep dive. -->
+    <section class="papers-project">
+      <div class="papers-project-head">
+        <h2 class="papers-project-name">SpineDAO</h2>
+        <a class="papers-project-link" href="/projects/spinedao/">// deep dive →</a>
+      </div>
+      <div class="papers-block" data-papers-project="spinedao">
+        <div class="papers-head">
+          <div class="papers-tag">
+            <span class="pulse-sq"></span>
+            // BY THE FOUNDING SURGEONS · LIVE
+          </div>
+          <div class="papers-sub">
+            Top-cited Medline papers each authored by one of the five spine surgeons behind SpineDAO.
+          </div>
+        </div>
+        <ul class="papers-list" data-papers-list>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+        </ul>
+        <div class="papers-foot">
+          <span>// SOURCE · EUROPE PMC · MEDLINE-FILTERED</span>
+          <a class="papers-explore" data-papers-explore href="https://europepmc.org/search?query=AUTH%3A%22Lafage+V%22+OR+AUTH%3A%22Diebo+BG%22" target="_blank" rel="noopener noreferrer">// EXPLORE ALL →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- HairDAO — project-mode (papers naming HairDAO). No deep dive yet. -->
+    <section class="papers-project">
+      <div class="papers-project-head">
+        <h2 class="papers-project-name">HairDAO</h2>
+        <a class="papers-project-link" href="/verified-list">// verified list →</a>
+      </div>
+      <div class="papers-block" data-papers-project="hairdao">
+        <div class="papers-head">
+          <div class="papers-tag">
+            <span class="pulse-sq"></span>
+            // PEER-REVIEWED · NAMING HAIRDAO · LIVE
+          </div>
+          <div class="papers-sub">
+            Medline papers that name HairDAO in their funding or acknowledgements — the HairDAO-funded follicular-delivery work, most-cited first.
+          </div>
+        </div>
+        <ul class="papers-list" data-papers-list>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+        </ul>
+        <div class="papers-foot">
+          <span>// SOURCE · EUROPE PMC · MEDLINE-FILTERED</span>
+          <a class="papers-explore" data-papers-explore href="https://europepmc.org/search?query=%22HairDAO%22+AND+SRC%3AMED" target="_blank" rel="noopener noreferrer">// EXPLORE ALL →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- VitaDAO — project-mode (aging papers naming VitaDAO). No deep dive yet. -->
+    <section class="papers-project">
+      <div class="papers-project-head">
+        <h2 class="papers-project-name">VitaDAO</h2>
+        <a class="papers-project-link" href="/verified-list">// verified list →</a>
+      </div>
+      <div class="papers-block" data-papers-project="vitadao">
+        <div class="papers-head">
+          <div class="papers-tag">
+            <span class="pulse-sq"></span>
+            // PEER-REVIEWED · NAMING VITADAO · LIVE
+          </div>
+          <div class="papers-sub">
+            Aging &amp; longevity Medline papers that name VitaDAO in their funding or acknowledgements, most-cited first.
+          </div>
+        </div>
+        <ul class="papers-list" data-papers-list>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+          <li class="paper-row is-loading"><div class="paper-title-link">&nbsp;</div><div class="paper-meta">—</div><div class="paper-authors">&nbsp;</div></li>
+        </ul>
+        <div class="papers-foot">
+          <span>// SOURCE · EUROPE PMC · MEDLINE-FILTERED</span>
+          <a class="papers-explore" data-papers-explore href="https://europepmc.org/search?query=%22VitaDAO%22+AND+SRC%3AMED" target="_blank" rel="noopener noreferrer">// EXPLORE ALL →</a>
+        </div>
+      </div>
+    </section>
+
+    <p class="page-lede" style="margin-top: 8px; font-size: 13px;">
+      This is a team-track-record and citation signal, distinct from the project-named
+      <a href="/verified-list">Peer-reviewed badge</a> on the Verified List. See the
+      <a href="/methodology">Methodology</a> for how sources are verified.
+    </p>
+
+    <footer class="tracker-footer">
+      <div>
+        desci-dashboard.pages.dev, Peer-Reviewed Research, Built with data, not hype.
+      </div>
+      <div class="footer-links">
+        <a href="/">Dashboard</a>
+        <a href="/verified-list">Verified List</a>
+        <a href="/methodology">Methodology</a>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script src="/assets/js/papers.js" defer></script>
+<script src="/assets/js/nav.js"></script>
+</body>
+</html>

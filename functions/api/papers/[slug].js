@@ -17,18 +17,51 @@ import {
   jsonResponse, cacheGet, cachePut, kvGetStale, kvRefreshStale,
 } from '../../_shared.js';
 
+// Two query modes, both still server-side and curated:
+//   mode: 'author'  — papers BY the project's named scientists. Needs real
+//     founder/PI names; `highlight` bolds them client-side. Rich team-track-
+//     record signal. (SpineDAO: five founding spine surgeons.)
+//   mode: 'project' — papers that NAME the project (funding line, acknowledge-
+//     ments, or body text). No scientist names needed; `highlight` is empty so
+//     the client just leads with the paper's own first authors. KW topic terms
+//     fence out false hits from the bare project string.
+// Every query keeps SRC:MED (Medline = peer-reviewed; excludes preprints/books)
+// and every returned paper must carry a DOI. Queries are hand-verified against
+// live Europe PMC so only papers genuinely tied to the project surface — see
+// the per-entry note for what was checked.
 const PROJECT_QUERIES = {
   // Five founding spine surgeons. KW topic terms keep the result set tight
   // (Lafage V alone has 339+ Medline papers across multiple domains).
-  // `highlight` is the canonical founder list — names in this list are kept
-  // in the displayed author string even if they appear past position 2, and
-  // the client wraps them in <b>. This makes the SpineDAO connection visible
-  // per-row instead of requiring the reader to trust the section subtitle.
   spinedao: {
+    mode: 'author',
     query: '(AUTH:"Lafage V" OR AUTH:"Diebo BG" OR AUTH:"Lonjon G" OR AUTH:"Challier V" OR AUTH:"Cristini J") AND SRC:MED AND (KW:"spine" OR KW:"lumbar" OR KW:"vertebra")',
     label: 'By the founding surgeons',
     highlight: ['Lafage V', 'Diebo BG', 'Lonjon G', 'Challier V', 'Cristini J'],
     exploreUrl: 'https://europepmc.org/search?query=%28AUTH%3A%22Lafage%20V%22%20OR%20AUTH%3A%22Diebo%20BG%22%20OR%20AUTH%3A%22Lonjon%20G%22%20OR%20AUTH%3A%22Challier%20V%22%20OR%20AUTH%3A%22Cristini%20J%22%29%20AND%20SRC%3AMED',
+  },
+
+  // project-mode. Bare `"HairDAO" AND SRC:MED` already returns a tight set — all
+  // 6 Medline hits are androgenetic-alopecia / follicular-delivery papers from
+  // the HairDAO-funded Gelfuso–Gratieri lab (verified live, no topic fence
+  // needed). Includes the Clinical & Experimental Dermatology 2025 DOI.
+  hairdao: {
+    mode: 'project',
+    query: '"HairDAO" AND SRC:MED',
+    label: 'Peer-reviewed research naming HairDAO',
+    highlight: [],
+    exploreUrl: 'https://europepmc.org/search?query=' + encodeURIComponent('"HairDAO" AND SRC:MED'),
+  },
+
+  // project-mode. The bare string alone pulls an unrelated HIV-burden paper via
+  // a funding mention, so a longevity KW fence is required — with it, all top
+  // hits are aging/senescence work (senescence biomarker, Clinical Trials
+  // Targeting Aging, NAD+ in aging). Verified live against Europe PMC.
+  vitadao: {
+    mode: 'project',
+    query: '"VitaDAO" AND SRC:MED AND (KW:"aging" OR KW:"longevity" OR KW:"senescence" OR KW:"ageing")',
+    label: 'Aging research naming VitaDAO',
+    highlight: [],
+    exploreUrl: 'https://europepmc.org/search?query=' + encodeURIComponent('"VitaDAO" AND SRC:MED AND (KW:"aging" OR KW:"longevity" OR KW:"senescence")'),
   },
 };
 
