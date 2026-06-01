@@ -988,8 +988,8 @@
     "name": "VitaRNA",
     "initials": "VR",
     "status": "live",
-    "stage": 3,
-    "stageDecimal": 3.2,
+    "stage": 2,
+    "stageDecimal": 2.9,
     "chain": "base",
     "displayOrder": 3,
     "segment": "ipt",
@@ -998,7 +998,7 @@
     "parent": "VitaDAO",
     "launchDate": "2025",
     "link": "https://app.bio.xyz/agents/vitarna",
-    "desc": "mRNA Gene Therapy IP-Token — first DeSci drug to enter UAE clinical dosing. Peaked at ~$27M MC from $300K initial raise.",
+    "desc": "mRNA/AAV9 gene therapy IP-Token (ARTAN Bio). Lead candidate ARTAN-102 cleared first in vivo mouse safety and is advancing through toxicology toward a 2026 IND. Peaked at ~$27M MC from a $300K initial raise.",
     "stats": [
       {
         "label": "Token",
@@ -1014,14 +1014,14 @@
       },
       {
         "label": "Status",
-        "value": "UAE clinical dosing"
+        "value": "Pre-IND (in vivo)"
       }
     ],
     "lastSignal": {
-      "when": "2025",
-      "text": "Dosing patients in UAE clinical trial — first DeSci drug in clinic."
+      "when": "Jun 2025",
+      "text": "First in vivo data: ARTAN-102 (AAV9) safe and biodistributed across six tissues in mice (14-day study). VDP-164 funds non-GLP/NHP toxicology toward a 2026 IND; ARTAN Bio + Syenex delivery collab."
     },
-    "output": "UAE clinical dosing · first DeSci drug in clinic",
+    "output": "Pre-IND · ARTAN-102 in vivo mouse safety · 2026 IND target",
     "outputN": 500
   },
   {
@@ -1428,7 +1428,7 @@
     "token": "None",
     "parent": "Stanford",
     "link": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12157518/",
-    "desc": "Stanford-developed general-purpose biomedical AI agent. Sets the SOTA bar that Bio Protocol BIOS Data Agent benchmarks against. Tracked here as a sector context signal: when academic groups build AI scientists comparable to BioAgents, the BioAgent thesis gets validated. Currently no token, but worth watching for tokenization or commercialization signals.",
+    "desc": "Stanford-developed general-purpose biomedical AI agent, now used by 7,000+ labs. Commercialized via Phylo (Biomni Lab), which raised a $13.5M seed from a16z and Menlo in Feb 2026. Sets the SOTA bar that Bio Protocol BIOS benchmarks against; tracked here as a sector-context signal.",
     "stats": [
       {
         "label": "Token",
@@ -1448,10 +1448,10 @@
       }
     ],
     "lastSignal": {
-      "when": "Published",
-      "text": "PMC paper (PMC12157518). Sector context for BIOS Data Agent."
+      "when": "Feb 2026",
+      "text": "Phylo launched Biomni Lab and raised a $13.5M seed (a16z, Menlo). Biomni open-source agent now used by 7,000+ labs."
     },
-    "output": "Stanford SOTA biomedical agent · academic context",
+    "output": "Stanford SOTA agent · 7,000+ labs · Phylo $13.5M seed",
     "outputN": 10
   },
   {
