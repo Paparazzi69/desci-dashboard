@@ -17,8 +17,8 @@
   --border-3:  #2e453d;
   --text:      #e6f0ec;
   --text-2:    #8a9a93;
-  --text-3:    #56655e;
-  --text-4:    #36433d;
+  --text-3:    #7d9389;
+  --text-4:    #74887f;
   --accent:    #3ee07b;
   --accent-2:  #b6f24a;
   --accent-dim:#2a9a55;
@@ -243,7 +243,7 @@ mark {
 .pep-wordmark .name span.cur { color: var(--text-3); font-weight: 400; }
 .pep-wordmark .bb {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--text-3);
+  font-size: 11px; color: var(--text-3);
   letter-spacing: 0.14em; margin-top: 2px;
 }
 
@@ -309,7 +309,7 @@ mark {
 .hero-ticker-r .stat:last-child { border-right: none; }
 .hero-ticker-r .l {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--text-3);
+  font-size: 11px; color: var(--text-3);
   letter-spacing: 0.12em; text-transform: uppercase;
   margin-bottom: 6px;
 }
@@ -330,7 +330,7 @@ mark {
   border: 1px solid var(--border-2);
   color: var(--text-2);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; font-weight: 600;
+  font-size: 11px; font-weight: 600;
   letter-spacing: 0.08em;
 }
 .chain-badge .dot {
@@ -355,7 +355,7 @@ mark {
 .contract-row .l { display: flex; align-items: center; gap: 14px; color: var(--text-3); }
 .contract-row .l .lab {
   color: var(--text-4);
-  letter-spacing: 0.12em; text-transform: uppercase; font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase; font-size: 11px;
 }
 .contract-row .pill-tbd {
   padding: 3px 8px;
@@ -717,7 +717,7 @@ mark {
 .scoreboard th {
   text-align: left; font-weight: 500;
   color: var(--text-3); letter-spacing: 0.1em;
-  text-transform: uppercase; font-size: 10px;
+  text-transform: uppercase; font-size: 11px;
   padding: 10px 12px;
   border-bottom: 1px solid var(--border-2);
   background: var(--bg-3);
@@ -872,7 +872,7 @@ mark {
 }
 .gate .id {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--text-4);
+  font-size: 11px; color: var(--text-4);
   letter-spacing: 0.14em; text-transform: uppercase;
 }
 .gate.lit .id { color: var(--accent); }
@@ -887,7 +887,7 @@ mark {
 }
 .gate .tool {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--text-3);
+  font-size: 11px; color: var(--text-3);
   letter-spacing: 0.06em;
   margin-top: auto;
   line-height: 1.4;
@@ -946,7 +946,7 @@ mark {
 }
 .stack-card .id {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--text-3);
+  font-size: 11px; color: var(--text-3);
   letter-spacing: 0.14em; text-transform: uppercase;
   margin-bottom: 18px;
 }
@@ -1008,7 +1008,7 @@ mark {
 }
 .tokeno-center .l {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--text-3);
+  font-size: 11px; color: var(--text-3);
   letter-spacing: 0.14em; text-transform: uppercase;
   margin-bottom: 10px;
 }
@@ -1053,7 +1053,7 @@ mark {
 }
 .token-stat .l {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--text-3);
+  font-size: 11px; color: var(--text-3);
   letter-spacing: 0.12em; text-transform: uppercase;
   margin-bottom: 6px;
 }
@@ -1114,7 +1114,7 @@ mark {
   display: inline-flex; align-items: center;
   margin-left: 12px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; letter-spacing: 0.1em;
+  font-size: 11px; letter-spacing: 0.1em;
   color: var(--text-3);
   padding: 2px 7px;
   border: 1px solid var(--border-2);
@@ -1183,7 +1183,7 @@ mark {
 .compare-row.head { background: var(--bg-3); padding: 14px 28px; }
 .compare-row.head div {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--text-3);
+  font-size: 11px; color: var(--text-3);
   letter-spacing: 0.14em; text-transform: uppercase;
 }
 .compare-row .proj {
@@ -1270,7 +1270,7 @@ footer {
 }
 .footer-col .h {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; color: var(--text-4);
+  font-size: 11px; color: var(--text-4);
   letter-spacing: 0.16em; text-transform: uppercase;
   margin-bottom: 16px;
 }
