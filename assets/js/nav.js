@@ -1,7 +1,7 @@
 /* Header nav behaviour, shared by every page so the nav works identically site-wide.
    - Desktop: primary links sit inline in the pill; secondary and external links
      live behind the "More" disclosure (click, outside-click, Escape to close).
-   - Mobile (<=720px, via CSS): the whole nav collapses under one burger button.
+   - Mobile (<=880px, via CSS): the whole nav collapses under one burger button.
      This script clones the primary links into the top of the menu (with their
      labels) and adds the burger glyph, so on a phone every section is one tap
      away with a readable name instead of a bare icon. Progressive enhancement:
@@ -54,6 +54,10 @@
     var primary = nav.querySelectorAll(':scope > a.header-nav-link');
     var frag = document.createDocumentFragment();
     for (var i = 0; i < primary.length; i++) {
+      // Tooltip for the 881-1279px band, where primary links are icon-only.
+      if (primary[i].getAttribute('aria-label')) {
+        primary[i].title = primary[i].getAttribute('aria-label');
+      }
       var clone = primary[i].cloneNode(true);
       clone.className = 'header-nav-menu-item header-nav-menu-item--mobile';
       clone.setAttribute('role', 'menuitem');
