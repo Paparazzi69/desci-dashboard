@@ -310,3 +310,41 @@ export function moversSkeletonHTML() {
   `).join('');
 }
 
+// ─── Catalyst calendar ────────────────────────────────────────────────────────
+// Forward-looking, sourced events. Each node links to its primary source;
+// the tooltip carries the source label so the provenance is visible on hover.
+export function catalystsHTML(items) {
+  return `
+    <div class="milestones-header">
+      <span class="milestones-title">Catalyst Calendar</span>
+      <span class="milestones-line"></span>
+      <span class="milestones-count">${items.length} upcoming · every entry sourced</span>
+    </div>
+    <div class="milestones-scroll">
+      <div class="milestones-track" style="min-width:${Math.max(items.length * 140, 700)}px">
+        <div class="milestones-track-line"></div>
+        <div class="milestones-nodes">
+          ${items.map(m => `
+            <a class="milestone-node" href="${escapeHtml(m.source)}" target="_blank" rel="noopener noreferrer"
+               aria-label="${escapeHtml(m.title)}, open source">
+              <div class="milestone-date">${escapeHtml(m.date)}</div>
+              <div class="milestone-dot" data-color="${escapeHtml(m.typeColor)}"></div>
+              <div class="milestone-meta">
+                <span class="milestone-token" data-color="${escapeHtml(m.typeColor)}">${escapeHtml(m.token)}</span>
+                <span class="milestone-type" data-color="${escapeHtml(m.typeColor)}">${escapeHtml(m.type)}</span>
+                <div class="milestone-title-text">${escapeHtml(m.title)}</div>
+              </div>
+              <div class="milestone-tooltip">
+                <div class="milestone-tooltip-meta" style="color:var(--${escapeHtml(m.typeColor)})">${escapeHtml(m.type)} · ${escapeHtml(m.date)}</div>
+                <div class="milestone-tooltip-title">${escapeHtml(m.title)}</div>
+                <p class="milestone-tooltip-desc">${escapeHtml(m.desc)}</p>
+                <div class="milestone-tooltip-src">${escapeHtml(m.sourceLabel)} ↗</div>
+              </div>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+

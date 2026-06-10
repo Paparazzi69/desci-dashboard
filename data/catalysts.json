@@ -1,0 +1,52 @@
+[
+  {
+    "date": "Q2 2026",
+    "token": "PEPTAI",
+    "type": "Wet-lab",
+    "typeColor": "amber",
+    "title": "OX2R-004 Phase 1 wet-lab staged on Molecule",
+    "desc": "$7,750 budget locked. BLI plus OX1R counter-screen at Adaptyv Bio, cAMP HTRF at Ginkgo Bioworks, plasma-stability LC-MS. 4-6 week turnaround expected from handoff to first data.",
+    "source": "https://molecule.xyz/projects/88214997774048750483620597615402512868285098265515203121136501631773096632622",
+    "sourceLabel": "molecule.xyz project page · accessed Jun 10, 2026"
+  },
+  {
+    "date": "Jun 18-19",
+    "token": "BIO",
+    "type": "Event",
+    "typeColor": "green",
+    "title": "DeSci.Berlin 2026, agentic science focus",
+    "desc": "Flagship sector conference in Kreuzberg, Berlin, presented by Bio Protocol and Molecule during Berlin Blockchain Week. 2026 theme: agentic science.",
+    "source": "https://desci.berlin/",
+    "sourceLabel": "desci.berlin · accessed Jun 10, 2026"
+  },
+  {
+    "date": "Mid-2026",
+    "token": "LEVF",
+    "type": "Trial",
+    "typeColor": "blue",
+    "title": "RMR2 main phase start window",
+    "desc": "LEV Foundation: pilot underway; on the current funding trajectory the main phase of RMR2 starts around mid-2026, significant results expected 2028. Aubrey de Grey is also the scientist behind AUBRAI.",
+    "source": "https://www.levf.org/december-2025-update",
+    "sourceLabel": "levf.org December 2025 update · accessed Jun 10, 2026"
+  },
+  {
+    "date": "2026",
+    "token": "VRNA",
+    "type": "IND",
+    "typeColor": "purple",
+    "title": "ARTAN-102 IND submission target",
+    "desc": "VDP-164, a $500K VitaDAO loan, advances VitaRNA (ARTAN Bio) through non-GLP toxicology toward a 2026 IND submission for ARTAN-102, the lead AAV9 gene therapy.",
+    "source": "https://gov.vitadao.com/t/vdp-164-vitadao-funding-proposal-500k-loan-to-advance-vitarna-through-non-glp-toxicology-toward-2026-ind-submission/2052",
+    "sourceLabel": "gov.vitadao.com VDP-164 · accessed Jun 10, 2026"
+  },
+  {
+    "date": "Q4 2026",
+    "token": "PEPTAI",
+    "type": "Vote",
+    "typeColor": "teal",
+    "title": "Agent-04 receptor community vote",
+    "desc": "Community governance vote selects the next receptor for Agent-04. Pipeline expands beyond the current GLP-1R / KISS1R / OX2R triad.",
+    "source": "https://descidash.com/projects/peptai/#sec-8",
+    "sourceLabel": "descidash deep dive · audited May 2026"
+  }
+]

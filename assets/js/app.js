@@ -12,6 +12,7 @@ import {
   filterChipsHTML, tokenHeaderHTML, tokenRowHTML,
   bannerHTML,
   drawerHTML, moversHTML, moversSkeletonHTML,
+  catalystsHTML,
 } from './components.js';
 import { mount as mountBubbleMap } from './bubblemap.js';
 import { mount as mountParticleNetwork } from './particle-network.js';
@@ -21,6 +22,7 @@ const STALE_THRESHOLD_MS = 90_000;
 
 const state = {
   tokens: [],
+  catalysts: [],
   sortKey: 'mcap',
   sortDir: 'desc',
   activeFilter: 'All',
@@ -43,6 +45,7 @@ async function boot() {
   renderShell();
   mountParticleNetworks();
 
+  loadCatalysts();
   await refreshPrices();
   renderBubbleMap();
 
@@ -74,6 +77,16 @@ async function refreshPrices() {
   renderFilterChips();
   renderBanner();
   updateLiveIndicator();
+}
+
+async function loadCatalysts() {
+  try {
+    const r = await fetch('/data/catalysts.json');
+    state.catalysts = await r.json();
+  } catch (e) {
+    state.catalysts = [];
+  }
+  renderCatalysts();
 }
 
 async function loadTokenDetail(id) {
@@ -259,6 +272,13 @@ function renderBubbleMap() {
   // Cleanup previous instance
   if (state.bubbleMapCleanup) { state.bubbleMapCleanup(); state.bubbleMapCleanup = null; }
   state.bubbleMapCleanup = mountBubbleMap(el, state.tokens, (id) => openDrawer(id), tokenImages);
+}
+
+// ─── Render: catalyst calendar ────────────────────────────────────────────────
+function renderCatalysts() {
+  const el = document.getElementById('catalysts');
+  if (!el) return;
+  el.innerHTML = state.catalysts.length === 0 ? '' : catalystsHTML(state.catalysts);
 }
 
 // ─── Render: drawer ───────────────────────────────────────────────────────────
