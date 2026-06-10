@@ -93,6 +93,8 @@
   }
   .movers-line { flex: 1; height: 1px; background: var(--border2, #1a2d3a); }
   .movers-hint { color: var(--text3); font-size: 11px; white-space: nowrap; }
+  .movers-week-link { color: var(--green); font-size: 11px; white-space: nowrap; text-decoration: none; }
+  .movers-week-link:hover { text-decoration: underline; }
   .movers-row {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -376,6 +378,7 @@
         <h2 class="movers-title">24h Movers</h2>
         <span class="movers-line"></span>
         <span class="movers-hint">Top 3 · Bottom 3 · Click to open</span>
+        <a class="movers-week-link" href="/heat">7d board →</a>
       </div>
       <div class="movers-row" id="movers-row"><!-- chips injected --></div>
     </section>
