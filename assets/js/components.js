@@ -271,35 +271,3 @@ function sanitizeDesc(s) {
     });
 }
 
-export function milestonesHTML(milestones) {
-  return `
-    <div class="milestones-header">
-      <span class="milestones-title">Research Milestones</span>
-      <span class="milestones-line"></span>
-      <span class="milestones-count">${milestones.length} events</span>
-    </div>
-    <div class="milestones-scroll">
-      <div class="milestones-track" style="min-width:${Math.max(milestones.length * 140, 700)}px">
-        <div class="milestones-track-line"></div>
-        <div class="milestones-nodes">
-          ${milestones.map(m => `
-            <div class="milestone-node">
-              <div class="milestone-date">${escapeHtml(m.date.split(',')[0])}</div>
-              <div class="milestone-dot" data-color="${escapeHtml(m.typeColor)}"></div>
-              <div class="milestone-meta">
-                <span class="milestone-token" data-color="${escapeHtml(m.typeColor)}">${escapeHtml(m.token)}</span>
-                <span class="milestone-type" data-color="${escapeHtml(m.typeColor)}">${escapeHtml(m.type)}</span>
-                <div class="milestone-title-text">${escapeHtml(m.title)}</div>
-              </div>
-              <div class="milestone-tooltip">
-                <div class="milestone-tooltip-meta" style="color:var(--${escapeHtml(m.typeColor)})">${escapeHtml(m.type)} · ${escapeHtml(m.date)}</div>
-                <div class="milestone-tooltip-title">${escapeHtml(m.title)}</div>
-                <p class="milestone-tooltip-desc">${escapeHtml(m.desc)}</p>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </div>
-  `;
-}

@@ -11,7 +11,7 @@ import {
   sectorCardHTML, sectorCardSkeleton,
   filterChipsHTML, tokenHeaderHTML, tokenRowHTML,
   bannerHTML,
-  drawerHTML, milestonesHTML,
+  drawerHTML,
 } from './components.js';
 import { mount as mountBubbleMap } from './bubblemap.js';
 import { mount as mountParticleNetwork } from './particle-network.js';
@@ -21,7 +21,6 @@ const STALE_THRESHOLD_MS = 90_000;
 
 const state = {
   tokens: [],
-  milestones: [],
   sortKey: 'mcap',
   sortDir: 'desc',
   activeFilter: 'All',
@@ -44,8 +43,6 @@ async function boot() {
   renderShell();
   mountParticleNetworks();
 
-  // Load milestones first (local file, fast) then fetch prices.
-  loadMilestones();
   await refreshPrices();
   renderBubbleMap();
 
@@ -76,16 +73,6 @@ async function refreshPrices() {
   renderFilterChips();
   renderBanner();
   updateLiveIndicator();
-}
-
-async function loadMilestones() {
-  try {
-    const r = await fetch('/data/milestones.json', { cache: 'force-cache' });
-    state.milestones = await r.json();
-  } catch (e) {
-    state.milestones = [];
-  }
-  renderMilestones();
 }
 
 async function loadTokenDetail(id) {
@@ -256,16 +243,6 @@ function renderBubbleMap() {
   // Cleanup previous instance
   if (state.bubbleMapCleanup) { state.bubbleMapCleanup(); state.bubbleMapCleanup = null; }
   state.bubbleMapCleanup = mountBubbleMap(el, state.tokens, (id) => openDrawer(id), tokenImages);
-}
-
-// ─── Render: milestones ───────────────────────────────────────────────────────
-function renderMilestones() {
-  const el = document.getElementById('milestones');
-  if (state.milestones.length === 0) {
-    el.innerHTML = '';
-    return;
-  }
-  el.innerHTML = milestonesHTML(state.milestones);
 }
 
 // ─── Render: drawer ───────────────────────────────────────────────────────────

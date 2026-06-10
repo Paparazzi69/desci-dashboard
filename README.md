@@ -159,7 +159,6 @@ dashboard — almost always it means the KV binding isn't named exactly
 | `wrangler.toml` | Cloudflare Pages config. `pages_build_output_dir = "."` is the only required line — KV bindings are easier to configure in the dashboard. |
 | `assets/js/data.js` | Token classification (focus, tags, chain, isMicroCap, twitter). **Keyed by CoinGecko id** — never hardcode symbol → id mapping. |
 | `functions/_shared.js` | The list of CoinGecko ids to fetch (`TOKEN_IDS`) and the GeckoTerminal contract map (`GT_TOKENS`). Edit here when you add a new token to the index. |
-| `data/milestones.json` | Hardcoded research milestones rendered at the bottom of the page. |
 
 ## Costs
 
