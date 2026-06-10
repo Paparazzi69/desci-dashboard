@@ -11,7 +11,7 @@ import {
   sectorCardHTML, sectorCardSkeleton,
   filterChipsHTML, tokenHeaderHTML, tokenRowHTML,
   bannerHTML,
-  drawerHTML,
+  drawerHTML, moversHTML, moversSkeletonHTML,
 } from './components.js';
 import { mount as mountBubbleMap } from './bubblemap.js';
 import { mount as mountParticleNetwork } from './particle-network.js';
@@ -70,6 +70,7 @@ async function refreshPrices() {
   }
   renderTable();
   renderSectorSummary();
+  renderMovers();
   renderFilterChips();
   renderBanner();
   updateLiveIndicator();
@@ -118,6 +119,8 @@ function renderShell() {
   document.getElementById('sector-summary').innerHTML = [
     'Total Market Cap', '24h Volume', 'Sector 24h Δ', 'Dominant Token', 'Trend',
   ].map(sectorCardSkeleton).join('');
+  // Movers skeleton — same chip count and height as the data state
+  document.getElementById('movers-row').innerHTML = moversSkeletonHTML();
   // Empty filter chips placeholder
   document.getElementById('filter-chips').innerHTML = filterChipsHTML(state.activeFilter, {}, 0);
   document.getElementById('token-thead').innerHTML = tokenHeaderHTML(state.sortKey, state.sortDir);
@@ -160,6 +163,19 @@ function renderSectorSummary() {
     sectorCardHTML('Dominant Token', (dominant?.symbol || '—').toUpperCase(), `${dominance}% of sector mcap`, 'var(--amber)'),
     sectorCardHTML('Trend', trend, `${positives} of ${state.tokens.length} tokens positive 24h`, trendAccent),
   ].join('');
+}
+
+// ─── Render: 24h movers ───────────────────────────────────────────────────────
+function renderMovers() {
+  const el = document.getElementById('movers-row');
+  if (!el) return;
+  const ranked = state.tokens
+    .filter(t => typeof t.d1 === 'number')
+    .sort((a, b) => b.d1 - a.d1);
+  if (ranked.length < 6) return; // partial / empty payload — keep the skeleton
+  // Losers stay in descending order so the worst performer sits at the far
+  // right edge, symmetric with the best performer at the far left.
+  el.innerHTML = moversHTML(ranked.slice(0, 3), ranked.slice(-3));
 }
 
 // ─── Render: filters & table ──────────────────────────────────────────────────
@@ -289,6 +305,12 @@ function onMainClick(e) {
     state.activeFilter = chip.dataset.filter;
     renderFilterChips();
     renderTable();
+    return;
+  }
+  // Mover chip → same drawer as a table row
+  const mover = e.target.closest('.mover-chip[data-id]');
+  if (mover) {
+    openDrawer(mover.dataset.id);
     return;
   }
   // Sortable header

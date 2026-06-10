@@ -71,6 +71,84 @@
   @media (max-width: 768px) {
     .bubblemap-section { display: none; }
   }
+
+  /* ── 24h Movers strip (top 3 / bottom 3 from the Token Index) ──
+     Grid with fixed-height chips: cell count and chip height never change
+     between skeleton and data, so the section is CLS-neutral by design. */
+  .movers-section { margin-bottom: 24px; }
+  .movers-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .movers-title {
+    color: var(--text3);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .movers-line { flex: 1; height: 1px; background: var(--border2, #1a2d3a); }
+  .movers-hint { color: var(--text3); font-size: 11px; white-space: nowrap; }
+  .movers-row {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .mover-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    height: 44px;
+    padding: 0 12px;
+    min-width: 0;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .15s, transform .15s;
+  }
+  .mover-chip:disabled { cursor: default; }
+  .mover-chip[data-id]:hover { transform: translateY(-1px); }
+  .mover-chip[data-side="up"]:hover { border-color: oklch(from var(--green) l c h / 0.45); }
+  .mover-chip[data-side="down"]:hover { border-color: oklch(from var(--red) l c h / 0.45); }
+  .mover-chip-id { display: flex; align-items: center; gap: 7px; min-width: 0; }
+  .mover-logo { width: 18px; height: 18px; border-radius: 50%; flex: none; overflow: hidden; }
+  .mover-logo img { width: 100%; height: 100%; display: block; }
+  .mover-logo-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--green-bg);
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+  }
+  .mover-symbol {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mover-chip .change-pill { flex: none; font-size: 11px; }
+  @media (max-width: 900px) {
+    .movers-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 420px) {
+    .mover-chip { padding: 0 9px; gap: 6px; }
+    .mover-symbol { font-size: 11px; }
+  }
+
   @keyframes pulse {
     0%,100%{opacity:1;transform:scale(1)}
     50%{opacity:.5;transform:scale(.85)}
@@ -290,6 +368,16 @@
 
     <section class="sector-summary" id="sector-summary" aria-label="Sector summary">
       <!-- 5 SectorCards injected -->
+    </section>
+
+    <!-- ── 24h Movers ── -->
+    <section class="movers-section" aria-label="24h movers">
+      <div class="movers-header">
+        <h2 class="movers-title">24h Movers</h2>
+        <span class="movers-line"></span>
+        <span class="movers-hint">Top 3 · Bottom 3 · Click to open</span>
+      </div>
+      <div class="movers-row" id="movers-row"><!-- chips injected --></div>
     </section>
 
     <!-- ── Bubble Map (desktop only, hidden on ≤768px) ── -->

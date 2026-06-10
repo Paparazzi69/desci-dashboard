@@ -271,3 +271,42 @@ function sanitizeDesc(s) {
     });
 }
 
+// ─── 24h movers strip ─────────────────────────────────────────────────────────
+function moverChipHTML(token, side) {
+  const pos = (token.d1 ?? 0) >= 0;
+  const sym = (token.symbol || '').toUpperCase();
+  const logo = token.image
+    ? `<span class="mover-logo"><img src="${escapeHtml(token.image)}" alt="" loading="lazy"></span>`
+    : `<span class="mover-logo mover-logo-fallback">${escapeHtml(sym.slice(0, 2))}</span>`;
+  return `
+    <button type="button" class="mover-chip" data-id="${escapeHtml(token.id)}" data-side="${side}"
+            aria-label="${escapeHtml(sym)} ${fmtPct(token.d1)} in 24 hours, open details">
+      <span class="mover-chip-id">
+        ${logo}
+        <span class="mover-symbol">${escapeHtml(sym)}</span>
+      </span>
+      <span class="change-pill" data-pos="${pos}">${fmtPct(token.d1)}</span>
+    </button>
+  `;
+}
+
+export function moversHTML(gainers, losers) {
+  return gainers.map(t => moverChipHTML(t, 'up'))
+    .concat(losers.map(t => moverChipHTML(t, 'down')))
+    .join('');
+}
+
+export function moversSkeletonHTML() {
+  // Mirrors moverChipHTML structure exactly (same chip height, same child
+  // elements) so the strip height is identical before and after data lands.
+  return Array.from({ length: 6 }, () => `
+    <button type="button" class="mover-chip" disabled>
+      <span class="mover-chip-id">
+        <span class="mover-logo mover-logo-fallback">··</span>
+        <span class="mover-symbol">———</span>
+      </span>
+      <span class="change-pill">——</span>
+    </button>
+  `).join('');
+}
+
