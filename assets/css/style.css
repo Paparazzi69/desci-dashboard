@@ -266,11 +266,22 @@ button.header-nav-menu-item { background: transparent; border: 0; width: 100%; t
 }
 .header-nav-search-btn:hover .header-nav-kbd { color: var(--green, #3de8a0); border-color: rgba(61,232,160,0.4); }
 /* Mobile-only primary clones (injected into the menu by nav.js) + the burger
-   glyph in the More button. Hidden on desktop; revealed in the <=720px block. */
+   glyph in the More button. Hidden on desktop; revealed in the <=880px block. */
 .header-nav-menu-item--mobile { display: none; }
 .header-nav-burger { display: none; }
 
-@media (max-width: 720px) {
+/* Mid band (881-1279px): full labels need ~1275px of header (measured: brand
+   221 + pill 854 + status 124 + gaps/padding 76), so the pill used to overflow
+   and clip. Primary links collapse to icons (names stay via aria-label/title,
+   and every section is still labeled inside the More menu); More + search keep
+   their affordances. Below 881px even the icon pill (468px) plus brand and
+   status doesn't fit, so the burger takes over. */
+@media (min-width: 881px) and (max-width: 1279px) {
+  .header-nav > a.header-nav-link span:not(.header-nav-arrow) { display: none; }
+  .header-nav > a.header-nav-link { padding: 10px 14px; }
+}
+
+@media (max-width: 880px) {
   .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; min-height: 44px; }
   .header-nav-link span:not(.header-nav-arrow) { font-size: 12px; }
   .header-nav-menu { left: 0; right: auto; }
