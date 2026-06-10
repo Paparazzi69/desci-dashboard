@@ -49,6 +49,15 @@ async function boot() {
   await refreshPrices();
   renderBubbleMap();
 
+  // Deep link from the nav search palette: /?token=<id> opens the drawer once
+  // prices land. (On the homepage itself the palette calls openTokenDrawer
+  // directly — this path is for arrivals from other pages.)
+  const deepLink = new URLSearchParams(location.search).get('token');
+  if (deepLink) {
+    if (state.tokens.some(t => t.id === deepLink)) openDrawer(deepLink);
+    history.replaceState(null, '', location.pathname);
+  }
+
   setInterval(() => { refreshPrices().then(renderBubbleMap); }, REFRESH_PRICES_MS);
   setInterval(updateLiveIndicator, 5_000);
   setInterval(() => {
@@ -380,5 +389,9 @@ function closeDrawer() {
   state.selectedDetail = null;
   renderDrawer();
 }
+
+// Exposed for the nav search palette (nav.js): a token hit on the homepage
+// opens the drawer in place instead of reloading with ?token=.
+window.openTokenDrawer = openDrawer;
 
 boot();

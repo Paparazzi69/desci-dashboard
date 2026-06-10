@@ -174,21 +174,39 @@ a { color: inherit; text-decoration: none; }
 .header-nav-more-btn[aria-expanded="true"] .header-nav-caret { transform: rotate(180deg); color: var(--green, #3de8a0); }
 .header-nav-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 10px);
   right: 0;
-  min-width: 210px;
-  padding: 6px;
+  min-width: 252px;
+  padding: 8px;
   background: rgba(10, 20, 28, 0.97);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(61,232,160,0.22);
-  border-radius: 14px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(61,232,160,0.28);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 4px rgba(61,232,160,0.04),
+    0 18px 44px rgba(0,0,0,0.55);
   z-index: 60;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  animation: menuIn 0.16s ease;
 }
+/* Docked tail pointing at the More button so the panel reads as part of the
+   pill rather than a floating OS dropdown. Border matches the pill's. */
+.header-nav-menu::before {
+  content: '';
+  position: absolute;
+  top: -5.5px;
+  right: 30px;
+  width: 10px;
+  height: 10px;
+  background: rgba(10, 20, 28, 0.97);
+  border-left: 1px solid rgba(61,232,160,0.28);
+  border-top: 1px solid rgba(61,232,160,0.28);
+  transform: rotate(45deg);
+}
+@keyframes menuIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 .header-nav-menu[hidden] { display: none; }
 .header-nav-menu-item {
   display: flex;
@@ -208,7 +226,45 @@ a { color: inherit; text-decoration: none; }
 .header-nav-menu-item[aria-current="page"] { color: var(--green, #3de8a0); }
 .header-nav-menu-item svg { flex-shrink: 0; opacity: 0.85; }
 .header-nav-menu-item .header-nav-arrow { margin-left: auto; }
+/* The mobile Search entry is a <button>; flatten the UA chrome so it renders
+   exactly like the anchor items around it. */
+button.header-nav-menu-item { background: transparent; border: 0; width: 100%; text-align: left; cursor: pointer; font-family: inherit; }
+/* Two-line items (title + injected description, see nav.js MENU_DESCS). */
+.header-nav-menu-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.header-nav-menu-title { font-size: 13px; font-weight: 500; line-height: 1.3; }
+.header-nav-menu-desc { font-size: 11px; font-weight: 400; color: var(--text3, #4a6470); line-height: 1.35; transition: color 0.15s; }
+.header-nav-menu-item:hover .header-nav-menu-desc { color: var(--text2, #6f8a94); }
+/* Live top-mover badge on the Heat row (filled from /api/prices on open). */
+.header-nav-menu-live {
+  margin-left: auto;
+  padding-left: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+.header-nav-menu-live[data-dir="up"] { color: var(--green, #3de8a0); }
+.header-nav-menu-live[data-dir="down"] { color: var(--red, #e85d5d); }
 .header-nav-menu-sep { height: 1px; margin: 4px 8px; background: rgba(61,232,160,0.14); }
+/* Search button in the pill (injected by nav.js before the More button). */
+.header-nav-search-btn {
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(61,232,160,0.16);
+  cursor: pointer;
+  padding: 10px 16px;
+  gap: 7px;
+}
+.header-nav-kbd {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--text3, #4a6470);
+  border: 1px solid rgba(61,232,160,0.18);
+  border-radius: 5px;
+  padding: 3px 5px 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.header-nav-search-btn:hover .header-nav-kbd { color: var(--green, #3de8a0); border-color: rgba(61,232,160,0.4); }
 /* Mobile-only primary clones (injected into the menu by nav.js) + the burger
    glyph in the More button. Hidden on desktop; revealed in the <=720px block. */
 .header-nav-menu-item--mobile { display: none; }
@@ -218,6 +274,11 @@ a { color: inherit; text-decoration: none; }
   .header-nav-link { padding: 8px 14px; font-size: 12px; gap: 7px; min-height: 44px; }
   .header-nav-link span:not(.header-nav-arrow) { font-size: 12px; }
   .header-nav-menu { left: 0; right: auto; }
+  /* Left-anchored menu + a two-button pill: the tail can't reliably point at
+     the burger, so drop it — on mobile the menu reads as a nav sheet anyway. */
+  .header-nav-menu::before { display: none; }
+  .header-nav-search-btn { padding: 8px 12px; }
+  .header-nav-search-btn .header-nav-kbd { display: none; }
 
   /* No-JS fallback: icon-only primary so the items plus More fit without a
      horizontal-scroll strip. Labels stay available via aria-label. */
@@ -236,6 +297,93 @@ a { color: inherit; text-decoration: none; }
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
   }
+}
+
+/* ── Search palette ("/" or Ctrl+K, built by nav.js) ─────────── */
+.palette-backdrop {
+  position: fixed; inset: 0;
+  background: oklch(0.05 0.02 215 / 0.62);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 120; /* above the token drawer (100) */
+  animation: fadeIn 0.15s ease;
+}
+.palette-backdrop[hidden] { display: none; }
+.palette {
+  width: min(580px, calc(100vw - 32px));
+  margin: 16vh auto 0;
+  background: rgba(10, 20, 28, 0.98);
+  border: 1px solid rgba(61,232,160,0.28);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 4px rgba(61,232,160,0.04),
+    0 24px 64px rgba(0,0,0,0.6);
+  overflow: hidden;
+  animation: paletteIn 0.16s ease;
+}
+@keyframes paletteIn { from { opacity: 0; transform: translateY(8px) scale(0.985); } to { opacity: 1; transform: none; } }
+.palette-input-row {
+  display: flex; align-items: center; gap: 11px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(61,232,160,0.14);
+  color: var(--text2, #6f8a94);
+}
+.palette-input {
+  flex: 1; min-width: 0;
+  background: transparent; border: none; outline: none;
+  color: var(--text, #d8eae5);
+  font-family: inherit;
+  font-size: 15px;
+}
+.palette-input::placeholder { color: var(--text3, #4a6470); }
+.palette-esc {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1;
+  color: var(--text3, #4a6470);
+  border: 1px solid rgba(61,232,160,0.18); border-radius: 5px;
+  padding: 3px 6px 2px;
+}
+.palette-results {
+  max-height: min(420px, 60vh);
+  overflow-y: auto;
+  padding: 8px;
+}
+.palette-group {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text3, #4a6470);
+  padding: 8px 10px 4px;
+}
+.palette-item {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.palette-item.is-sel { background: rgba(61,232,160,0.10); }
+.palette-item.is-sel .palette-title,
+.palette-item.is-sel .palette-sym { color: var(--green, #3de8a0); }
+.palette-title { font-size: 13.5px; font-weight: 500; white-space: nowrap; }
+.palette-desc {
+  margin-left: auto;
+  font-size: 11.5px; color: var(--text3, #4a6470);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.palette-sym {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px; font-weight: 600; letter-spacing: 0.02em;
+}
+.palette-name {
+  font-size: 12px; color: var(--text2, #6f8a94);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.palette-d1 { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+.palette-d1[data-dir="up"] { color: var(--green, #3de8a0); }
+.palette-d1[data-dir="down"] { color: var(--red, #e85d5d); }
+.palette-empty { padding: 22px 12px; text-align: center; color: var(--text3, #4a6470); font-size: 13px; }
+@media (max-width: 720px) {
+  .palette { margin-top: 9vh; }
+  .palette-input { font-size: 16px; } /* keeps iOS from zooming the field */
+  .palette-desc { display: none; }
 }
 
 /* ── Banner ──────────────────────────────────────────────────── */
