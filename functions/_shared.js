@@ -27,6 +27,16 @@ export const TOKEN_IDS = [
   // discovery (~$29M). NANA = NanoVita on BSC, AI + nanotech health
   // research (~$760K). All three CoinGecko-categorized as DeSci.
   'pythia', 'nova-3', 'nanovita',
+  // 2026-06-10 batch (Launch Radar): 15 DeSci tokens from a multi-source
+  // sweep, each slug confirmed live on CoinGecko /coins/markets (the same
+  // call this endpoint makes, so chain is irrelevant to the fetch). Tier 1
+  // = BIO/Molecule/VitaDAO-ecosystem DAOs and IP-tokens with named science;
+  // Tier 2 = real-utility tokens carrying pump.fun / thin-science caveats
+  // (noted in their TOKEN_META). Memes and keyword-squats were excluded.
+  'quantum-biology-dao', 'poscidondao-token', 'genomesdao-genome',
+  'molecules-of-korolchuk-ip-nft', 'ip-tokens-of-ipnft-129', 'vitastem',
+  'rejuve-ai', 'data-lake', 'hydradao', 'the-innovation-game',
+  'yne', 'cudis', 'silencio', 'welshare-health-token', 'cryorat',
 ];
 
 // Tokens fetched from GeckoTerminal (CoinGecko's on-chain DEX product,
