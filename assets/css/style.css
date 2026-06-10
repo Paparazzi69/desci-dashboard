@@ -923,6 +923,10 @@ a { color: inherit; text-decoration: none; }
 }
 .milestone-tooltip-title { font-weight: 600; font-size: 11px; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
 .milestone-tooltip-desc { font-size: 11px; color: var(--text2); line-height: 1.5; }
+.milestone-tooltip-src { margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text3); }
+
+/* Catalyst nodes are links to their primary source */
+a.milestone-node { text-decoration: none; color: inherit; cursor: pointer; }
 
 /* ── Footer ──────────────────────────────────────────────────── */
 .page-footer {
