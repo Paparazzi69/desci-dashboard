@@ -311,39 +311,29 @@ export function moversSkeletonHTML() {
 }
 
 // ─── Catalyst calendar ────────────────────────────────────────────────────────
-// Forward-looking, sourced events. Each node links to its primary source;
-// the tooltip carries the source label so the provenance is visible on hover.
+// Forward-looking, sourced events as a card grid. The whole card links to
+// its primary source; the source label sits in the card footer.
 export function catalystsHTML(items) {
   return `
-    <div class="milestones-header">
-      <span class="milestones-title">Catalyst Calendar</span>
-      <span class="milestones-line"></span>
-      <span class="milestones-count">${items.length} upcoming · every entry sourced</span>
+    <div class="cat-header">
+      <span class="cat-title">Catalyst Calendar</span>
+      <span class="cat-line"></span>
+      <span class="cat-count">${items.length} upcoming · every entry sourced</span>
     </div>
-    <div class="milestones-scroll">
-      <div class="milestones-track" style="min-width:${Math.max(items.length * 140, 700)}px">
-        <div class="milestones-track-line"></div>
-        <div class="milestones-nodes">
-          ${items.map(m => `
-            <a class="milestone-node" href="${escapeHtml(m.source)}" target="_blank" rel="noopener noreferrer"
-               aria-label="${escapeHtml(m.title)}, open source">
-              <div class="milestone-date">${escapeHtml(m.date)}</div>
-              <div class="milestone-dot" data-color="${escapeHtml(m.typeColor)}"></div>
-              <div class="milestone-meta">
-                <span class="milestone-token" data-color="${escapeHtml(m.typeColor)}">${escapeHtml(m.token)}</span>
-                <span class="milestone-type" data-color="${escapeHtml(m.typeColor)}">${escapeHtml(m.type)}</span>
-                <div class="milestone-title-text">${escapeHtml(m.title)}</div>
-              </div>
-              <div class="milestone-tooltip">
-                <div class="milestone-tooltip-meta" style="color:var(--${escapeHtml(m.typeColor)})">${escapeHtml(m.type)} · ${escapeHtml(m.date)}</div>
-                <div class="milestone-tooltip-title">${escapeHtml(m.title)}</div>
-                <p class="milestone-tooltip-desc">${escapeHtml(m.desc)}</p>
-                <div class="milestone-tooltip-src">${escapeHtml(m.sourceLabel)} ↗</div>
-              </div>
-            </a>
-          `).join('')}
-        </div>
-      </div>
+    <div class="cat-grid">
+      ${items.map(m => `
+        <a class="cat-card" data-color="${escapeHtml(m.typeColor)}" href="${escapeHtml(m.source)}"
+           target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(m.title)}, open source">
+          <div class="cat-top">
+            <span class="cat-date mono">${escapeHtml(m.date)}</span>
+            <span class="cat-type" data-color="${escapeHtml(m.typeColor)}">${escapeHtml(m.type)}</span>
+          </div>
+          <div class="cat-token mono" data-color="${escapeHtml(m.typeColor)}">${escapeHtml(m.token)}</div>
+          <div class="cat-card-title">${escapeHtml(m.title)}</div>
+          <p class="cat-desc">${escapeHtml(m.desc)}</p>
+          <div class="cat-src mono">${escapeHtml(m.sourceLabel)} ↗</div>
+        </a>
+      `).join('')}
     </div>
   `;
 }
