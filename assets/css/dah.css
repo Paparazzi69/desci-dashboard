@@ -153,33 +153,6 @@
   max-width: 560px;
 }
 
-.dah-not {
-  list-style: none;
-  margin: 0 0 6px;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.dah-not li {
-  color: var(--text2);
-  font-size: 12.5px;
-  line-height: 1.6;
-  padding-left: 14px;
-  position: relative;
-}
-.dah-not li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 8px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--red);
-}
-.dah-not li b { color: var(--text); }
-
 @media (max-width: 620px) {
   .dah-card { padding: 16px; }
   .dah-title { font-size: 28px; }
