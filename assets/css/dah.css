@@ -1,0 +1,187 @@
+/* /dah — token page. Static cards; only the four stat values and the copy
+   button label change after load, so the page is CLS-neutral. Palette and
+   .change-pill / .mono come from style.css. */
+
+.dah-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 720px;
+  margin: 8px auto 0;
+}
+
+.dah-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 20px 22px;
+}
+
+.dah-eyebrow {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.dah-title {
+  color: var(--text);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+.dah-sub {
+  color: var(--text2);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 10px 0 16px;
+  max-width: 560px;
+}
+
+.dah-contract {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  background: var(--surface2, oklch(0.16 0.02 230));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.dah-contract-label {
+  color: var(--text3);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  flex: none;
+}
+.dah-contract-addr {
+  color: var(--text);
+  font-size: 11px;
+  word-break: break-all;
+  min-width: 0;
+  flex: 1;
+}
+.dah-copy {
+  flex: none;
+  padding: 6px 12px;
+  background: var(--green-bg);
+  border: 1px solid oklch(from var(--green) l c h / 0.45);
+  border-radius: 5px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.dah-copy:hover { background: oklch(from var(--green) l c h / 0.18); }
+
+.dah-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.dah-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  background: var(--surface2, oklch(0.16 0.02 230));
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text2);
+  font-size: 12px;
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+.dah-link:hover { border-color: oklch(from var(--green) l c h / 0.45); color: var(--green); }
+
+.dah-card-head {
+  color: var(--text3);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.dah-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.dah-stat {
+  background: var(--surface2, oklch(0.16 0.02 230));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  min-height: 64px;
+}
+.dah-stat-label {
+  color: var(--text3);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.dah-stat-value {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 22px;
+  min-height: 22px;
+}
+
+.dah-lock-big {
+  color: var(--green);
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.dah-lock-big span {
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  margin-left: 6px;
+}
+.dah-body {
+  color: var(--text2);
+  font-size: 12.5px;
+  line-height: 1.65;
+  margin: 10px 0 12px;
+  max-width: 560px;
+}
+
+.dah-not {
+  list-style: none;
+  margin: 0 0 6px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dah-not li {
+  color: var(--text2);
+  font-size: 12.5px;
+  line-height: 1.6;
+  padding-left: 14px;
+  position: relative;
+}
+.dah-not li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.dah-not li b { color: var(--text); }
+
+@media (max-width: 620px) {
+  .dah-card { padding: 16px; }
+  .dah-title { font-size: 28px; }
+  .dah-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
