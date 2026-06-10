@@ -179,6 +179,26 @@ export function drawerHTML(token, detail) {
   } else if (!token.isMicroCap) {
     links.push({ label: 'CoinGecko', href: `https://coingecko.com/en/coins/${token.id}` });
   }
+  // GMGN terminal page for the token's display chain. detail.platforms is
+  // keyed by our short chain names; when it's present we only trust the
+  // address for meta.chain (a multichain token's fallback contract could be
+  // a different chain). GT-sourced tokens have no platforms map — their
+  // detail.contract is chain-correct by construction. TAO has no GMGN.
+  const GMGN_SLUGS = { eth: 'eth', sol: 'sol', base: 'base', bnb: 'bsc' };
+  const chainKey = (meta.chain || '').toLowerCase();
+  let gmgnSlug = GMGN_SLUGS[chainKey];
+  let gmgnAddr = null;
+  if (detail?.platforms) {
+    gmgnAddr = detail.platforms[chainKey] || null;
+  } else if (detail?.contract) {
+    gmgnAddr = detail.contract;
+    // GT-sourced tokens may lack a TOKEN_META entry (chain '—'); derive the
+    // slug the same way the server picks GT networks: 0x → Base, else Solana.
+    if (!gmgnSlug) gmgnSlug = gmgnAddr.startsWith('0x') ? 'base' : 'sol';
+  }
+  if (gmgnSlug && gmgnAddr) {
+    links.push({ label: 'GMGN ↗', href: `https://gmgn.ai/${gmgnSlug}/token/${gmgnAddr}` });
+  }
   if (detail?.contract) links.push({ label: 'Contract ↗', href: detail.contractUrl || '#' });
 
   // Micro-caps without a token-specific trade URL fall back to pump.science.

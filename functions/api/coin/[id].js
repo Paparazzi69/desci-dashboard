@@ -20,14 +20,25 @@ export async function onRequest({ env, params }) {
   // GeckoTerminal-sourced tokens: merge live on-chain data with editorial
   // description from MOCK_DETAIL. Cached separately from CoinGecko entries.
   if (GT_TOKENS[id]) {
-    const gtCacheKey = `coin-gt:${id}:v1`;
+    const gtCacheKey = `coin-gt:${id}:v2`;
     const gtCached = await cacheGet(gtCacheKey);
     if (gtCached) return jsonResponse(gtCached);
 
     try {
       const live = await fetchGeckoTerminalDetail(GT_TOKENS[id]);
       const editorial = MOCK_DETAIL[id] || {};
-      const payload = { id, ...live, ...editorial, source: 'geckoterminal' };
+      // Contract comes straight from the GT_TOKENS map (chain-correct by
+      // construction: 0x → Base, otherwise Solana). Editorial entries may
+      // override with the same values.
+      const addr = GT_TOKENS[id];
+      const payload = {
+        id,
+        contract: addr,
+        contractUrl: addr.startsWith('0x')
+          ? `https://basescan.org/token/${addr}`
+          : `https://solscan.io/token/${addr}`,
+        ...live, ...editorial, source: 'geckoterminal',
+      };
       await cachePut(gtCacheKey, payload, TTL_S);
       await kvRefreshStale(env, gtCacheKey + ':stale', payload, 60 * 60);
       return jsonResponse(payload);
@@ -46,7 +57,7 @@ export async function onRequest({ env, params }) {
     return jsonResponse(MOCK_DETAIL[id]);
   }
 
-  const cacheKey = `coin:${id}:v1`;
+  const cacheKey = `coin:${id}:v2`;
   const cached = await cacheGet(cacheKey);
   if (cached) return jsonResponse(cached);
 
@@ -78,6 +89,14 @@ export async function onRequest({ env, params }) {
       : solAddr
         ? `https://solscan.io/token/${solAddr}`
         : null;
+    // Per-chain addresses keyed by our short chain names (TOKEN_META.chain,
+    // lowercased) so the drawer can build chain-correct links (GMGN).
+    const platformAddrs = {
+      eth: ethAddr || null,
+      sol: solAddr || null,
+      base: platforms['base'] || null,
+      bnb: platforms['binance-smart-chain'] || null,
+    };
 
     const payload = {
       id: data.id,
@@ -90,6 +109,7 @@ export async function onRequest({ env, params }) {
       atl: data.market_data?.atl?.usd ?? null,
       contract,
       contractUrl,
+      platforms: platformAddrs,
     };
     await cachePut(cacheKey, payload, TTL_S);
     await kvRefreshStale(env, cacheKey + ':stale', payload, 60 * 60); // 1h stale safety net
