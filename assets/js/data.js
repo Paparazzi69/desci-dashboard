@@ -37,6 +37,22 @@ export const TOKEN_IDS = [
   'pythia',
   'nova-3',
   'nanovita',
+  // 2026-06-10 batch (Launch Radar): 15 verified DeSci tokens
+  'quantum-biology-dao',
+  'poscidondao-token',
+  'genomesdao-genome',
+  'molecules-of-korolchuk-ip-nft',
+  'ip-tokens-of-ipnft-129',
+  'vitastem',
+  'rejuve-ai',
+  'data-lake',
+  'hydradao',
+  'the-innovation-game',
+  'yne',
+  'cudis',
+  'silencio',
+  'welshare-health-token',
+  'cryorat',
 ];
 
 export const TOKEN_META = {
@@ -163,6 +179,95 @@ export const TOKEN_META = {
     focus: 'AI-DeSci', focusColor: 'green',
     tags: ['AI-DeSci', 'Drug Discovery'], chain: 'BNB',
     twitter: 'Nanovita_Labs', website: 'nanovitalab.com',
+  },
+  // ── 2026-06-10 batch (Launch Radar): 15 verified DeSci tokens ──
+  // Tier 1: BIO/Molecule/VitaDAO-ecosystem DAOs + IP-tokens with named science.
+  'quantum-biology-dao': {
+    focus: 'Quantum Biology', focusColor: 'purple',
+    tags: ['Biotech Infra'], chain: 'ETH',
+    twitter: 'QuantumBioDAO', website: 'quantumbiology.xyz',
+  },
+  'poscidondao-token': {
+    focus: 'Precision Medicine', focusColor: 'red',
+    tags: ['Drug Discovery', 'IP-NFT'], chain: 'BASE',
+    twitter: 'PoSciDonDAO', website: 'poscidondao.com',
+  },
+  'genomesdao-genome': {
+    focus: 'Genomics', focusColor: 'green',
+    tags: ['AI-DeSci', 'Biotech Infra'], chain: 'ETH',
+    twitter: 'GenomesDAO', website: 'genomes.io',
+  },
+  // VitaDAO IP-NFT for Dr. Korolchuk's autophagy/longevity research.
+  // Symbol VITA-FAST comes from the API; no own X handle, parent is VitaDAO.
+  'molecules-of-korolchuk-ip-nft': {
+    focus: 'Longevity', focusColor: 'amber',
+    tags: ['Longevity', 'IP-NFT'], chain: 'ETH',
+    twitter: 'VitaDAO', website: 'vitadao.com/vita-fast',
+  },
+  // Percepta IP-Token (Molecule IP-NFT #129, Cerebrum/brain-health botanical).
+  'ip-tokens-of-ipnft-129': {
+    focus: 'Brain Health', focusColor: 'amber',
+    tags: ['IP-NFT', 'Drug Discovery'], chain: 'BASE',
+    twitter: 'Neuron_Percepta', website: 'cerebrumdao.com/projects/percepta-brain',
+  },
+  // AUBRAI stem-cell longevity IP-token (distinct from AUBRAI governance).
+  'vitastem': {
+    focus: 'Longevity', focusColor: 'amber',
+    tags: ['Longevity', 'AI-DeSci', 'IP-NFT'], chain: 'BASE',
+    twitter: 'aubrai_', website: 'app.bio.xyz/ipts/vitastem',
+  },
+  'rejuve-ai': {
+    focus: 'Longevity', focusColor: 'amber',
+    tags: ['Longevity', 'AI-DeSci'], chain: 'ETH',
+    twitter: 'Rejuve_AI', website: 'rejuve.ai',
+  },
+  'data-lake': {
+    focus: 'Medical Data', focusColor: 'blue',
+    tags: ['AI-DeSci'], chain: 'ETH',
+    twitter: 'DataLakeToken', website: 'data-lake.co',
+  },
+  'hydradao': {
+    focus: 'Longevity', focusColor: 'amber',
+    tags: ['Longevity'], chain: 'ETH',
+    twitter: 'daohydra', website: 'hydradao.org',
+  },
+  'the-innovation-game': {
+    focus: 'Research Infra', focusColor: 'green',
+    tags: ['Biotech Infra', 'AI-DeSci'], chain: 'BASE',
+    twitter: 'tigfoundation', website: 'tig.foundation',
+  },
+  // Tier 2: real-utility, carries a caveat (pump.fun launch / thin science).
+  // YNE = AI auditing published papers for errors/fraud; pump.fun-launched on
+  // Solana, bridged to Base. Do NOT repeat the unverified Reid Hoffman claim.
+  'yne': {
+    focus: 'Research Integrity', focusColor: 'green',
+    tags: ['AI-DeSci'], chain: 'SOL',
+    twitter: 'yesnoerror', website: 'yesnoerror.com',
+  },
+  // CUDIS = Solana longevity DePIN (smart ring); strong traction, thin
+  // research layer vs the consumer-wearable core.
+  'cudis': {
+    focus: 'Longevity', focusColor: 'amber',
+    tags: ['Longevity', 'AI-DeSci'], chain: 'SOL',
+    twitter: 'CudisWellness', website: 'cudis.xyz',
+  },
+  // Silencio = DePIN citizen-science noise-pollution sensing (environmental
+  // health, a looser DeSci fit than the biotech peers).
+  'silencio': {
+    focus: 'Environmental Health', focusColor: 'teal',
+    tags: ['AI-DeSci'], chain: 'BASE',
+    twitter: 'silencioNetwork', website: 'silencio.network',
+  },
+  'welshare-health-token': {
+    focus: 'Health Data', focusColor: 'blue',
+    tags: ['AI-DeSci'], chain: 'ETH',
+    twitter: 'welsharehealth', website: 'welshare.health',
+  },
+  // CryoDAO sub-project funding rat cryopreservation-and-revival research.
+  'cryorat': {
+    focus: 'Cryonics', focusColor: 'blue',
+    tags: ['Longevity'], chain: 'ETH',
+    twitter: 'cryodao', website: 'cryorat.com',
   },
 };
 
