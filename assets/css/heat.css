@@ -143,6 +143,54 @@
 .heat-note a { color: var(--green); text-decoration: none; }
 .heat-note a:hover { text-decoration: underline; }
 
+/* Editorial "Why they moved" block — sits below the screenshot card, matches
+   its width, and only renders when a displayed token has a curated note. */
+.heat-why {
+  max-width: 640px;
+  width: 100%;
+  margin: 16px 0 0;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 16px 20px 6px;
+}
+.heat-why[hidden] { display: none; }
+.heat-why-title {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.heat-why-list { list-style: none; margin: 0; padding: 0; }
+.heat-why-item {
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.heat-why-item:last-child { border-bottom: none; }
+.heat-why-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 6px;
+}
+.heat-why-head b {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.heat-why-date { color: var(--text3); font-size: 11px; margin-left: auto; }
+.heat-why-text {
+  margin: 0;
+  color: var(--text2);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.heat-why-src { color: var(--green); text-decoration: none; white-space: nowrap; }
+.heat-why-src:hover { text-decoration: underline; }
+
 .heat-empty {
   display: flex;
   align-items: center;

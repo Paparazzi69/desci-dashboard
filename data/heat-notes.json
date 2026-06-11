@@ -1,0 +1,11 @@
+{
+  "_comment": "Editorial 'why it moved' notes for the /heat leaderboard, keyed by CoinGecko/GT token id. A note renders under the card only while its token is in the displayed top-10 by 7d move. Keep each note to 1-2 sentences, numbers over adjectives, no em-dashes, every claim traceable to the source link. Date = the move being explained, so stale notes are obvious. This is the curation layer: a generic tracker shows the percent, only we explain it.",
+  "notes": {
+    "nanovita": {
+      "note": "The whole 7-day move is one candle on Jun 6, around NanoVita joining the ENI Super Node network. Volume jumped to roughly 30x a normal day on a low float (99% of supply was burned in May), then the tape went quiet again. Reads as a thin-liquidity push on a headline, not a sustained re-rate.",
+      "source": "https://www.cointrust.com/market-news/eni-integrates-nanovita-to-expand-ai-powered-desci-ecosystem",
+      "sourceLabel": "ENI Super Node",
+      "date": "Jun 6"
+    }
+  }
+}
