@@ -22,14 +22,12 @@ export const TOKEN_IDS = [
   'hairdao',
   'aubrai',
   'syna',
-  // 2026-05-27 batch
+  // 2026-05-27 batch (AxonDAO + BiomeAI removed 2026-06-11: dead market)
   'cerebrum-dao',
   'valleydao',
   'athenadao',
-  'axondao-governance-token',
   'urolithin-a',
   'curetopia',
-  'biomeai',
   'psydao',
   // 2026-05-27 batch 2
   'galeon',
@@ -128,11 +126,6 @@ export const TOKEN_META = {
     tags: ['Drug Discovery', 'IP-NFT'], chain: 'ETH',
     twitter: 'AthenaDAO_', website: 'athenadao.co',
   },
-  'axondao-governance-token': {
-    focus: 'Biomedical Data', focusColor: 'blue',
-    tags: ['AI-DeSci'], chain: 'ETH',
-    twitter: 'AxonDAO', website: 'axondao.io',
-  },
   'urolithin-a': {
     focus: 'Drug Discovery', focusColor: 'blue',
     tags: ['Drug Discovery', 'Longevity'], chain: 'SOL',
@@ -142,11 +135,6 @@ export const TOKEN_META = {
     focus: 'Rare Disease', focusColor: 'amber',
     tags: ['IP-NFT', 'Drug Discovery'], chain: 'SOL',
     twitter: 'CuretopiaDAO', website: 'curetopia.bio',
-  },
-  'biomeai': {
-    focus: 'Microbiome', focusColor: 'green',
-    tags: ['AI-DeSci', 'Longevity'], chain: 'BASE',
-    twitter: 'biomeai_', website: 'biome.ai',
   },
   'psydao': {
     focus: 'Psychedelics', focusColor: 'amber',

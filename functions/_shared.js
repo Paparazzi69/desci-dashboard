@@ -11,11 +11,14 @@
 export const TOKEN_IDS = [
   'bio-protocol', 'vitadao', 'origintrail', 'researchcoin',
   'rifampicin', 'vitarna', 'cryodao', 'hairdao',
-  // 2026-05-27 batch: 8 additional DeSci tokens >$100K mcap found via
-  // CoinGecko DeSci category sweep. Adds CerebrumDAO, ValleyDAO, AthenaDAO,
-  // AxonDAO, Urolithin A (Pump.science), Curetopia, BiomeAI, PsyDAO.
-  'cerebrum-dao', 'valleydao', 'athenadao', 'axondao-governance-token',
-  'urolithin-a', 'curetopia', 'biomeai', 'psydao',
+  // 2026-05-27 batch: DeSci tokens from the CoinGecko DeSci category sweep.
+  // CerebrumDAO, ValleyDAO, AthenaDAO, Urolithin A (Pump.science), Curetopia,
+  // PsyDAO. AxonDAO (AXGT) and BiomeAI removed 2026-06-11: both had a dead
+  // market (mcap ~$0-6K, $0 24h volume, DexScreener de-indexed / pairs:null),
+  // so the price row was a phantom. Still tracked editorially in the BioAgent
+  // Tracker / Verified List — this only drops them from the live price index.
+  'cerebrum-dao', 'valleydao', 'athenadao',
+  'urolithin-a', 'curetopia', 'psydao',
   // 2026-05-27 batch 2: Galeon (healthcare data platform on BSC).
   // CoinGecko slug verified via coingecko.com/en/coins/galeon
   // (mcap ~$5.7M). CoinGecko API is chain-agnostic — works even though
