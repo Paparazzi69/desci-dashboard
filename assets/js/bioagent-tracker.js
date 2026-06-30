@@ -12,14 +12,17 @@
 // stageDecimal lets us track sub-progress within a stage for sorting (e.g.
 // 2.55 = mid wet-lab) without changing the integer bucket the lane uses.
 
-// Update weekly by checking beach.science homepage. TODO: automate via Pages Function fetching beach.science and parsing counters.
-const SCIENCE_BEACH_METRICS = {
-  agents: 776,
-  hypotheses: 6143,
-  verified: 74,
-  humans: 206,
-  updatedAt: '2026-05-06',
-  sourceUrl: 'https://beach.science',
+// Sector-activity banner metrics. Science Beach folded into OpenLabs
+// (2026-06-19; the old beach.science API now returns 410 Gone), so these
+// hydrate live from /api/openlabs. This snapshot is the fallback when the API
+// is unavailable (e.g. local dev, where Pages Functions don't run).
+const OPENLABS_FALLBACK = {
+  hypotheses: 6215,
+  discussions: 3664,
+  contributors: 1219,
+  topics: 17,
+  updatedAt: '2026-06-30',
+  sourceUrl: 'https://openlabs.bio.xyz',
 };
 
 let AGENTS = []; // populated from /data/bioagents.json by loadAndInit() at file end
@@ -530,27 +533,47 @@ function wireTabs() {
 }
 
 // ─── Sector activity banner ─────────────────────────────────────────────────
-// Renders SCIENCE_BEACH_METRICS into the always-visible header banner above
-// the segment tabs. Inline metrics with comma-separated thousands; source
-// line includes a clickable beach.science link.
+// Renders OpenLabs platform metrics into the banner shown on the Platforms tab.
+// Paints the static OPENLABS_FALLBACK snapshot immediately, then hydrates live
+// from /api/openlabs (prod-only; 404s in local dev, where the snapshot stays).
 function renderSectorActivity() {
   const metricsEl = document.getElementById('sector-activity-metrics');
   const sourceEl = document.getElementById('sector-activity-source');
   if (!metricsEl || !sourceEl) return;
-  const m = SCIENCE_BEACH_METRICS;
-  const items = [
-    { label: 'Agents',     value: m.agents },
-    { label: 'Hypotheses', value: m.hypotheses },
-    { label: 'Verified',   value: m.verified },
-    { label: 'Humans',     value: m.humans },
-  ];
-  metricsEl.innerHTML = items.map(it => `
-    <div class="sector-activity-metric">
-      <span class="sector-activity-metric-value">${it.value.toLocaleString('en-US')}</span>
-      <span class="sector-activity-metric-label">${it.label}</span>
-    </div>
-  `).join('');
-  sourceEl.innerHTML = `Live metrics from Science Beach · <a href="${m.sourceUrl}" target="_blank" rel="noopener">beach.science</a> · updated ${m.updatedAt}`;
+
+  const paint = (m, live) => {
+    const items = [
+      { label: 'Hypotheses',   value: m.hypotheses },
+      { label: 'Discussions',  value: m.discussions },
+      { label: 'Contributors', value: m.contributors },
+      { label: 'Topics',       value: m.topics },
+    ];
+    metricsEl.innerHTML = items.map(it => `
+      <div class="sector-activity-metric">
+        <span class="sector-activity-metric-value">${(it.value ?? 0).toLocaleString('en-US')}</span>
+        <span class="sector-activity-metric-label">${it.label}</span>
+      </div>
+    `).join('');
+    const date = m.updatedAt ? ` · ${m.updatedAt}` : '';
+    sourceEl.innerHTML = `${live ? 'Live' : 'Snapshot'} metrics from OpenLabs · <a href="${m.sourceUrl}" target="_blank" rel="noopener">openlabs.bio.xyz</a>${date}`;
+  };
+
+  paint(OPENLABS_FALLBACK, false);
+
+  fetch('/api/openlabs', { headers: { accept: 'application/json' } })
+    .then(r => (r.ok ? r.json() : null))
+    .then(d => {
+      if (!d || !d.totals) return;
+      paint({
+        hypotheses:   d.totals.claims,
+        discussions:  d.totals.discussions,
+        contributors: d.totals.contributors,
+        topics:       d.totals.topics,
+        updatedAt:    (d.fetchedAt || '').slice(0, 10),
+        sourceUrl:    'https://openlabs.bio.xyz',
+      }, !d.stale);
+    })
+    .catch(() => { /* keep the snapshot */ });
 }
 
 function init() {
