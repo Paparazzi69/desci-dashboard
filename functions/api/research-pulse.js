@@ -18,7 +18,7 @@ import {
 const API = 'https://api.openlabs.bio.xyz/api/v1';
 const FRESH_TTL_S = 60 * 15;       // 15 min (trending moves; cache spares upstream)
 const STALE_TTL_S = 60 * 60 * 12;  // 12h KV backup for OpenLabs outages
-const CACHE_KEY = 'research-pulse:v1';
+const CACHE_KEY = 'research-pulse:v2';
 
 async function getJson(path) {
   const r = await fetch(API + path, { headers: { accept: 'application/json' } });
@@ -40,12 +40,12 @@ export async function onRequest({ env }) {
   if (fresh) return jsonResponse(fresh);
 
   try {
-    const [topicsRaw, allHead, claimHead, discHead, trending, projList] = await Promise.all([
+    const [topicsRaw, allHead, claimHead, discHead, claimBatch, projList] = await Promise.all([
       getJson('/topics'),
       getJson('/posts?limit=1'),
       getJson('/posts?type=claim&limit=1'),
       getJson('/posts?type=discussion&limit=1'),
-      getJson('/posts?type=claim&sort=trending&limit=10'),
+      getJson('/posts?type=claim&sort=latest&limit=50'),
       getJson('/projects?limit=8'),
     ]);
 
@@ -63,7 +63,16 @@ export async function onRequest({ env }) {
         topics: topicsArr.length || null,
         contributors: topicsArr.reduce((s, t) => s + (t.contributor_count || 0), 0),
       },
-      trending: ((trending && trending.data) || []).map(mapPost).slice(0, 8),
+      // "Trending" = most-engaged of the recent claim batch (upvotes + comments
+      // + reactions). The upstream `sort=trending` is recency-weighted and floods
+      // the top with brand-new 0-engagement claims, so we rank the batch here.
+      trending: ((claimBatch && claimBatch.data) || [])
+        .slice()
+        .sort((a, b) =>
+          ((b.upvote_count || 0) + (b.comment_count || 0) + (b.reaction_count || 0)) -
+          ((a.upvote_count || 0) + (a.comment_count || 0) + (a.reaction_count || 0)))
+        .slice(0, 8)
+        .map(mapPost),
       projects: ((projList && projList.data) || [])
         .map(p => ({ id: p.id, title: p.title, summary: (p.summary || '').replace(/\s+/g, ' ').slice(0, 160), status: p.status || null }))
         .slice(0, 6),
