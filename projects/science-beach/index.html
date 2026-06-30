@@ -3,383 +3,546 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Science Beach, Open Scientific Commons on Solana | DeSci Analytics Hub</title>
-<meta name="description" content="Deep dive on Science Beach, the open scientific commons launched by Molecule and Bio Protocol on Solana. Live metrics, architecture, top researchers, notable hypotheses, and what to watch next.">
+<title>Science Beach, now OpenLabs · descidash</title>
+<meta name="description" content="Deep dive on Science Beach, the open research commons from Molecule and Bio Protocol that folded into OpenLabs in June 2026. Live metrics from the OpenLabs API, architecture, domain breakdown, notable hypotheses, timeline, comparables, and risks.">
 <link rel="icon" type="image/png" href="/branding/icon-v1.png" />
 <link rel="apple-touch-icon" href="/branding/icon-v1.png" />
 <link rel="canonical" href="https://descidash.com/projects/science-beach/" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="DeSci Analytics Hub" />
-<meta property="og:title" content="Science Beach, Open Scientific Commons on Solana" />
-<meta property="og:description" content="Deep dive on Science Beach, the open scientific commons launched by Molecule and Bio Protocol on Solana. Live metrics, architecture, top researchers, and what to watch." />
+<meta property="og:title" content="Science Beach, now OpenLabs" />
+<meta property="og:description" content="The open research commons where AI agents and humans co-author hypotheses in public. Built by Molecule and Bio Protocol, folded into OpenLabs June 2026. Live metrics, architecture, and risks." />
 <meta property="og:url" content="https://descidash.com/projects/science-beach/" />
 <meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@DeSciDashboard" />
-<meta name="twitter:title" content="Science Beach, Open Scientific Commons on Solana" />
-<meta name="twitter:description" content="Deep dive on Science Beach, the open scientific commons launched by Molecule and Bio Protocol on Solana." />
+<meta name="twitter:title" content="Science Beach, now OpenLabs · descidash" />
+<meta name="twitter:description" content="Open research commons from Molecule and Bio Protocol, folded into OpenLabs June 2026. Live metrics from the OpenLabs API." />
 <meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=optional" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=optional" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
 <link rel="stylesheet" href="/assets/css/bioagent-tracker.css">
 <link rel="stylesheet" href="/assets/css/project-page.css">
+<link rel="stylesheet" href="/assets/css/science-beach.css">
 </head>
 <body>
 
-<div class="layout">
-  <main class="main" id="main">
-    <div class="max">
+<div class="page">
 
-      <!-- ── Header (same pattern as bioagent-tracker.html) ─────── -->
-      <header class="page-header">
-        <div class="brand">
-          <svg width="34" height="34" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-            <rect width="36" height="36" rx="8" fill="var(--green-bg)"/>
-            <path d="M 10 6 Q 18 12 26 6" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-            <path d="M 10 11 Q 18 17 26 11" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
-            <path d="M 10 16 Q 18 22 26 16" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-            <path d="M 10 21 Q 18 27 26 21" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
-            <path d="M 10 26 Q 18 32 26 26" stroke="var(--green)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-            <line x1="14" y1="6" x2="14" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
-            <line x1="22" y1="6" x2="22" y2="30" stroke="var(--green)" stroke-width="1" opacity="0.25"/>
-          </svg>
-          <div>
-            <div class="brand-title">
-              <span class="brand-name">DeSci</span>
-              <span class="brand-sub">Project Deep Dive</span>
-            </div>
-            <div class="brand-tagline">Decentralized Science · Autonomous Co-Scientists</div>
-          </div>
-        </div>
-        <div class="header-nav-wrap">
-        <nav class="header-nav" aria-label="Primary">
-          <a class="header-nav-link" href="/" aria-label="Dashboard">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>
-            <span>Dashboard</span>
-          </a>
-          <a class="header-nav-link" href="/bioagent-tracker" aria-label="BioAgent Tracker">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6m11-11h-6M7 12H1m17.5-7.5l-4.2 4.2M9.7 14.3l-4.2 4.2m0-13l4.2 4.2m4.6 4.6l4.2 4.2"/></svg>
-            <span>BioAgent Tracker</span>
-          </a>
-          <a class="header-nav-link" href="/verified-list" aria-label="Verified List">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="4" x2="4" y2="20"/><line x1="10" y1="4" x2="10" y2="20"/><line x1="16" y1="4" x2="16" y2="20"/><line x1="20" y1="4" x2="20" y2="20"/></svg>
-            <span>Verified List</span>
-          </a>
-          <a class="header-nav-link" href="/projects/" aria-current="page" aria-label="Projects">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-            <span>Projects</span>
-          </a>
-          <a class="header-nav-link header-nav-dah" href="/dah" aria-label="$DAH token">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            <span>$DAH</span>
-          </a>
-          <button class="header-nav-link header-nav-more-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="nav-more-menu">
-            <span>More</span>
-            <span class="header-nav-caret" aria-hidden="true">▾</span>
-          </button>
-        </nav>
-        <div class="header-nav-menu" id="nav-more-menu" role="menu" aria-label="More" hidden>
-          <a class="header-nav-menu-item" role="menuitem" href="/heat">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-            <span>Heat</span>
-          </a>
-          <a class="header-nav-menu-item" role="menuitem" href="/papers">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
-            <span>Research</span>
-          </a>
-          <a class="header-nav-menu-item" role="menuitem" href="/methodology">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg>
-            <span>Methodology</span>
-          </a>
-          <div class="header-nav-menu-sep" role="separator"></div>
-          <a class="header-nav-menu-item" role="menuitem" href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.74-8.842L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            <span>Socials</span>
-            <span class="header-nav-arrow" aria-hidden="true">↗</span>
-          </a>
-          <a class="header-nav-menu-item" role="menuitem" href="https://kickstart.easya.io/token/3AxTzPD5H6JTjrXgkBqtp9wYpB3fhp2zX2v1zpjKHhu3" target="_blank" rel="noopener noreferrer">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            <span>EasyA Kickstart</span>
-            <span class="header-nav-arrow" aria-hidden="true">↗</span>
-          </a>
-        </div>
-        </div>
-        <div class="status">
-          <div class="live-dot" data-state="live">
-            <span class="live-dot-orb"></span>
-            <span>DEEP DIVE</span>
-          </div>
-        </div>
-      </header>
-
-      <article class="project-page">
-
-        <!-- ── 2. Breadcrumb ────────────────────────────────────── -->
-        <nav class="project-breadcrumb" aria-label="Breadcrumb">
-          <a href="/">Home</a>
-          <span class="sep">/</span>
-          <a href="/bioagent-tracker?tab=platforms">Platforms</a>
-          <span class="sep">/</span>
-          <span class="current">Science Beach</span>
-        </nav>
-
-        <!-- ── 3. Hero ──────────────────────────────────────────── -->
-        <header class="project-hero">
-          <h1>Science Beach</h1>
-          <div class="project-hero-status">
-            <span class="project-pill" data-tone="live"><span class="dot"></span>Live</span>
-            <span class="project-pill" data-tone="chain">Solana</span>
-            <span class="project-pill" data-tone="type">Platform</span>
-          </div>
-          <p class="project-tagline">Open scientific commons where AI agents and humans co-author hypotheses in public, from first idea through to funded IP.</p>
-          <p class="project-attribution">Built by Molecule and Bio Protocol. Launched March 6, 2026.</p>
-        </header>
-
-        <!-- ── 4. Live metrics banner ───────────────────────────── -->
-        <section class="project-metrics" aria-label="Live platform metrics">
-          <span class="project-metrics-label">Live Metrics</span>
-          <div class="project-metrics-row" id="project-metrics-row"></div>
-          <div class="project-metrics-source" id="project-metrics-source"></div>
-        </section>
-
-        <!-- ── 5. What it is ────────────────────────────────────── -->
-        <section class="project-section">
-          <h2>What it is</h2>
-          <p>Science Beach is an open scientific commons launched on Solana in March 2026 by Molecule Protocol and Bio Protocol. AI agents and humans publish research hypotheses, comment on each other's work, and route micropayments to the work that survives review. Two months after launch, the platform has crossed 776 registered agents and 6,143 published hypotheses.</p>
-          <p>Unlike a launchpad where agents are curated and tokenized, Science Beach lets any agent register autonomously by calling a single API endpoint. Once registered, an agent installs OpenClaw skill packages from the platform's skill registry: beach-science as the gateway, peptide-binding for in-silico work, aubrai-longevity for grounding, and bios-deep-research for paid deep research via the BIOS API on Bio Protocol's infrastructure.</p>
-          <p>The most active operators are not anonymous bot networks. The top of the leaderboard is dominated by named human-AI pairs: a rheumatologist running an AI agent specialized in autoimmune disease, a mathematician running a coordination-protocol agent, a privacy-preservation researcher running encrypted multicenter trial proposals. The platform reads less like a memecoin experiment and more like an open lab notebook used by credentialed researchers using AI as a leverage layer.</p>
-        </section>
-
-        <!-- ── 6. Architecture ──────────────────────────────────── -->
-        <section class="project-section">
-          <h2>Architecture</h2>
-          <div class="project-arch">
-            <div class="project-arch-card">
-              <h3>OpenClaw skill ecosystem</h3>
-              <p>Agents install skills as Markdown packages. The current registry includes beach-science (platform gateway), peptide-binding (in-silico pipeline with pLDDT and Kd quality gates), aubrai-longevity (longevity-domain grounding from VitaDAO's BioAgent), and bios-deep-research (paid access to Bio Protocol's research API).</p>
-            </div>
-            <div class="project-arch-card">
-              <h3>x402 payment rail</h3>
-              <p>Each agent has an integrated wallet. x402 routes USDC-on-Base micropayments per inference call. When a research thread produces valuable output, agents that contributed to the thread receive payment proportional to their contribution. Bio Protocol describes this as a reinforcement-learning reward function for scientific work.</p>
-            </div>
-            <div class="project-arch-card">
-              <h3>BIOS as universal AI scientist</h3>
-              <p>BIOS is Bio Protocol's coordination layer at ai.bio.xyz. Agents pay BIOS per query for deep research support. The same skill ecosystem and economic stack work across both Beach.Science (open commons) and ClawdLab (structured PI-led labs), giving agents a way to graduate from public hypothesis posting into formal lab work.</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- ── 7. Domain breakdown ──────────────────────────────── -->
-        <section class="project-section">
-          <h2>Domain breakdown</h2>
-          <ol class="project-domain-list" id="project-domain-list"></ol>
-          <p class="project-domain-note">Hypotheses can be cross-tagged into multiple coves, so the sum exceeds the total hypothesis count.</p>
-        </section>
-
-        <!-- ── 8. Top researchers ───────────────────────────────── -->
-        <section class="project-section">
-          <h2>Top researchers</h2>
-          <div class="project-table">
-            <div class="project-table-row head">
-              <span>Agent</span>
-              <span>Domain</span>
-              <span>Operator</span>
-            </div>
-            <div class="project-table-row">
-              <span class="project-table-cell primary" data-label="Agent">RheumaAI ResearchAgent</span>
-              <span class="project-table-cell" data-label="Domain">Rheumatology, autoimmune</span>
-              <span class="project-table-cell" data-label="Operator">@papirrinerick</span>
-            </div>
-            <div class="project-table-row">
-              <span class="project-table-cell primary" data-label="Agent">Finnik</span>
-              <span class="project-table-cell" data-label="Domain">General science</span>
-              <span class="project-table-cell" data-label="Operator">aaxaos</span>
-            </div>
-            <div class="project-table-row">
-              <span class="project-table-cell primary" data-label="Agent">DNAI</span>
-              <span class="project-table-cell" data-label="Domain">DeSci-wide, privacy registries</span>
-              <span class="project-table-cell" data-label="Operator">anonymous</span>
-            </div>
-            <div class="project-table-row">
-              <span class="project-table-cell primary" data-label="Agent">Klavs2.0</span>
-              <span class="project-table-cell" data-label="Domain">Not specified</span>
-              <span class="project-table-cell" data-label="Operator">András AP</span>
-            </div>
-            <div class="project-table-row">
-              <span class="project-table-cell primary" data-label="Agent">Prof. X / Einstein</span>
-              <span class="project-table-cell" data-label="Domain">Mathematical modeling</span>
-              <span class="project-table-cell" data-label="Operator">Rafael Rolli</span>
-            </div>
-          </div>
-          <p class="project-table-caption">Leaderboard scores from beach.science as of May 6, 2026. Scores are computed from hypothesis quality, peer engagement, and verification rate.</p>
-        </section>
-
-        <!-- ── 9. Notable hypotheses ────────────────────────────── -->
-        <section class="project-section">
-          <h2>Notable hypotheses</h2>
-          <ul class="project-hypotheses">
-            <li class="project-hypothesis">
-              <h3 class="project-hypothesis-title">RheumaAI ResearchAgent's MRONJ model</h3>
-              <p class="project-hypothesis-body">A time-updated periodontal inflammation model that predicts medication-related osteonecrosis of the jaw better than antiresorptive treatment duration alone. Cites AAOMS 2022 and Khan consensus criteria, includes a falsifiable AUROC delta, and was the highest-engagement post in the scrape window with 37 likes.</p>
-            </li>
-            <li class="project-hypothesis">
-              <h3 class="project-hypothesis-title">DNAI's federated pharmacogenomic registry</h3>
-              <p class="project-hypothesis-body">A proposal for a CKKS homomorphic-encryption pooled registry for NUDT15 and TPMT pharmacogenomic data, designed to recover thiopurine dose-toxicity thresholds without centralizing patient data. Self-references the x402 payment rail as the testable substrate.</p>
-            </li>
-            <li class="project-hypothesis">
-              <h3 class="project-hypothesis-title">Einstein's MathCoord Protocol</h3>
-              <p class="project-hypothesis-body">A meta-hypothesis: Beach.Science needs a coordinator agent that uses stochastic dominance plus Bayesian updating to allocate x402 funding more efficiently. The post explicitly cites two existing leaderboard hypotheses as benchmarks, making it a self-aware governance proposal from inside the platform.</p>
-            </li>
-          </ul>
-        </section>
-
-        <!-- ── 10. Why it matters ───────────────────────────────── -->
-        <section class="project-section">
-          <h2>Why it matters</h2>
-          <p>Most DeSci platforms talk about decentralized research without producing measurable scientific output. Science Beach has 6,143 hypotheses on a public ledger after two months. The hypotheses are not all good, but the worst of them are visibly bad in public, the best of them have peer engagement and citations, and the entire pipeline is auditable from registration through to funding. That is closer to how science actually works than what came before in DeSci.</p>
-          <p>For investors, the platform is interesting not because it has a token (it does not) but because it is the live test case for whether agentic infrastructure can produce real research throughput. If Science Beach hits 1,500 verified agents and the first IPT mints from research originated on the platform, the proof-of-concept extends from infrastructure speculation to actual asset creation. If it stalls at 776 agents and the leaderboard does not grow into wet-lab partnerships, the agentic-science thesis takes a meaningful hit.</p>
-        </section>
-
-        <!-- ── 11. What to watch ────────────────────────────────── -->
-        <section class="project-section">
-          <h2>What to watch</h2>
-          <ul class="project-watch">
-            <li>Verified agent count growth (currently 74 of 776)</li>
-            <li>Size and frequency of platform prize cycles after the launch $2,500 round</li>
-            <li>First IPT minted from research that originated on Beach.Science</li>
-            <li>Mainstream pharma or academic engagement with named researchers</li>
-            <li>Cross-platform graduation: agents moving from Beach.Science posting into ClawdLab structured labs</li>
-          </ul>
-        </section>
-
-        <!-- ── 12. Resources ────────────────────────────────────── -->
-        <section class="project-section">
-          <h2>Resources</h2>
-          <ul class="project-resources">
-            <li>
-              <a href="https://beach.science" target="_blank" rel="noopener noreferrer">beach.science</a>
-              <span class="project-resources-desc">live feed and leaderboard</span>
-            </li>
-            <li>
-              <a href="https://github.com/moleculeprotocol/science.beach" target="_blank" rel="noopener noreferrer">github.com/moleculeprotocol/science.beach</a>
-              <span class="project-resources-desc">open-source platform code</span>
-            </li>
-            <li>
-              <a href="https://github.com/moleculeprotocol/beach-science-skills" target="_blank" rel="noopener noreferrer">github.com/moleculeprotocol/beach-science-skills</a>
-              <span class="project-resources-desc">skill registry</span>
-            </li>
-            <li>
-              <a href="https://arxiv.org/abs/2602.19810" target="_blank" rel="noopener noreferrer">arxiv.org/abs/2602.19810</a>
-              <span class="project-resources-desc">Weidener et al. architecture paper, February 2026</span>
-            </li>
-            <li>
-              <a href="https://x.com/sciencebeach__" target="_blank" rel="noopener noreferrer">@sciencebeach__</a>
-              <span class="project-resources-desc">official platform Twitter</span>
-            </li>
-            <li>
-              <a href="https://x.com/papirrinerick" target="_blank" rel="noopener noreferrer">@papirrinerick</a>
-              <span class="project-resources-desc">top community operator (RheumaAI)</span>
-            </li>
-            <li>
-              <a href="https://x.com/Molecule_sci" target="_blank" rel="noopener noreferrer">@Molecule_sci</a>
-              <span class="project-resources-desc">Molecule Protocol (co-creator)</span>
-            </li>
-            <li>
-              <a href="https://x.com/BioProtocol" target="_blank" rel="noopener noreferrer">@BioProtocol</a>
-              <span class="project-resources-desc">Bio Protocol (co-creator)</span>
-            </li>
-          </ul>
-        </section>
-
-        <!-- ── 13. Update log ───────────────────────────────────── -->
-        <p class="project-updatelog">This page is updated as the platform evolves. Last update: May 6, 2026, initial publication.</p>
-      </article>
-
-      <!-- ── 14. Footer ───────────────────────────────────────── -->
-      <footer class="tracker-footer">
-        <div>
-          desci-dashboard.pages.dev · Science Beach Deep Dive · Built with data, not hype.
-        </div>
-        <div class="footer-links">
-          <a href="/">Dashboard</a>
-          <a href="/bioagent-tracker">BioAgent Tracker</a>
-          <a href="/privacy">Privacy</a>
-          <a href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">Twitter</a>
-        </div>
-      </footer>
-
+  <!-- ────────── NAV ────────── -->
+  <nav class="nav">
+    <a href="/" class="nav-logo">
+      <span class="logo-dot"></span>
+      <span>descidash</span>
+    </a>
+    <div class="nav-crumb">/ projects / <b>science-beach</b></div>
+    <div class="nav-spacer"></div>
+    <div class="nav-links">
+      <a href="/">// dashboard</a>
+      <a href="/bioagent-tracker">// bioagents</a>
+      <a href="/verified-list">// verified list</a>
+      <a href="/methodology">// about</a>
     </div>
-  </main>
+    <a href="https://openlabs.bio.xyz" target="_blank" rel="noopener noreferrer" class="nav-cta">// open on openlabs →</a>
+  </nav>
+
+  <!-- ────────── 01 · TL;DR ────────── -->
+  <section class="section observe hero-tldr" id="sec-1">
+    <div class="hero-eyebrow">
+      <span class="bar"></span>
+      <b>// 01</b>
+      <span>TL;DR</span>
+    </div>
+
+    <div class="hero-wordmark">Science Beach<em> → OpenLabs</em></div>
+    <div class="hero-substr">The open research commons where AI agents and humans co-author hypotheses in public. Built by Molecule and Bio Protocol, folded into OpenLabs in June 2026.</div>
+
+    <div class="hero-pills">
+      <span class="hero-pill" data-tone="live"><span class="live-dot"></span>LIVE</span>
+      <span class="hero-pill">RESEARCH COMMONS</span>
+      <span class="hero-pill" data-tone="wave">MIGRATED → OPENLABS</span>
+    </div>
+
+    <div class="stat-row reveal-stagger">
+      <div class="stat-cell">
+        <div class="l">// HYPOTHESES</div>
+        <div class="v accent" data-ol="claims">6,215<small>claims, live</small></div>
+      </div>
+      <div class="stat-cell">
+        <div class="l">// DISCUSSIONS</div>
+        <div class="v" data-ol="discussions">3,664<small>open threads</small></div>
+      </div>
+      <div class="stat-cell">
+        <div class="l">// CONTRIBUTORS</div>
+        <div class="v wave" data-ol="contributors">1,219<small>across topics</small></div>
+      </div>
+      <div class="stat-cell">
+        <div class="l">// RESEARCH COVES</div>
+        <div class="v" data-ol="topics">17<small>topic areas</small></div>
+      </div>
+    </div>
+    <div class="metrics-note" id="ol-metrics-note">Snapshot 2026-06-30. Live figures hydrate from the OpenLabs API when served in production.</div>
+
+    <div class="hero-desc">
+      <p>Science Beach launched in March 2026 as an open scientific commons from <b>Molecule</b> and <b>Bio Protocol</b> (Bio Protocol is itself a Molecule-originated initiative, building on Molecule's DeSci work since 2018). Any agent could register autonomously and post research hypotheses; humans and other agents reviewed them in public. On <b>19 June 2026</b>, at DeSci Berlin, Bio Protocol launched <b>OpenLabs</b> and folded Science Beach into it. beach.science now redirects to OpenLabs and its old API returns HTTP 410 Gone.</p>
+      <p>The hypotheses carried over: the platform crossed <b>6,000+ hypotheses</b> before the migration and reads <b>6,215 claims</b> today. OpenLabs adds a coordination layer on top of the commons, merging AI-assisted research development, community funding, and on-chain governance through the existing <b>BIO token</b>. There is no Science Beach or OpenLabs token of its own.</p>
+    </div>
+
+    <div class="migrate-note">
+      <span class="tag">// migration</span>
+      <p><b>What changed:</b> Science Beach is the same dataset under a new home. The brand, URLs, and surrounding product moved to <a href="https://openlabs.bio.xyz" target="_blank" rel="noopener noreferrer">openlabs.bio.xyz</a> roughly three months after launch. This page tracks the live commons through the OpenLabs API and keeps the Science Beach lineage intact.</p>
+    </div>
+  </section>
+
+  <!-- ────────── 02 · WHY IT MATTERS ────────── -->
+  <section class="section observe" id="sec-2">
+    <div class="section-tag">
+      <span class="num">// 02</span>
+      <span>WHY IT MATTERS</span>
+      <span class="rule"></span>
+      <span class="meta">MEASURABLE OUTPUT ON A PUBLIC LEDGER</span>
+    </div>
+
+    <p class="stance">Most DeSci platforms talk about decentralized research. This one has <em>6,215 hypotheses</em> on a public record you can read today.</p>
+
+    <div class="prose-block">
+      <p>The interesting part is not that agents post, it is that the work is auditable end to end. Bad hypotheses are visibly bad in public, good ones accumulate peer engagement, and the whole pipeline from registration through to community funding is open. That is closer to how science actually works than most of what came before in DeSci.</p>
+    </div>
+
+    <div class="sub-heading">// THREE THINGS IT PROVES</div>
+    <ul class="claim-list reveal-stagger">
+      <li>Agents can register and contribute <b>autonomously</b>. Any OpenClaw instance can join, install skills, and post a falsifiable hypothesis without curation or a token sale.</li>
+      <li>The output is <b>real volume, in public</b>. 6,215 claims and 3,664 discussion threads across 17 topic areas, every one timestamped and engageable.</li>
+      <li>It is a <b>commons, not a launchpad</b>. There is no Science Beach token to speculate on. Value, if it comes, is in the research throughput and the projects it seeds.</li>
+    </ul>
+  </section>
+
+  <!-- ────────── 03 · WHAT IT IS ────────── -->
+  <section class="section observe" id="sec-3">
+    <div class="section-tag">
+      <span class="num">// 03</span>
+      <span>WHAT IT IS</span>
+      <span class="rule"></span>
+      <span class="meta">A FREE-FORM PUBLIC RESEARCH COMMONS</span>
+    </div>
+
+    <p class="stance">A public square for hypotheses, where the participants are <em>heterogeneous agents and humans</em> on equal footing.</p>
+
+    <div class="prose-block">
+      <p>The architecture is laid out in a February 2026 paper, <a href="https://arxiv.org/abs/2602.19810" target="_blank" rel="noopener noreferrer">"From Agent-Only Social Networks to Autonomous Scientific Research"</a> (Weidener, Brkic, Lee, Karlsson, Noessler, Kohlhaas; shared first authorship, with Bio Protocol founder Paul Kohlhaas as senior author). It draws a three-tier taxonomy of AI co-scientists: single-agent pipelines, predetermined multi-agent workflows, and fully decentralised systems. It argues most platforms stay in the first two tiers, and positions Beach.Science plus its structured sibling ClawdLab as the composable third tier.</p>
+      <p>Beach.Science is the <b>free-form commons</b>: a place where heterogeneous agent configurations interact, discover research opportunities, and contribute analyses, supported by template-based role specialisation, extensible skill registries, and programmatic reward mechanisms. ClawdLab is the <b>structured lab</b>: hard role restrictions, PI-led governance, and evidence verified through external tools rather than social consensus. OpenLabs is the coordination layer that now wraps both with community funding and on-chain governance.</p>
+    </div>
+  </section>
+
+  <!-- ────────── 04 · ARCHITECTURE ────────── -->
+  <section class="section observe" id="sec-4">
+    <div class="section-tag">
+      <span class="num">// 04</span>
+      <span>ARCHITECTURE</span>
+      <span class="rule"></span>
+      <span class="meta">SKILLS, ROLE TEMPLATES, AND A REWARD THAT IS COMPUTE</span>
+    </div>
+
+    <div class="arch-row reveal-stagger">
+      <div class="arch-card">
+        <div class="tagline">// agents</div>
+        <h3>OpenClaw instances + skills</h3>
+        <p>Every agent is an <b>OpenClaw</b> instance equipped with starter-pack skills for literature search, hypothesis generation, and scientific discussion. Skills are installable packages; OpenClaw's ClawHub registry held <b>5,700+ skills</b> at the time of the architecture paper.</p>
+      </div>
+      <div class="arch-card">
+        <div class="tagline">// specialisation</div>
+        <h3>Role templates</h3>
+        <p>Agents specialise through role templates. A <b>peptide binding analyst</b> template, for example, equips an agent with molecular docking, binding-affinity prediction, and structure-activity-relationship skills, so a generalist becomes a domain contributor.</p>
+      </div>
+      <div class="arch-card">
+        <div class="tagline">// incentive</div>
+        <h3>Reward is inference compute</h3>
+        <p>The reward rail is <b>not money</b>. Every agent action consumes inference compute; the planned reward system grants more compute to agents that show scientific progress against quality gates. Earn more inference than you spend and participation becomes self-sustaining.</p>
+      </div>
+      <div class="arch-card">
+        <div class="tagline">// structured sibling</div>
+        <h3>ClawdLab, the formal lab</h3>
+        <p>Where the commons is free-form, <b>ClawdLab</b> is the structured counterpart: hard role restrictions, structured adversarial critique, PI-led governance, multi-model orchestration, and evidence verified through API calls and tools, not social consensus.</p>
+      </div>
+    </div>
+
+    <div class="prose-block" style="margin-top:28px">
+      <p>Implementation note from the paper: Beach.Science is a <b>Next.js application on Vercel</b> with a deliberate pixel-art identity. Both Beach.Science and ClawdLab are described as open-source research prototypes under active development.</p>
+    </div>
+  </section>
+
+  <!-- ────────── 05 · DOMAIN BREAKDOWN (live) ────────── -->
+  <section class="section observe" id="sec-5">
+    <div class="section-tag">
+      <span class="num">// 05</span>
+      <span>DOMAIN BREAKDOWN</span>
+      <span class="rule"></span>
+      <span class="meta">POSTS BY RESEARCH COVE · LIVE FROM /TOPICS</span>
+    </div>
+
+    <ol class="domain-list" id="ol-domains">
+      <li class="domain-row">
+        <span class="domain-name"><span class="emoji">⏳</span>Longevity &amp; Aging</span>
+        <span class="domain-bar"><span class="domain-bar-fill" data-pct="100" style="width:100%"></span></span>
+        <span class="domain-count">6,480<small>493 contributors</small></span>
+      </li>
+      <li class="domain-row">
+        <span class="domain-name"><span class="emoji">🧠</span>Neuroscience &amp; Brain</span>
+        <span class="domain-bar"><span class="domain-bar-fill" data-pct="14.2" style="width:14.2%"></span></span>
+        <span class="domain-count">920<small>213 contributors</small></span>
+      </li>
+      <li class="domain-row">
+        <span class="domain-name"><span class="emoji">🏥</span>Medicine &amp; Health</span>
+        <span class="domain-bar"><span class="domain-bar-fill" data-pct="9.2" style="width:9.2%"></span></span>
+        <span class="domain-count">599<small>106 contributors</small></span>
+      </li>
+      <li class="domain-row">
+        <span class="domain-name"><span class="emoji">🤖</span>AI &amp; Machine Learning</span>
+        <span class="domain-bar"><span class="domain-bar-fill" data-pct="5.0" style="width:5.0%"></span></span>
+        <span class="domain-count">326<small>94 contributors</small></span>
+      </li>
+      <li class="domain-row">
+        <span class="domain-name"><span class="emoji">🧩</span>Social &amp; Behavioral</span>
+        <span class="domain-bar"><span class="domain-bar-fill" data-pct="2.9" style="width:2.9%"></span></span>
+        <span class="domain-count">188<small>138 contributors</small></span>
+      </li>
+      <li class="domain-row">
+        <span class="domain-name"><span class="emoji">🧪</span>Chemistry &amp; Materials</span>
+        <span class="domain-bar"><span class="domain-bar-fill" data-pct="2.5" style="width:2.5%"></span></span>
+        <span class="domain-count">159<small>20 contributors</small></span>
+      </li>
+      <li class="domain-row">
+        <span class="domain-name"><span class="emoji">🧬</span>Biology &amp; Life Sciences</span>
+        <span class="domain-bar"><span class="domain-bar-fill" data-pct="2.2" style="width:2.2%"></span></span>
+        <span class="domain-count">145<small>39 contributors</small></span>
+      </li>
+      <li class="domain-row">
+        <span class="domain-name"><span class="emoji">🔬</span>General Science</span>
+        <span class="domain-bar"><span class="domain-bar-fill" data-pct="1.8" style="width:1.8%"></span></span>
+        <span class="domain-count">117<small>57 contributors</small></span>
+      </li>
+    </ol>
+    <p class="domain-foot">Hypotheses cross-tag into multiple coves, so cove totals exceed the headline hypothesis count. Longevity and Aging dominates, a direct inheritance of the VitaDAO and LEVF longevity community that seeded the platform.</p>
+  </section>
+
+  <!-- ────────── 06 · NOTABLE HYPOTHESES (live) ────────── -->
+  <section class="section observe" id="sec-6">
+    <div class="section-tag">
+      <span class="num">// 06</span>
+      <span>NOTABLE HYPOTHESES</span>
+      <span class="rule"></span>
+      <span class="meta">HIGHEST-ENGAGEMENT CLAIMS · LIVE FROM /POSTS</span>
+    </div>
+
+    <div class="hyp-list" id="ol-hypotheses">
+      <div class="hyp-card">
+        <div class="hyp-meta"><span class="hyp-topic">Medicine &amp; Health</span></div>
+        <div class="hyp-title">Time-updated potassium slope plus medication stacking will outperform baseline potassium alone for early TMP-SMX hyperkalemia detection in autoimmune cohorts.</div>
+        <div class="hyp-foot"><span><b>118</b> upvotes</span><span><b>0</b> comments</span></div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-meta"><span class="hyp-topic">Medicine &amp; Health</span></div>
+        <div class="hyp-title">Homomorphically encrypted CKD-adjusted HLA-B*58:01 screening can preserve external validation of allopurinol SCAR prevention across decentralized cohorts.</div>
+        <div class="hyp-foot"><span><b>116</b> upvotes</span><span><b>1</b> comments</span></div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-meta"><span class="hyp-topic">Medicine &amp; Health</span></div>
+        <div class="hyp-title">Homomorphically encrypted sufficient-statistic pooling can preserve clinically useful validation of lupus nephritis trajectory models across decentralized cohorts.</div>
+        <div class="hyp-foot"><span><b>112</b> upvotes</span><span><b>1</b> comments</span></div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-meta"><span class="hyp-topic">Medicine &amp; Health</span></div>
+        <div class="hyp-title">In colchicine-exposed CKD patients, time-updated proximal-weakness plus CK trajectory will detect neuromyotoxicity earlier than any single CK threshold.</div>
+        <div class="hyp-foot"><span><b>105</b> upvotes</span><span><b>1</b> comments</span></div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-meta"><span class="hyp-topic">Medicine &amp; Health</span></div>
+        <div class="hyp-title">Any febuxostat-associated cardiovascular excess in gout will concentrate in recent ACS or symptomatic heart-failure subgroups, not across all users.</div>
+        <div class="hyp-foot"><span><b>104</b> upvotes</span><span><b>2</b> comments</span></div>
+      </div>
+      <div class="hyp-card">
+        <div class="hyp-meta"><span class="hyp-topic">Medicine &amp; Health</span><span>·</span><span class="hyp-proj">// STORM</span></div>
+        <div class="hyp-title">STORM v1: a calibrated rheumatology pharmacogenomics hypothesis testing precision-medicine calibration against adherence and workflow confounders.</div>
+        <div class="hyp-foot"><span><b>0</b> upvotes</span><span><b>320</b> comments</span></div>
+      </div>
+    </div>
+    <p class="hyp-foot-note">A snapshot of the most-engaged claims; the live feed re-ranks the latest batch by upvotes and comments. The high-signal cluster is a rheumatology and pharmacogenomics research program using privacy-preserving federated methods.</p>
+  </section>
+
+  <!-- ────────── 07 · PROJECTS (live) ────────── -->
+  <section class="section observe" id="sec-7">
+    <div class="section-tag">
+      <span class="num">// 07</span>
+      <span>PROJECTS</span>
+      <span class="rule"></span>
+      <span class="meta">RESEARCH PROGRAMS · LIVE FROM /PROJECTS</span>
+    </div>
+
+    <div class="proj-grid" id="ol-projects">
+      <div class="proj-card">
+        <div class="proj-title">Radicular: Non-Sedating Peptide Analgesics</div>
+        <div class="proj-sum">Drug-like peptide analogs of an a2d-1 decoy peptide for lumbosacral radiculopathy. Built with PeptAI, running from in-vitro engagement to in-vivo efficacy.</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-title">Steam Collective: Where Heat Meets Science</div>
+        <div class="proj-sum">Twenty-one years of prospective cohort data linking regular sauna use to lower all-cause and cardiovascular mortality, organised into an open research program.</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-title">STORM: Stochastic Therapeutic Outcome &amp; Risk Model</div>
+        <div class="proj-sum">Saliva-based pharmacogenomic risk and response modeling for rheumatology in Mexican and Indigenous patients, with calibrated probabilities and clinic-ready decision support.</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-title">The Sun-Human Interface</div>
+        <div class="proj-sum">An open research program on how light and the sun shape human health and the built environment, and how to capture the benefits without the harms.</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-title">Microbial Memory</div>
+        <div class="proj-sum">Tests whether ancestral commensal gut microbiota act as an epigenetic memory that influences host behavior and stress resilience across generations.</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-title">Music-induced vagal stimulation</div>
+        <div class="proj-sum">Investigates whether low-frequency rhythmic auditory stimulation produces measurable HRV and vagal-tone gains as a low-cost adjunct to anxiety treatment.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 08 · TIMELINE ────────── -->
+  <section class="section observe" id="sec-8">
+    <div class="section-tag">
+      <span class="num">// 08</span>
+      <span>TIMELINE</span>
+      <span class="rule"></span>
+      <span class="meta">PAPER → COMMONS → OPENLABS</span>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-row first">
+        <div class="tl-date"><b>Feb 2026</b>arXiv 2602.19810</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Architecture paper published</div>
+          <p>Weidener et al. lay out the three-tier taxonomy and the ClawdLab plus Beach.Science design, with Bio Protocol founder Paul Kohlhaas as senior author.</p>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date"><b>Mar 2026</b>launch</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">Science Beach goes live</div>
+          <p>Molecule and Bio Protocol launch the open research commons. Agents register autonomously; the longevity community seeds the early hypothesis volume.</p>
+        </div>
+      </div>
+      <div class="tl-row elevated">
+        <div class="tl-date"><b>19 Jun 2026</b>DeSci Berlin</div>
+        <div class="tl-axis"></div>
+        <div class="tl-body">
+          <div class="ttl">OpenLabs launches; Science Beach folds in</div>
+          <p>Bio Protocol unveils OpenLabs at DeSci Berlin, adding community funding and on-chain governance. beach.science redirects to OpenLabs and its old API returns HTTP 410 Gone. The hypothesis dataset carries over intact.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 09 · COMPARABLES ────────── -->
+  <section class="section observe" id="sec-9">
+    <div class="section-tag">
+      <span class="num">// 09</span>
+      <span>COMPARABLES</span>
+      <span class="rule"></span>
+      <span class="meta">ADJACENT, NOT DUPLICATE</span>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr><th>Project</th><th>Type</th><th>How it differs from the OpenLabs commons</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name">Science Beach / OpenLabs</td>
+          <td class="tag">open commons</td>
+          <td>Open, public, agent-plus-human hypothesis commons with community funding. Anyone, any agent, can post and review. This page.</td>
+        </tr>
+        <tr>
+          <td class="name"><a href="https://github.com/Future-House/robin" target="_blank" rel="noopener noreferrer">FutureHouse Robin</a></td>
+          <td class="tag">closed-loop</td>
+          <td>A multi-agent system that runs a full discovery loop end to end. Powerful but a closed pipeline, not a public commons.</td>
+        </tr>
+        <tr>
+          <td class="name"><a href="https://github.com/zou-group/virtual-lab" target="_blank" rel="noopener noreferrer">Stanford Virtual Lab</a></td>
+          <td class="tag">single lab</td>
+          <td>A simulated AI lab of specialised agents under a human PI. Closer to ClawdLab's structured model than to the free-form commons.</td>
+        </tr>
+        <tr>
+          <td class="name"><a href="https://github.com/SakanaAI/AI-Scientist-v2" target="_blank" rel="noopener noreferrer">Sakana AI Scientist</a></td>
+          <td class="tag">solo agent</td>
+          <td>An end-to-end agent that writes its own papers. A single-agent pipeline, the first tier of the taxonomy this platform tries to move past.</td>
+        </tr>
+        <tr>
+          <td class="name">Google AI co-scientist</td>
+          <td class="tag">closed/hosted</td>
+          <td>A hosted multi-agent co-scientist with no public commons and no open registration. Closed by design.</td>
+        </tr>
+        <tr>
+          <td class="name"><a href="https://www.researchhub.com" target="_blank" rel="noopener noreferrer">ResearchHub</a></td>
+          <td class="tag">human DeSci</td>
+          <td>A token-incentivised research platform, but human-first. Agents are not first-class participants the way they are here.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ────────── 10 · RISK PANEL ────────── -->
+  <section class="section observe" id="sec-10">
+    <div class="section-tag">
+      <span class="num">// 10</span>
+      <span>RISK PANEL</span>
+      <span class="rule"></span>
+      <span class="meta">THE UNCOMFORTABLE PAGE</span>
+    </div>
+
+    <div class="risk-grid reveal-stagger">
+      <div class="risk-card">
+        <div class="id">// NO PLATFORM TOKEN</div>
+        <div class="body">There is <b>no Science Beach or OpenLabs token</b>. Governance and utility run through the existing BIO token. There is no direct, platform-specific asset to hold, so exposure is indirect through BIO and the broader Bio Protocol ecosystem.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id">// MIGRATION CHURN</div>
+        <div class="body">The platform <b>rebranded to OpenLabs roughly three months after launch</b>. The dataset carried over (6,143 hypotheses before, 6,215 now) but the brand, URLs, and product surface changed, and the old beach.science API was hard-retired to 410. Fast pivots are a feature and a stability risk.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id">// PROTOTYPE STATUS</div>
+        <div class="body">The architecture paper itself calls Beach.Science and ClawdLab <b>open-source research prototypes under active development</b>, and describes the compute-reward mechanism as <b>planned</b>. Treat the incentive loop as a design intent, not a shipped, load-bearing system.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id">// DOMAIN CONCENTRATION</div>
+        <div class="body">Longevity and Aging is <b>6,480 of roughly 9,000 cross-tagged cove posts</b>, and one rheumatology and pharmacogenomics operator cluster drives much of the high-engagement Medicine and Health output. Genuine breadth of active contributors is the open question.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id">// VOLUME IS NOT VALIDATION</div>
+        <div class="body">6,215 hypotheses is real throughput, but a hypothesis is a starting point, not a result. <b>How many convert</b> into funded projects, wet-lab work, or published findings is the metric that matters, and it is still unproven.</div>
+      </div>
+      <div class="risk-card">
+        <div class="id">// ATTRIBUTION CARE</div>
+        <div class="body">Press credits the OpenLabs launch to <b>Bio Protocol</b>; Molecule is named as co-creator of the original Science Beach. Bio Protocol is itself a Molecule-originated entity, so the lineage is parent-to-spinout rather than two independent equals.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────── 11 · WHAT TO WATCH ────────── -->
+  <section class="section observe" id="sec-11">
+    <div class="section-tag">
+      <span class="num">// 11</span>
+      <span>WHAT TO WATCH</span>
+      <span class="rule"></span>
+      <span class="meta">SIGNALS THAT CONVERT THE THESIS</span>
+    </div>
+
+    <ul class="watch-list reveal-stagger">
+      <li>First <b>funded project that traces to an OpenLabs-originated hypothesis</b>. This is the single biggest catalyst: proof the commons produces fundable science.</li>
+      <li>Whether OpenLabs <b>community funding and on-chain governance actually route capital</b> to projects, rather than staying a coordination surface.</li>
+      <li><b>Contributor breadth</b> beyond the longevity and rheumatology clusters. New active coves are the health signal; a flat long tail is the warning.</li>
+      <li>The <b>compute-reward mechanism shipping</b> from "planned" to live, with public quality gates.</li>
+      <li>Cross-pollination with tracked agents. <b>PeptAI already powers the Radicular peptide project</b> on the platform; more agent-to-project links would validate the flywheel.</li>
+    </ul>
+  </section>
+
+  <!-- ────────── 12 · RESOURCES ────────── -->
+  <section class="section observe" id="sec-12">
+    <div class="section-tag">
+      <span class="num">// 12</span>
+      <span>RESOURCES</span>
+      <span class="rule"></span>
+      <span class="meta">PRIMARY SOURCES</span>
+    </div>
+
+    <ul class="resources">
+      <li><a href="https://openlabs.bio.xyz" target="_blank" rel="noopener noreferrer">openlabs.bio.xyz</a><span class="desc">live platform (Science Beach successor)</span></li>
+      <li><a href="https://arxiv.org/abs/2602.19810" target="_blank" rel="noopener noreferrer">arxiv.org/abs/2602.19810</a><span class="desc">architecture paper, Weidener et al., Feb 2026</span></li>
+      <li><a href="https://github.com/moleculeprotocol/science.beach" target="_blank" rel="noopener noreferrer">moleculeprotocol/science.beach</a><span class="desc">open-source platform code</span></li>
+      <li><a href="https://github.com/moleculeprotocol/beach-science-skills" target="_blank" rel="noopener noreferrer">moleculeprotocol/beach-science-skills</a><span class="desc">OpenClaw skill registry</span></li>
+      <li><a href="https://github.com/bio-xyz/ClawdLab" target="_blank" rel="noopener noreferrer">bio-xyz/ClawdLab</a><span class="desc">structured-lab sibling platform</span></li>
+      <li><a href="https://bio.xyz" target="_blank" rel="noopener noreferrer">bio.xyz</a><span class="desc">Bio Protocol (OpenLabs operator)</span></li>
+      <li><a href="https://molecule.xyz" target="_blank" rel="noopener noreferrer">molecule.xyz</a><span class="desc">Molecule (co-creator)</span></li>
+      <li><a href="https://x.com/BioProtocol" target="_blank" rel="noopener noreferrer">@BioProtocol</a><span class="desc">launch announcements</span></li>
+    </ul>
+  </section>
+
+  <!-- ────────── FOOTER ────────── -->
+  <footer id="sec-13">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="name"><span class="logo-dot"></span>descidash</div>
+        <div class="desc">// THE DESCI SECTOR TRACKER. PROJECTS, AGENTS, PEPTIDES. ON-CHAIN SCIENCE, OFF-CHAIN RECEIPTS.</div>
+      </div>
+      <div class="footer-col">
+        <div class="h">// OPENLABS</div>
+        <div class="links">
+          <a href="https://openlabs.bio.xyz" target="_blank" rel="noopener noreferrer">openlabs.bio.xyz</a>
+          <a href="https://arxiv.org/abs/2602.19810" target="_blank" rel="noopener noreferrer">architecture paper</a>
+          <a href="https://github.com/moleculeprotocol/science.beach" target="_blank" rel="noopener noreferrer">source code</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="h">// PROTOCOL</div>
+        <div class="links">
+          <a href="https://bio.xyz" target="_blank" rel="noopener noreferrer">bio.xyz</a>
+          <a href="https://molecule.xyz" target="_blank" rel="noopener noreferrer">molecule</a>
+          <a href="https://github.com/bio-xyz/ClawdLab" target="_blank" rel="noopener noreferrer">clawdlab</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="h">// DESCIDASH</div>
+        <div class="links">
+          <a href="/methodology">methodology</a>
+          <a href="/projects/aubrai">/projects/aubrai</a>
+          <a href="/projects/peptai">/projects/peptai</a>
+          <a href="https://x.com/DeSciDashboard" target="_blank" rel="noopener noreferrer">x · @DeSciDashboard</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>// TRACKED BY <a href="/">DESCIDASH.COM</a> · NOT INVESTMENT ADVICE · LIVE DATA VIA OPENLABS API</span>
+      <span>build science-beach</span>
+    </div>
+  </footer>
+
 </div>
 
-<script src="/assets/js/nav.js"></script>
-<script>
-// Snapshot of Science Beach platform metrics. Update weekly by checking
-// beach.science homepage. TODO: automate via Cloudflare Pages Function that
-// fetches beach.science and parses the live counters.
-const SCIENCE_BEACH_METRICS_DEEP_DIVE = {
-  agents: 776,
-  hypotheses: 6143,
-  verified: 74,
-  humans: 206,
-  updatedAt: '2026-05-06',
-  sourceUrl: 'https://beach.science',
-};
+<!-- ────────── scroll-progress hairline + mobile sticky pill ────────── -->
+<div class="proj-scroll-progress" id="proj-scroll-progress" aria-hidden="true"></div>
 
-// Domain breakdown by cove. Hypotheses cross-tag into multiple coves so the
-// sum exceeds the total hypothesis count above.
-const SCIENCE_BEACH_DOMAINS = [
-  { name: 'Longevity and Aging',     count: 6479 },
-  { name: 'Neuroscience and Brain',  count: 919  },
-  { name: 'Medicine and Health',     count: 591  },
-  { name: 'AI and Machine Learning', count: 325  },
-  { name: 'Chemistry and Materials', count: 159  },
-];
+<div class="proj-mobile-nav" id="proj-mobile-nav" aria-label="Section navigation (mobile)">
+  <button class="proj-mobile-nav-pill" id="proj-mobile-nav-pill" type="button"
+          aria-haspopup="true" aria-expanded="false" aria-controls="proj-mobile-nav-menu">
+    <span class="label"><b id="proj-mobile-nav-current-num">// 01</b><span id="proj-mobile-nav-current-name">TLDR</span></span>
+    <span class="sep" aria-hidden="true">/</span>
+    <span class="total" id="proj-mobile-nav-total">12</span>
+    <span class="caret" aria-hidden="true">▾</span>
+  </button>
+  <div class="proj-mobile-nav-menu" id="proj-mobile-nav-menu" role="menu"></div>
+</div>
 
-(function renderMetrics() {
-  const m = SCIENCE_BEACH_METRICS_DEEP_DIVE;
-  const items = [
-    { label: 'Agents',     value: m.agents },
-    { label: 'Hypotheses', value: m.hypotheses },
-    { label: 'Verified',   value: m.verified },
-    { label: 'Humans',     value: m.humans },
-  ];
-  const row = document.getElementById('project-metrics-row');
-  if (row) {
-    row.innerHTML = items.map(it => `
-      <div class="project-metric">
-        <span class="project-metric-value">${it.value.toLocaleString('en-US')}</span>
-        <span class="project-metric-label">${it.label}</span>
-      </div>
-    `).join('');
-  }
-  const src = document.getElementById('project-metrics-source');
-  if (src) {
-    src.innerHTML = `Live metrics from <a href="${m.sourceUrl}" target="_blank" rel="noopener">beach.science</a> · updated ${m.updatedAt}`;
-  }
-})();
+<!-- ────────── GUTTER (left-edge nav) ────────── -->
+<nav class="pep-gutter" aria-label="Section navigation">
+  <button class="vert" data-target="sec-1"  type="button" aria-label="TL;DR"><span class="dot"></span><span class="lbl"><b>// 01</b>TLDR</span></button>
+  <button class="vert" data-target="sec-2"  type="button" aria-label="Why it matters"><span class="dot"></span><span class="lbl"><b>// 02</b>WHY</span></button>
+  <button class="vert" data-target="sec-3"  type="button" aria-label="What it is"><span class="dot"></span><span class="lbl"><b>// 03</b>WHAT</span></button>
+  <button class="vert" data-target="sec-4"  type="button" aria-label="Architecture"><span class="dot"></span><span class="lbl"><b>// 04</b>ARCH</span></button>
+  <button class="vert" data-target="sec-5"  type="button" aria-label="Domain breakdown"><span class="dot"></span><span class="lbl"><b>// 05</b>DOMAINS</span></button>
+  <button class="vert" data-target="sec-6"  type="button" aria-label="Notable hypotheses"><span class="dot"></span><span class="lbl"><b>// 06</b>SIGNALS</span></button>
+  <button class="vert" data-target="sec-7"  type="button" aria-label="Projects"><span class="dot"></span><span class="lbl"><b>// 07</b>PROJECTS</span></button>
+  <button class="vert" data-target="sec-8"  type="button" aria-label="Timeline"><span class="dot"></span><span class="lbl"><b>// 08</b>TIMELINE</span></button>
+  <button class="vert" data-target="sec-9"  type="button" aria-label="Comparables"><span class="dot"></span><span class="lbl"><b>// 09</b>COMPARE</span></button>
+  <button class="vert" data-target="sec-10" type="button" aria-label="Risk panel"><span class="dot"></span><span class="lbl"><b>// 10</b>RISKS</span></button>
+  <button class="vert" data-target="sec-11" type="button" aria-label="What to watch"><span class="dot"></span><span class="lbl"><b>// 11</b>WATCH</span></button>
+  <button class="vert" data-target="sec-12" type="button" aria-label="Resources"><span class="dot"></span><span class="lbl"><b>// 12</b>LINKS</span></button>
+</nav>
 
-(function renderDomains() {
-  const list = document.getElementById('project-domain-list');
-  if (!list) return;
-  const max = Math.max(...SCIENCE_BEACH_DOMAINS.map(d => d.count));
-  list.innerHTML = SCIENCE_BEACH_DOMAINS.map(d => {
-    const pct = (d.count / max) * 100;
-    return `
-      <li class="project-domain-row">
-        <span class="project-domain-name">${d.name}</span>
-        <span class="project-domain-bar" role="img" aria-label="${d.count.toLocaleString('en-US')} hypotheses">
-          <span class="project-domain-bar-fill" style="width:${pct.toFixed(1)}%"></span>
-        </span>
-        <span class="project-domain-count">${d.count.toLocaleString('en-US')}</span>
-      </li>
-    `;
-  }).join('');
-})();
-</script>
+<script src="/assets/js/science-beach.js" defer></script>
+
 </body>
 </html>
