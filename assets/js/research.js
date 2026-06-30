@@ -31,7 +31,7 @@ function renderTrending(list) {
       + '<div class="pulse-row-body"><div class="pulse-row-title">' + title + '</div>'
       + (meta.length ? '<div class="pulse-row-meta">' + meta.join('<span>·</span>') + '</div>' : '')
       + '</div>'
-      + '<div class="pulse-row-stats"><b>' + fmt(h.upvotes || 0) + '</b> up &nbsp; <b>' + fmt(h.comments || 0) + '</b> cm</div>'
+      + '<div class="pulse-row-stats"><b>' + fmt(h.upvotes || 0) + '</b> upvotes · <b>' + fmt(h.comments || 0) + '</b> comments</div>'
       + '</li>';
   }).join('');
 }
