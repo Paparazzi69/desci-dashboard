@@ -178,8 +178,12 @@
     const max = Math.max.apply(null, topics.map((t) => t.posts || 0)) || 1;
     el.innerHTML = topics.map((t) => {
       const pct = ((t.posts || 0) / max * 100).toFixed(1);
+      const nameInner = '<span class="emoji">' + esc(t.emoji) + '</span>' + esc(t.name);
+      const name = t.slug
+        ? '<a href="https://openlabs.bio.xyz/topics/' + esc(t.slug) + '" target="_blank" rel="noopener">' + nameInner + '</a>'
+        : nameInner;
       return '<li class="domain-row">'
-        + '<span class="domain-name"><span class="emoji">' + esc(t.emoji) + '</span>' + esc(t.name) + '</span>'
+        + '<span class="domain-name">' + name + '</span>'
         + '<span class="domain-bar"><span class="domain-bar-fill" data-pct="' + pct + '" style="width:' + pct + '%"></span></span>'
         + '<span class="domain-count">' + fmt(t.posts || 0) + '<small>' + fmt(t.contributors || 0) + ' contributors</small></span>'
         + '</li>';
@@ -193,9 +197,12 @@
       const meta = [];
       if (h.topic) meta.push('<span class="hyp-topic">' + esc(h.topic) + '</span>');
       if (h.project) meta.push('<span class="hyp-proj">// ' + esc(h.project) + '</span>');
+      const title = h.id
+        ? '<a class="card-link" href="https://openlabs.bio.xyz/post/' + esc(h.id) + '" target="_blank" rel="noopener">' + esc(h.title) + ' <span class="ext" aria-hidden="true">↗</span></a>'
+        : esc(h.title);
       return '<div class="hyp-card">'
         + '<div class="hyp-meta">' + (meta.join('<span>·</span>') || 'claim') + '</div>'
-        + '<div class="hyp-title">' + esc(h.title) + '</div>'
+        + '<div class="hyp-title">' + title + '</div>'
         + '<div class="hyp-foot"><span><b>' + fmt(h.upvotes || 0) + '</b> upvotes</span>'
         + '<span><b>' + fmt(h.comments || 0) + '</b> comments</span></div>'
         + '</div>';
@@ -205,10 +212,13 @@
   const renderProjects = (list) => {
     const el = document.getElementById('ol-projects');
     if (!el || !Array.isArray(list) || !list.length) return;
-    el.innerHTML = list.map((p) =>
-      '<div class="proj-card"><div class="proj-title">' + esc(p.title) + '</div>'
-      + '<div class="proj-sum">' + esc(p.summary) + '</div></div>'
-    ).join('');
+    el.innerHTML = list.map((p) => {
+      const title = p.id
+        ? '<a class="card-link" href="https://openlabs.bio.xyz/projects/' + esc(p.id) + '" target="_blank" rel="noopener">' + esc(p.title) + ' <span class="ext" aria-hidden="true">↗</span></a>'
+        : esc(p.title);
+      return '<div class="proj-card"><div class="proj-title">' + title + '</div>'
+        + '<div class="proj-sum">' + esc(p.summary) + '</div></div>';
+    }).join('');
   };
 
   fetch('/api/openlabs', { headers: { accept: 'application/json' } })
