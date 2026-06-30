@@ -75,6 +75,7 @@
   // ── More menu: one-line description under each item ──
   // Matched by href prefix so the per-page markup stays a flat icon+label list.
   var MENU_DESCS = [
+    ['/research', 'Live OpenLabs research feed'],
     ['/heat', '24h and 7d sector movers'],
     ['/papers', 'Live peer-reviewed papers'],
     ['/methodology', 'How claims get verified'],
@@ -157,6 +158,7 @@
     { title: 'BioAgent Tracker', desc: 'Agents, compounds, platforms', href: '/bioagent-tracker' },
     { title: 'Verified List', desc: 'Source-backed sector comparison', href: '/verified-list' },
     { title: 'Projects', desc: 'Deep-dive index', href: '/projects/' },
+    { title: 'Research Pulse', desc: 'Live OpenLabs hypotheses + projects', href: '/research' },
     { title: '$DAH', desc: 'DeSci Analytics Hub token', href: '/dah' },
     { title: 'Heat', desc: '24h and 7d sector movers', href: '/heat' },
     { title: 'Research', desc: 'Live peer-reviewed papers', href: '/papers' },

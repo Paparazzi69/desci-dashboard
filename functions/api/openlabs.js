@@ -63,6 +63,7 @@ export async function onRequest({ env }) {
     // never touched (PII); body is dropped, title + counts only.
     const hypotheses = ((claimList && claimList.data) || [])
       .map(p => ({
+        id: p.id,
         title: p.title,
         topic: (p.topic && p.topic.name) || null,
         project: (p.project && p.project.title) || null,
@@ -75,7 +76,7 @@ export async function onRequest({ env }) {
       .slice(0, 6);
 
     const projects = ((projList && projList.data) || [])
-      .map(p => ({ title: p.title, summary: (p.summary || '').replace(/\s+/g, ' ').slice(0, 220) }))
+      .map(p => ({ id: p.id, title: p.title, summary: (p.summary || '').replace(/\s+/g, ' ').slice(0, 220) }))
       .slice(0, 6);
 
     const payload = {
