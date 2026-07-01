@@ -548,7 +548,7 @@
 /* Repo liveness badge — code-activity chip for agents with a verified public
    repo. Colour encodes state: green = active, amber = archived (read-only),
    neutral = quiet (no push in >120d). */
-.repo-badge-wrap:empty { display: none; }
+.repo-badge-wrap:empty, .gov-badge-wrap:empty { display: none; }
 .repo-badge {
   display: inline-flex; align-items: center; gap: 7px;
   max-width: 100%;
