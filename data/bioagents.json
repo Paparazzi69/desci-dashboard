@@ -869,6 +869,7 @@
     "focus": "Pay-per-call research API. Bearer token or x402 USDC on Base.",
     "token": "pay-per-query",
     "parent": "Bio Protocol AI",
+    "link": "https://ai.bio.xyz",
     "desc": "Universal AI Scientist, a pay-per-query bioinformatics utility. Powers other BioAgents with on-demand scientific intelligence.",
     "stats": [
       {
