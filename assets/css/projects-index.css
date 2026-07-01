@@ -25,7 +25,7 @@
   background: var(--op-bg);
   background-image: none;
   color: var(--op-text);
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }
 
 .projects-page {
@@ -86,7 +86,7 @@
   flex-wrap: wrap;
 }
 .proj-h1 {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 80px;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -288,7 +288,7 @@
   flex-wrap: wrap;
 }
 .proj-card-name {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 36px;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -303,7 +303,7 @@
 }
 .proj-card-blurb {
   margin-top: 8px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 15px;
   line-height: 1.5;
   color: rgba(230, 230, 227, 0.85);
@@ -313,7 +313,7 @@
 /* Primary takeaway · the card's italic coral hook between blurb and
    bullets. One line, slightly larger than body, no quotes. */
 .proj-card-takeaway {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 17px;
   font-style: italic;
   font-weight: 500;
@@ -435,7 +435,7 @@
   text-transform: uppercase;
 }
 .proj-banner-name {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 26px;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -443,7 +443,7 @@
   color: var(--op-text);
 }
 .proj-banner-takeaway {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-style: italic;
   font-weight: 500;
