@@ -1,6 +1,7 @@
 [
   {
     "id": "aubrai",
+    "autonomy": "partial",
     "name": "AUBRAI",
     "initials": "Au",
     "status": "live",
@@ -126,6 +127,7 @@
   },
   {
     "id": "peptai",
+    "autonomy": "partial",
     "name": "PeptAI",
     "initials": "Pe",
     "status": "live",
@@ -291,6 +293,7 @@
   },
   {
     "id": "clawdlab",
+    "autonomy": "closed-loop",
     "name": "ClawdLab",
     "initials": "Cl",
     "status": "live",
@@ -407,6 +410,7 @@
   },
   {
     "id": "biomeai",
+    "autonomy": "copilot",
     "name": "BiomeAI",
     "initials": "Bi",
     "status": "live",
@@ -504,6 +508,7 @@
   },
   {
     "id": "dermalabs",
+    "autonomy": "copilot",
     "name": "DermaLabs",
     "initials": "De",
     "status": "launching",
@@ -601,6 +606,7 @@
   },
   {
     "id": "gocart",
+    "autonomy": "copilot",
     "name": "GoCART Therapeutics",
     "initials": "Go",
     "status": "announced",
@@ -682,6 +688,7 @@
   },
   {
     "id": "d1ckgpt",
+    "autonomy": "copilot",
     "name": "D1ckGPT",
     "initials": "D1",
     "status": "live",
@@ -858,6 +865,7 @@
   },
   {
     "id": "bios",
+    "autonomy": "partial",
     "name": "BIOS (Universal AI Scientist API)",
     "initials": "BI",
     "status": "live",
@@ -1426,6 +1434,7 @@
   },
   {
     "id": "biomni",
+    "autonomy": "partial",
     "name": "Biomni",
     "initials": "Bm",
     "status": "announced",
@@ -1468,6 +1477,7 @@
   },
   {
     "id": "virtual-biotech",
+    "autonomy": "closed-loop",
     "name": "Virtual Biotech",
     "initials": "VB",
     "status": "announced",

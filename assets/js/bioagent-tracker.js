@@ -133,6 +133,18 @@ function governanceBadgeHTML(a) {
     </a>`;
 }
 
+// Autonomy classification tag (YC RFS #2 lens — discovery engine vs AI wrapper).
+// Static field a.autonomy in bioagents.json; n/a entries omit it so no tag shows.
+const AUTONOMY_TITLE = {
+  'closed-loop': 'Autonomy: closed-loop — AI runs the full discovery cycle, no human per iteration',
+  'partial': 'Autonomy: partial — AI automates stages, humans gate key transitions (targets, wet lab, funding)',
+  'copilot': 'Autonomy: copilot — AI assists a human-driven workflow',
+};
+function autonomyTag(a) {
+  if (!a || !a.autonomy || !AUTONOMY_TITLE[a.autonomy]) return '';
+  return `<span class="autonomy-tag autonomy-${a.autonomy}" title="${AUTONOMY_TITLE[a.autonomy]}">${a.autonomy}</span>`;
+}
+
 // ─── CTA label ──────────────────────────────────────────────────────────────
 // The modal "View on …" CTA used to hardcode "BIO.XYZ" regardless of where the
 // link actually pointed (Science Beach → beach.science, Spore.fun → spore.fun,
@@ -340,6 +352,7 @@ function renderAgents(list, opts = {}) {
             <span class="agent-name">${a.name}</span>
             <span class="agent-status" data-status="${a.status}">${a.status}</span>
             ${chainBadge(a.chain)}
+            ${autonomyTag(a)}
           </div>
           <div class="agent-sub">
             <span>${a.focus}</span>
@@ -400,6 +413,7 @@ function renderAgentDetail(a) {
           <span class="agent-name" id="agent-modal-title">${a.name}</span>
           <span class="agent-status" data-status="${a.status}">${a.status}</span>
           ${chainBadge(a.chain)}
+          ${autonomyTag(a)}
         </div>
         <div class="agent-sub">
           <span>${a.focus}</span>
