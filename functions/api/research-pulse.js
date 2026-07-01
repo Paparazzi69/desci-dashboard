@@ -18,7 +18,7 @@ import {
 const API = 'https://api.openlabs.bio.xyz/api/v1';
 const FRESH_TTL_S = 60 * 15;       // 15 min (trending moves; cache spares upstream)
 const STALE_TTL_S = 60 * 60 * 12;  // 12h KV backup for OpenLabs outages
-const CACHE_KEY = 'research-pulse:v2';
+const CACHE_KEY = 'research-pulse:v3';
 
 async function getJson(path) {
   const r = await fetch(API + path, { headers: { accept: 'application/json' } });
@@ -34,6 +34,20 @@ const mapPost = (p) => ({
   upvotes: p.upvote_count || 0,
   comments: p.comment_count || 0,
 });
+
+// DeSci-relevant coves. OpenLabs is a general-science commons (Physics, Math,
+// Climate, etc.); descidash is a DeSci tracker, so the Pulse feed is scoped to
+// the biomedical / DeSci topics. Tunable: add a slug + name to widen coverage.
+const DESCI_SLUGS = new Set([
+  'longevity-aging', 'medicine-health', 'biology-life-sciences', 'neuroscience-brain',
+  'chemistry-materials', 'peptide-rd', 'tacrolimus-pharmacogenomics', 'general-science',
+  'marine-biology',
+]);
+const DESCI_TOPIC_NAMES = new Set([
+  'Longevity & Aging', 'Medicine & Health', 'Biology & Life Sciences', 'Neuroscience & Brain',
+  'Chemistry & Materials', 'Peptide R&D', 'Tacrolimus Pharmacogenomics', 'General Science',
+  'Marine Biology',
+]);
 
 export async function onRequest({ env }) {
   const fresh = await cacheGet(CACHE_KEY);
@@ -52,6 +66,7 @@ export async function onRequest({ env }) {
     const topicsArr = Array.isArray(topicsRaw) ? topicsRaw : [];
     const topics = topicsArr
       .map(t => ({ name: t.name, slug: t.slug, emoji: t.emoji, posts: t.post_count || 0, contributors: t.contributor_count || 0 }))
+      .filter(t => DESCI_SLUGS.has(t.slug))
       .sort((a, b) => b.posts - a.posts)
       .slice(0, 8);
 
@@ -67,7 +82,7 @@ export async function onRequest({ env }) {
       // + reactions). The upstream `sort=trending` is recency-weighted and floods
       // the top with brand-new 0-engagement claims, so we rank the batch here.
       trending: ((claimBatch && claimBatch.data) || [])
-        .slice()
+        .filter(p => !p.topic || DESCI_TOPIC_NAMES.has(p.topic.name))
         .sort((a, b) =>
           ((b.upvote_count || 0) + (b.comment_count || 0) + (b.reaction_count || 0)) -
           ((a.upvote_count || 0) + (a.comment_count || 0) + (a.reaction_count || 0)))
