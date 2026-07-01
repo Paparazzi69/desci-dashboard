@@ -66,10 +66,8 @@
     position: relative;
   }
 
-  /* Mobile: bubble map's linear canvas overflows narrow viewports and
-     packLinear() filters out bubbles that don't fit. Hide the whole
-     section on mobile; Token Index below carries the same data with
-     proper mobile rendering. */
+  /* Mobile: hide the bubble map section; Token Index below carries the
+     same data with proper mobile rendering. */
   @media (max-width: 768px) {
     .bubblemap-section { display: none; }
   }
