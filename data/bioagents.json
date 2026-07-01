@@ -16,6 +16,7 @@
     "launchDate": "Aug 25, 2025",
     "link": "https://app.bio.xyz/agents/aubrai",
     "github": "bio-xyz/BioAgents",
+    "govSpace": "vote.vitadao.eth",
     "desc": "Longevity AI agent built with VitaDAO & Dr. Aubrey de Grey. Trained on de Grey's unpublished lab data. Runs on ElizaOS v2 in Phala Cloud TEE.",
     "stats": [
       {
@@ -911,6 +912,7 @@
     "parent": "VitaDAO via AUBRAI",
     "launchDate": "Oct 2025",
     "link": "https://app.bio.xyz/agents/vitastem",
+    "govSpace": "vote.vitadao.eth",
     "desc": "Stem Cell Rejuvenation IP-Token — first AI-generated IP-Token in DeSci history. 20% of supply held by AUBRAI itself. Analyzing 850K+ human stem cell transcriptomes.",
     "stats": [
       {
@@ -1001,6 +1003,7 @@
     "parent": "VitaDAO",
     "launchDate": "2025",
     "link": "https://app.bio.xyz/agents/vitarna",
+    "govSpace": "vote.vitadao.eth",
     "desc": "mRNA/AAV9 gene therapy IP-Token (ARTAN Bio). Lead candidate ARTAN-102 cleared first in vivo mouse safety and is advancing through toxicology toward a 2026 IND. Peaked at ~$27M MC from a $300K initial raise.",
     "stats": [
       {
@@ -1041,6 +1044,7 @@
     "token": "$CLAW",
     "parent": "CerebrumDAO",
     "link": "https://app.bio.xyz/agents/percepta",
+    "govSpace": "cerebrumdao.eth",
     "desc": "Brain Health Supplement IP-Token — Cat's Claw extract PTI-00703 + MemorTea targeting $8.6B Alzheimer's market. Phase 2 human trial approved.",
     "stats": [
       {
@@ -1129,6 +1133,7 @@
     "focus": "Psychedelics",
     "token": "$BEEARD",
     "parent": "PsyDAO",
+    "govSpace": "psydao.eth",
     "desc": "Psychedelics discovery agent by PsyDAO. IP-Token (IPNFT #44) live on Ethereum and Base; scouts and tokenizes psychedelic compound IP.",
     "stats": [
       {
@@ -1392,6 +1397,7 @@
     "token": "$ATH · $GIRLE · $BABY",
     "parent": "AthenaDAO (daos.fun)",
     "link": "https://athenadao.co",
+    "govSpace": "athenadao.eth",
     "desc": "Women's health and fertility-focused BioDAO with token-native science agents. Operates GIRLE and BABY agents researching reproductive health, hormonal therapeutics, and fertility interventions. Underexplored DeSci segment with growing market demand.",
     "stats": [
       {

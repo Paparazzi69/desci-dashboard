@@ -42,6 +42,17 @@ const REPO_ACTIVITY_FALLBACK = {
 };
 let REPO_ACTIVITY = REPO_ACTIVITY_FALLBACK;
 
+// DAO governance-liveness snapshot (keyed by Snapshot space, matching the
+// `govSpace` field in bioagents.json). Painted immediately, hydrated live from
+// /api/governance (prod-only). Verified 2026-07-01 via hub.snapshot.org.
+const GOV_ACTIVITY_FALLBACK = {
+  'vote.vitadao.eth': { name: 'VitaDAO',     lastProposal: '2025-09-09', active: 0, url: 'https://snapshot.org/#/vote.vitadao.eth' },
+  'psydao.eth':       { name: 'PsyDAO',      lastProposal: '2026-06-23', active: 0, url: 'https://snapshot.org/#/psydao.eth' },
+  'cerebrumdao.eth':  { name: 'CerebrumDAO', lastProposal: '2025-12-26', active: 0, url: 'https://snapshot.org/#/cerebrumdao.eth' },
+  'athenadao.eth':    { name: 'AthenaDAO',   lastProposal: '2025-09-02', active: 0, url: 'https://snapshot.org/#/athenadao.eth' },
+};
+let GOV_ACTIVITY = GOV_ACTIVITY_FALLBACK;
+
 // Avatar tint by pipeline stage (per design: avatar color = stage, not identity).
 const STAGE_COLOR = [
   'var(--purple)', // 0 Hypothesis
@@ -99,6 +110,26 @@ function repoBadgeHTML(a) {
       title="Verified public repo · live GitHub activity">
       <span class="repo-badge-dot"></span>
       <span class="repo-badge-txt"><b>CODE</b> · ${a.github} · ${label}${stars}</span>
+    </a>`;
+}
+
+// Governance-liveness chip for entities whose parent DAO has a Snapshot space
+// (a.govSpace). Reuses the repo-badge visual language. State: live proposals or
+// a recent one = active; a DAO quiet for >120d reads "quiet" honestly.
+function governanceBadgeHTML(a) {
+  if (!a || !a.govSpace) return '';
+  const g = GOV_ACTIVITY[a.govSpace];
+  if (!g || !g.lastProposal) return '';
+  const days = Math.floor((Date.now() - new Date(g.lastProposal + 'T00:00:00Z').getTime()) / 86400000);
+  const state = (g.active > 0 || days <= 120) ? 'active' : 'quiet';
+  const label = g.active > 0
+    ? `${g.active} live proposal${g.active > 1 ? 's' : ''}`
+    : `last proposal ${relTimeSince(g.lastProposal)}`;
+  const url = g.url || ('https://snapshot.org/#/' + a.govSpace);
+  return `<a class="repo-badge repo-badge--${state}" href="${url}" target="_blank" rel="noopener"
+      title="DAO governance activity (Snapshot)">
+      <span class="repo-badge-dot"></span>
+      <span class="repo-badge-txt"><b>GOV</b> · ${g.name} · ${label}</span>
     </a>`;
 }
 
@@ -346,6 +377,7 @@ function renderAgents(list, opts = {}) {
       </div>
 
       <div class="repo-badge-wrap">${repoBadgeHTML(a)}</div>
+      <div class="gov-badge-wrap">${governanceBadgeHTML(a)}</div>
 
       <button class="agent-cta" type="button" data-open-agent="${a.id}">View details →</button>
     `;
@@ -403,6 +435,7 @@ function renderAgentDetail(a) {
     </div>
 
     <div class="repo-badge-wrap">${repoBadgeHTML(a)}</div>
+    <div class="gov-badge-wrap">${governanceBadgeHTML(a)}</div>
 
     ${a.link ? `<a class="agent-cta agent-cta--external" href="${a.link}" target="_blank" rel="noopener noreferrer">${ctaLabel(a.link)}</a>` : ''}
   `;
@@ -649,12 +682,29 @@ function hydrateRepoActivity() {
     .catch(() => { /* keep the snapshot */ });
 }
 
+// Same pattern for DAO governance liveness (prod-only /api/governance).
+function hydrateGovernance() {
+  fetch('/api/governance', { headers: { accept: 'application/json' } })
+    .then(r => (r.ok ? r.json() : null))
+    .then(d => {
+      if (!d || !d.spaces || !Object.keys(d.spaces).length) return;
+      GOV_ACTIVITY = d.spaces;
+      document.querySelectorAll('.agent-card').forEach(card => {
+        const a = AGENTS.find(x => x.id === card.dataset.agentId);
+        const wrap = card.querySelector('.gov-badge-wrap');
+        if (a && wrap) wrap.innerHTML = governanceBadgeHTML(a);
+      });
+    })
+    .catch(() => { /* keep the snapshot */ });
+}
+
 function init() {
   renderSectorActivity();
   buildLane();
   wireAgentModal();
   wireTabs(); // sets initial tab + renders the right segment
   hydrateRepoActivity();
+  hydrateGovernance();
 
   const sel = document.getElementById('sort-select');
   sel.addEventListener('change', renderForCurrentTab);
