@@ -3,6 +3,11 @@
    component styles; reserved heights to avoid CLS when the live fetch swaps
    the static snapshot. */
 
+/* Refined look: Inter (like the deep dives) + a clean flat background, closer
+   to the design mockup than the app-shell default. Page-scoped (research.css
+   loads after style.css and only on /research). */
+body { font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; background-image: none; }
+
 .pulse { max-width: 1080px; margin: 0 auto; }
 
 .pulse-head { margin-bottom: 24px; }
@@ -51,13 +56,17 @@
 .pulse-sec-head .meta a { color: var(--green); }
 
 /* trending hypotheses list */
-.pulse-list { list-style: none; display: flex; flex-direction: column; gap: 8px; min-height: 440px; }
+.pulse-list {
+  list-style: none; border: 1px solid var(--border2); border-radius: 12px;
+  overflow: hidden; background: var(--surface); min-height: 440px;
+}
 .pulse-row {
   display: grid; grid-template-columns: 30px 1fr auto; gap: 14px; align-items: start;
-  padding: 16px 18px; border: 1px solid var(--border2); border-radius: 8px;
-  background: var(--surface); transition: border-color 0.14s;
+  padding: 16px 18px; border-bottom: 1px solid var(--border2);
+  background: transparent; transition: background 0.14s;
 }
-.pulse-row:hover { border-color: var(--border); }
+.pulse-row:last-child { border-bottom: none; }
+.pulse-row:hover { background: var(--surface2); }
 .pulse-rank { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text3); padding-top: 2px; }
 .pulse-row-body { min-width: 0; }
 .pulse-row-title { color: var(--text); font-size: 15px; line-height: 1.5; font-weight: 500; }
