@@ -18,7 +18,7 @@ import {
 const API = 'https://api.openlabs.bio.xyz/api/v1';
 const FRESH_TTL_S = 60 * 15;       // 15 min (trending moves; cache spares upstream)
 const STALE_TTL_S = 60 * 60 * 12;  // 12h KV backup for OpenLabs outages
-const CACHE_KEY = 'research-pulse:v3';
+const CACHE_KEY = 'research-pulse:v4';
 
 async function getJson(path) {
   const r = await fetch(API + path, { headers: { accept: 'application/json' } });
@@ -40,13 +40,11 @@ const mapPost = (p) => ({
 // the biomedical / DeSci topics. Tunable: add a slug + name to widen coverage.
 const DESCI_SLUGS = new Set([
   'longevity-aging', 'medicine-health', 'biology-life-sciences', 'neuroscience-brain',
-  'chemistry-materials', 'peptide-rd', 'tacrolimus-pharmacogenomics', 'general-science',
-  'marine-biology',
+  'chemistry-materials', 'peptide-rd', 'tacrolimus-pharmacogenomics',
 ]);
 const DESCI_TOPIC_NAMES = new Set([
   'Longevity & Aging', 'Medicine & Health', 'Biology & Life Sciences', 'Neuroscience & Brain',
-  'Chemistry & Materials', 'Peptide R&D', 'Tacrolimus Pharmacogenomics', 'General Science',
-  'Marine Biology',
+  'Chemistry & Materials', 'Peptide R&D', 'Tacrolimus Pharmacogenomics',
 ]);
 
 export async function onRequest({ env }) {
