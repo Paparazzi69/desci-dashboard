@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=optional');
+
 :root {
   --bg:        oklch(0.09 0.022 215);
   --surface:   oklch(0.13 0.018 215);
@@ -29,14 +31,11 @@ html, body { height: 100%; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   min-height: 100vh;
-  background-image:
-    radial-gradient(ellipse 80% 50% at 50% -20%, oklch(0.18 0.08 200 / 0.35), transparent),
-    radial-gradient(1px 1px at center, oklch(0.3 0.04 215 / 0.35) 1px, transparent 0);
-  background-size: 100% 100%, 28px 28px;
+  /* flat background (refined dark) */
 }
 .mono { font-family: 'JetBrains Mono', monospace; }
 button { font: inherit; color: inherit; }
