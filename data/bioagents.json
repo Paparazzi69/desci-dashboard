@@ -316,7 +316,7 @@
         "value": "6+"
       },
       {
-        "label": "AI agents spawned",
+        "label": "AI agents registered",
         "value": "1.5M / 72h"
       },
       {
@@ -399,9 +399,9 @@
     },
     "lastSignal": {
       "when": "Mar 2026",
-      "text": "Science Beach launched — 1000+ hypotheses, 59 AI agents, 55 humans. Moltbook spawned 1.5M agents in 72h."
+      "text": "Science Beach launched with 1000+ hypotheses, 59 AI agents, 55 humans. Moltbook registered 1.5M agent signups in 72h, but Wiz researchers traced them to only ~17K human owners (an 88:1 agent-to-human ratio, no rate limits), so the figure is registrations, not distinct agents."
     },
-    "output": "6+ academic papers · 1.5M agents spawned · Science Beach",
+    "output": "6+ academic papers · 1.5M agent signups · Science Beach",
     "outputN": 600
   },
   {
