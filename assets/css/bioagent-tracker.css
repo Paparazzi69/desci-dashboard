@@ -581,6 +581,31 @@
 .repo-badge--archived .repo-badge-dot { background: var(--amber); }
 .repo-badge--quiet .repo-badge-dot { background: var(--text3); }
 
+/* Autonomy classification tag — small pill in the card/modal header. Colour
+   ranks autonomy: green = closed-loop (real discovery engine), blue = partial
+   (human-gated), neutral = copilot (AI-assisted). */
+.autonomy-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 2px 7px; border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  white-space: nowrap;
+  align-self: center;
+}
+.autonomy-closed-loop {
+  color: var(--green);
+  border-color: oklch(from var(--green) l c h / 0.35);
+  background: var(--green-bg);
+}
+.autonomy-partial {
+  color: var(--blue);
+  border-color: oklch(from var(--blue) l c h / 0.35);
+  background: var(--blue-bg);
+}
+.autonomy-copilot { color: var(--text3); }
+
 .agent-cta {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 7px 12px; border-radius: 6px;
