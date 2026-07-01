@@ -27,6 +27,21 @@ const OPENLABS_FALLBACK = {
 
 let AGENTS = []; // populated from /data/bioagents.json by loadAndInit() at file end
 
+// Code-liveness snapshot for the few tracked projects with a verified public
+// repo (keyed by owner/repo, matching the `github` field in bioagents.json).
+// Painted immediately so the badge shows in local dev, then hydrated live from
+// /api/repo-activity (prod-only). Verified 2026-07-01 via GitHub API + each
+// project's own site; most tracked projects ship tokens, not code, so they are
+// intentionally absent here.
+const REPO_ACTIVITY_FALLBACK = {
+  'snap-stanford/Biomni':           { lastCommit: '2026-06-29', archived: false, stars: 3281 },
+  'moleculeprotocol/science.beach': { lastCommit: '2026-05-30', archived: false, stars: 6 },
+  'MycoDAO/Blocks':                 { lastCommit: '2026-06-10', archived: false, stars: 0 },
+  'bio-xyz/ClawdLab':               { lastCommit: '2026-02-20', archived: false, stars: 17 },
+  'bio-xyz/BioAgents':              { lastCommit: '2026-06-15', archived: true,  stars: 172 },
+};
+let REPO_ACTIVITY = REPO_ACTIVITY_FALLBACK;
+
 // Avatar tint by pipeline stage (per design: avatar color = stage, not identity).
 const STAGE_COLOR = [
   'var(--purple)', // 0 Hypothesis
@@ -50,6 +65,41 @@ function chainBadge(chain) {
   if (!chain) return '';
   const key = CHAIN_LABEL[chain] ? chain : 'tbd';
   return `<span class="chain-badge chain-${key}">${CHAIN_LABEL[key]}</span>`;
+}
+
+// ─── Repo liveness badge ─────────────────────────────────────────────────────
+// A compact "does this project ship code" chip for the few agents with a
+// verified public repo (a.github). Reads REPO_ACTIVITY (snapshot → live). State
+// is honest: archived repos read "archived", not "active".
+function relTimeSince(iso) {
+  if (!iso) return '';
+  const days = Math.floor((Date.now() - new Date(iso + 'T00:00:00Z').getTime()) / 86400000);
+  if (days < 1) return 'today';
+  if (days < 30) return days + 'd ago';
+  const months = Math.floor(days / 30.44);
+  if (months < 12) return months + 'mo ago';
+  return (days / 365).toFixed(1).replace(/\.0$/, '') + 'y ago';
+}
+function repoBadgeHTML(a) {
+  if (!a || !a.github) return '';
+  const r = REPO_ACTIVITY[a.github];
+  if (!r) return '';
+  const days = r.lastCommit
+    ? Math.floor((Date.now() - new Date(r.lastCommit + 'T00:00:00Z').getTime()) / 86400000)
+    : null;
+  // archived beats recency: a read-only repo is not "shipping" however recent
+  // its last push. Otherwise ≤120d = active, older = quiet.
+  const state = r.archived ? 'archived' : (days != null && days <= 120 ? 'active' : 'quiet');
+  const label = r.archived
+    ? 'archived'
+    : (r.lastCommit ? 'last commit ' + relTimeSince(r.lastCommit) : '');
+  const stars = (r.stars && r.stars > 0) ? ` · ${r.stars.toLocaleString('en-US')}★` : '';
+  const url = r.url || ('https://github.com/' + a.github);
+  return `<a class="repo-badge repo-badge--${state}" href="${url}" target="_blank" rel="noopener"
+      title="Verified public repo · live GitHub activity">
+      <span class="repo-badge-dot"></span>
+      <span class="repo-badge-txt"><b>CODE</b> · ${a.github} · ${label}${stars}</span>
+    </a>`;
 }
 
 // ─── CTA label ──────────────────────────────────────────────────────────────
@@ -295,6 +345,8 @@ function renderAgents(list, opts = {}) {
         </div>
       </div>
 
+      <div class="repo-badge-wrap">${repoBadgeHTML(a)}</div>
+
       <button class="agent-cta" type="button" data-open-agent="${a.id}">View details →</button>
     `;
     grid.appendChild(card);
@@ -349,6 +401,8 @@ function renderAgentDetail(a) {
         <span class="last-signal-time">${a.lastSignal.when}</span> · ${a.lastSignal.text}
       </div>
     </div>
+
+    <div class="repo-badge-wrap">${repoBadgeHTML(a)}</div>
 
     ${a.link ? `<a class="agent-cta agent-cta--external" href="${a.link}" target="_blank" rel="noopener noreferrer">${ctaLabel(a.link)}</a>` : ''}
   `;
@@ -576,11 +630,31 @@ function renderSectorActivity() {
     .catch(() => { /* keep the snapshot */ });
 }
 
+// Refresh the code-liveness snapshot with live GitHub data (prod-only; the
+// /api/repo-activity Function 404s in local dev, where the snapshot stays).
+function hydrateRepoActivity() {
+  fetch('/api/repo-activity', { headers: { accept: 'application/json' } })
+    .then(r => (r.ok ? r.json() : null))
+    .then(d => {
+      if (!d || !d.repos || !Object.keys(d.repos).length) return;
+      REPO_ACTIVITY = d.repos;
+      // repaint badges in the current grid without a full re-render (an open
+      // modal picks up live data on its next open)
+      document.querySelectorAll('.agent-card').forEach(card => {
+        const a = AGENTS.find(x => x.id === card.dataset.agentId);
+        const wrap = card.querySelector('.repo-badge-wrap');
+        if (a && wrap) wrap.innerHTML = repoBadgeHTML(a);
+      });
+    })
+    .catch(() => { /* keep the snapshot */ });
+}
+
 function init() {
   renderSectorActivity();
   buildLane();
   wireAgentModal();
   wireTabs(); // sets initial tab + renders the right segment
+  hydrateRepoActivity();
 
   const sel = document.getElementById('sort-select');
   sel.addEventListener('change', renderForCurrentTab);
