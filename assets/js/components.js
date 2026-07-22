@@ -30,7 +30,7 @@ export function sectorCardSkeleton(label) {
   // same before and after data arrives. Previously the skeleton was missing
   // .sector-card-sub entirely, which made each card ~17px shorter on first
   // paint; multiplied across 5 cards that was ~85px of shift cascading into
-  // every section below (bubble map, Token Index, BioAgent teaser) once
+  // every section below (Token Index, BioAgent teaser) once
   // /api/prices returned. Lighthouse caught it as 0.44 CLS on the homepage.
   return `
     <div class="sector-card">
@@ -330,31 +330,4 @@ export function moversSkeletonHTML() {
   `).join('');
 }
 
-// ─── Catalyst calendar ────────────────────────────────────────────────────────
-// Forward-looking, sourced events as a card grid. The whole card links to
-// its primary source; the source label sits in the card footer.
-export function catalystsHTML(items) {
-  return `
-    <div class="cat-header">
-      <span class="cat-title">Catalyst Calendar</span>
-      <span class="cat-line"></span>
-      <span class="cat-count">${items.length} upcoming · every entry sourced</span>
-    </div>
-    <div class="cat-grid">
-      ${items.map(m => `
-        <a class="cat-card" data-color="${escapeHtml(m.typeColor)}" href="${escapeHtml(m.source)}"
-           target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(m.title)}, open source">
-          <div class="cat-top">
-            <span class="cat-date mono">${escapeHtml(m.date)}</span>
-            <span class="cat-type" data-color="${escapeHtml(m.typeColor)}">${escapeHtml(m.type)}</span>
-          </div>
-          <div class="cat-token mono" data-color="${escapeHtml(m.typeColor)}">${escapeHtml(m.token)}</div>
-          <div class="cat-card-title">${escapeHtml(m.title)}</div>
-          <p class="cat-desc">${escapeHtml(m.desc)}</p>
-          <div class="cat-src mono">${escapeHtml(m.sourceLabel)} ↗</div>
-        </a>
-      `).join('')}
-    </div>
-  `;
-}
 

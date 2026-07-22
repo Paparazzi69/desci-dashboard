@@ -6,15 +6,13 @@
 // - Both APIs fail → a friendly empty state, never a blank page.
 
 import { fmt, fmtPct, escapeHtml } from './format.js';
-import { metaFor, FILTER_CHIPS, TOKEN_META } from './data.js';
+import { metaFor, FILTER_CHIPS } from './data.js';
 import {
   sectorCardHTML, sectorCardSkeleton,
   filterChipsHTML, tokenHeaderHTML, tokenRowHTML,
   bannerHTML,
   drawerHTML, moversHTML, moversSkeletonHTML,
-  catalystsHTML,
 } from './components.js';
-import { mount as mountBubbleMap } from './bubblemap.js';
 import { mount as mountParticleNetwork } from './particle-network.js';
 
 const REFRESH_PRICES_MS = 60_000;
@@ -22,13 +20,11 @@ const STALE_THRESHOLD_MS = 90_000;
 
 const state = {
   tokens: [],
-  catalysts: [],
   sortKey: 'mcap',
   sortDir: 'desc',
   activeFilter: 'All',
   selectedId: null,
   selectedDetail: null,
-  bubbleMapCleanup: null,
   tableNetCleanup: null,    // particle network on the token table
   stripNetCleanup: null,    // particle network on the BioAgent teaser
   lastPriceFetchOk: null,   // timestamp of last successful (fresh) price fetch
@@ -45,9 +41,7 @@ async function boot() {
   renderShell();
   mountParticleNetworks();
 
-  loadCatalysts();
   await refreshPrices();
-  renderBubbleMap();
 
   // Deep link from the nav search palette: /?token=<id> opens the drawer once
   // prices land. (On the homepage itself the palette calls openTokenDrawer
@@ -58,7 +52,7 @@ async function boot() {
     history.replaceState(null, '', location.pathname);
   }
 
-  setInterval(() => { refreshPrices().then(renderBubbleMap); }, REFRESH_PRICES_MS);
+  setInterval(refreshPrices, REFRESH_PRICES_MS);
   setInterval(updateLiveIndicator, 5_000);
   setInterval(() => {
     document.getElementById('status-time').textContent =
@@ -88,16 +82,6 @@ async function refreshPrices() {
   updateLiveIndicator();
 }
 
-async function loadCatalysts() {
-  try {
-    const r = await fetch('/data/catalysts.json');
-    state.catalysts = await r.json();
-  } catch (e) {
-    state.catalysts = [];
-  }
-  renderCatalysts();
-}
-
 async function loadTokenDetail(id) {
   state.selectedDetail = null;
   renderDrawer();
@@ -115,8 +99,7 @@ async function loadTokenDetail(id) {
 // ─── Particle network backgrounds ─────────────────────────────────────────────
 // Mounted once after renderShell — both surfaces are static HTML (always
 // present), so we don't need to remount on data refresh. Cleanup fns are
-// stored on state for symmetry with bubbleMapCleanup; only invoked if we
-// ever tear these surfaces down.
+// stored on state; only invoked if we ever tear these surfaces down.
 function mountParticleNetworks() {
   const tableWrap = document.querySelector('.token-table-wrap');
   if (tableWrap && !state.tableNetCleanup) {
@@ -261,33 +244,6 @@ function renderTable() {
 function renderBanner() {
   const m = document.getElementById('banner-mount');
   if (m) m.innerHTML = '';
-}
-
-// ─── Render: bubble map ───────────────────────────────────────────────────────
-function renderBubbleMap() {
-  const el = document.getElementById('bubblemap-mount');
-  if (!el) return;
-  if (state.tokens.length === 0) return;
-  // Build tokenImages map: API-supplied logos for every token, with custom
-  // overrides from TOKEN_META.customImage. This way every bubble shows a
-  // logo (uniform visual rhythm) instead of one image-bubble outlier.
-  const tokenImages = {};
-  for (const t of state.tokens) {
-    if (t.image) tokenImages[t.id] = t.image;
-  }
-  for (const [id, meta] of Object.entries(TOKEN_META)) {
-    if (meta.customImage) tokenImages[id] = meta.customImage; // override
-  }
-  // Cleanup previous instance
-  if (state.bubbleMapCleanup) { state.bubbleMapCleanup(); state.bubbleMapCleanup = null; }
-  state.bubbleMapCleanup = mountBubbleMap(el, state.tokens, (id) => openDrawer(id), tokenImages);
-}
-
-// ─── Render: catalyst calendar ────────────────────────────────────────────────
-function renderCatalysts() {
-  const el = document.getElementById('catalysts');
-  if (!el) return;
-  el.innerHTML = state.catalysts.length === 0 ? '' : catalystsHTML(state.catalysts);
 }
 
 // ─── Render: drawer ───────────────────────────────────────────────────────────

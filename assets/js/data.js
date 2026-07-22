@@ -107,7 +107,6 @@ export const TOKEN_META = {
     focus: 'AI-DeSci', focusColor: 'green',
     tags: ['AI-DeSci', 'Biotech Infra'], chain: 'SOL',
     twitter: 'synapseneuro_ai', website: 'synapseneuro.org',
-    customImage: '/assets/images/syna.jpg',
     trade: 'https://kickstart.easya.io/token/HA4WtRuNrjtrzAWTTjCyTZn94Jq9ggV6iraW7SndSLyz',
   },
   // ── 2026-05-27 batch: 8 additional DeSci tokens (>$100K mcap) ──

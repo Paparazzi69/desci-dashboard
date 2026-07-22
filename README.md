@@ -10,7 +10,7 @@ KV caching.
 
 ## What's on the site
 
-- **Main dashboard** (`/`): live token index, sector bubble map, narrative
+- **Main dashboard** (`/`): live token index, 24h movers, narrative
   filters, and per-token drawers with sparklines, FDV, ATH/ATL.
 - **BioAgent Tracker** (`/bioagent-tracker`): four-tab view of 25 tracked
   BioAgents, IPTs, platforms, and adjacent projects with status, chain,
@@ -146,7 +146,6 @@ Open the dashboard and check:
 - [ ] Sparklines render on every row
 - [ ] Filter chips work (try "Longevity" or "Micro-caps")
 - [ ] Clicking a row opens the drawer with description, stats, links
-- [ ] Sector Bubble Map renders below the sector cards
 
 If the LIVE indicator stays amber, check the Pages Function logs in the
 dashboard — almost always it means the KV binding isn't named exactly
@@ -159,7 +158,6 @@ dashboard — almost always it means the KV binding isn't named exactly
 | `wrangler.toml` | Cloudflare Pages config. `pages_build_output_dir = "."` is the only required line — KV bindings are easier to configure in the dashboard. |
 | `assets/js/data.js` | Token classification (focus, tags, chain, isMicroCap, twitter). **Keyed by CoinGecko id** — never hardcode symbol → id mapping. |
 | `functions/_shared.js` | The list of CoinGecko ids to fetch (`TOKEN_IDS`) and the GeckoTerminal contract map (`GT_TOKENS`). Edit here when you add a new token to the index. |
-| `data/catalysts.json` | Curated upcoming catalysts (every entry carries a primary-source URL) rendered at the bottom of the page. Refresh during the biweekly tracker sweep. |
 
 ## Costs
 
