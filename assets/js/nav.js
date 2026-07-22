@@ -154,7 +154,7 @@
 
   // ── Search palette ──
   var PAGES = [
-    { title: 'Dashboard', desc: 'Token Index, bubble map, sector stats', href: '/' },
+    { title: 'Dashboard', desc: 'Token Index, 24h movers, sector stats', href: '/' },
     { title: 'BioAgent Tracker', desc: 'Agents, compounds, platforms', href: '/bioagent-tracker' },
     { title: 'Verified List', desc: 'Source-backed sector comparison', href: '/verified-list' },
     { title: 'Projects', desc: 'Deep-dive index', href: '/projects/' },

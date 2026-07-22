@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DeSci Analytics Hub, Token Tracker for Decentralized Science</title>
-<meta name="description" content="Live token tracker for the DeSci sector. Bubble map, Token Index, BioAgent pipeline, and editorial commentary on Decentralized Science.">
+<meta name="description" content="Live token tracker for the DeSci sector. Token Index, BioAgent pipeline, and editorial commentary on Decentralized Science.">
 <link rel="icon" type="image/png" href="/branding/icon-v1.png" />
 <link rel="apple-touch-icon" href="/branding/icon-v1.png" />
 <link rel="canonical" href="https://descidash.com/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="DeSci Analytics Hub" />
 <meta property="og:title" content="DeSci Analytics Hub, Token Tracker for Decentralized Science" />
-<meta property="og:description" content="Live token tracker for the DeSci sector. Bubble map, Token Index, BioAgent pipeline, and editorial commentary on Decentralized Science." />
+<meta property="og:description" content="Live token tracker for the DeSci sector. Token Index, BioAgent pipeline, and editorial commentary on Decentralized Science." />
 <meta property="og:url" content="https://descidash.com/" />
 <meta property="og:image" content="https://descidash.com/branding/og-image-v1.png" />
 <meta property="og:image:width" content="1200" />
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@DeSciDashboard" />
 <meta name="twitter:title" content="DeSci Analytics Hub, Token Tracker for Decentralized Science" />
-<meta name="twitter:description" content="Live token tracker for the DeSci sector. Bubble map, Token Index, BioAgent pipeline, and editorial commentary on Decentralized Science." />
+<meta name="twitter:description" content="Live token tracker for the DeSci sector. Token Index, BioAgent pipeline, and editorial commentary on Decentralized Science." />
 <meta name="twitter:image" content="https://descidash.com/branding/og-image-v1.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,50 +28,6 @@
 <style>
   /* Refined look: Inter + clean flat background (dashboard, page-scoped). */
   body { font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; background-image: none; }
-  /* ── Bubble map section ── */
-  .bubblemap-section {
-    margin-bottom: 24px;
-  }
-  .bubblemap-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-  .bubblemap-title {
-    color: var(--text3);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    margin: 0;
-  }
-  .bubblemap-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border2, #1a2d3a);
-  }
-  .bubblemap-hint {
-    color: var(--text3);
-    font-size: 11px;
-    white-space: nowrap;
-  }
-  #bubblemap-mount {
-    height: 360px;
-    background: var(--surface, #111820);
-    border: 1px solid var(--border2, #1a2d3a);
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  /* Mobile: hide the bubble map section; Token Index below carries the
-     same data with proper mobile rendering. */
-  @media (max-width: 768px) {
-    .bubblemap-section { display: none; }
-  }
-
   /* ── 24h Movers strip (top 3 / bottom 3 from the Token Index) ──
      Grid with fixed-height chips: cell count and chip height never change
      between skeleton and data, so the section is CLS-neutral by design. */
@@ -400,16 +356,6 @@
       <div class="movers-row" id="movers-row"><!-- chips injected --></div>
     </section>
 
-    <!-- ── Bubble Map (desktop only, hidden on ≤768px) ── -->
-    <div class="bubblemap-section">
-      <div class="bubblemap-header">
-        <h2 class="bubblemap-title">Sector Bubble Map</h2>
-        <span class="bubblemap-line"></span>
-        <span class="bubblemap-hint">Size = market cap · Color = 24h · Click to explore</span>
-      </div>
-      <div id="bubblemap-mount"></div>
-    </div>
-
     <div class="section-divider">
       <h2>Token Index</h2>
       <span class="section-divider-line"></span>
@@ -458,10 +404,6 @@
       </div>
     </a>
     <!-- BIOAGENT TEASER · PASTE END -->
-
-    <section class="catalysts" id="catalysts" aria-label="Catalyst calendar">
-      <!-- cards injected -->
-    </section>
 
     <footer class="page-footer">
       <div>Data is indicative · Prices in USD · Not financial advice</div>
